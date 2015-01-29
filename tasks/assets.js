@@ -3,17 +3,6 @@ var plugins = require('gulp-load-plugins')();
 
 gulp.task('assets', function() {
   return gulp.src('app/components/application.js')
-    .pipe(plugins.webpack({
-      devTool: 'eval',
-      module: {
-        loaders: [
-          {test: /\.js$/, exclude: /node_modules/, loader: '6to5-loader'}
-        ]
-      },
-      output: {
-        filename: 'application.js'
-      },
-      watch: true
-    }))
+    .pipe(plugins.webpack(require(`../config/webpack/${process.env.NODE_ENV}`)))
     .pipe(gulp.dest('public'));
 });
