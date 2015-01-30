@@ -29,6 +29,7 @@ var Body = React.createClass({
 var Layout = React.createClass({
   propTypes: {
     entry: types.func.isRequired,
+    stylesheets: types.array.isRequired,
     scripts: types.array.isRequired,
     config: types.object
   },
@@ -42,8 +43,15 @@ var Layout = React.createClass({
   },
 
   render() {
+    var {stylesheets} = this.props;
+
+    stylesheets = stylesheets.map(function(href, i) {
+      return (<link rel="stylesheet" type="text/css" href={href} key={i}/>);
+    });
+
     return (
       <html>
+        <head>{stylesheets}</head>
         <Body {...this.props}/>
       </html>
     );

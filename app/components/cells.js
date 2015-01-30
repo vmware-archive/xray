@@ -10,7 +10,7 @@ var Cells = React.createClass({
   render() {
     var {cells} = this.props;
     cells = cells && cells.map(function({cell_id: cellId}) {
-      return (<li key={cellId}>{cellId}</li>);
+      return (<li className="cell" key={cellId}>{cellId}</li>);
     });
 
     return (

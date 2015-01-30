@@ -22,4 +22,4 @@ gulp.task('watch-server', function() {
   gulp.watch('server/**/*.js', ['server']);
 });
 
-gulp.task('s', ['server', 'watch-server', 'assets']);
+gulp.task('s', ['server', 'watch-server', 'watch-assets', 'assets']);
