@@ -1,3 +1,5 @@
+require('../support/spec_helper');
+
 global.React = require('react');
 global.$ = require('jquery');
 global.mockPromises = require('../support/vendor/mock-promises');

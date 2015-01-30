@@ -1,3 +1,5 @@
+require('./spec_helper');
+
 describe('app', function() {
   var subject, request;
   beforeEach(function() {
