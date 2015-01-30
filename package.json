@@ -12,6 +12,7 @@
   "devDependencies": {
     "6to5-core": "^3.0.16",
     "6to5-loader": "^3.0.0",
+    "foreman": "^1.3.0",
     "glob": "^4.3.5",
     "gulp": "git://github.com/charleshansen/gulp.git#a945a6ad946bda82ea4714ef23e75bfcdd0db4c3",
     "gulp-jasmine": "^2.0.0",
