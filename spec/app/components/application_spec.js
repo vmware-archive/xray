@@ -7,7 +7,7 @@ describe('Application', function() {
     Cells = require('../../../app/components/cells');
     spyOn(Cells.type.prototype, 'render').and.callThrough();
     var Application = require('../../../app/components/application');
-    var props = {receptorUrl: RECEPTOR_URL};
+    var props = {config: {receptorUrl: RECEPTOR_URL}};
     subject = React.render(<Application {...props}/>, root);
     request = jasmine.Ajax.requests.mostRecent();
   });

@@ -10,7 +10,7 @@ app.use(express.static(__dirname + '/../public'));
 
 app.get('/', function(req, res) {
   var scripts = ['application.js'];
-  var html = React.renderToStaticMarkup(<Layout entry={Application} scripts={scripts}/>);
+  var html = React.renderToStaticMarkup(<Layout entry={Application} scripts={scripts} config={{receptorUrl: process.env.RECEPTOR_URL}}/>);
   res.status(200).type('html').send(`<!DOCTYPE html>${html}`);
 });
 

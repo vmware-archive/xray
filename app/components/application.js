@@ -8,7 +8,7 @@ var types = React.PropTypes;
 
 var Application = React.createClass({
   propTypes: {
-    receptorUrl: types.string
+    config: types.object.isRequired
   },
 
   getInitialState() {
@@ -16,7 +16,7 @@ var Application = React.createClass({
   },
 
   componentDidMount() {
-    CellsApi.baseUrl = this.props.receptorUrl;
+    CellsApi.baseUrl = this.props.config.receptorUrl;
     CellsApi.fetch().then(function({cells}) {
       this.setState({cells});
     }.bind(this));
@@ -26,13 +26,13 @@ var Application = React.createClass({
     var {cells} = this.state;
     return (
       <div>
-        <div>{this.props.receptorUrl}</div>
+        <div>{this.props.config.receptorUrl}</div>
         <Cells {...{cells}}/>
       </div>
     );
   }
 });
 
-Layout.init(Application, {receptorUrl: 'http://receptor.192.168.11.11.xip.io'});
+Layout.init(Application);
 
 module.exports = Application;

@@ -61,7 +61,7 @@ To get started with xray:
 git clone git@github.com:pivotal-cf-experimental/xray.git
 cd xray
 npm install
-RECEPTOR_URL='receptor.example.com' npm start 
+RECEPTOR_URL='http://receptor.example.com' npm start
 ```
 There should now be a server listening on port 3000 that will visualize the state of the lattice instance at `RECEPTOR_URL`
 
