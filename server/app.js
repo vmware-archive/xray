@@ -10,7 +10,8 @@ app.use(express.static(__dirname + '/../public'));
 
 app.get('/', function(req, res) {
   var scripts = ['application.js'];
-  res.status(200).type('html').send(`<!DOCTYPE html>${React.renderToStaticMarkup(<Layout entry={Application} scripts={scripts}/>)}`);
+  var html = React.renderToStaticMarkup(<Layout entry={Application} scripts={scripts}/>);
+  res.status(200).type('html').send(`<!DOCTYPE html>${html}`);
 });
 
 module.exports = app;

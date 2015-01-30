@@ -4,10 +4,13 @@ var gutil = require('gulp-util');
 var plugins = require('gulp-load-plugins')();
 var mime = require('mime');
 var path = require('path');
+var runSequence = require('run-sequence');
 var through2 = require('through2');
 var url = require('url');
 
-gulp.task('spec', ['spec-server']);
+gulp.task('spec', function(callback) {
+  runSequence('lint', 'spec-server', callback);
+});
 
 gulp.task('spec-server', function() {
   return gulp.src('spec/server/**/*.js')
@@ -43,6 +46,6 @@ function createServer(options = {}) {
 gulp.task('jasmine', function() {
   var port = 8888;
   createServer({port: port, ready: function() {
-    gutil.log(`Jasmine listening on port ${port}`)
+    gutil.log(`Jasmine listening on port ${port}`);
   }});
 });

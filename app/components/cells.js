@@ -15,7 +15,7 @@ var Cells = React.createClass({
 
     return (
       <ul>{cells}</ul>
-    )
+    );
   }
 });
 

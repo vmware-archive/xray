@@ -22,7 +22,7 @@ describe('Application', function() {
 
   it('makes an ajax request', function() {
     expect(request).toBeDefined();
-    expect(request.url).toEqual(`${RECEPTOR_URL}/v1/cells`)
+    expect(request.url).toEqual(`${RECEPTOR_URL}/v1/cells`);
   });
 
   describe('when the ajax request is successful', function() {

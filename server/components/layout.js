@@ -10,7 +10,7 @@ var Body = React.createClass({
 
   render() {
     var {entry, scripts} = this.props;
-    var scripts = scripts.map(function(src, i) {
+    scripts = scripts.map(function(src, i) {
       return (<script type="text/javascript" src={src} key={i}/>);
     });
     var Entry = React.createFactory(entry);
