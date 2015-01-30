@@ -1,8 +1,16 @@
 require('../support/spec_helper');
 
-global.React = require('react');
+global.React = require('react/addons');
 global.$ = require('jquery');
 global.mockPromises = require('../support/vendor/mock-promises');
+global.jasmineReact = require('jasmine-react-helpers');
+
+$.fn.simulate = function(eventName, ...args) {
+  $.each(this, function() {
+    React.addons.TestUtils.Simulate[eventName](this, ...args);
+  });
+  return this;
+};
 
 require('jasmine-ajax');
 

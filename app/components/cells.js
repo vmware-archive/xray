@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 
 var types = React.PropTypes;
 
@@ -14,7 +14,9 @@ var Cells = React.createClass({
     });
 
     return (
-      <ul>{cells}</ul>
+      <div className="cells">
+        <ul>{cells}</ul>
+      </div>
     );
   }
 });

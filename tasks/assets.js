@@ -9,7 +9,7 @@ gulp.task('assets-javascript', function() {
 });
 
 gulp.task('assets-stylesheets', function() {
-  return gulp.src('app/stylesheets/application.styl')
+  return gulp.src(['app/stylesheets/application.styl', 'app/stylesheets/reset.styl'])
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.stylus({
       use: nib()

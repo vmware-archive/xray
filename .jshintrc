@@ -84,5 +84,5 @@
   "-W079"         : false,    // true: variable declaration with an identifier that is the same as that of a built-in native object.
 
   // Custom Globals
-  "globals"       : {"Factory": true, "React": true, "mockPromises": true, "root": true, "$": true, "xray": true}
+  "globals"       : {"Factory": true, "React": true, "mockPromises": true, "root": true, "$": true, "xray": true, "jasmineReact": true}
 }
