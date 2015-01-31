@@ -1,3 +1,8 @@
+require('6to5/polyfill');
+var factories = require.context('../factories', true, /\.js$/);
+factories.keys().forEach(factories);
+require('jasmine_dom_matchers');
+
 require('../support/spec_helper');
 
 global.React = require('react/addons');

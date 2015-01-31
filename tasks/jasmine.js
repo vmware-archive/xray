@@ -14,6 +14,7 @@ gulp.task('spec', function(callback) {
 
 gulp.task('spec-server', function() {
   return gulp.src('spec/server/**/*.js')
+    .pipe(plugins.plumber())
     .pipe(plugins.jasmine());
 });
 
@@ -33,6 +34,7 @@ function createServer(options = {}) {
 
   var files = {};
   gulp.src('spec/app/**/*_spec.js')
+    .pipe(plugins.plumber())
     .pipe(plugins.webpack(require('../config/webpack/test')))
     .pipe(through2.obj(function(file, enc, callback) {
       files[path.basename(file.path)] = file.contents;

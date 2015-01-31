@@ -15,7 +15,7 @@ var isFunction = function(obj) {
   return typeof obj == 'function' || false;
 };
 
-var MockPromise, OriginalPromise, originalThen;
+var MockPromise, OriginalPromise, originalThen, originalAll;
 
 var MockPromises = function() {
   var contractsTracker = new ContractsTracker();
@@ -27,9 +27,13 @@ var MockPromises = function() {
     }
     MockPromise.prototype.then = fakeThen;
 
+    if (MockPromise.prototype.all !== fakeAll) {
+      originalAll = MockPromise.all;
+    }
+    MockPromise.all = fakeAll;
 
     MockPromise.prototype.isFulfilled = MockPromise.prototype.isFulfilled /*Q*/ || function(){return this._state === 1;}; /*es6*/
-    MockPromise.prototype.isRejected = MockPromise.prototype.isRejected /*Q*/ || function(){throw new Error(this._state)}; /*es6*/
+    MockPromise.prototype.isRejected = MockPromise.prototype.isRejected /*Q*/ || function(){return this._state === 2;}; /*es6*/
     MockPromise.prototype.inspect = MockPromise.prototype.inspect /*Q*/ || function(){return {value: this._result}}; /*es6*/
   };
 
@@ -151,6 +155,22 @@ var MockPromises = function() {
     return thenPromise;
   };
 
+  var fakeAll = function(promises) {
+    return new MockPromise(function(resolve, reject) {
+      var resolvedValues = [];
+      var numResolved = 0;
+      promises.forEach(function(promise, i) {
+        promise.then(function(value) {
+            resolvedValues[i] = value;
+            numResolved++;
+            if(numResolved === promises.length) {resolve(resolvedValues);}
+          },
+          reject
+        );
+      });
+    });
+  };
+
   var self = this;
   each([
     'executeForPromise', 'executeForPromises', 'iterateForPromise', 'iterateForPromises', 'valueForPromise', 'executeForResolvedPromises', 'reset'
@@ -173,7 +193,7 @@ var Contract = function(options) {
 };
 
 function resolvePromise(promise, value) {
-  if (isFunction(value.then)) {
+  if (value && isFunction(value.then)) {
     extend(promise, value);
   } else {
     extend(promise, {

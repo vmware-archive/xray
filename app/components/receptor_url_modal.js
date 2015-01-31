@@ -6,12 +6,12 @@ var ReceptorUrlModal = React.createClass({
     return {receptorUrl: ''};
   },
 
-  closeModal() {
-    this.refs.modal.close();
-  },
-
   componentDidMount() {
     this.refs.modal.open();
+  },
+
+  closeModal() {
+    this.refs.modal.close();
   },
 
   change(e) {

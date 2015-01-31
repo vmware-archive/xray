@@ -2,15 +2,15 @@
 @require '_colors'
 @require '_mixins'
 
-html, html body, #root, .xray, .cells
-  @extend $full-height
+.xray
+  @extend $zero
+  background-color: $black
 
 .receptor-url-modal
   input[type="text"]
     @extend $full-width
 
 .cells
-  background-color: $black
   color: $white
   .cell
     background-color: $dark-gray

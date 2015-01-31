@@ -14,35 +14,25 @@ describe('Application', function() {
   });
 
   describe('when a receptor url is provided in configuration', function() {
+    var cells, actualLrps;
+
     beforeEach(function() {
       var props = {config: {receptorUrl: RECEPTOR_URL}};
+      var Promise = require('../../../lib/promise');
+      cells = Factory.buildList('cell', 2);
+      var CellsApi = require('../../../app/api/cells_api');
+      var promise = new Promise(resolve => resolve({cells}));
+      spyOn(CellsApi, 'fetch').and.returnValue(promise);
       subject = React.render(<Application {...props}/>, root);
-      request = jasmine.Ajax.requests.mostRecent();
+      mockPromises.executeForPromise(promise);
     });
 
     it('renders cells', function() {
       expect(Cells.type.prototype.render).toHaveBeenCalled();
     });
 
-    it('makes an ajax request', function() {
-      expect(request).toBeDefined();
-      expect(request.url).toEqual(`${RECEPTOR_URL}/v1/cells`);
-    });
-
-    describe('when the ajax request is successful', function() {
-      var cells;
-      beforeEach(function() {
-        cells = [{cell_id: 1}, {cell_id: 2}];
-        request.respondWith({
-          status: 200,
-          responseText: JSON.stringify(cells)
-        });
-        mockPromises.contracts.mostRecent().execute();
-      });
-
-      it('sets the cells', function() {
-        expect(subject.state.cells).toEqual(cells);
-      });
+    it('sets the cells', function() {
+      expect(subject.state.cells).toEqual(cells);
     });
   });
 
@@ -70,8 +60,8 @@ describe('Application', function() {
       });
 
       it('makes an ajax request with the right url', function() {
-        expect(request).toBeDefined();
-        expect(request.url).toEqual(`${NEW_RECEPTOR_URL}/v1/cells`);
+        expect(jasmine.Ajax.requests.filter(`${NEW_RECEPTOR_URL}/v1/cells`)[0]).toBeDefined();
+        expect(jasmine.Ajax.requests.filter(`${NEW_RECEPTOR_URL}/v1/actual_lrps`)[0]).toBeDefined();
       });
     });
   });
