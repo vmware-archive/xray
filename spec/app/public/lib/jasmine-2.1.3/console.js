@@ -57,8 +57,6 @@ getJasmineRequireObj().ConsoleReporter = function() {
       },
       failedSuites = [];
 
-    print('ConsoleReporter is deprecated and will be removed in a future version.');
-
     this.jasmineStarted = function() {
       specCount = 0;
       failureCount = 0;
@@ -68,7 +66,7 @@ getJasmineRequireObj().ConsoleReporter = function() {
       timer.start();
     };
 
-    this.jasmineDone = function() {
+      this.jasmineDone = function() {
       printNewline();
       for (var i = 0; i < failedSpecs.length; i++) {
         specFailureDetails(failedSpecs[i]);

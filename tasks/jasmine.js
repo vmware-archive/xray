@@ -7,15 +7,22 @@ var path = require('path');
 var runSequence = require('run-sequence');
 var through2 = require('through2');
 var url = require('url');
+var {spawn} = require('child_process');
 
 gulp.task('spec', function(callback) {
-  runSequence('lint', 'spec-server', callback);
+  runSequence('lint', 'spec-server', 'spec-app', callback);
 });
 
 gulp.task('spec-server', function() {
   return gulp.src('spec/server/**/*.js')
     .pipe(plugins.plumber())
     .pipe(plugins.jasmine());
+});
+
+gulp.task('spec-app', function(callback) {
+  var port = 8888;
+  var phantomjs = spawn('phantomjs', ['spec/support/console_reporter.js', port], {stdio: 'inherit', env: process.env});
+  phantomjs.on('close', callback);
 });
 
 function jasmineServer(options = {}) {
