@@ -27,8 +27,9 @@ function jasmineServer(options = {}) {
     app.use(express.static(__dirname + '/../spec/app/public'));
 
     app.use(function(req, res) {
-      var file, filename = path.basename(url.parse(req.path).path);
-      if ((file = files[filename])) {
+      var filename = path.basename(url.parse(req.path).path);
+      var file = files[filename];
+      if (file) {
         res.status(200).type(mime.lookup(filename)).send(file);
         return;
       }
