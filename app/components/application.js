@@ -31,9 +31,7 @@ var Application = React.createClass({
 
   fetchReceptorUrl(receptorUrl) {
     CellsApi.baseUrl = receptorUrl;
-    CellsApi.fetch().then(function({cells}) {
-      this.setState({cells});
-    }.bind(this));
+    CellsApi.fetch().then(({cells}) => this.setState({cells}), reason => { console.error('Promise failed for because', reason); });
   },
 
   updateReceptorUrl({receptorUrl}) {

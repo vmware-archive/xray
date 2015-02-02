@@ -14,7 +14,7 @@ describe('Application', function() {
   });
 
   describe('when a receptor url is provided in configuration', function() {
-    var cells, actualLrps;
+    var cells;
 
     beforeEach(function() {
       var props = {config: {receptorUrl: RECEPTOR_URL}};
