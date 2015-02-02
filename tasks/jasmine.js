@@ -18,36 +18,40 @@ gulp.task('spec-server', function() {
     .pipe(plugins.jasmine());
 });
 
-function createServer(options = {}) {
-  var app = express();
-  app.use(express.static(__dirname + '/../spec/app/public'));
-
-  app.use(function(req, res) {
-    var file, filename = path.basename(url.parse(req.path).path);
-    if ((file = files[filename])) {
-      res.status(200).type(mime.lookup(filename)).send(file);
-      return;
-    }
-
-    res.status(404).type('html').send('File not found!');
-  });
-
+function jasmineServer(options = {}) {
+  var app;
   var files = {};
-  gulp.src('spec/app/**/*_spec.js')
-    .pipe(plugins.plumber())
-    .pipe(plugins.webpack(require('../config/webpack/test')))
-    .pipe(through2.obj(function(file, enc, callback) {
-      files[path.basename(file.path)] = file.contents;
-      this.push(file);
-      callback();
-    }));
 
-  app.listen(options.port, options.ready);
+  function createServer(options) {
+    var app = express();
+    app.use(express.static(__dirname + '/../spec/app/public'));
+
+    app.use(function(req, res) {
+      var file, filename = path.basename(url.parse(req.path).path);
+      if ((file = files[filename])) {
+        res.status(200).type(mime.lookup(filename)).send(file);
+        return;
+      }
+
+      res.status(404).type('html').send('File not found!');
+    });
+    app.listen(options.port, options.ready);
+    return app;
+  }
+
+  return through2.obj(function(file, enc, callback) {
+    files[path.basename(file.path)] = file.contents;
+    this.push(file);
+    if (!app) app = createServer(options);
+    callback();
+  });
 }
 
 gulp.task('jasmine', function() {
   var port = 8888;
-  createServer({port: port, ready: function() {
-    gutil.log(`Jasmine listening on port ${port}`);
-  }});
+
+  gulp.src('spec/app/**/*_spec.js')
+    .pipe(plugins.plumber())
+    .pipe(plugins.webpack(require('../config/webpack/test')))
+    .pipe(jasmineServer({port, ready: () => gutil.log(`Jasmine listening on port ${port}`)}));
 });
