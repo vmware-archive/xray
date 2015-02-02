@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/gulp jasmine",
-    "start": "./node_modules/.bin/gulp s"
+    "start": "node --use-strict index.js",
+    "postinstall": "./node_modules/.bin/gulp assets"
   },
   "author": "",
   "license": "ISC",

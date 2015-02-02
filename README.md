@@ -61,11 +61,22 @@ To get started with xray:
 git clone git@github.com:pivotal-cf-experimental/xray.git
 cd xray
 npm install
-RECEPTOR_URL='http://receptor.example.com' npm start
+NODE_ENV=production RECEPTOR_URL='http://receptor.example.com' npm start
 ```
 There should now be a server listening on port 3000 that will visualize the state of the lattice instance at `RECEPTOR_URL`
 
+If you would like basic auth, use
+```sh
+XRAY_USER='user' XRAY_PASSWORD='password' NODE_ENV=production RECEPTOR_URL='http://receptor.example.com' npm start
+```
+where you are free to choose user and password.
+
 ##Development
+To run server with live reload:
+```
+gulp s
+```
+
 To run tests:
 ```sh
 npm test
