@@ -1,10 +1,16 @@
+var basicAuth = require('node-basicauth');
 var express = require('express');
 var Application = require('../app/components/application');
 var React = require('react');
 var Layout = require('./components/layout');
 
-
 var app = express();
+
+const XRAY_USER = process.env.XRAY_USER;
+const XRAY_PASSWORD = process.env.XRAY_PASSWORD;
+if (XRAY_USER && XRAY_PASSWORD) {
+  app.use(basicAuth({[XRAY_USER]: XRAY_PASSWORD}));
+}
 
 app.use(express.static(__dirname + '/../public'));
 app.use(express.static(__dirname + '/../vendor/pui-v1.4.0'));

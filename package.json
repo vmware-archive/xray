@@ -48,6 +48,7 @@
     "6to5": "^3.0.13",
     "es6-promise": "^2.0.1",
     "express": "^4.11.1",
+    "node-basicauth": "0.0.9",
     "react": "^0.12.2",
     "recluster": "^0.4.0",
     "superagent": "^0.21.0"
