@@ -9,7 +9,7 @@ process.on('exit', function() {
 
 gulp.task('server', function() {
   if (node) return node.kill('SIGUSR2');
-  node = spawn('node', ['--use-strict', 'index.js'], {stdio: 'inherit', env: process.env});
+  node = spawn('node', ['index.js'], {stdio: 'inherit', env: process.env});
   node.on('close', function(code) {
     if (code === 8) {
       node = null;

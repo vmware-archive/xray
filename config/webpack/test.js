@@ -9,6 +9,6 @@ module.exports = {
   output: {
     filename: 'spec.js'
   },
-  quiet: true,
+  quiet: false,
   watch: true
 };

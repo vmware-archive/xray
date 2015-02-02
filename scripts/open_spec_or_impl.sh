@@ -16,5 +16,7 @@ else
     file_to_open=${file_to_open_part1/\.js/_spec\.js}
 fi
 
+touch $file_to_open
+
 wstorm $file_to_open
 

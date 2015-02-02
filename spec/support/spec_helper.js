@@ -1,1 +1,0 @@
-global.Factory = require('rosie').Factory;

@@ -2,8 +2,11 @@
 @require '_colors'
 @require '_mixins'
 
+html, body, #root, .xray
+  min-height: 100%
+  @extend $full-height
+
 .xray
-  @extend $zero
   background-color: $black
 
 .receptor-url-modal
@@ -12,9 +15,26 @@
 
 .cells
   color: $white
+  overflow: hidden
+  gutter = 5px
   .cell
+    align-items(center)
+    display(flex)
+    flex-direction(row)
     background-color: $dark-gray
     margin: 5px
-    padding: 5px
+    padding: 0 gutter
+    min-height: 30px + 2 * gutter
   ul
     margin: 0
+  .cell-id, .actual-lrp
+    box-sizing(border-box)
+
+  .cell-id
+    width: 100px
+    margin-right: 10px
+  .actual-lrp
+    width: 2%
+    background-color: pink
+    height: 30px
+    margin: gutter 1px
