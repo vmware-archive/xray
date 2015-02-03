@@ -17,10 +17,10 @@ gutter = 5px
 
 .zone
   header
-    background-color: $dark-gray
     color: $white
   h2
-    margin: 0 gutter * 2
+    margin: gutter gutter 0
+    padding: 0
   & + .zones
     margin-top: gutter
 
@@ -28,15 +28,15 @@ gutter = 5px
 .cells
   color: $white
   overflow: hidden
-  margin: gutter 0
   .cell
     align-items(center)
     display(flex)
     flex-direction(row)
     background-color: $dark-gray
-    margin: 5px
     padding: 0 gutter
     min-height: 30px + 2 * gutter
+    &:nth-child(even)
+      background-color: $darker-gray
   ul
     margin: 0
   .actual-lrp
