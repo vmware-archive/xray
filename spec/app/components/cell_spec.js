@@ -4,7 +4,7 @@ describe('Cell', function() {
   var subject, cell;
   beforeEach(function() {
     var Cell = require('../../../app/components/cell');
-    cell = Factory.build('cell', {cell_id: 'Freiza'});
+    cell = Factory.build('cell');
     expect(cell.actual_lrps).not.toBeEmpty();
     subject = React.render(<Cell cell={cell}/>, root);
   });
@@ -15,10 +15,6 @@ describe('Cell', function() {
 
   it('renders a cell', function() {
     expect($('.cell')).toExist();
-  });
-
-  it('renders the cell title', function() {
-    expect('.cell').toContainText('Freiza');
   });
 
   it('renders actual lrps', function() {
