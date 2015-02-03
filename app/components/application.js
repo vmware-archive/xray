@@ -1,10 +1,10 @@
 require('6to5/polyfill');
 var CellsApi = require('../api/cells_api');
-var Cells = require('./cells');
 var Layout = require('../../server/components/layout');
 var Modal = require('./modal');
 var React = require('react/addons');
 var ReceptorUrlModal = require('./receptor_url_modal');
+var Zones = require('./zones');
 
 var types = React.PropTypes;
 
@@ -42,7 +42,7 @@ var Application = React.createClass({
     var {cells} = this.state;
     return (
       <div className="xray">
-        <Cells {...{cells}}/>
+        <Zones {...{cells}}/>
         <Modal ref="modal"/>
       </div>
     );

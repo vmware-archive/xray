@@ -6,7 +6,9 @@ require('jasmine_dom_matchers');
 require('../spec_helper');
 
 global.React = require('react/addons');
-global.$ = require('jquery');
+var jQuery = require('jquery');
+global.jQuery = jQuery;
+global.$ = jQuery;
 global.mockPromises = require('../support/vendor/mock-promises');
 global.jasmineReact = require('jasmine-react-helpers');
 

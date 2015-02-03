@@ -6,17 +6,29 @@ html, body, #root, .xray
   min-height: 100%
   @extend $full-height
 
-.xray
+body
   background-color: $black
 
 .receptor-url-modal
   input[type="text"]
     @extend $full-width
 
+gutter = 5px
+
+.zone
+  header
+    background-color: $dark-gray
+    color: $white
+  h2
+    margin: 0 gutter * 2
+  & + .zones
+    margin-top: gutter
+
+
 .cells
   color: $white
   overflow: hidden
-  gutter = 5px
+  margin: gutter 0
   .cell
     align-items(center)
     display(flex)
