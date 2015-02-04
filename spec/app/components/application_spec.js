@@ -59,9 +59,13 @@ describe('Application', function() {
         request = jasmine.Ajax.requests.mostRecent();
       });
 
-      it('makes an ajax request with the right url', function() {
+      it('makes ajax requests for the cells', function() {
         expect(jasmine.Ajax.requests.filter(`${NEW_RECEPTOR_URL}/v1/cells`)[0]).toBeDefined();
         expect(jasmine.Ajax.requests.filter(`${NEW_RECEPTOR_URL}/v1/actual_lrps`)[0]).toBeDefined();
+      });
+
+      it('makes ajax requests for the desired lrps', function() {
+        expect(jasmine.Ajax.requests.filter(`${NEW_RECEPTOR_URL}/v1/desired_lrps`)[0]).toBeDefined();
       });
     });
   });

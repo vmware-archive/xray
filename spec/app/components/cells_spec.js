@@ -7,7 +7,9 @@ describe('Cells', function() {
     Cell = require('../../../app/components/cell');
     spyOn(Cell.type.prototype, 'render').and.callThrough();
     cells = Factory.buildList('cell', 2);
-    subject = React.render(<Cells cells={cells}/>, root);
+    React.withContext({scaling: 'containers'}, function() {
+      subject = React.render(<Cells cells={cells}/>, root);
+    });
   });
 
   afterEach(function() {
@@ -17,7 +19,5 @@ describe('Cells', function() {
   it('renders cells', function() {
     expect($('.cell')).toHaveLength(cells.length);
     expect(Cell.type.prototype.render).toHaveBeenCalled();
-    expect($('.cell:eq(0) .actual-lrp')).toHaveLength(cells[0].actual_lrps.length);
-    expect($('.cell:eq(1) .actual-lrp')).toHaveLength(cells[1].actual_lrps.length);
   });
 });

@@ -15,15 +15,23 @@ body
 
 gutter = 5px
 
+.zones
+  &, label
+    color: $white
+  .radio-group
+    display(flex)
+    flex-direction(row)
+    align-items(center)
+  .radio
+    margin: 10px
+
+
 .zone
   header
     color: $white
   h2
     margin: gutter gutter 0
     padding: 0
-  & + .zones
-    margin-top: gutter
-
 
 .cells
   color: $white
@@ -39,7 +47,7 @@ gutter = 5px
       background-color: $darker-gray
   ul
     margin: 0
-  .actual-lrp
+  .container
     box-sizing(border-box)
     width: 2%
     background-color: pink
