@@ -32,7 +32,7 @@ describe('Application', function() {
     });
 
     it('sets the cells', function() {
-      expect(subject.state.cells).toEqual(cells);
+      expect(subject.state.receptor.cells).toEqual(cells);
     });
   });
 

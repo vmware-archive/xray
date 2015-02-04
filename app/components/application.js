@@ -19,11 +19,12 @@ var Application = React.createClass({
   },
 
   getChildContext: function() {
-    return this.state;
+    var {receptor} = this.state;
+    return {desiredLrps: receptor.desiredLrps}
   },
 
   getInitialState() {
-    return {cells: null, desiredLrps: null};
+    return {receptor: {cells: null, desiredLrps: null}};
   },
 
   componentDidMount() {
@@ -40,7 +41,7 @@ var Application = React.createClass({
 
   fetchReceptorUrl(receptorUrl) {
     require('../api/base_api').baseUrl = receptorUrl;
-    ReceptorApi.fetch().then(({cells, desiredLrps}) => this.setState({cells, desiredLrps}), reason => { console.error('DesiredLrps Promise failed because', reason); });
+    ReceptorApi.fetch().then(receptor => this.setState({receptor}), reason => { console.error('DesiredLrps Promise failed because', reason); });
   },
 
   updateReceptorUrl({receptorUrl}) {
@@ -48,7 +49,7 @@ var Application = React.createClass({
   },
 
   render() {
-    var {cells} = this.state;
+    var {cells} = this.state.receptor;
     return (
       <div className="xray">
         <Zones {...{cells}}/>
