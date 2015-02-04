@@ -68,7 +68,8 @@ describe('Cell', function() {
 
       it('fills the rest of the space and gives it a special color', function() {
         expect('.container:eq(0)').not.toHaveClass(['flex', 'undesired']);
-        expect('.container:eq(1)').toHaveClass(['flex', 'undesired']);
+        expect('.container:eq(1)').not.toHaveClass('flex');
+        expect('.container:eq(1)').toHaveClass('undesired');
         expect('.container:eq(0)').not.toHaveClass(['flex', 'undesired']);
       });
     });

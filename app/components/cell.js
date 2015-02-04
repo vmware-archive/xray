@@ -16,21 +16,23 @@ var Cell = React.createClass({
   renderContainer: function(denominator, {instance_guid: key, process_guid: processGuid}) {
     var {desiredLrps, scaling} = this.context;
 
-    var numerator = 1;
+    var flex;
     var undesired;
+    var percentWidth = 1.0 / 50.0;
 
     if (scaling !== 'containers') {
       var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === processGuid);
       if (desiredLrp) {
-        numerator = desiredLrp[scaling];
+        var numerator = desiredLrp[scaling];
+        percentWidth = numerator/denominator;
+        flex = numerator === 0;
       } else {
-        numerator = 0;
         undesired = true;
       }
     }
-    var style = {width: `${(numerator/denominator*100)}%`};
+    var style = {width: `${percentWidth*100}%`};
     var props = {title: processGuid, style, key};
-    return (<div className={cx({container: true, flex: numerator === 0, undesired})} {...props}/>);
+    return (<div className={cx({container: true, flex, undesired})} {...props}/>);
   },
 
   render() {
