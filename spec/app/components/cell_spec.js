@@ -59,6 +59,19 @@ describe('Cell', function() {
         expect('.container:eq(2)').toHaveClass('flex');
       });
     });
+
+    describe('when an actualLrp does not have a desiredLrp', function() {
+      beforeEach(function() {
+        desiredLrps.splice(1, 1);
+        subject.setProps({desiredLrps});
+      });
+
+      it('fills the rest of the space and gives it a special color', function() {
+        expect('.container:eq(0)').not.toHaveClass(['flex', 'undesired']);
+        expect('.container:eq(1)').toHaveClass(['flex', 'undesired']);
+        expect('.container:eq(0)').not.toHaveClass(['flex', 'undesired']);
+      });
+    });
   });
 
   describe('with disk', function() {

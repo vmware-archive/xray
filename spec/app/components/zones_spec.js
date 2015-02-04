@@ -6,11 +6,14 @@ describe('Zones', function() {
     var Zones = require('../../../app/components/zones');
     Cells = require('../../../app/components/cells');
     spyOn(Cells.type.prototype, 'render').and.callThrough();
+    var desiredLrps = Factory.buildList('desiredLrp', 3);
     cells = Factory.buildList('cell', 3);
-    cells[0].zone = 'B';
-    cells[1].zone = 'A';
-    cells[2].zone = 'A';
-    subject = React.render(<Zones {...{cells}}/>, root);
+    cells[0] = Object.assign(cells[0], {zone: 'B', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[0].process_guid})});
+    cells[1] = Object.assign(cells[1], {zone: 'A', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[1].process_guid})});
+    cells[2] = Object.assign(cells[2], {zone: 'A', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[2].process_guid})});
+    React.withContext({desiredLrps}, function() {
+      subject = React.render(<Zones {...{cells}}/>, root);
+    });
   });
 
   it('renders each zone with the name', function() {
