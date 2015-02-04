@@ -1,5 +1,6 @@
 var React = require('react/addons');
 var Cell = require('./cell');
+var {sortBy} = require('../helpers/array_helper');
 
 var types = React.PropTypes;
 
@@ -10,7 +11,7 @@ var Cells = React.createClass({
 
   render() {
     var {cells} = this.props;
-    cells = cells && cells.map(function(cell) {
+    cells = cells && sortBy(cells, 'cell_id').map(function(cell) {
       return (<Cell cell={cell} key={cell.cell_id}/>);
     });
 

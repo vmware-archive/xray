@@ -1,12 +1,15 @@
 require('6to5/polyfill');
-var ReceptorApi = require('../api/receptor_api');
+var BaseApi = require('../api/base_api');
 var Layout = require('../../server/components/layout');
 var Modal = require('./modal');
 var React = require('react/addons');
+var ReceptorApi = require('../api/receptor_api');
 var ReceptorUrlModal = require('./receptor_url_modal');
 var Zones = require('./zones');
+var {setCorrectingInterval} = require('correcting-interval');
 
 var types = React.PropTypes;
+var update = React.addons.update;
 
 var Application = React.createClass({
   propTypes: {
@@ -27,25 +30,37 @@ var Application = React.createClass({
     return {receptor: {cells: null, desiredLrps: null}};
   },
 
+  statics: {
+    POLL_INTERVAL: 10000
+  },
+
   componentDidMount() {
     var {config} = this.props;
 
     if (config.receptorUrl) {
-      this.fetchReceptorUrl(config.receptorUrl);
+      BaseApi.baseUrl = config.receptorUrl;
+      this.pollReceptor();
       return;
     }
-
     var {modal} = this.refs;
     modal.open(<ReceptorUrlModal onSubmit={this.updateReceptorUrl}/>);
   },
 
-  fetchReceptorUrl(receptorUrl) {
-    require('../api/base_api').baseUrl = receptorUrl;
-    ReceptorApi.fetch().then(receptor => this.setState({receptor}), reason => { console.error('DesiredLrps Promise failed because', reason); });
+  updateReceptor() {
+    return ReceptorApi.fetch().then(
+        receptor => this.setState({receptor: update(this.state.receptor, {$set: receptor})}),
+        reason => console.error('DesiredLrps Promise failed because', reason)
+    );
+  },
+
+  pollReceptor() {
+    this.updateReceptor();
+    setCorrectingInterval(this.updateReceptor, Application.POLL_INTERVAL);
   },
 
   updateReceptorUrl({receptorUrl}) {
-    this.fetchReceptorUrl(receptorUrl);
+    BaseApi.baseUrl = receptorUrl;
+    this.pollReceptor();
   },
 
   render() {

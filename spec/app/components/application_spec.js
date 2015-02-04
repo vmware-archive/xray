@@ -14,13 +14,13 @@ describe('Application', function() {
   });
 
   describe('when a receptor url is provided in configuration', function() {
-    var cells, desiredLrps;
+    var ReceptorApi, cells, desiredLrps;
 
     beforeEach(function() {
       var props = {config: {receptorUrl: RECEPTOR_URL}};
       cells = Factory.buildList('cell', 2);
       desiredLrps = Factory.buildList('desiredLrp', 3);
-      var ReceptorApi = require('../../../app/api/receptor_api');
+      ReceptorApi = require('../../../app/api/receptor_api');
       var receptorPromise = Deferred();
       spyOn(ReceptorApi, 'fetch').and.returnValue(receptorPromise);
       subject = React.render(<Application {...props}/>, root);
@@ -33,6 +33,19 @@ describe('Application', function() {
 
     it('sets the cells', function() {
       expect(subject.state.receptor.cells).toEqual(cells);
+    });
+
+    describe('#pollReceptor', function() {
+      describe('when the poll interval time has passed', function() {
+        beforeEach(function() {
+          ReceptorApi.fetch.calls.reset();
+          jasmine.clock().tick(Application.POLL_INTERVAL);
+        });
+
+        it('fetches the receptor', function() {
+          expect(ReceptorApi.fetch).toHaveBeenCalled();
+        });
+      });
     });
   });
 
