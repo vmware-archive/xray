@@ -1,5 +1,6 @@
 {
   "name": "xray",
+  "engine": "node 0.10.35",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
