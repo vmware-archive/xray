@@ -4,7 +4,7 @@ describe('DesiredLrpsApi', function() {
   const RECEPTOR_URL = 'http://example.com';
   var subject;
   beforeEach(function() {
-    require('../../../app/api/receptor_api').baseUrl = RECEPTOR_URL;
+    require('../../../app/api/base_api').baseUrl = RECEPTOR_URL;
     subject = require('../../../app/api/desired_lrps_api');
   });
 

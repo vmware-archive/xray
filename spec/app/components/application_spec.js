@@ -14,17 +14,17 @@ describe('Application', function() {
   });
 
   describe('when a receptor url is provided in configuration', function() {
-    var cells;
+    var cells, desiredLrps;
 
     beforeEach(function() {
       var props = {config: {receptorUrl: RECEPTOR_URL}};
-      var Promise = require('../../../lib/promise');
       cells = Factory.buildList('cell', 2);
-      var CellsApi = require('../../../app/api/cells_api');
-      var promise = new Promise(resolve => resolve({cells}));
-      spyOn(CellsApi, 'fetch').and.returnValue(promise);
+      desiredLrps = Factory.buildList('desiredLrp', 3);
+      var ReceptorApi = require('../../../app/api/receptor_api');
+      var receptorPromise = Deferred();
+      spyOn(ReceptorApi, 'fetch').and.returnValue(receptorPromise);
       subject = React.render(<Application {...props}/>, root);
-      mockPromises.executeForPromise(promise);
+      receptorPromise.resolve({cells, desiredLrps});
     });
 
     it('renders cells', function() {

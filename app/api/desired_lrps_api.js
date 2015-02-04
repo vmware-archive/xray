@@ -1,8 +1,8 @@
-var ReceptorApi = require('./receptor_api');
+var BaseApi = require('./base_api');
 
 var DesiredLrpsApi = {
   fetch() {
-    return ReceptorApi.get('desired_lrps').then(desiredLrps => ({desiredLrps}));
+    return BaseApi.get('desired_lrps').then(desiredLrps => ({desiredLrps}));
   }
 };
 

@@ -1,6 +1,5 @@
 require('6to5/polyfill');
-var CellsApi = require('../api/cells_api');
-var DesiredLrpsApi = require('../api/desired_lrps_api');
+var ReceptorApi = require('../api/receptor_api');
 var Layout = require('../../server/components/layout');
 var Modal = require('./modal');
 var React = require('react/addons');
@@ -40,9 +39,8 @@ var Application = React.createClass({
   },
 
   fetchReceptorUrl(receptorUrl) {
-    require('../api/receptor_api').baseUrl = receptorUrl;
-    CellsApi.fetch().then(({cells}) => this.setState({cells}), reason => { console.error('Cells Promise failed because', reason); });
-    DesiredLrpsApi.fetch().then(({desiredLrps}) => this.setState({desiredLrps}), reason => { console.error('DesiredLrps Promise failed because', reason); });
+    require('../api/base_api').baseUrl = receptorUrl;
+    ReceptorApi.fetch().then(({cells, desiredLrps}) => this.setState({cells, desiredLrps}), reason => { console.error('DesiredLrps Promise failed because', reason); });
   },
 
   updateReceptorUrl({receptorUrl}) {

@@ -4,7 +4,7 @@ describe('CellsApi', function() {
   const RECEPTOR_URL = 'http://example.com';
   var subject;
   beforeEach(function() {
-    require('../../../app/api/receptor_api').baseUrl = RECEPTOR_URL;
+    require('../../../app/api/base_api').baseUrl = RECEPTOR_URL;
     subject = require('../../../app/api/cells_api');
   });
 

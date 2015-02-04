@@ -1,18 +1,11 @@
+var CellsApi = require('./cells_api');
+var DesiredLrpsApi = require('./desired_lrps_api');
 var Promise = require('../../lib/promise');
-var request = require('superagent');
 
 var ReceptorApi = {
-  baseUrl: null,
-
-  get(url) {
-    return new Promise(function(resolve, reject) {
-      request.get(`${ReceptorApi.baseUrl}/v1/${url}`)
-        .accept('json')
-        .end(function(err, res) {
-          if (err) return reject(err);
-          resolve(res.body);
-        }
-      );
+  fetch() {
+    return Promise.all([CellsApi.fetch(), DesiredLrpsApi.fetch()]).then(function([{cells}, {desiredLrps}]) {
+      return {cells, desiredLrps};
     });
   }
 };

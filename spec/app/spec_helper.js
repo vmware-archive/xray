@@ -11,6 +11,7 @@ global.jQuery = jQuery;
 global.$ = jQuery;
 global.mockPromises = require('../support/vendor/mock-promises');
 global.jasmineReact = require('jasmine-react-helpers');
+global.Deferred = require('../support/deferred');
 
 $.fn.simulate = function(eventName, ...args) {
   $.each(this, function() {
