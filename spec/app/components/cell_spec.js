@@ -46,6 +46,19 @@ describe('Cell', function() {
       expect('.container:eq(1)').toHaveCss({width: "15px"});
       expect('.container:eq(2)').toHaveCss({width: "10px"});
     });
+
+    describe('when the desired memory is zero', function() {
+      beforeEach(function() {
+        desiredLrps[2] = Object.assign(desiredLrps[2], {process_guid: 'google', disk_mb: 200, memory_mb: 0});
+        subject.setProps({desiredLrps});
+      });
+
+      it('fills the rest of the space', function() {
+        expect('.container:eq(0)').not.toHaveClass('flex');
+        expect('.container:eq(1)').not.toHaveClass('flex');
+        expect('.container:eq(2)').toHaveClass('flex');
+      });
+    });
   });
 
   describe('with disk', function() {

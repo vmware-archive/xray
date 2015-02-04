@@ -1,5 +1,6 @@
 var React = require('react/addons');
 
+var cx = React.addons.classSet;
 var types = React.PropTypes;
 
 var Cell = React.createClass({
@@ -21,10 +22,10 @@ var Cell = React.createClass({
 
     var containers = actualLrps && actualLrps.map(function({instance_guid: key, process_guid: processGuid}) {
         var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === processGuid);
-        var numerator = (desiredLrp && desiredLrp[scaling]) || 1;
+        var numerator = desiredLrp ? desiredLrp[scaling] : 1;
         var style = {width: `${(numerator/denominator*100)}%`};
         var props = {title: processGuid, style, key};
-      return (<div className="container" {...props}/>);
+      return (<div className={cx({container: true, flex: numerator === 0})} {...props}/>);
     });
 
     return (
