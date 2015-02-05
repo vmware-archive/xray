@@ -46,6 +46,21 @@ describe('Cell', function() {
       expect(ArrayHelper.sortBy).toHaveBeenCalledWith(jasmine.any(Array), ['process_guid', 'index']);
       expect($('.container').map(function() { return $(this).data('instance-guid'); }).toArray()).toEqual(['one', 'two', 'three']);
     });
+
+    describe('when an actualLrp does not have a desiredLrp', function() {
+      beforeEach(function() {
+        desiredLrps.splice(1, 1);
+        subject.setProps({desiredLrps});
+      });
+
+      it('gives it a special color', function() {
+        expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
+        expect('.container:eq(0)').not.toHaveClass('flex');
+        expect('.container:eq(0)').toHaveClass('undesired');
+        expect('.container:eq(0)').toHaveCss({'background-color': 'rgba(0, 0, 0, 0)'});
+        expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
+      });
+    });
   });
 
   describe('with memory', function() {
@@ -78,10 +93,11 @@ describe('Cell', function() {
         subject.setProps({desiredLrps});
       });
 
-      it('fills the rest of the space and gives it a special color', function() {
+      it('gives it a special color', function() {
         expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
         expect('.container:eq(0)').not.toHaveClass('flex');
         expect('.container:eq(0)').toHaveClass('undesired');
+        expect('.container:eq(0)').toHaveCss({'background-color': 'rgba(0, 0, 0, 0)'});
         expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
       });
     });

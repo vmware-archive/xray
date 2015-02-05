@@ -24,18 +24,21 @@ var Cell = React.createClass({
     var flex;
     var undesired;
     var percentWidth = 1.0 / 50.0;
+    var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === processGuid);
+    var backgroundColor = pickColor(this.context.colors, processGuid);
 
-    if (scaling !== 'containers') {
-      var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === processGuid);
-      if (desiredLrp) {
+    if (!desiredLrp) {
+      undesired = true;
+      backgroundColor = 'transparent';
+    } else {
+      if (scaling !== 'containers') {
         var numerator = desiredLrp[scaling];
         percentWidth = numerator/denominator;
         flex = numerator === 0;
-      } else {
-        undesired = true;
       }
     }
-    var style = {width: `${percentWidth*100}%`, backgroundColor: pickColor(this.context.colors, processGuid)};
+
+    var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
     var props = {title: processGuid, style, key};
     return (<div className={cx({container: true, flex, undesired})} data-instance-guid={key} {...props} />);
   },
