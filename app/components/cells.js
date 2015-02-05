@@ -5,6 +5,8 @@ var {sortBy} = require('../helpers/array_helper');
 var types = React.PropTypes;
 
 var Cells = React.createClass({
+  //mixins: [require('../mixins/fast_mixin')],
+
   propTypes: {
     cells: types.array
   },
