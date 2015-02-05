@@ -1,9 +1,9 @@
 var basicAuth = require('node-basicauth');
 var express = require('express');
+var fs = require('fs');
 var Application = require('../app/components/application');
 var React = require('react');
 var Layout = require('./components/layout');
-
 var app = express();
 
 const XRAY_USER = process.env.XRAY_USER;
@@ -19,7 +19,8 @@ app.get('/', function(req, res) {
   var receptorUrl = req.query.receptor || process.env.RECEPTOR_URL;
   var scripts = ['application.js'];
   var stylesheets = ['reset.css', 'pivotal-ui.min.css', 'application.css'];
-  var config = {receptorUrl};
+  var colors = JSON.parse(fs.readFileSync('config/colors.json'));
+  var config = {receptorUrl, colors};
   var props = {entry: Application, scripts, stylesheets, config};
   var html = React.renderToStaticMarkup(<Layout {...props}/>);
   res.status(200).type('html').send(`<!DOCTYPE html>${html}`);

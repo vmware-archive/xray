@@ -5,7 +5,8 @@ describe('Cell', function() {
   function render(options) {
     var style = {width: 100};
     var subject;
-    React.withContext(Object.assign({desiredLrps}, options), function() {
+    var colors = ['#fff', '#000'];
+    React.withContext(Object.assign({desiredLrps, colors}, options), function() {
       subject = React.render(<Cell cell={cell} style={style}/>, root);
     });
     return subject;

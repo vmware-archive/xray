@@ -18,12 +18,14 @@ var Application = React.createClass({
 
   childContextTypes: {
     cells: types.array,
-    desiredLrps: types.array
+    desiredLrps: types.array,
+    colors: types.array.isRequired
   },
 
   getChildContext: function() {
     var {receptor} = this.state;
-    return {desiredLrps: receptor.desiredLrps}
+    var {colors} = this.props.config;
+    return {desiredLrps: receptor.desiredLrps, colors}
   },
 
   getInitialState() {

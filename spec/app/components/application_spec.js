@@ -17,7 +17,7 @@ describe('Application', function() {
     var ReceptorApi, cells, desiredLrps;
 
     beforeEach(function() {
-      var props = {config: {receptorUrl: RECEPTOR_URL}};
+      var props = {config: {receptorUrl: RECEPTOR_URL, colors: ['#fff', '#000']}};
       cells = Factory.buildList('cell', 2);
       desiredLrps = Factory.buildList('desiredLrp', 3);
       ReceptorApi = require('../../../app/api/receptor_api');
@@ -54,7 +54,7 @@ describe('Application', function() {
     beforeEach(function() {
       Modal = require('../../../app/components/modal');
       jasmineReact.spyOnClass(Modal, 'open').and.callThrough();
-      var props = {config: {}};
+      var props = {config: {colors: ['#fff', '#000']}};
       subject = React.render(<Application {...props}/>, root);
       request = jasmine.Ajax.requests.mostRecent();
     });

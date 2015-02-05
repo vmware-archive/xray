@@ -1,6 +1,9 @@
 var React = require('react/addons');
+
 var cx = React.addons.classSet;
 var types = React.PropTypes;
+
+var {pickColor} = require('../helpers/application_helper');
 
 var Cell = React.createClass({
   propTypes: {
@@ -8,6 +11,7 @@ var Cell = React.createClass({
   },
 
   contextTypes: {
+    colors: types.array.isRequired,
     scaling: types.string.isRequired,
     desiredLrps: types.array
   },
@@ -29,7 +33,7 @@ var Cell = React.createClass({
         undesired = true;
       }
     }
-    var style = {width: `${percentWidth*100}%`};
+    var style = {width: `${percentWidth*100}%`, backgroundColor: pickColor(this.context.colors, processGuid)};
     var props = {title: processGuid, style, key};
     return (<div className={cx({container: true, flex, undesired})} data-instance-guid={key} {...props} />);
   },

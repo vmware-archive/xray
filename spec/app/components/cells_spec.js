@@ -7,7 +7,8 @@ describe('Cells', function() {
     Cell = require('../../../app/components/cell');
     spyOn(Cell.type.prototype, 'render').and.callThrough();
     cells = Factory.buildList('cell', 2);
-    React.withContext({scaling: 'containers'}, function() {
+    var colors = ['#fff', '#000'];
+    React.withContext({scaling: 'containers', colors}, function() {
       subject = React.render(<Cells cells={cells}/>, root);
     });
   });
