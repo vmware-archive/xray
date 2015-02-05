@@ -99,7 +99,7 @@ var Application = React.createClass({
 
     }.bind(this),
         reason => console.error('DesiredLrps Promise failed because', reason)
-    ).catch(() => {debugger; console.log('boo!', arguments)});
+    )
   },
 
   pollReceptor() {

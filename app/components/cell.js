@@ -41,7 +41,6 @@ var Cell = React.createClass({
   },
 
   render() {
-    console.log('rendering cell')
     var {cell, style} = this.props;
     var {actual_lrps: actualLrps} = cell;
     var {scaling} = this.context;
