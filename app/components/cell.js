@@ -1,5 +1,4 @@
 var React = require('react/addons');
-
 var cx = React.addons.classSet;
 var types = React.PropTypes;
 
@@ -32,16 +31,16 @@ var Cell = React.createClass({
     }
     var style = {width: `${percentWidth*100}%`};
     var props = {title: processGuid, style, key};
-    return (<div className={cx({container: true, flex, undesired})} {...props}/>);
+    return (<div className={cx({container: true, flex, undesired})} data-instance-guid={key} {...props} />);
   },
 
   render() {
     var {cell, style} = this.props;
     var {actual_lrps: actualLrps} = cell;
     var {scaling} = this.context;
-
     var denominator = scaling === 'containers' ? 50 : cell.Capacity[scaling];
-    var containers = actualLrps && actualLrps.map(this.renderContainer.bind(this, denominator));
+    var {sortBy} = require('../helpers/array_helper');
+    var containers = actualLrps && sortBy(actualLrps, ['process_guid', 'index']).map(this.renderContainer.bind(this, denominator));
 
     return (
       <li className="cell" style={style}>

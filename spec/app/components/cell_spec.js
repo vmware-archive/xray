@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Cell', function() {
-  var Cell, subject, cell, desiredLrps;
+  var ArrayHelper, Cell, subject, cell, desiredLrps;
   function render(options) {
     var style = {width: 100};
     var subject;
@@ -11,13 +11,18 @@ describe('Cell', function() {
     return subject;
   }
   beforeEach(function() {
+    ArrayHelper = require('../../../app/helpers/array_helper');
+    spyOn(ArrayHelper, 'sortBy').and.callThrough();
     Cell = require('../../../app/components/cell');
     cell = Factory.build('cell', {Capacity: {containers: 256, disk_mb: 1000, memory_mb: 100}});
     expect(cell.actual_lrps).not.toBeEmpty();
     desiredLrps = Factory.buildList('desiredLrp', 3);
     cell.actual_lrps[0].process_guid = 'runtime';
+    cell.actual_lrps[0].instance_guid = 'three';
     cell.actual_lrps[1].process_guid = 'diego';
+    cell.actual_lrps[1].instance_guid = 'one';
     cell.actual_lrps[2].process_guid = 'google';
+    cell.actual_lrps[2].instance_guid = 'two';
     desiredLrps[0] = Object.assign(desiredLrps[0], {process_guid: 'runtime', disk_mb: 100, memory_mb: 25});
     desiredLrps[1] = Object.assign(desiredLrps[1], {process_guid: 'diego', disk_mb: 300, memory_mb: 15});
     desiredLrps[2] = Object.assign(desiredLrps[2], {process_guid: 'google', disk_mb: 200, memory_mb: 10});
@@ -31,8 +36,14 @@ describe('Cell', function() {
     beforeEach(function() {
       subject = render({scaling: 'containers'});
     });
+
     it('renders actual lrps', function() {
       expect($('.cell .container')).toHaveLength(cell.actual_lrps.length);
+    });
+
+    it('sorts the actual lrps by process guid and index', function() {
+      expect(ArrayHelper.sortBy).toHaveBeenCalledWith(jasmine.any(Array), ['process_guid', 'index']);
+      expect($('.container').map(function() { return $(this).data('instance-guid'); }).toArray()).toEqual(['one', 'two', 'three']);
     });
   });
 
@@ -42,9 +53,9 @@ describe('Cell', function() {
     });
 
     it('sets the width of each cell based on the scaling', function() {
-      expect('.container:eq(0)').toHaveCss({width: "25px"});
-      expect('.container:eq(1)').toHaveCss({width: "15px"});
-      expect('.container:eq(2)').toHaveCss({width: "10px"});
+      expect('.container:eq(0)').toHaveCss({width: "15px"});
+      expect('.container:eq(1)').toHaveCss({width: "10px"});
+      expect('.container:eq(2)').toHaveCss({width: "25px"});
     });
 
     describe('when the desired memory is zero', function() {
@@ -55,8 +66,8 @@ describe('Cell', function() {
 
       it('fills the rest of the space', function() {
         expect('.container:eq(0)').not.toHaveClass('flex');
-        expect('.container:eq(1)').not.toHaveClass('flex');
-        expect('.container:eq(2)').toHaveClass('flex');
+        expect('.container:eq(1)').toHaveClass('flex');
+        expect('.container:eq(2)').not.toHaveClass('flex');
       });
     });
 
@@ -67,10 +78,10 @@ describe('Cell', function() {
       });
 
       it('fills the rest of the space and gives it a special color', function() {
-        expect('.container:eq(0)').not.toHaveClass(['flex', 'undesired']);
-        expect('.container:eq(1)').not.toHaveClass('flex');
-        expect('.container:eq(1)').toHaveClass('undesired');
-        expect('.container:eq(0)').not.toHaveClass(['flex', 'undesired']);
+        expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
+        expect('.container:eq(0)').not.toHaveClass('flex');
+        expect('.container:eq(0)').toHaveClass('undesired');
+        expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
       });
     });
   });
@@ -81,9 +92,9 @@ describe('Cell', function() {
     });
 
     it('sets the width of each cell based on the scaling', function() {
-      expect('.container:eq(0)').toHaveCss({width: "10px"});
-      expect('.container:eq(1)').toHaveCss({width: "30px"});
-      expect('.container:eq(2)').toHaveCss({width: "20px"});
+      expect('.container:eq(0)').toHaveCss({width: "30px"});
+      expect('.container:eq(1)').toHaveCss({width: "20px"});
+      expect('.container:eq(2)').toHaveCss({width: "10px"});
     });
   });
 
