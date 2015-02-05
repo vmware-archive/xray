@@ -15,8 +15,10 @@ describe('FastMixin', function() {
       getInitialState(){ return {three}},
       render: renderSpy
     });
-
-    subject = React.render(<Klass one={wrapper.one} two={wrapper.two}/>, root);
+    React.withContext({}, function() {
+      subject = React.render(<Klass one={wrapper.one} two={wrapper.two}/>, root);
+      return subject;
+    });
   });
 
   afterEach(function() {
@@ -94,6 +96,24 @@ describe('FastMixin', function() {
       it('re-renders the component', function() {
         expect(renderSpy).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('when the context changes', function() {
+    beforeEach(function() {
+      renderSpy.calls.reset();
+    });
+
+    it('does not render if there is no "shouldComponentUpdateFromContext" function', function() {
+
+    });
+
+    it('does not render if "shouldComponentUpdateFromContext" returns false', function() {
+
+    });
+
+    it('does render if "shouldComponentUpdateFromContext" returns true', function() {
+
     });
   });
 });
