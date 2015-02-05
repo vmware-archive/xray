@@ -15,7 +15,7 @@ describe('Cell', function() {
     ArrayHelper = require('../../../app/helpers/array_helper');
     spyOn(ArrayHelper, 'sortBy').and.callThrough();
     Cell = require('../../../app/components/cell');
-    cell = Factory.build('cell', {Capacity: {containers: 256, disk_mb: 1000, memory_mb: 100}});
+    cell = Factory.build('cell', {capacity: {containers: 256, disk_mb: 1000, memory_mb: 100}});
     expect(cell.actual_lrps).not.toBeEmpty();
     desiredLrps = Factory.buildList('desiredLrp', 3);
     cell.actual_lrps[0].process_guid = 'runtime';

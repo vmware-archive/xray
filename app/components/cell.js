@@ -42,7 +42,7 @@ var Cell = React.createClass({
     var {cell, style} = this.props;
     var {actual_lrps: actualLrps} = cell;
     var {scaling} = this.context;
-    var denominator = scaling === 'containers' ? 50 : cell.Capacity[scaling];
+    var denominator = scaling === 'containers' ? 50 : cell.capacity[scaling];
     var {sortBy} = require('../helpers/array_helper');
     var containers = actualLrps && sortBy(actualLrps, ['process_guid', 'index']).map(this.renderContainer.bind(this, denominator));
 
