@@ -52,23 +52,23 @@ describe('Application', function() {
       var oldCells, newCells, oldState;
       beforeEach(function() {
         oldCells = [
-          {cell_id: 'immutable', actual_lrps: [{since: 1, instance_guid: '1'}]},
+          {cell_id: 'immutable', actual_lrps: [Factory.build('actualLrp', {since: 1, instance_guid: '1'})]},
           {cell_id: 'mutable', actual_lrps: [
-            {since: 1, instance_guid: '2'},
-            {since: 1, instance_guid: '3'},
-            {since: 1, instance_guid: '-1'},
+            Factory.build('actualLrp', {since: 1, instance_guid: '2'}),
+            Factory.build('actualLrp', {since: 1, instance_guid: '3'}),
+            Factory.build('actualLrp', {since: 1, instance_guid: '-1'}),
           ]},
           {cell_id: 'removable', actual_lrps: []},
         ];
 
         newCells = [
-          {cell_id: 'immutable', actual_lrps: [{since: 1, intance_guid: '1'}]},
+          {cell_id: 'immutable', actual_lrps: [Factory.build('actualLrp', {since: 1, intance_guid: '1'})]},
           {cell_id: 'mutable', actual_lrps: [
-            {since: 1, instance_guid: '2'},
-            {since: 10, instance_guid: '3'},
-            {since: 1, instance_guid: '4'}
+            Factory.build('actualLrp', {since: 1, instance_guid: '2'}),
+            Factory.build('actualLrp', {since: 10, instance_guid: '3'}),
+            Factory.build('actualLrp', {since: 1, instance_guid: '4'})
           ]},
-          {cell_id: 'new', actual_lrps: [{since: 1, instance_guid: '5'}]}
+          {cell_id: 'new', actual_lrps: [Factory.build('actualLrp', {since: 1, instance_guid: '5'})]}
         ];
         subject.setState({receptor: {cells: oldCells}});
         var newReceptorPromise = Deferred();

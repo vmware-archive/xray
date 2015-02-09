@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Cell', function() {
-  var ArrayHelper, Cell, subject, cell, desiredLrps;
+  var Cell, subject, cell, desiredLrps;
   function render(options) {
     var style = {width: 100};
     var subject;
@@ -12,8 +12,6 @@ describe('Cell', function() {
     return subject;
   }
   beforeEach(function() {
-    ArrayHelper = require('../../../app/helpers/array_helper');
-    spyOn(ArrayHelper, 'sortBy').and.callThrough();
     Cell = require('../../../app/components/cell');
     cell = Factory.build('cell', {capacity: {containers: 256, disk_mb: 1000, memory_mb: 100}});
     expect(cell.actual_lrps).not.toBeEmpty();
@@ -43,7 +41,6 @@ describe('Cell', function() {
     });
 
     it('sorts the actual lrps by process guid and index', function() {
-      expect(ArrayHelper.sortBy).toHaveBeenCalledWith(jasmine.any(Array), ['process_guid', 'index']);
       expect($('.container').map(function() { return $(this).data('instance-guid'); }).toArray()).toEqual(['one', 'two', 'three']);
     });
 

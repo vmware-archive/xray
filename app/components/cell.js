@@ -2,7 +2,8 @@ var React = require('react/addons');
 
 var cx = React.addons.classSet;
 var types = React.PropTypes;
-
+var {lpad} = require('../helpers/string_helper');
+var sortBy = require('lodash.sortby');
 var {pickColor} = require('../helpers/application_helper');
 
 var Cell = React.createClass({
@@ -29,7 +30,7 @@ var Cell = React.createClass({
 
     if (!desiredLrp) {
       undesired = true;
-      backgroundColor = 'transparent';
+      backgroundColor = null;
     } else {
       if (scaling !== 'containers') {
         var numerator = desiredLrp[scaling];
@@ -48,8 +49,7 @@ var Cell = React.createClass({
     var {actual_lrps: actualLrps} = cell;
     var {scaling} = this.context;
     var denominator = scaling === 'containers' ? 50 : cell.capacity[scaling];
-    var {sortBy} = require('../helpers/array_helper');
-    var containers = actualLrps && sortBy(actualLrps, ['process_guid', 'index']).map(this.renderContainer.bind(this, denominator));
+    var containers = actualLrps && sortBy(actualLrps, lrp => lrp.process_guid + lpad(lrp.index, '0', 5)).map(this.renderContainer.bind(this, denominator));
 
     return (
       <li className="cell" style={style}>

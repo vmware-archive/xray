@@ -46,6 +46,7 @@
     "gulp-util": "^3.0.2",
     "gulp-watch": "^4.1.0",
     "gulp-webpack": "^1.1.2",
+    "lodash.sortby": "^3.0.0",
     "mime": "^1.2.11",
     "nib": "^1.1.0",
     "node-basicauth": "0.0.9",
