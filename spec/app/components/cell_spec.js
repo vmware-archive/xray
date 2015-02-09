@@ -1,17 +1,18 @@
 require('../spec_helper');
 
 describe('Cell', function() {
-  var Cell, subject, cell, desiredLrps;
+  var Cell, subject, cell, desiredLrps, update;
   function render(options) {
     var style = {width: 100};
     var subject;
     var colors = ['#fff', '#000'];
-    React.withContext(Object.assign({desiredLrps, colors}, options), function() {
-      subject = React.render(<Cell cell={cell} style={style}/>, root);
+    React.withContext(Object.assign({colors}, options), function() {
+      subject = React.render(<Cell cell={cell} style={style} desiredLrps={desiredLrps}/>, root);
     });
     return subject;
   }
   beforeEach(function() {
+    update = React.addons.update;
     Cell = require('../../../app/components/cell');
     cell = Factory.build('cell', {capacity: {containers: 256, disk_mb: 1000, memory_mb: 100}});
     expect(cell.actual_lrps).not.toBeEmpty();
@@ -46,7 +47,7 @@ describe('Cell', function() {
 
     describe('when an actualLrp does not have a desiredLrp', function() {
       beforeEach(function() {
-        desiredLrps.splice(1, 1);
+        desiredLrps = update(desiredLrps, {$splice: [[1, 1]]});
         subject.setProps({desiredLrps});
       });
 
@@ -73,7 +74,7 @@ describe('Cell', function() {
 
     describe('when the desired memory is zero', function() {
       beforeEach(function() {
-        desiredLrps[2] = Object.assign(desiredLrps[2], {process_guid: 'google', disk_mb: 200, memory_mb: 0});
+        desiredLrps = update(desiredLrps, {2: {$merge: {process_guid: 'google', disk_mb: 200, memory_mb: 0}}});
         subject.setProps({desiredLrps});
       });
 
@@ -86,7 +87,7 @@ describe('Cell', function() {
 
     describe('when an actualLrp does not have a desiredLrp', function() {
       beforeEach(function() {
-        desiredLrps.splice(1, 1);
+        desiredLrps = update(desiredLrps, {$splice: [[1, 1]]});
         subject.setProps({desiredLrps});
       });
 

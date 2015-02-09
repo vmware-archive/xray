@@ -7,7 +7,8 @@ var types = React.PropTypes;
 
 var Zones = React.createClass({
   propTypes: {
-    cells: types.array
+    cells: types.array,
+    desiredLrps: types.array
   },
 
   childContextTypes: {
@@ -27,7 +28,7 @@ var Zones = React.createClass({
   },
 
   renderZones: function() {
-    var {cells} = this.props;
+    var {cells, desiredLrps} = this.props;
     if (!cells) return null;
 
     var zones = cells.reduce(function(zones, cell){
@@ -42,7 +43,7 @@ var Zones = React.createClass({
       return (
         <div className="zone" key={zone}>
           <header><h2>{`Zone ${zone} - ${cells.length} Cells`}</h2></header>
-          <Cells {...{cells}}/>
+          <Cells {...{cells, desiredLrps}}/>
         </div>
       );
     }, zones);

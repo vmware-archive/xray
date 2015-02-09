@@ -18,15 +18,11 @@ var Application = React.createClass({
   },
 
   childContextTypes: {
-    cells: types.array,
-    desiredLrps: types.array,
     colors: types.array.isRequired
   },
 
   getChildContext: function() {
-    var {receptor} = this.state;
-    var {colors} = this.props.config;
-    return {desiredLrps: receptor.desiredLrps, colors}
+    return {colors: this.props.config.colors};
   },
 
   getInitialState() {
@@ -34,7 +30,7 @@ var Application = React.createClass({
   },
 
   statics: {
-    POLL_INTERVAL: 10000
+    POLL_INTERVAL: 2000
   },
 
   componentDidMount() {
@@ -113,10 +109,10 @@ var Application = React.createClass({
   },
 
   render() {
-    var {cells} = this.state.receptor;
+    var {cells, desiredLrps} = this.state.receptor;
     return (
       <div className="xray">
-        <Zones {...{cells}}/>
+        <Zones {...{cells, desiredLrps}}/>
         <Modal ref="modal"/>
       </div>
     );

@@ -10,17 +10,18 @@ var Cell = React.createClass({
   mixins: [require('../mixins/fast_mixin')],
 
   propTypes: {
-    cell: types.object
+    cell: types.object,
+    desiredLrps: types.array
   },
 
   contextTypes: {
     colors: types.array.isRequired,
-    scaling: types.string.isRequired,
-    desiredLrps: types.array
+    scaling: types.string.isRequired
   },
 
   renderContainer: function(denominator, {instance_guid: key, process_guid: processGuid}) {
-    var {desiredLrps, scaling} = this.context;
+    var {desiredLrps} = this.props;
+    var {scaling} = this.context;
 
     var flex;
     var undesired;
@@ -45,6 +46,7 @@ var Cell = React.createClass({
   },
 
   render() {
+    console.log("render");
     var {cell, style} = this.props;
     var {actual_lrps: actualLrps} = cell;
     var {scaling} = this.context;
