@@ -59,7 +59,6 @@ gulp.task('jasmine', function() {
   var port = 8888;
 
   gulp.src('spec/spec.js')
-    .pipe(plugins.plumber())
     .pipe(plugins.webpack(require('../config/webpack/test')))
     .pipe(jasmineServer({port, ready: () => gutil.log(`Jasmine listening on port ${port}`)}));
 });
