@@ -35,11 +35,12 @@ var Application = React.createClass({
   },
 
   childContextTypes: {
-    colors: types.array.isRequired
+    colors: types.array.isRequired,
+    modal: types.object
   },
 
   getChildContext: function() {
-    return {colors: this.props.config.colors};
+    return {colors: this.props.config.colors, modal: this.refs.modal};
   },
 
   getInitialState() {

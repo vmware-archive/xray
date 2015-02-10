@@ -10,3 +10,7 @@
   -o-transform: rotateY(90deg);
   transform: rotateY(90deg);
 }
+
+.container {
+  display: block
+}

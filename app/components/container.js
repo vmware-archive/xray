@@ -1,5 +1,6 @@
-var React = require('react/addons');
 var FastMixin = require('../mixins/fast_mixin');
+var ActualLrpModal = require('./actual_lrp_modal');
+var React = require('react/addons');
 var {pickColor} = require('../helpers/application_helper');
 
 var types = React.PropTypes;
@@ -16,10 +17,16 @@ var Container = React.createClass({
 
   contextTypes: {
     colors: types.array.isRequired,
-    scaling: types.string.isRequired
+    scaling: types.string.isRequired,
+    modal: types.object
   },
 
-  render: function() {
+  click() {
+    var {modal} = this.context;
+    if (modal) modal.open(<ActualLrpModal actualLrp={this.props.actualLrp}/>);
+  },
+
+  render() {
     var {state, instance_guid: key, process_guid: processGuid} = this.props.actualLrp;
     var {denominator, desiredLrp} = this.props;
     var {scaling} = this.context;
@@ -40,8 +47,8 @@ var Container = React.createClass({
       }
     }
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
-    var props = {title: processGuid, style, key};
-    return (<div className={cx({container: true, claimed: state === 'CLAIMED', flex, undesired})} data-instance-guid={key} {...props}/>);
+    var props = {role: 'button', title: processGuid, style, key, onClick: this.click};
+    return (<a className={cx({container: true, claimed: state === 'CLAIMED', flex, undesired})} data-instance-guid={key} {...props}/>);
   }
 });
 

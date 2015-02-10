@@ -2,7 +2,7 @@ var React = require('react/addons');
 
 var Modal = React.createClass({
   getInitialState() {
-    return {title: "You should not see this text"};
+    return {title: null};
   },
 
   open(component) {
