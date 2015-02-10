@@ -64,10 +64,12 @@ var Application = React.createClass({
 
   updateReceptor() {
     return ReceptorApi.fetch().then(function({actualLrps, cells, desiredLrps}) {
-        cells = update(this.state.receptor.cells, applyUpdate(cells, 'cell_id'));
-        actualLrps = update(this.state.receptor.actualLrps, applyUpdate(actualLrps, 'instance_guid', (a, b) => a.since !== b.since));
-        desiredLrps = update(this.state.receptor.desiredLrps, applyUpdate(desiredLrps, 'process_guid'));
-        this.setState({receptor: {actualLrps, desiredLrps, cells}});
+        var receptor = update(this.state.receptor, {
+          cells: applyUpdate(cells, 'cell_id'),
+          actualLrps: applyUpdate(actualLrps, 'instance_guid', (a, b) => a.since !== b.since),
+          desiredLrps: applyUpdate(desiredLrps, 'process_guid')
+        });
+        this.setState({receptor});
     }.bind(this),
         reason => console.error('DesiredLrps Promise failed because', reason)
     );
