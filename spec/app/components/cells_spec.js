@@ -21,4 +21,19 @@ describe('Cells', function() {
     expect($('.cell')).toHaveLength(cells.length);
     expect(Cell.type.prototype.render).toHaveBeenCalled();
   });
+
+  describe('when actual lrps are provided', function() {
+    beforeEach(function() {
+      var actualLrps = [
+        Factory.build('actualLrp', {cell_id: cells[0].cell_id}),
+        Factory.build('actualLrp', {cell_id: cells[0].cell_id})
+      ];
+      subject.setProps({actualLrps, desiredLrps: []});
+    });
+
+    it('renders the cells with the expected actual lrps', function() {
+      expect($('.cell:eq(0) .container')).toHaveLength(2);
+      expect($('.cell:eq(1) .container')).not.toExist();
+    });
+  });
 });

@@ -7,13 +7,13 @@ function diff(oldArr, newArr, id, changeCallback) {
   var oldIds = Object.keys(oldMap);
   var newIds = Object.keys(newMap);
 
-  var added = newArr.filter(newEl => oldIds.indexOf(newEl[id]) === -1);
-  var removed = oldArr.filter(oldEl => newIds.indexOf(oldEl[id]) === -1);
-  var changed = changeCallback && newArr.filter(function(newEl) {
-      var match = oldMap[newEl[id]];
+  var added = newArr.filter(newEl => !oldIds.includes(newEl[id]));
+  var removed = oldArr.filter(oldEl => !newIds.includes(oldEl[id]));
+  var changed = changeCallback && oldArr.filter(function(oldEl) {
+      var match = newMap[oldEl[id]];
       if (!match) return false;
-      return changeCallback(match, newEl);
-    });
+      return changeCallback(oldEl, match);
+    }).map(oldEl => [oldEl, newMap[oldEl[id]]]);
 
   return {added, removed, changed};
 }

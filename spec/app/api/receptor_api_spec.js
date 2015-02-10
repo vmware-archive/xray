@@ -10,10 +10,13 @@ describe('ReceptorApi', function() {
   });
 
   describe('#fetch', function() {
-    var doneSpy, cellsPromise, desiredLrpsPromise, receptorPromise;
+    var doneSpy, actualLrpsPromise, cellsPromise, desiredLrpsPromise, receptorPromise;
     beforeEach(function() {
+      actualLrpsPromise = Deferred();
       cellsPromise = Deferred();
       desiredLrpsPromise = Deferred();
+
+      spyOn(require('../../../app/api/actual_lrps_api'), 'fetch').and.returnValue(actualLrpsPromise);
       spyOn(require('../../../app/api/cells_api'), 'fetch').and.returnValue(cellsPromise);
       spyOn(require('../../../app/api/desired_lrps_api'), 'fetch').and.returnValue(desiredLrpsPromise);
       doneSpy = jasmine.createSpy('done');
@@ -22,10 +25,13 @@ describe('ReceptorApi', function() {
     });
 
     describe('when the ajax calls have returned', function() {
-      var cells, desiredLrps;
+      var actualLrps, cells, desiredLrps;
       beforeEach(function() {
+        actualLrps = Factory.buildList('actualLrp', 2);
         cells = Factory.buildList('cell', 2);
         desiredLrps = Factory.buildList('desiredLrp', 3);
+
+        actualLrpsPromise.resolve({actualLrps});
         cellsPromise.resolve({cells});
         desiredLrpsPromise.resolve({desiredLrps});
         mockPromises.executeForResolvedPromises();
@@ -33,7 +39,7 @@ describe('ReceptorApi', function() {
       });
 
       it('resolves the promise with cells and desired lrps', function() {
-        expect(doneSpy).toHaveBeenCalledWith({cells, desiredLrps});
+        expect(doneSpy).toHaveBeenCalledWith({actualLrps, cells, desiredLrps});
       });
     });
   });

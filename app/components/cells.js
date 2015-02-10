@@ -1,21 +1,26 @@
 var React = require('react/addons');
 var Cell = require('./cell');
+var FastMixin = require('../mixins/fast_mixin');
 var sortBy = require('lodash.sortby');
 
 var types = React.PropTypes;
 
 var Cells = React.createClass({
-  mixins: [require('../mixins/fast_mixin')],
+  mixins: [FastMixin],
 
   propTypes: {
     cells: types.array,
+    actualLrps: types.array,
     desiredLrps: types.array
   },
 
   render() {
-    var {cells} = this.props;
+    var {cells, desiredLrps} = this.props;
     cells = cells && sortBy(cells, c => c.cell_id).map(function(cell) {
-      return (<Cell cell={cell} key={cell.cell_id} desiredLrps={this.props.desiredLrps}/>);
+      var key = cell.cell_id;
+      var actualLrps = (this.props.actualLrps || []).filter(lrp => lrp.cell_id === key);
+      var props = {actualLrps, cell, desiredLrps, key};
+      return (<Cell {...props}/>);
     }, this);
 
     return (

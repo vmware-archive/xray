@@ -7,7 +7,7 @@ var UIButton = React.createClass({
   render: function () {
     var classes = ['btn'];
 
-    if (this.acceptedTypes.indexOf(this.props.type) !== -1) {
+    if (this.acceptedTypes.includes(this.props.type)) {
       classes.push('btn-' + this.props.type);
     } else {
       classes.push('btn-default');

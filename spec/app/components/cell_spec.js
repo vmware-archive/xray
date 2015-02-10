@@ -1,13 +1,14 @@
 require('../spec_helper');
 
 describe('Cell', function() {
-  var Cell, subject, cell, desiredLrps, update;
+  var Cell, subject, cell, actualLrps, desiredLrps, update;
   function render(options) {
-    var style = {width: 100};
+    var style = {width: '100px'};
     var subject;
     var colors = ['#fff', '#000'];
     React.withContext(Object.assign({colors}, options), function() {
-      subject = React.render(<Cell cell={cell} style={style} desiredLrps={desiredLrps}/>, root);
+      var props = {cell, style, desiredLrps, actualLrps};
+      subject = React.render(<Cell {...props}/>, root);
     });
     return subject;
   }
@@ -15,17 +16,17 @@ describe('Cell', function() {
     update = React.addons.update;
     Cell = require('../../../app/components/cell');
     cell = Factory.build('cell', {capacity: {containers: 256, disk_mb: 1000, memory_mb: 100}});
-    expect(cell.actual_lrps).not.toBeEmpty();
-    desiredLrps = Factory.buildList('desiredLrp', 3);
-    cell.actual_lrps[0].process_guid = 'runtime';
-    cell.actual_lrps[0].instance_guid = 'three';
-    cell.actual_lrps[1].process_guid = 'diego';
-    cell.actual_lrps[1].instance_guid = 'one';
-    cell.actual_lrps[2].process_guid = 'google';
-    cell.actual_lrps[2].instance_guid = 'two';
-    desiredLrps[0] = Object.assign(desiredLrps[0], {process_guid: 'runtime', disk_mb: 100, memory_mb: 25});
-    desiredLrps[1] = Object.assign(desiredLrps[1], {process_guid: 'diego', disk_mb: 300, memory_mb: 15});
-    desiredLrps[2] = Object.assign(desiredLrps[2], {process_guid: 'google', disk_mb: 200, memory_mb: 10});
+    actualLrps = [
+      Factory.build('actualLrp', {cell_id: cell.cell_id, process_guid: 'runtime', instance_guid: 'three'}),
+      Factory.build('actualLrp', {cell_id: cell.cell_id, process_guid: 'diego', instance_guid: 'one'}),
+      Factory.build('actualLrp', {cell_id: cell.cell_id, process_guid: 'google', instance_guid: 'two'})
+    ];
+
+    desiredLrps = [
+      Factory.build('desiredLrp', {process_guid: 'runtime', disk_mb: 100, memory_mb: 25}),
+      Factory.build('desiredLrp', {process_guid: 'diego', disk_mb: 300, memory_mb: 15}),
+      Factory.build('desiredLrp', {process_guid: 'google', disk_mb: 200, memory_mb: 10})
+    ];
   });
 
   afterEach(function() {
@@ -38,7 +39,7 @@ describe('Cell', function() {
     });
 
     it('renders actual lrps', function() {
-      expect($('.cell .container')).toHaveLength(cell.actual_lrps.length);
+      expect($('.cell .container')).toHaveLength(actualLrps.length);
     });
 
     it('sorts the actual lrps by process guid and index', function() {

@@ -12,6 +12,23 @@ var {diff} = require('../helpers/array_helper');
 var types = React.PropTypes;
 var update = React.addons.update;
 
+function applyUpdate(newArr, id, changeCallback) {
+  return {
+    $apply: function(oldArr) {
+      var {added, removed, changed} = diff(oldArr, newArr, id, changeCallback);
+      var results = oldArr.filter(x => !removed.includes(x));
+      if (changed && changed.length) {
+        /* jshint unused:false */
+        var currentChanged = changed.map(([current, next]) => current);
+        var nextChanged = changed.map(([current, next]) => next);
+        /* jshint unused:true */
+        results = results.map(x => currentChanged.includes(x) ? nextChanged[currentChanged.indexOf(x)] : x);
+      }
+      return results.concat(added);
+    }
+  };
+}
+
 var Application = React.createClass({
   propTypes: {
     config: types.object.isRequired
@@ -26,11 +43,11 @@ var Application = React.createClass({
   },
 
   getInitialState() {
-    return {receptor: {cells: [], desiredLrps: null}};
+    return {receptor: {cells: [], desiredLrps: [], actualLrps: []}};
   },
 
   statics: {
-    POLL_INTERVAL: 2000
+    POLL_INTERVAL: 10000
   },
 
   componentDidMount() {
@@ -46,56 +63,14 @@ var Application = React.createClass({
   },
 
   updateReceptor() {
-    return ReceptorApi.fetch().then(function({cells, desiredLrps}) {
-        var oldCells = this.state.receptor.cells;
-        var updatedCells = oldCells;
-        var {added, removed, changed} = diff(oldCells, cells, 'cell_id', function(current, next) {
-          return current.actual_lrps.map(a => a.since).join('') !== next.actual_lrps.map(a => a.since).join('');
-        });
-
-        removed.forEach(function(removedCell) {
-          var cellToRemove = updatedCells.find(({cell_id}) => cell_id === removedCell.cell_id);
-          updatedCells = update(updatedCells, {$splice: [[updatedCells.indexOf(cellToRemove),1]]});
-        });
-
-        changed.forEach(function(changedCell) {
-          var cellToUpdate = updatedCells.find(({cell_id}) => cell_id === changedCell.cell_id);
-          var oldLrps = cellToUpdate.actual_lrps;
-          var updatedLrps = oldLrps;
-          var cellIndex = updatedCells.indexOf(cellToUpdate);
-
-          var {added: addedLrps, removed: removedLrps, changed: changedLrps} = diff(
-            cellToUpdate.actual_lrps, changedCell.actual_lrps, 'instance_guid', function(current, next) {
-              return current.since !== next.since;
-            }
-          );
-          
-          removedLrps.forEach(function(removedLrp) {
-            var lrpToRemove = updatedLrps.find(({instance_guid}) => instance_guid === removedLrp.instance_guid);
-            updatedLrps = update(updatedLrps, {$splice: [[updatedLrps.indexOf(lrpToRemove),1]]});
-          });
-          
-          changedLrps.forEach(function(changedLrp) {
-            var lrpToUpdate = updatedLrps.find(({instance_guid}) => instance_guid === changedLrp.instance_guid);
-            var lrpIndex = updatedLrps.indexOf(lrpToUpdate);
-
-            lrpToUpdate = update(lrpToUpdate, {$set: changedLrp});
-            updatedLrps = update(updatedLrps, {$merge: {[lrpIndex]: lrpToUpdate}});
-          });
-
-          updatedLrps = update(updatedLrps, {$push: addedLrps});
-
-          cellToUpdate = update(cellToUpdate, {$merge: {actual_lrps: updatedLrps}});
-          updatedCells = update(updatedCells, {$merge: {[cellIndex]: cellToUpdate}});
-        });
-
-        updatedCells = update(updatedCells, {$push: added});
-
-        this.setState({receptor: update(this.state.receptor, {$set: {cells: updatedCells, desiredLrps}})});
-
+    return ReceptorApi.fetch().then(function({actualLrps, cells, desiredLrps}) {
+        cells = update(this.state.receptor.cells, applyUpdate(cells, 'cell_id'));
+        actualLrps = update(this.state.receptor.actualLrps, applyUpdate(actualLrps, 'instance_guid', (a, b) => a.since !== b.since));
+        desiredLrps = update(this.state.receptor.desiredLrps, applyUpdate(desiredLrps, 'process_guid'));
+        this.setState({receptor: {actualLrps, desiredLrps, cells}});
     }.bind(this),
         reason => console.error('DesiredLrps Promise failed because', reason)
-    )
+    );
   },
 
   pollReceptor() {
@@ -109,10 +84,9 @@ var Application = React.createClass({
   },
 
   render() {
-    var {cells, desiredLrps} = this.state.receptor;
     return (
       <div className="xray">
-        <Zones {...{cells, desiredLrps}}/>
+        <Zones {...this.state.receptor}/>
         <Modal ref="modal"/>
       </div>
     );

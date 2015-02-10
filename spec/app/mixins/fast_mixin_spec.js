@@ -98,22 +98,4 @@ describe('FastMixin', function() {
       });
     });
   });
-
-  describe('when the context changes', function() {
-    beforeEach(function() {
-      renderSpy.calls.reset();
-    });
-
-    it('does not render if there is no "shouldComponentUpdateFromContext" function', function() {
-
-    });
-
-    it('does not render if "shouldComponentUpdateFromContext" returns false', function() {
-
-    });
-
-    it('does render if "shouldComponentUpdateFromContext" returns true', function() {
-
-    });
-  });
 });
