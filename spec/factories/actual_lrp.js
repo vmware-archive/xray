@@ -3,4 +3,5 @@ Factory.define('actualLrp')
   .sequence('process_guid')
   .sequence('instance_guid')
   .sequence('cell_id')
-  .sequence('index');
+  .sequence('index')
+  .attr('state', 'RUNNING');

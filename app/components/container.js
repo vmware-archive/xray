@@ -20,7 +20,7 @@ var Container = React.createClass({
   },
 
   render: function() {
-    var {instance_guid: key, process_guid: processGuid} = this.props.actualLrp;
+    var {state, instance_guid: key, process_guid: processGuid} = this.props.actualLrp;
     var {denominator, desiredLrp} = this.props;
     var {scaling} = this.context;
 
@@ -39,10 +39,9 @@ var Container = React.createClass({
         flex = numerator === 0;
       }
     }
-
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
     var props = {title: processGuid, style, key};
-    return (<div className={cx({container: true, flex, undesired})} data-instance-guid={key} {...props}/>);
+    return (<div className={cx({container: true, claimed: state === 'CLAIMED', flex, undesired})} data-instance-guid={key} {...props}/>);
   }
 });
 

@@ -1,0 +1,17 @@
+.container
+  box-sizing(border-box)
+  width: 2%
+  height: 30px
+  margin: gutter 1px
+  &.flex
+    flex(1)
+  &.undesired
+    background-color: transparent
+    position: relative
+    &:before
+      @extend $zero
+      @extend $full
+      content: ''
+      border: 3px solid $white
+  &.claimed
+    animation(pulse 1s linear infinite alternate)

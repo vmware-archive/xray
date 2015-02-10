@@ -1,6 +1,11 @@
 @import 'nib'
 @require '_colors'
 @require '_mixins'
+@require '_animations'
+
+@require '_cells'
+@require '_containers'
+@require '_zones'
 
 html, body, #root, .xray
   min-height: 100%
@@ -13,51 +18,4 @@ body
   input[type="text"]
     @extend $full-width
 
-gutter = 5px
 
-.zones
-  &, label
-    color: $white
-  .radio-group
-    display(flex)
-    flex-direction(row)
-    align-items(center)
-  .radio
-    margin: 10px
-
-.zone
-  header
-    color: $white
-  h2
-    margin: gutter gutter 0
-    padding: 0
-
-.cells
-  color: $white
-  overflow: hidden
-  .cell
-    align-items(center)
-    display(flex)
-    flex-direction(row)
-    background-color: $dark-gray
-    padding: 0 gutter
-    min-height: 30px + 2 * gutter
-    &:nth-child(even)
-      background-color: $darker-gray
-  ul
-    margin: 0
-  .container
-    box-sizing(border-box)
-    width: 2%
-    height: 30px
-    margin: gutter 1px
-    &.flex
-      flex(1)
-    &.undesired
-      background-color: transparent
-      position: relative
-      &:before
-        @extend $zero
-        @extend $full
-        content: ''
-        border: 3px solid $white
