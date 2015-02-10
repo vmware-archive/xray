@@ -1,5 +1,4 @@
 module.exports = {
-  debug: true,
   devtool: 'eval',
   entry: {
     spec: `./spec/spec.js`

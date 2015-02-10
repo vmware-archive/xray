@@ -6,6 +6,7 @@ gulp.task('assets-javascript', function() {
   return gulp.src('app/components/application.js')
     .pipe(plugins.plumber())
     .pipe(plugins.webpack(require(`../config/webpack/${process.env.NODE_ENV}`)))
+    .pipe(plugins.if(process.env.NODE_ENV === 'production', plugins.uglify()))
     .pipe(gulp.dest('public'));
 });
 

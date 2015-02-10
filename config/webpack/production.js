@@ -1,5 +1,4 @@
 module.exports = {
-  devtool: 'inline-source-map',
   entry: {
     application: './app/components/application.js'
   },
