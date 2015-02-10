@@ -31,7 +31,7 @@
     "6to5": "^3.0.13",
     "6to5-core": "^3.0.16",
     "6to5-loader": "^3.0.0",
-    "correcting-interval": "git://github.com/aduth/correctingInterval.git#a1c461f60000c2535efa087a26e498c8af99ea41",
+    "correcting-interval": "^2.0.0",
     "es6-promise": "^2.0.1",
     "express": "^4.11.1",
     "gulp": "git://github.com/charleshansen/gulp.git#a945a6ad946bda82ea4714ef23e75bfcdd0db4c3",
