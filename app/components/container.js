@@ -17,13 +17,13 @@ var Container = React.createClass({
     $selectedLrp: types.object
   },
 
-  ignoreFastProps: ['$selectedLrp'],
-
   contextTypes: {
     colors: types.array.isRequired,
     scaling: types.string.isRequired,
     modal: types.object
   },
+
+  ignoreFastProps: ['$selectedLrp'],
 
   click() {
     var {modal} = this.context;
