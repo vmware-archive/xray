@@ -1,12 +1,13 @@
 require('../spec_helper');
 
 describe('Cursor', function() {
-  var Cursor, subject, data, cells;
+  var Cursor, subject, data, cells, callbackSpy;
   beforeEach(function() {
     Cursor = require('../../../app/lib/cursor');
     cells = Factory.buildList('cell', 3);
     data = {scaling: 'containers', cells, actualLrps: Factory.buildList('actualLrp', 2, {cell_id: cells[0].cell_id}), desiredLrps: []};
-    subject = new Cursor(data);
+    callbackSpy = jasmine.createSpy('callback');
+    subject = new Cursor(data, callbackSpy);
   });
 
   describe('#get', function() {
@@ -23,6 +24,64 @@ describe('Cursor', function() {
       var cursor = subject.refine('scaling');
       expect(cursor).toEqual(jasmine.any(Cursor));
       expect(cursor.get()).toEqual('containers');
+    });
+  });
+
+  describe('#update', function() {
+    it('calls the callback with the changed data', function() {
+      subject.update({scaling: {$set: 'memory'}});
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({scaling: 'memory', cells}));
+    });
+
+    it('calls the callback when cursor is refined',function() {
+      subject.refine('scaling').update({$set: 'memory'});
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({scaling: 'memory', cells}));
+    });
+
+    it('calls the callback when the cursor is refined at multiple levels', function() {
+      subject.refine('cells', 0, 'cell_id').update({$set: 'something'});
+      expect(callbackSpy).toHaveBeenCalled();
+      expect(callbackSpy.calls.mostRecent().args[0].cells[0].cell_id).toEqual('something');
+    });
+  });
+
+  describe('#merge', function() {
+    it('updates the cursor', function() {
+      subject.merge({foo: 'bar'});
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({foo: 'bar', cells}));
+    });
+  });
+
+  describe('#set', function() {
+    it('updates the cursor', function() {
+      subject.refine('scaling').set('memory');
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({scaling: 'memory', cells}));
+    });
+  });
+
+  describe('#push', function() {
+    it('updates the cursor', function() {
+      var cell = Factory.build('cell');
+      subject.refine('cells').push(cell);
+      expect(callbackSpy).toHaveBeenCalled();
+      expect(callbackSpy.calls.mostRecent().args[0].cells).toContain(cell);
+    });
+  });
+
+  describe('#unshift', function() {
+    it('updates the cursor', function() {
+      var cell = Factory.build('cell');
+      subject.refine('cells').unshift(cell);
+      expect(callbackSpy).toHaveBeenCalled();
+      expect(callbackSpy.calls.mostRecent().args[0].cells).toContain(cell);
+    });
+  });
+
+  describe('chaining', function() {
+    it('works', function() {
+      subject.set({foo: 'bar'}).merge({bar: 'baz'});
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({foo: 'bar'}));
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({bar: 'baz', cells}));
     });
   });
 });
