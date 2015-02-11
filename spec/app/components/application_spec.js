@@ -68,7 +68,7 @@ describe('Application', function() {
           Factory.build('actualLrp', {cell_id: 'immutable', since: 1, instance_guid: '1'}),
           Factory.build('actualLrp', {cell_id: 'mutable', since: 1, instance_guid: '2'}),
           Factory.build('actualLrp', {cell_id: 'mutable', since: 1, instance_guid: '3'}),
-          Factory.build('actualLrp', {cell_id: 'mutable', sinc¡: 1, instance_guid: '-1'})
+          Factory.build('actualLrp', {cell_id: 'mutable', since: 1, instance_guid: '-1'})
         ];
 
         oldDesiredLrps = [
