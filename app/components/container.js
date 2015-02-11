@@ -13,7 +13,7 @@ var Container = React.createClass({
     actualLrp: types.object.isRequired,
     desiredLrp: types.object,
     denominator: types.number.isRequired,
-    $receptor: types.object.isRequired
+    $selectedLrp: types.object
   },
 
   contextTypes: {
@@ -28,17 +28,18 @@ var Container = React.createClass({
   },
 
   mouseEnter() {
-    var {desiredLrp, $receptor} = this.props;
-    $receptor.merge({desiredLrp});
+    var {desiredLrp, $selectedLrp} = this.props;
+    $selectedLrp && $selectedLrp.set(desiredLrp);
   },
 
   mouseLeave() {
-    this.props.$receptor.merge({desiredLrp: undefined});
+    var {$selectedLrp} = this.props;
+    $selectedLrp && $selectedLrp.set(undefined);
   },
 
   render() {
     var {state, instance_guid: key, process_guid: processGuid} = this.props.actualLrp;
-    var {denominator, desiredLrp, $receptor} = this.props;
+    var {denominator, desiredLrp, $selectedLrp} = this.props;
     var {scaling} = this.context;
 
     var flex;
@@ -57,7 +58,7 @@ var Container = React.createClass({
       }
     }
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
-    var faded, hover, otherDesiredLrp = $receptor.get('desiredLrp');
+    var faded, hover, otherDesiredLrp = $selectedLrp.get();
     if (otherDesiredLrp) {
       hover = otherDesiredLrp === desiredLrp;
       faded = !hover;

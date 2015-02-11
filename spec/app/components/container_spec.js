@@ -14,9 +14,9 @@ describe('Container', function() {
 
     Cursor = require('../../../app/lib/cursor');
     callbackSpy = jasmine.createSpy('callback');
-    var $receptor = new Cursor({}, callbackSpy);
+    var $selectedLrp = new Cursor({selectedLrp: null}, callbackSpy).refine('selectedLrp');
     React.withContext({colors: ['#fff', '#000'], scaling: 'containers', modal: modalSpy}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, $receptor}}/>, root);
+      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, $selectedLrp}}/>, root);
     });
   });
 
@@ -58,8 +58,8 @@ describe('Container', function() {
       $('.container').simulate('mouseOver');
     });
 
-    it('sets the desiredLrp on the receptor', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({desiredLrp}));
+    it('sets the selected desiredLrp', function() {
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: desiredLrp}));
     });
 
     describe('when mouse out is triggered on the container', function() {
@@ -68,16 +68,15 @@ describe('Container', function() {
       });
 
       it('unsets the desiredLrp on the receptor', function() {
-        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({desiredLrp: undefined}));
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: undefined}));
       });
-
     });
   });
 
   describe('when the desiredLrp is selected', function() {
     beforeEach(function() {
-      var $receptor = new Cursor({desiredLrp}, callbackSpy);
-      subject.setProps({$receptor});
+      var $selectedLrp = new Cursor({selectedLrp: desiredLrp}, callbackSpy).refine('selectedLrp');
+      subject.setProps({$selectedLrp});
     });
 
     it('highlights the container', function() {
@@ -87,8 +86,8 @@ describe('Container', function() {
 
   describe('when a different desiredLrp is selected', function() {
     beforeEach(function() {
-      var $receptor = new Cursor({desiredLrp: Factory.build('desiredLrp')}, callbackSpy);
-      subject.setProps({$receptor});
+      var $selectedLrp = new Cursor({selectedLrp: Factory.build('desiredLrp')}, callbackSpy).refine('selectedLrp');
+      subject.setProps({$selectedLrp});
     });
 
     it('fades the container', function() {
