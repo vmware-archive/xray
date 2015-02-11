@@ -58,12 +58,8 @@ var Container = React.createClass({
       }
     }
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
-    var faded, hover, otherDesiredLrp = $selectedLrp.get();
-    if (otherDesiredLrp) {
-      hover = otherDesiredLrp === desiredLrp;
-      faded = !hover;
-    }
-    var className = cx({container: true, claimed: state === 'CLAIMED', flex, undesired, hover, faded});
+    var hover = $selectedLrp.get() && $selectedLrp.get() === desiredLrp;
+    var className = cx({container: true, claimed: state === 'CLAIMED', flex, undesired, hover});
     var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': key, onClick: this.click, onMouseEnter: this.mouseEnter, onMouseLeave: this.mouseLeave};
     return (<a {...props}/>);
   }

@@ -16,12 +16,13 @@
       border: 3px solid $white
   &.claimed
     animation(pulse 1s linear infinite alternate)
-  &.faded
+  .selected &
     opacity(0.3)
-  &.hover
-    position: relative
-    &:before
-      @extend $full
-      @extend $zero
-      content: ''
-      box-shadow: inset 0 0 50px $white, 0 0 4px $white
+    &.hover
+      opacity(1)
+      position: relative
+      &:before
+        @extend $full
+        @extend $zero
+        content: ''
+        box-shadow: inset 0 0 50px $white, 0 0 4px $white

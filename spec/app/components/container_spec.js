@@ -83,15 +83,4 @@ describe('Container', function() {
       expect('.container').toHaveClass('hover');
     });
   });
-
-  describe('when a different desiredLrp is selected', function() {
-    beforeEach(function() {
-      var $selectedLrp = new Cursor({selectedLrp: Factory.build('desiredLrp')}, callbackSpy).refine('selectedLrp');
-      subject.setProps({$selectedLrp});
-    });
-
-    it('fades the container', function() {
-      expect('.container').toHaveClass('faded');
-    });
-  });
 });

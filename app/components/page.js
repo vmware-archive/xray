@@ -5,6 +5,7 @@ var {setCorrectingInterval} = require('correcting-interval');
 var {diff} = require('../helpers/array_helper');
 
 var types = React.PropTypes;
+var cx = React.addons.classSet;
 
 function applyUpdate(newArr, id, changeCallback) {
   return {
@@ -63,7 +64,8 @@ var Page = React.createClass({
   },
 
   render() {
-    return (<div>{this.props.children}</div>);
+    var {$receptor} = this.props;
+    return (<div className={cx({page: true, selected: !!$receptor.get('selectedLrp')})}>{this.props.children}</div>);
   }
 });
 
