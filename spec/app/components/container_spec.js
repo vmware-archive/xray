@@ -1,19 +1,20 @@
 require('../spec_helper');
 
 describe('Container', function() {
-  var subject, modalSpy, update;
+  var Cursor, subject, modalSpy, update, callbackSpy, desiredLrp;
   beforeEach(function() {
     update = React.addons.update;
     var Container = require('../../../app/components/container');
 
     var actualLrp = Factory.build('actualLrp');
-    var desiredLrp = Factory.build('desiredLrp');
+    desiredLrp = Factory.build('desiredLrp');
     var denominator = 50;
 
     modalSpy = jasmine.createSpyObj('modal', ['open']);
 
-    var Cursor = require('../../../app/lib/cursor');
-    var $receptor = new Cursor({}, jasmine.createSpy('callback'));
+    Cursor = require('../../../app/lib/cursor');
+    callbackSpy = jasmine.createSpy('callback');
+    var $receptor = new Cursor({}, callbackSpy);
     React.withContext({colors: ['#fff', '#000'], scaling: 'containers', modal: modalSpy}, function() {
       subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, $receptor}}/>, root);
     });
@@ -49,6 +50,49 @@ describe('Container', function() {
 
     it('adds the claimed class', function() {
       expect('.container').toHaveClass('claimed');
+    });
+  });
+
+  describe('when mouse over event is triggered on the container', function() {
+    beforeEach(function() {
+      $('.container').simulate('mouseOver');
+    });
+
+    it('sets the desiredLrp on the receptor', function() {
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({desiredLrp}));
+    });
+
+    describe('when mouse out is triggered on the container', function() {
+      beforeEach(function() {
+        $('.container').simulate('mouseOut');
+      });
+
+      it('unsets the desiredLrp on the receptor', function() {
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({desiredLrp: undefined}));
+      });
+
+    });
+  });
+
+  describe('when the desiredLrp is selected', function() {
+    beforeEach(function() {
+      var $receptor = new Cursor({desiredLrp}, callbackSpy);
+      subject.setProps({$receptor});
+    });
+
+    it('highlights the container', function() {
+      expect('.container').toHaveClass('hover');
+    });
+  });
+
+  describe('when a different desiredLrp is selected', function() {
+    beforeEach(function() {
+      var $receptor = new Cursor({desiredLrp: Factory.build('desiredLrp')}, callbackSpy);
+      subject.setProps({$receptor});
+    });
+
+    it('fades the container', function() {
+      expect('.container').toHaveClass('faded');
     });
   });
 });

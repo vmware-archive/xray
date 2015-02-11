@@ -15,7 +15,11 @@ global.Deferred = require('../support/deferred');
 
 $.fn.simulate = function(eventName, ...args) {
   $.each(this, function() {
-    React.addons.TestUtils.Simulate[eventName](this, ...args);
+    if (['mouseOver', 'mouseOut'].includes(eventName)) {
+      React.addons.TestUtils.SimulateNative[eventName](this, ...args);
+    } else {
+      React.addons.TestUtils.Simulate[eventName](this, ...args);
+    }
   });
   return this;
 };

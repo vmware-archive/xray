@@ -27,9 +27,18 @@ var Container = React.createClass({
     if (modal) modal.open(<ActualLrpModal actualLrp={this.props.actualLrp}/>);
   },
 
+  mouseEnter() {
+    var {desiredLrp, $receptor} = this.props;
+    $receptor.merge({desiredLrp});
+  },
+
+  mouseLeave() {
+    this.props.$receptor.merge({desiredLrp: undefined});
+  },
+
   render() {
     var {state, instance_guid: key, process_guid: processGuid} = this.props.actualLrp;
-    var {denominator, desiredLrp} = this.props;
+    var {denominator, desiredLrp, $receptor} = this.props;
     var {scaling} = this.context;
 
     var flex;
@@ -48,8 +57,14 @@ var Container = React.createClass({
       }
     }
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
-    var props = {role: 'button', title: processGuid, style, key, onClick: this.click};
-    return (<a className={cx({container: true, claimed: state === 'CLAIMED', flex, undesired})} data-instance-guid={key} {...props}/>);
+    var faded, hover, otherDesiredLrp = $receptor.get('desiredLrp');
+    if (otherDesiredLrp) {
+      hover = otherDesiredLrp === desiredLrp;
+      faded = !hover;
+    }
+    var className = cx({container: true, claimed: state === 'CLAIMED', flex, undesired, hover, faded});
+    var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': key, onClick: this.click, onMouseEnter: this.mouseEnter, onMouseLeave: this.mouseLeave};
+    return (<a {...props}/>);
   }
 });
 
