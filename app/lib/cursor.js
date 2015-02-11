@@ -10,12 +10,20 @@ class Cursor {
 
   refine(...path) {
     var {callback, data} = privates.get(this);
+    if (path.some(p => typeof p === 'object')) {
+      path = path.map((p, i) => typeof p !== 'object' ? p : this.get(path[i - 1]).indexOf(p));
+      return new Cursor(data, callback, path);
+    }
     return new Cursor(data, callback, path);
   }
 
   get(...morePath) {
     var {data, path} = privates.get(this);
     return path.concat(morePath).reduce((memo, step) => memo[step], data);
+  }
+
+  isEqual(otherCursor) {
+    return this.get() === otherCursor.get();
   }
 
   apply(options) {

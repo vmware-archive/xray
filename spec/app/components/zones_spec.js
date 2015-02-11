@@ -8,12 +8,16 @@ describe('Zones', function() {
     spyOn(Cells.type.prototype, 'render').and.callThrough();
     var desiredLrps = Factory.buildList('desiredLrp', 3);
     cells = Factory.buildList('cell', 3);
-    cells[0] = Object.assign(cells[0], {zone: 'B', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[0].process_guid})});
-    cells[1] = Object.assign(cells[1], {zone: 'A', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[1].process_guid})});
-    cells[2] = Object.assign(cells[2], {zone: 'A', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[2].process_guid})});
+    Object.assign(cells[0], {zone: 'B', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[0].process_guid})});
+    Object.assign(cells[1], {zone: 'A', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[1].process_guid})});
+    Object.assign(cells[2], {zone: 'A', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[2].process_guid})});
     var colors = ['#fff', '#000'];
+
+    var Cursor = require('../../../app/lib/cursor');
+    var $receptor = new Cursor({cells, desiredLrps}, jasmine.createSpy('callback'));
+
     React.withContext({desiredLrps, colors}, function() {
-      subject = React.render(<Zones {...{cells}}/>, root);
+      subject = React.render(<Zones {...{$receptor}}/>, root);
     });
   });
 

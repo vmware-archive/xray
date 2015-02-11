@@ -1,12 +1,14 @@
 describe('FastMixin', function() {
-  var subject, one, two, three, nested, renderSpy, wrapper;
+  const data = {a: 'a', b: 'b'};
+  var subject, one, two, three, nested, renderSpy, wrapper, Cursor;
   var update = React.addons.update;
   beforeEach(function() {
     var FastMixin = require('../../../app/mixins/fast_mixin');
     renderSpy = jasmine.createSpy('render').and.returnValue(null);
     nested = { foo: 'bar'};
     one = {name: 'one', nested: nested};
-    two = {name: 'two'};
+    Cursor = require('../../../app/lib/cursor');
+    two = new Cursor(data, jasmine.createSpy('callback'));
     three = {name: 'three'};
     wrapper = {one: one, two: two, three: three};
 
@@ -29,6 +31,7 @@ describe('FastMixin', function() {
     beforeEach(function() {
       renderSpy.calls.reset();
     });
+
     describe('when the props are different', function() {
       beforeEach(function() {
         subject.setProps({one: update(one, {$set: {name: 'three'}})});
@@ -49,11 +52,24 @@ describe('FastMixin', function() {
     });
 
     describe('when the props are the same', function() {
-      beforeEach(function() {
-        subject.setProps({one});
+      describe('when the prop is not a cursor', function() {
+        beforeEach(function() {
+          subject.setProps({one});
+        });
+
+        it('does not re-render the component', function() {
+          expect(renderSpy).not.toHaveBeenCalled();
+        });
       });
-      it('does not re-render the component', function() {
-        expect(renderSpy).not.toHaveBeenCalled();
+
+      describe('when the prop is a cursor', function() {
+        beforeEach(function() {
+          subject.setProps({two: new Cursor(data, jasmine.createSpy('callback'))});
+        });
+
+        it('does not re-render the component', function() {
+          expect(renderSpy).not.toHaveBeenCalled();
+        });
       });
     });
 

@@ -44,7 +44,7 @@ var Application = React.createClass({
     return (
       <div className="xray">
         <Page {...{$receptor, receptorUrl}} ref="page">
-          <Zones {...this.state.receptor}/>
+          <Zones {...{$receptor}}/>
           <Modal ref="modal"/>
         </Page>
       </div>

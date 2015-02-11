@@ -1,15 +1,17 @@
 require('../spec_helper');
 
 describe('Cells', function() {
-  var Cell, subject, cells;
+  var Cell, subject, cells, $receptor, Cursor;
   beforeEach(function() {
+    Cursor = require('../../../app/lib/cursor');
     var Cells = require('../../../app/components/cells');
     Cell = require('../../../app/components/cell');
     spyOn(Cell.type.prototype, 'render').and.callThrough();
     cells = Factory.buildList('cell', 2);
     var colors = ['#fff', '#000'];
+    $receptor = new Cursor({}, jasmine.createSpy('callback'));
     React.withContext({scaling: 'containers', colors}, function() {
-      subject = React.render(<Cells cells={cells}/>, root);
+      subject = React.render(<Cells {...{cells, $receptor}}/>, root);
     });
   });
 
@@ -28,7 +30,8 @@ describe('Cells', function() {
         Factory.build('actualLrp', {cell_id: cells[0].cell_id}),
         Factory.build('actualLrp', {cell_id: cells[0].cell_id})
       ];
-      subject.setProps({actualLrps, desiredLrps: []});
+      $receptor = new Cursor({actualLrps}, jasmine.createSpy('callback'));
+      subject.setProps({$receptor});
     });
 
     it('renders the cells with the expected actual lrps', function() {

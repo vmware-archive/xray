@@ -10,16 +10,15 @@ var Cells = React.createClass({
 
   propTypes: {
     cells: types.array,
-    actualLrps: types.array,
-    desiredLrps: types.array
+    $receptor: types.object
   },
 
   render() {
-    var {cells, desiredLrps} = this.props;
+    var {cells, $receptor} = this.props;
     cells = cells && sortBy(cells, c => c.cell_id).map(function(cell) {
       var key = cell.cell_id;
-      var actualLrps = (this.props.actualLrps || []).filter(lrp => lrp.cell_id === key);
-      var props = {actualLrps, cell, desiredLrps, key};
+      var actualLrps = ($receptor.get('actualLrps') || []).filter(lrp => lrp.cell_id === key);
+      var props = {actualLrps, cell, $receptor, key};
       return (<Cell {...props}/>);
     }, this);
 

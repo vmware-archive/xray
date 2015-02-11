@@ -12,8 +12,10 @@ describe('Container', function() {
 
     modalSpy = jasmine.createSpyObj('modal', ['open']);
 
+    var Cursor = require('../../../app/lib/cursor');
+    var $receptor = new Cursor({}, jasmine.createSpy('callback'));
     React.withContext({colors: ['#fff', '#000'], scaling: 'containers', modal: modalSpy}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp}}/>, root);
+      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, $receptor}}/>, root);
     });
   });
 

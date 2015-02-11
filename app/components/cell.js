@@ -12,7 +12,7 @@ var Cell = React.createClass({
   propTypes: {
     actualLrps: types.array,
     cell: types.object.isRequired,
-    desiredLrps: types.array
+    $receptor: types.object.isRequired
   },
 
   contextTypes: {
@@ -20,13 +20,15 @@ var Cell = React.createClass({
   },
 
   render() {
-    var {actualLrps, cell, desiredLrps, style} = this.props;
+    var {cell, $receptor} = this.props;
+    var desiredLrps = $receptor.get('desiredLrps');
+    var {actualLrps, style} = this.props;
     var {scaling} = this.context;
     var denominator = scaling === 'containers' ? 50 : cell.capacity[scaling];
     var containers = actualLrps && sortBy(actualLrps, lrp => lrp.process_guid + lpad(lrp.index, '0', 5)).map(function(actualLrp) {
         //TODO: desiredLrps could be a hash for O(1) lookup instead of a find
         var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === actualLrp.process_guid);
-        return (<Container {...{actualLrp, denominator, desiredLrp}} key={actualLrp.instance_guid}/>);
+        return (<Container {...{actualLrp, denominator, desiredLrp, $receptor}} key={actualLrp.instance_guid}/>);
       });
 
     return (

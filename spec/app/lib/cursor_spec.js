@@ -25,6 +25,10 @@ describe('Cursor', function() {
       expect(cursor).toEqual(jasmine.any(Cursor));
       expect(cursor.get()).toEqual('containers');
     });
+
+    it('can find objects in arrays', function() {
+      expect(subject.refine('cells', cells[1]).get()).toBe(cells[1]);
+    });
   });
 
   describe('#update', function() {
@@ -90,6 +94,14 @@ describe('Cursor', function() {
       subject.set({foo: 'bar'}).merge({bar: 'baz'});
       expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({foo: 'bar'}));
       expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({bar: 'baz', cells}));
+    });
+  });
+
+  describe('#isEqual', function() {
+    it('returns true when the cursors are the same', function() {
+      var anotherCursor = new Cursor(data, jasmine.createSpy('callback'));
+      expect(subject.isEqual(anotherCursor)).toBe(true);
+      expect(subject.isEqual(anotherCursor.refine('scaling'))).toBe(false);
     });
   });
 });

@@ -12,7 +12,8 @@ var Container = React.createClass({
   propTypes: {
     actualLrp: types.object.isRequired,
     desiredLrp: types.object,
-    denominator: types.number.isRequired
+    denominator: types.number.isRequired,
+    $receptor: types.object.isRequired
   },
 
   contextTypes: {
