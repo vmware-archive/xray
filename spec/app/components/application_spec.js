@@ -11,7 +11,6 @@ describe('Application', function() {
 
   afterEach(function() {
     React.unmountComponentAtNode(root);
-    require('../../../app/api/base_api').baseUrl = null;
   });
 
   describe('when a receptor url is provided in configuration', function() {
