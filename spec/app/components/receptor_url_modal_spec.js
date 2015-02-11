@@ -10,6 +10,10 @@ describe('ReceptorUrlModal', function() {
     subject = React.render(<ReceptorUrlModal onSubmit={submitSpy}/>, root);
   });
 
+  afterEach(function() {
+    React.unmountComponentAtNode(root);
+  });
+
   it('opens the modal', function() {
     expect(Modal.type.prototype.open).toHaveBeenCalled();
   });

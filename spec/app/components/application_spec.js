@@ -11,6 +11,7 @@ describe('Application', function() {
 
   afterEach(function() {
     React.unmountComponentAtNode(root);
+    require('../../../app/api/base_api').baseUrl = null;
   });
 
   describe('when a receptor url is provided in configuration', function() {
@@ -44,7 +45,7 @@ describe('Application', function() {
       describe('when the poll interval time has passed', function() {
         beforeEach(function() {
           ReceptorApi.fetch.calls.reset();
-          jasmine.clock().tick(Application.POLL_INTERVAL);
+          jasmine.clock().tick(require('../../../app/components/page').POLL_INTERVAL);
         });
 
         it('fetches the receptor', function() {
@@ -67,7 +68,7 @@ describe('Application', function() {
           Factory.build('actualLrp', {cell_id: 'immutable', since: 1, instance_guid: '1'}),
           Factory.build('actualLrp', {cell_id: 'mutable', since: 1, instance_guid: '2'}),
           Factory.build('actualLrp', {cell_id: 'mutable', since: 1, instance_guid: '3'}),
-          Factory.build('actualLrp', {cell_id: 'mutable', since: 1, instance_guid: '-1'})
+          Factory.build('actualLrp', {cell_id: 'mutable', sinc¡: 1, instance_guid: '-1'})
         ];
 
         oldDesiredLrps = [
@@ -79,8 +80,7 @@ describe('Application', function() {
         newReceptorPromise = Deferred();
         ReceptorApi.fetch.and.returnValue(newReceptorPromise);
         oldState = Object.assign({}, subject.state);
-        subject.updateReceptor();
-
+        subject.refs.page.updateReceptor();
       });
 
       describe('when cells change', function() {

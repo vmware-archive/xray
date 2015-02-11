@@ -77,6 +77,14 @@ describe('Cursor', function() {
     });
   });
 
+  describe('#apply', function() {
+    it('updates the cursor', function() {
+      var newCells = Factory.buildList('cell', 3);
+      subject.refine('cells').apply(() => newCells);
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({cells: newCells}));
+    });
+  });
+
   describe('chaining', function() {
     it('works', function() {
       subject.set({foo: 'bar'}).merge({bar: 'baz'});

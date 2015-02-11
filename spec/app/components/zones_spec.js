@@ -17,6 +17,10 @@ describe('Zones', function() {
     });
   });
 
+  afterEach(function() {
+    React.unmountComponentAtNode(root);
+  });
+
   it('renders each zone with the name', function() {
     expect('.zone').toHaveLength(2);
     expect('.zone:eq(0)').toContainText('Zone A');

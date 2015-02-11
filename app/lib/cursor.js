@@ -18,6 +18,10 @@ class Cursor {
     return path.concat(morePath).reduce((memo, step) => memo[step], data);
   }
 
+  apply(options) {
+    return this.update({$apply: options});
+  }
+
   merge(options) {
     return this.update({$merge: options});
   }

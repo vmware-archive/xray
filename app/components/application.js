@@ -1,33 +1,13 @@
 require('6to5/polyfill');
-var BaseApi = require('../api/base_api');
+var Cursor = require('../lib/cursor');
 var Layout = require('../../server/components/layout');
 var Modal = require('./modal');
+var Page = require('./page');
 var React = require('react/addons');
-var ReceptorApi = require('../api/receptor_api');
 var ReceptorUrlModal = require('./receptor_url_modal');
 var Zones = require('./zones');
-var {setCorrectingInterval} = require('correcting-interval');
-var {diff} = require('../helpers/array_helper');
 
 var types = React.PropTypes;
-var update = React.addons.update;
-
-function applyUpdate(newArr, id, changeCallback) {
-  return {
-    $apply: function(oldArr) {
-      var {added, removed, changed} = diff(oldArr, newArr, id, changeCallback);
-      var results = oldArr.filter(x => !removed.includes(x));
-      if (changed && changed.length) {
-        /* jshint unused:false */
-        var currentChanged = changed.map(([current, next]) => current);
-        var nextChanged = changed.map(([current, next]) => next);
-        /* jshint unused:true */
-        results = results.map(x => currentChanged.includes(x) ? nextChanged[currentChanged.indexOf(x)] : x);
-      }
-      return results.concat(added);
-    }
-  };
-}
 
 var Application = React.createClass({
   propTypes: {
@@ -44,53 +24,29 @@ var Application = React.createClass({
   },
 
   getInitialState() {
-    return {receptor: {cells: [], desiredLrps: [], actualLrps: []}};
-  },
-
-  statics: {
-    POLL_INTERVAL: 10000
+    return {receptor: {cells: [], desiredLrps: [], actualLrps: []}, receptorUrl: this.props.config.receptorUrl};
   },
 
   componentDidMount() {
-    var {config} = this.props;
-
-    if (config.receptorUrl) {
-      BaseApi.baseUrl = config.receptorUrl;
-      this.pollReceptor();
-      return;
-    }
     var {modal} = this.refs;
-    modal.open(<ReceptorUrlModal onSubmit={this.updateReceptorUrl}/>);
-  },
-
-  updateReceptor() {
-    return ReceptorApi.fetch().then(function({actualLrps, cells, desiredLrps}) {
-        var receptor = update(this.state.receptor, {
-          cells: applyUpdate(cells, 'cell_id'),
-          actualLrps: applyUpdate(actualLrps, 'instance_guid', (a, b) => a.since !== b.since),
-          desiredLrps: applyUpdate(desiredLrps, 'process_guid')
-        });
-        this.setState({receptor});
-    }.bind(this),
-        reason => console.error('DesiredLrps Promise failed because', reason)
-    );
-  },
-
-  pollReceptor() {
-    this.updateReceptor();
-    setCorrectingInterval(this.updateReceptor, Application.POLL_INTERVAL);
+    if (!this.state.receptorUrl) {
+      modal.open(<ReceptorUrlModal onSubmit={this.updateReceptorUrl}/>);
+    }
   },
 
   updateReceptorUrl({receptorUrl}) {
-    BaseApi.baseUrl = receptorUrl;
-    this.pollReceptor();
+    this.setState({receptorUrl});
   },
 
   render() {
+    var {receptorUrl} = this.state;
+    var $receptor = new Cursor(this.state.receptor, receptor => this.setState({receptor}));
     return (
       <div className="xray">
-        <Zones {...this.state.receptor}/>
-        <Modal ref="modal"/>
+        <Page {...{$receptor, receptorUrl}} ref="page">
+          <Zones {...this.state.receptor}/>
+          <Modal ref="modal"/>
+        </Page>
       </div>
     );
   }
