@@ -13,8 +13,11 @@ var Container = React.createClass({
     actualLrp: types.object.isRequired,
     desiredLrp: types.object,
     denominator: types.number.isRequired,
+    selected: types.bool.isRequired,
     $selectedLrp: types.object
   },
+
+  ignoreFastProps: ['$selectedLrp'],
 
   contextTypes: {
     colors: types.array.isRequired,
@@ -39,7 +42,7 @@ var Container = React.createClass({
 
   render() {
     var {state, instance_guid: key, process_guid: processGuid} = this.props.actualLrp;
-    var {denominator, desiredLrp, $selectedLrp} = this.props;
+    var {denominator, desiredLrp, selected: hover} = this.props;
     var {scaling} = this.context;
 
     var flex;
@@ -58,7 +61,6 @@ var Container = React.createClass({
       }
     }
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
-    var hover = $selectedLrp.get() && $selectedLrp.get() === desiredLrp;
     var className = cx({container: true, claimed: state === 'CLAIMED', flex, undesired, hover});
     var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': key, onClick: this.click, onMouseEnter: this.mouseEnter, onMouseLeave: this.mouseLeave};
     return (<a {...props}/>);

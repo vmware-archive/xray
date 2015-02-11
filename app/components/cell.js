@@ -28,7 +28,9 @@ var Cell = React.createClass({
     var containers = actualLrps && sortBy(actualLrps, lrp => lrp.process_guid + lpad(lrp.index, '0', 5)).map(function(actualLrp) {
         //TODO: desiredLrps could be a hash for O(1) lookup instead of a find
         var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === actualLrp.process_guid);
-        return (<Container {...{actualLrp, denominator, desiredLrp, $selectedLrp: $receptor.refine('selectedLrp')}} key={actualLrp.instance_guid}/>);
+        var $selectedLrp = $receptor.refine('selectedLrp');
+        var selected = !!(desiredLrp && $selectedLrp.get() === desiredLrp);
+        return (<Container {...{actualLrp, denominator, desiredLrp, $selectedLrp, selected}} key={actualLrp.instance_guid}/>);
       });
 
     return (

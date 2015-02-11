@@ -16,7 +16,7 @@ describe('Container', function() {
     callbackSpy = jasmine.createSpy('callback');
     var $selectedLrp = new Cursor({selectedLrp: null}, callbackSpy).refine('selectedLrp');
     React.withContext({colors: ['#fff', '#000'], scaling: 'containers', modal: modalSpy}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, $selectedLrp}}/>, root);
+      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, selected: false, $selectedLrp}}/>, root);
     });
   });
 
@@ -75,8 +75,7 @@ describe('Container', function() {
 
   describe('when the desiredLrp is selected', function() {
     beforeEach(function() {
-      var $selectedLrp = new Cursor({selectedLrp: desiredLrp}, callbackSpy).refine('selectedLrp');
-      subject.setProps({$selectedLrp});
+      subject.setProps({selected: true});
     });
 
     it('highlights the container', function() {

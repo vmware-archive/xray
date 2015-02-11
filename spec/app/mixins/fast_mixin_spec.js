@@ -14,11 +14,12 @@ describe('FastMixin', function() {
 
     var Klass = React.createClass({
       mixins: [FastMixin],
+      ignoreFastProps: ['ignore'],
       getInitialState(){ return {three}},
       render: renderSpy
     });
     React.withContext({}, function() {
-      subject = React.render(<Klass one={wrapper.one} two={wrapper.two}/>, root);
+      subject = React.render(<Klass one={wrapper.one} two={wrapper.two} ignore='me'/>, root);
       return subject;
     });
   });
@@ -70,6 +71,15 @@ describe('FastMixin', function() {
         it('does not re-render the component', function() {
           expect(renderSpy).not.toHaveBeenCalled();
         });
+      });
+    });
+
+    describe('when the prop should be ignored', function() {
+      beforeEach(function() {
+        subject.setProps({ignore: 'you'});
+      });
+      it('does not re-render the component', function() {
+        expect(renderSpy).not.toHaveBeenCalled();
       });
     });
 
