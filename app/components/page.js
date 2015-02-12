@@ -56,7 +56,7 @@ var Page = React.createClass({
           desiredLrps: applyUpdate(desiredLrps, 'process_guid')
         });
       }.bind(this),
-        reason => console.error('DesiredLrps Promise failed because', reason)
+        reason => console.error('Receptor Promise failed because', reason)
     );
   },
 

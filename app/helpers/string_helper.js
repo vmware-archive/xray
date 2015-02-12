@@ -1,5 +1,5 @@
 var StringHelper = {
-  lpad: function(thing, character, count) {
+  lpad(thing, character, count) {
     var string = thing.toString();
     return (character.repeat(count) + string).slice(-Math.max(count, string.length));
   }

@@ -24,7 +24,11 @@ describe('DesiredLrpsApi', function() {
     describe('when the request succeeds', function() {
       var desiredLrps;
       beforeEach(function() {
-        desiredLrps = Factory.buildList('desiredLrp', 3);
+        desiredLrps = [
+          Factory.build('desiredLrp', {process_guid: 'B'}),
+          Factory.build('desiredLrp', {process_guid: 'C'}),
+          Factory.build('desiredLrp', {process_guid: 'A'})
+        ];
         lrpsRequest.respondWith({
           status: 200,
           responseText: JSON.stringify(desiredLrps)
@@ -33,8 +37,8 @@ describe('DesiredLrpsApi', function() {
         mockPromises.executeForPromise(lrpsPromise);
       });
 
-      it('resolves the promise with the desiredLrps', function() {
-        expect(doneSpy).toHaveBeenCalledWith({desiredLrps});
+      it('resolves the promise with the desiredLrps sorted by process guid', function() {
+        expect(doneSpy.calls.mostRecent().args[0].desiredLrps.map(({process_guid}) => process_guid)).toEqual(['A','B','C']);
       });
     });
   });

@@ -54,6 +54,7 @@
     "mime": "^1.2.11",
     "nib": "^1.1.0",
     "node-basicauth": "0.0.9",
+    "pretty-bytes": "^1.0.2",
     "react": "^0.12.2",
     "recluster": "^0.4.0",
     "require-dir": "^0.1.0",

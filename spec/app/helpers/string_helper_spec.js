@@ -14,7 +14,5 @@ describe('StringHelper', function() {
     it('deals with strings longer than the pad', function() {
       expect(subject.lpad(1234, '0', 3)).toEqual('1234');
     });
-
   });
-
 });
