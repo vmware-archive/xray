@@ -2,19 +2,15 @@ var React = require('react/addons');
 var {mergeClassNames} = require('../helpers/application_helper');
 var prettyBytes = require('pretty-bytes');
 var PUI = {Media: require('../vendor/media').Media};
-var cx = React.addons.classSet;
 
 var types = React.PropTypes;
+var cx = React.addons.classSet;
 
 var DesiredLrp = React.createClass({
   propTypes: {
     desiredLrp: types.object.isRequired,
     actualLrps: types.array.isRequired,
     containerColor: types.string
-  },
-
-  contextTypes: {
-    colors: types.array.isRequired
   },
 
   render() {
@@ -24,9 +20,9 @@ var DesiredLrp = React.createClass({
     var leftImage = (<a className="container-sidebar" style={imageStyle} role="button"/>);
     disk = prettyBytes(disk * 1000000);
     memory = prettyBytes(memory * 1000000);
-    className = mergeClassNames(className, cx({'desired-lrp': true, 'pam': true}));
     var instancesRunning = actualLrps.filter(({state}) => state === 'RUNNING').length;
     var instances = `${instancesRunning}/${desiredLrp.instances} instances`;
+    className = mergeClassNames(className, cx({'desired-lrp': true, 'pam': true, 'bg-error-1': instancesRunning !== desiredLrp.instances}));
 
     return (
       <PUI.Media leftImage={leftImage} key={processGuid} className={className}>
