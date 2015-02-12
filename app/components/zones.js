@@ -1,7 +1,7 @@
 var React = require('react/addons');
 var Cells = require('./cells');
 
-var PUI = Object.assign({RadioGroup: require('../vendor/radio-group').RadioGroup, Radio: require('../vendor/radio').Radio});
+var PUI = Object.assign({}, {RadioGroup: require('../vendor/radio-group').RadioGroup, Radio: require('../vendor/radio').Radio});
 
 var types = React.PropTypes;
 

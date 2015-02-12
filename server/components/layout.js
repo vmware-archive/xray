@@ -9,7 +9,7 @@ var Body = React.createClass({
   },
 
   render() {
-    var {config, entry, scripts} = this.props;
+    var {config, entry, scripts, className} = this.props;
     scripts = scripts.map(function(src, i) {
       return (<script type="text/javascript" src={src} key={i}/>);
     });
@@ -17,7 +17,7 @@ var Body = React.createClass({
     var __html = React.renderToString(Entry({config}));
     var configScript = `var xray = {}; xray.config = ${JSON.stringify(config)};`;
     return (
-      <body>
+      <body className={className}>
         <div id="root" dangerouslySetInnerHTML={{__html}}/>
         <script type="text/javascript" dangerouslySetInnerHTML={{__html: configScript}}/>
         {scripts}

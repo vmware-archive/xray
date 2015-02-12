@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
   var stylesheets = ['reset.css', 'pivotal-ui.min.css', 'application.css'];
   var colors = JSON.parse(fs.readFileSync('config/colors.json'));
   var config = {receptorUrl, colors};
-  var props = {entry: Application, scripts, stylesheets, config};
+  var props = {entry: Application, scripts, stylesheets, config, className: 'bg-neutral-1'};
   var html = React.renderToStaticMarkup(<Layout {...props}/>);
   res.status(200).type('html').send(`<!DOCTYPE html>${html}`);
 });

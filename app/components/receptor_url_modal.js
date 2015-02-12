@@ -1,5 +1,5 @@
 var React = require('react/addons');
-var PUI = Object.assign(require('../vendor/modals'), require('../vendor/buttons'));
+var PUI = Object.assign({}, require('../vendor/modals'), require('../vendor/buttons'));
 
 var ReceptorUrlModal = React.createClass({
   getInitialState() {

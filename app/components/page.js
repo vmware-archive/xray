@@ -3,6 +3,8 @@ var React = require('react/addons');
 var ReceptorApi = require('../api/receptor_api');
 var {setCorrectingInterval} = require('correcting-interval');
 var {diff} = require('../helpers/array_helper');
+var Sidebar = require('./sidebar');
+var PUI = {Panel: require('../vendor/panels').Panel};
 
 var types = React.PropTypes;
 var cx = React.addons.classSet;
@@ -65,7 +67,12 @@ var Page = React.createClass({
 
   render() {
     var {$receptor} = this.props;
-    return (<div className={cx({page: true, selected: !!$receptor.get('selectedLrp')})}>{this.props.children}</div>);
+    return (
+      <div className={cx({'page type-neutral-8': true, selected: !!$receptor.get('selectedLrp')})}>
+        <PUI.Panel className="main" scrollable={true}>{this.props.children}</PUI.Panel>
+        <PUI.Panel className="sidebar bg-dark-2" scrollable={true}><Sidebar {...{$receptor}}/></PUI.Panel>
+      </div>
+    );
   }
 });
 

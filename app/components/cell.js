@@ -5,6 +5,7 @@ var React = require('react/addons');
 var types = React.PropTypes;
 var {lpad} = require('../helpers/string_helper');
 var sortBy = require('lodash.sortby');
+var {mergeClassNames} = require('../helpers/application_helper');
 
 var Cell = React.createClass({
   mixins: [FastMixin],
@@ -34,7 +35,7 @@ var Cell = React.createClass({
       });
 
     return (
-      <li className="cell" style={style}>
+      <li className={mergeClassNames('cell', this.props.className)} style={style}>
         {containers}
       </li>
     );

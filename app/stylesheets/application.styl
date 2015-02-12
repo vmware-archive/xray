@@ -18,4 +18,19 @@ body
   input[type="text"]
     @extend $full-width
 
+.page
+  @extend $full
+  display(flex)
+  flex-direction(row)
+  .main
+    flex(1)
+  .sidebar
+    width: 300px
 
+.panel-scrollable
+  max-height: inherit //Talk to Pivotal UI about this
+
+.container-sidebar
+  width: 40px
+  height: 40px
+  display: block

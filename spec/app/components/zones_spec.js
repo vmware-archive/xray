@@ -15,8 +15,7 @@ describe('Zones', function() {
 
     var Cursor = require('../../../app/lib/cursor');
     var $receptor = new Cursor({cells, desiredLrps}, jasmine.createSpy('callback'));
-
-    React.withContext({desiredLrps, colors}, function() {
+    React.withContext({colors}, function() {
       subject = React.render(<Zones {...{$receptor}}/>, root);
     });
   });

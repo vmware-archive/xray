@@ -15,4 +15,10 @@ describe('ApplicationHelper', function() {
       expect(subject.pickColor(colors, 'another')).toEqual('red');
     });
   });
+
+  describe('#mergeClassNames', function() {
+    it('returns a string with all the classes', function() {
+      expect(subject.mergeClassNames('foo bar baz', 'bar', 'apple pear', 'banana')).toEqual('foo bar baz apple pear banana');
+    });
+  });
 });

@@ -1,6 +1,6 @@
 var React = require('react/addons');
 var FastMixin = require('../mixins/fast_mixin');
-var PUI = Object.assign(require('../vendor/modals'), require('../vendor/buttons'));
+var PUI = Object.assign({}, require('../vendor/modals'), require('../vendor/buttons'));
 
 var types = React.PropTypes;
 
