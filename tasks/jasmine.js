@@ -1,12 +1,7 @@
 var express = require('express');
 var gulp = require('gulp');
-var gutil = require('gulp-util');
 var plugins = require('gulp-load-plugins')();
-var mime = require('mime');
-var path = require('path');
 var runSequence = require('run-sequence');
-var through2 = require('through2');
-var url = require('url');
 var {spawn} = require('child_process');
 
 gulp.task('spec', function(callback) {
@@ -25,41 +20,24 @@ gulp.task('spec-app', function(callback) {
   phantomjs.on('close', callback);
 });
 
-function jasmineServer(options = {}) {
-  var app;
-  var files = {};
+gulp.task('jasmine-assets', function() {
+  return gulp.src(['spec/spec.js', 'spec/app/**/*_spec.js'])
+    .pipe(plugins.cached('jasmine-javascript'))
+    .pipe(plugins.webpack(require('../config/webpack/test')))
+    .pipe(gulp.dest('tmp/jasmine'));
 
+});
+
+gulp.task('jasmine-server', function() {
   function createServer(options) {
     var app = express();
+    app.use(express.static(__dirname + '/../tmp/jasmine'));
     app.use(express.static(__dirname + '/../spec/app/public'));
-
-    app.use(function(req, res) {
-      var filename = path.basename(url.parse(req.path).path);
-      var file = files[filename];
-      if (file) {
-        res.status(200).type(mime.lookup(filename)).send(file);
-        return;
-      }
-
-      res.status(404).type('html').send('File not found!');
-    });
     app.listen(options.port, options.ready);
     return app;
   }
-
-  return through2.obj(function(file, enc, callback) {
-    files[path.basename(file.path)] = file.contents;
-    this.push(file);
-    if (!app) app = createServer(options);
-    callback();
-  });
-}
-
-gulp.task('jasmine', function() {
   var port = 8888;
-
-  gulp.src(['spec/spec.js', 'spec/app/**/*_spec.js'])
-    .pipe(plugins.cached('jasmine-javascript'))
-    .pipe(plugins.webpack(require('../config/webpack/test')))
-    .pipe(jasmineServer({port, ready: () => gutil.log(`Jasmine listening on port ${port}`)}));
+  createServer({port});
 });
+
+gulp.task('jasmine', ['jasmine-assets', 'jasmine-server']);
