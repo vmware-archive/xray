@@ -9,6 +9,7 @@ var types = React.PropTypes;
 var DesiredLrp = React.createClass({
   propTypes: {
     desiredLrp: types.object.isRequired,
+    actualLrps: types.array.isRequired,
     containerColor: types.string
   },
 
@@ -17,13 +18,15 @@ var DesiredLrp = React.createClass({
   },
 
   render() {
-    var {desiredLrp, containerColor, className} = this.props;
+    var {actualLrps, desiredLrp, containerColor, className} = this.props;
     var {disk_mb: disk, memory_mb: memory, process_guid: processGuid} = desiredLrp;
     var imageStyle = {backgroundColor: containerColor};
     var leftImage = (<a className="container-sidebar" style={imageStyle} role="button"/>);
     disk = prettyBytes(disk * 1000000);
     memory = prettyBytes(memory * 1000000);
     className = mergeClassNames(className, cx({'desired-lrp': true, 'pam': true}));
+    var instancesRunning = actualLrps.filter(({state}) => state === 'RUNNING').length;
+    var instances = `${instancesRunning}/${desiredLrp.instances} instances`;
 
     return (
       <PUI.Media leftImage={leftImage} key={processGuid} className={className}>
@@ -31,6 +34,7 @@ var DesiredLrp = React.createClass({
           <div className="type-ellipsis-1-line">{processGuid}</div>
           <div>Disk: {disk}</div>
           <div>Memory: {memory}</div>
+          <div>{instances}</div>
         </section>
       </PUI.Media>
     );

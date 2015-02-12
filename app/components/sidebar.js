@@ -16,12 +16,14 @@ var Sidebar = React.createClass({
 
   render() {
     var {$receptor} = this.props;
-    var desiredLrps = ($receptor.get('desiredLrps') || []).map(function(desiredLrp, i) {
+    var {actualLrps = [], desiredLrps = []} = $receptor.get();
+    desiredLrps = desiredLrps.map(function(desiredLrp, i) {
       var key = desiredLrp.process_guid;
       var containerColor = pickColor(this.context.colors, key);
       var odd = i % 2;
       var className = cx({'bg-dark-1': odd, 'bg-dark-2': !odd});
-      var props = {className, containerColor, desiredLrp, key};
+      var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
+      var props = {className, containerColor, desiredLrp, actualLrps: filtered, key};
       return <DesiredLrp {...props}/>;
     }, this);
 
