@@ -16,3 +16,14 @@
     float: left
   .desired-lrp
     margin: 0
+  .routes
+    a
+      &:hover
+        text-decoration: underline
+    table
+      @extend $full-width
+      table-layout: fixed
+    td
+      vertical-align: top
+      &.port
+        width: 45px
