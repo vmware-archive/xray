@@ -68,13 +68,13 @@ describe('DesiredLrp', function() {
     });
 
     it('does not show any errors', function() {
-      expect($('.desired-lrp')).not.toHaveClass('bg-error-1');
+      expect($('.desired-lrp .type-error-3')).not.toExist();
     });
   });
 
   describe('when not all of the actualLrps are running', function() {
     it('marks the lrp with an error', function() {
-      expect($('.desired-lrp')).toHaveClass('bg-error-1');
+      expect($('.desired-lrp .type-error-3')).toExist();
     });
   });
 });

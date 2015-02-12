@@ -11,7 +11,7 @@ var Modal = React.createClass({
 
   render() {
     var {component} = this.state;
-    return (<div>{component}</div>);
+    return (<div className="type-neutral-1">{component}</div>);
   }
 });
 
