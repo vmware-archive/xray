@@ -4,8 +4,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loader: '6to5-loader'},
-      {test: /\/vendor\/.*\.js$/, exclude: /node_modules/, loader: 'jsx-loader?harmony'}
+      {test: /\.js$/, exclude: /node_modules/, loader: '6to5-loader?experimental=true'}
     ]
   },
   output: {
