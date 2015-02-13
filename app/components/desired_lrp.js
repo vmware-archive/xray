@@ -48,7 +48,8 @@ var DesiredLrp = React.createClass({
 
   render() {
     var {actualLrps, desiredLrp, containerColor, className, isSelected} = this.props;
-    var {disk_mb: disk, memory_mb: memory, process_guid: processGuid, routes: {'cf-router': routes}} = desiredLrp;
+    var routerKey = Object.keys(desiredLrp.routes)[0];
+    var {disk_mb: disk, memory_mb: memory, process_guid: processGuid, routes: {[routerKey]: routes}} = desiredLrp;
     var imageStyle = {backgroundColor: containerColor};
     var leftImage = (<a className={cx({'container-sidebar': true, selected: isSelected})} style={imageStyle} role="button"/>);
     disk = prettyBytes(disk * 1000000);
