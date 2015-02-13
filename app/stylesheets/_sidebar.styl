@@ -8,9 +8,12 @@
   height: container-height
   display: block
 
+.sidebar-panel, .sidebar-body, .sidebar
+  @extend $full-height
+
 .sidebar
-  > .panel-body
-    padding: 0
+  display(flex)
+  flex-direction(column)
   .media, .media-body
     overflow: hidden
   .media-body, .media-left, .media-right
@@ -19,6 +22,9 @@
     width: auto
   .media-left
     float: left
+  .desired-lrps
+    @extend $scrollable-y
+    flex(1)
   .desired-lrp
     margin: 0
   .routes

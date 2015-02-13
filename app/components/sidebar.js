@@ -29,7 +29,16 @@ var Sidebar = React.createClass({
       return <DesiredLrp {...props}/>;
     }, this);
 
-    return <div>{desiredLrps}</div>
+    return (
+      <div className="sidebar">
+        <header className="mam">
+          <input className="form-control" type="text" placeholder="filter processes&hellip;"/>
+        </header>
+        <section className="desired-lrps">
+          {desiredLrps}
+        </section>
+      </div>
+    );
   }
 });
 

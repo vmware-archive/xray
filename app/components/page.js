@@ -77,8 +77,8 @@ var Page = React.createClass({
     var {$receptor} = this.props;
     return (
       <div className={cx({'page type-neutral-8': true, selection: !!$receptor.get('selectedLrp')})}>
-        <PUI.Panel className="main" scrollable={true}>{this.props.children}</PUI.Panel>
-        <PUI.Panel className="sidebar bg-dark-2" scrollable={true}><Sidebar {...{$receptor}}/></PUI.Panel>
+        <PUI.Panel className="main-panel man" scrollable={true}>{this.props.children}</PUI.Panel>
+        <PUI.Panel className="sidebar-panel bg-dark-2 man" padding="pan sidebar-body"><Sidebar {...{$receptor}}/></PUI.Panel>
       </div>
     );
   }
