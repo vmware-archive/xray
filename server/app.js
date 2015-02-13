@@ -23,7 +23,13 @@ app.get('/', function(req, res) {
   var config = {receptorUrl, colors};
   var props = {entry: Application, scripts, stylesheets, config, className: 'bg-neutral-1'};
   var html = React.renderToStaticMarkup(<Layout {...props}/>);
-  res.status(200).type('html').send(`<!DOCTYPE html>${html}`);
+  var receptorAuthorization = receptorUrl && new Buffer('diego:horse2thbrush').toString('base64');
+  var result = res
+    .status(200)
+    .type('html');
+  if (receptorAuthorization) result.cookie('receptor_authorization', receptorAuthorization);
+  result
+    .send(`<!DOCTYPE html>${html}`);
 });
 
 module.exports = app;

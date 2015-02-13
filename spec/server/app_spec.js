@@ -16,16 +16,17 @@ describe('app', function() {
       request(subject)
         .get('/')
         .expect('Content-Type', /html/)
-        .end(function(err) {
+        .end(function(err, res) {
           expect(err).toBe(null);
           expect(Layout.type.prototype.render).toHaveBeenCalled();
           expect(Application.type.prototype.render).toHaveBeenCalled();
+          expect(res.headers['set-cookie']).toBeUndefined();
           done();
         });
     });
 
     describe('when a receptor url is provided as a query param', function() {
-      const RECEPTOR_URL = 'http://example.com';
+      const RECEPTOR_URL = 'http://user:password@example.com';
       it('renders the application the receptor url in from the query param', function(done) {
         var Application = require('../../app/components/application');
         spyOn(Application.type.prototype, 'render').and.callThrough();
@@ -33,11 +34,12 @@ describe('app', function() {
         request(subject)
           .get(`/?receptor=${RECEPTOR_URL}`)
           .expect('Content-Type', /html/)
-          .end(function(err) {
+          .end(function(err, res) {
             expect(err).toBe(null);
             expect(Application.type.prototype.render).toHaveBeenCalled();
             var application = Application.type.prototype.render.calls.mostRecent().object;
             expect(application.props.config).toEqual(jasmine.objectContaining({receptorUrl: RECEPTOR_URL}));
+            expect(res.headers['set-cookie']).toEqual(['receptor_authorization=ZGllZ286aG9yc2UydGhicnVzaA%3D%3D; Path=/']);
             done();
           });
       });
