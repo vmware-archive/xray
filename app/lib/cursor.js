@@ -8,13 +8,13 @@ class Cursor {
     privates.set(this, {data, path, callback});
   }
 
-  refine(...path) {
-    var {callback, data} = privates.get(this);
-    if (path.some(p => typeof p === 'object')) {
-      path = path.map((p, i) => typeof p !== 'object' ? p : this.get(path[i - 1]).indexOf(p));
-      return new Cursor(data, callback, path);
+  refine(...query) {
+    var {callback, data, path} = privates.get(this);
+    if (query.some(p => typeof p === 'object')) {
+      query = query.map((p, i) => typeof p !== 'object' ? p : (!i ? this.get() : this.get(query[i - 1])).indexOf(p));
+      return new Cursor(data, callback, path.concat(query));
     }
-    return new Cursor(data, callback, path);
+    return new Cursor(data, callback, path.concat(query));
   }
 
   get(...morePath) {
@@ -40,6 +40,14 @@ class Cursor {
 
   push(...options) {
     return this.update({$push: options});
+  }
+
+  remove(object) {
+    return this.splice(this.get().indexOf(object), 1);
+  }
+
+  splice(...options) {
+    return this.update({$splice: [options]});
   }
 
   unshift(...options) {

@@ -34,6 +34,10 @@ var Application = React.createClass({
     }
   },
 
+  componentDidUpdate() {
+    xray.receptor = Object.assign({}, this.state.receptor);
+  },
+
   updateReceptorUrl({receptorUrl}) {
     this.setState({receptorUrl});
   },

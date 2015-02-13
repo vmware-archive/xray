@@ -10,8 +10,11 @@ var jQuery = require('jquery');
 global.jQuery = jQuery;
 global.$ = jQuery;
 global.mockPromises = require('../support/vendor/mock-promises');
+global.mockEventSource = require('../support/mock_event_source');
 global.jasmineReact = require('jasmine-react-helpers');
 global.Deferred = require('../support/deferred');
+
+global.xray = global.xray || {};
 
 $.fn.simulate = function(eventName, ...args) {
   if (!this.length) {
@@ -30,7 +33,7 @@ $.fn.simulate = function(eventName, ...args) {
 require('jasmine-ajax');
 
 beforeEach(function() {
-  jasmineReact.spyOnClass(require('../../app/components/page'), 'streamEventSource');
+  mockEventSource.install();
   spyOn(React.addons.CSSTransitionGroup.type.prototype, 'render').and.callFake(function() { return (<div>{this.props.children}</div>); });
 
   var Layout = require('../../server/components/layout');
@@ -43,6 +46,7 @@ beforeEach(function() {
 });
 
 afterEach(function() {
+  mockEventSource.uninstall();
   require('../../app/api/base_api').baseUrl = null;
   jasmine.Ajax.requests.reset();
   mockPromises.contracts.reset();

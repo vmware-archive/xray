@@ -4,10 +4,13 @@ var ReceptorApi = require('../api/receptor_api');
 var {setCorrectingInterval} = require('correcting-interval');
 var {diff} = require('../helpers/array_helper');
 var Sidebar = require('./sidebar');
+var StreamSource = require('../lib/stream_source');
 var PUI = {Panel: require('../vendor/panels').Panel};
 
 var types = React.PropTypes;
 var cx = React.addons.classSet;
+
+var privates = new WeakMap();
 
 function applyUpdate(newArr, id, changeCallback) {
   return {
@@ -26,6 +29,12 @@ function applyUpdate(newArr, id, changeCallback) {
   };
 }
 
+function parseData(callback, context) {
+  return function({data}) {
+    callback.call(context, JSON.parse(data));
+  };
+}
+
 var Page = React.createClass({
   propTypes: {
     receptorUrl: types.string,
@@ -33,39 +42,65 @@ var Page = React.createClass({
   },
 
   statics: {
-    POLL_INTERVAL: 10000
+    POLL_INTERVAL: 100000
   },
 
   componentDidMount() {
     this.componentWillReceiveProps(this.props);
   },
 
+  componentWillUnmount() {
+    this.cleanUpSSE();
+  },
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.receptorUrl && !BaseApi.baseUrl) {
       BaseApi.baseUrl = nextProps.receptorUrl;
       this.pollReceptor();
-      this.streamEventSource(nextProps.receptorUrl);
+      this.streamSSE(nextProps.receptorUrl);
     }
   },
 
-  streamEventSource(receptorUrl) {
-    var es = new EventSource(`${receptorUrl}/v1/events`, {withCredentials: true});
-    es.onmessage = function() {
-      console.log('EventSource onMesssage', arguments);
-    };
+  cleanUpSSE() {
+    var {sse} = privates.get(this) || {};
+    if (sse) sse.off();
+  },
+
+  streamSSE(receptorUrl) {
+    this.cleanUpSSE();
+    var sse = new StreamSource(`${receptorUrl}/v1/events`, {withCredentials: true});
+    privates.set(this, {sse});
+    sse
+      .on('actual_lrp_created', parseData(function({actual_lrp}) {
+        var {$receptor} = this.props;
+        var $actualLrps = $receptor.refine('actualLrps');
+        $actualLrps.push(actual_lrp);
+      }, this))
+      .on('actual_lrp_changed', parseData(function({actual_lrp_after: afterLrp}) {
+        var {$receptor} = this.props;
+        var $actualLrps = $receptor.refine('actualLrps');
+        var oldLrp = $actualLrps.get().find(({modification_tag: {epoch}}) => epoch === afterLrp.modification_tag.epoch);
+        $actualLrps.refine(oldLrp).set(afterLrp);
+      }, this))
+      .on('actual_lrp_removed', parseData(function({actual_lrp}) {
+        var {$receptor} = this.props;
+        var $actualLrps = $receptor.refine('actualLrps');
+        var oldLrp = $actualLrps.get().find(({modification_tag: {epoch}}) => epoch === actual_lrp.modification_tag.epoch);
+        $actualLrps.remove(oldLrp);
+      }, this))
   },
 
   updateReceptor() {
     var {$receptor} = this.props;
-    return ReceptorApi.fetch().then(function({actualLrps, cells, desiredLrps}) {
+    return ReceptorApi.fetch()
+      .then(function({actualLrps, cells, desiredLrps}) {
         $receptor.update({
           cells: applyUpdate(cells, 'cell_id'),
           actualLrps: applyUpdate(actualLrps, 'instance_guid', (a, b) => a.since !== b.since),
           desiredLrps: applyUpdate(desiredLrps, 'process_guid')
         });
-      }.bind(this),
-        reason => console.error('Receptor Promise failed because', reason)
-    );
+      }.bind(this))
+      .catch(reason => console.error('Receptor Promise failed because', reason));
   },
 
   pollReceptor() {

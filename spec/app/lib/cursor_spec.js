@@ -29,6 +29,18 @@ describe('Cursor', function() {
     it('can find objects in arrays', function() {
       expect(subject.refine('cells', cells[1]).get()).toBe(cells[1]);
     });
+
+    it('works if the path is a single object', function() {
+      expect(subject.refine('cells').refine(cells[1]).get()).toBe(cells[1]);
+    });
+
+    it('returns a cursor than updates in the expected way', function() {
+      var cell = Factory.build('cell');
+      subject.refine('cells').refine(cells[1]).set(cell);
+      expect(callbackSpy).toHaveBeenCalled();
+      expect(callbackSpy.calls.mostRecent().args[0].cells).toContain(cell);
+    });
+
   });
 
   describe('#update', function() {
@@ -60,6 +72,13 @@ describe('Cursor', function() {
     it('updates the cursor', function() {
       subject.refine('scaling').set('memory');
       expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({scaling: 'memory', cells}));
+    });
+  });
+
+  describe('#splice', function() {
+    it('updates the cursor', function() {
+      subject.refine('cells').splice([0, 1]);
+      expect(callbackSpy.calls.mostRecent().args[0].cells).not.toContain(cells[0]);
     });
   });
 
@@ -102,6 +121,13 @@ describe('Cursor', function() {
       var anotherCursor = new Cursor(data, jasmine.createSpy('callback'));
       expect(subject.isEqual(anotherCursor)).toBe(true);
       expect(subject.isEqual(anotherCursor.refine('scaling'))).toBe(false);
+    });
+  });
+
+  describe('#remove', function() {
+    it('updates the cursor when given an object', function() {
+      subject.refine('cells').remove(cells[0]);
+      expect(callbackSpy.calls.mostRecent().args[0].cells).not.toContain(cells[0]);
     });
   });
 });
