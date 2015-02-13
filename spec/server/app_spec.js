@@ -39,7 +39,7 @@ describe('app', function() {
             expect(Application.type.prototype.render).toHaveBeenCalled();
             var application = Application.type.prototype.render.calls.mostRecent().object;
             expect(application.props.config).toEqual(jasmine.objectContaining({receptorUrl: RECEPTOR_URL}));
-            expect(res.headers['set-cookie']).toEqual(['receptor_authorization=ZGllZ286aG9yc2UydGhicnVzaA%3D%3D; Path=/']);
+            expect(res.headers['set-cookie']).toEqual(['receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D; Path=/']);
             done();
           });
       });

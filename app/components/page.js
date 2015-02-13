@@ -44,7 +44,15 @@ var Page = React.createClass({
     if (nextProps.receptorUrl && !BaseApi.baseUrl) {
       BaseApi.baseUrl = nextProps.receptorUrl;
       this.pollReceptor();
+      this.streamEventSource(nextProps.receptorUrl);
     }
+  },
+
+  streamEventSource(receptorUrl) {
+    var es = new EventSource(`${receptorUrl}/v1/events`, {withCredentials: true});
+    es.onmessage = function() {
+      console.log('EventSource onMesssage', arguments);
+    };
   },
 
   updateReceptor() {

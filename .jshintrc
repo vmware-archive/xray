@@ -85,5 +85,5 @@
   "proto"         : true,     // true: This option suppresses warnings about the __proto__ property.
 
   // Custom Globals
-  "globals"       : {"Deferred": true, "phantom": true, "Factory": true, "React": true, "mockPromises": true, "root": true, "$": true, "xray": true, "jasmineReact": true}
+  "globals"       : {"EventSource": true, "Deferred": true, "phantom": true, "Factory": true, "React": true, "mockPromises": true, "root": true, "$": true, "xray": true, "jasmineReact": true}
 }

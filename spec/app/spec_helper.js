@@ -27,6 +27,7 @@ $.fn.simulate = function(eventName, ...args) {
 require('jasmine-ajax');
 
 beforeEach(function() {
+  jasmineReact.spyOnClass(require('../../app/components/page'), 'streamEventSource');
   spyOn(React.addons.CSSTransitionGroup.type.prototype, 'render').and.callFake(function() { return (<div>{this.props.children}</div>); });
 
   var Layout = require('../../server/components/layout');
