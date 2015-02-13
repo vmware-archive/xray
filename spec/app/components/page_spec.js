@@ -23,8 +23,8 @@ describe('Page', function() {
       subject.setProps({$receptor});
     });
 
-    it('adds the selected class to the page', function() {
-      expect('.page').toHaveClass('selected');
+    it('adds the selection class to the page', function() {
+      expect('.page').toHaveClass('selection');
     });
   });
 });

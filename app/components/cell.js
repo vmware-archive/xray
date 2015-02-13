@@ -30,8 +30,8 @@ var Cell = React.createClass({
         //TODO: desiredLrps could be a hash for O(1) lookup instead of a find
         var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === actualLrp.process_guid);
         var $selectedLrp = $receptor.refine('selectedLrp');
-        var selected = !!(desiredLrp && $selectedLrp.get() === desiredLrp);
-        return (<Container {...{actualLrp, denominator, desiredLrp, $selectedLrp, selected}} key={actualLrp.instance_guid}/>);
+        var isSelected = !!(desiredLrp && $selectedLrp.get() === desiredLrp);
+        return (<Container {...{actualLrp, denominator, desiredLrp, $selectedLrp, isSelected}} key={actualLrp.instance_guid}/>);
       });
 
     return (

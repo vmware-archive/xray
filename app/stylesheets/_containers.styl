@@ -1,4 +1,6 @@
 @require '_variables'
+@require '_mixins'
+
 .container
   box-sizing(border-box)
   display: block
@@ -17,13 +19,5 @@
       border: 3px solid $white
   &.claimed
     animation(fade-in 1s linear infinite alternate)
-  .selected &
-    opacity(0.3)
-    &.hover
-      opacity(1)
-      position: relative
-      &:before
-        @extend $full
-        @extend $zero
-        content: ''
-        box-shadow: inset 0 0 50px $white, 0 0 4px $white
+  .selection &
+    @extend $selected

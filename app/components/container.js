@@ -1,4 +1,5 @@
 var FastMixin = require('../mixins/fast_mixin');
+var HoverLrpMixin = require('../mixins/hover_lrp_mixin');
 var ActualLrpModal = require('./actual_lrp_modal');
 var React = require('react/addons');
 var {pickColor} = require('../helpers/application_helper');
@@ -7,14 +8,13 @@ var types = React.PropTypes;
 var cx = React.addons.classSet;
 
 var Container = React.createClass({
-  mixins: [FastMixin],
+  mixins: [FastMixin, HoverLrpMixin],
 
   propTypes: {
     actualLrp: types.object.isRequired,
     desiredLrp: types.object,
     denominator: types.number.isRequired,
-    selected: types.bool.isRequired,
-    $selectedLrp: types.object
+    isSelected: types.bool.isRequired
   },
 
   contextTypes: {
@@ -30,19 +30,9 @@ var Container = React.createClass({
     if (modal) modal.open(<ActualLrpModal actualLrp={this.props.actualLrp}/>);
   },
 
-  mouseEnter() {
-    var {desiredLrp, $selectedLrp} = this.props;
-    $selectedLrp && $selectedLrp.set(desiredLrp);
-  },
-
-  mouseLeave() {
-    var {$selectedLrp} = this.props;
-    $selectedLrp && $selectedLrp.set(undefined);
-  },
-
   render() {
     var {state, instance_guid: key, process_guid: processGuid} = this.props.actualLrp;
-    var {denominator, desiredLrp, selected: hover} = this.props;
+    var {denominator, desiredLrp, isSelected: selected} = this.props;
     var {scaling} = this.context;
 
     var flex;
@@ -61,8 +51,8 @@ var Container = React.createClass({
       }
     }
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
-    var className = cx({container: true, claimed: state === 'CLAIMED', flex, undesired, hover});
-    var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': key, onClick: this.click, onMouseEnter: this.mouseEnter, onMouseLeave: this.mouseLeave};
+    var className = cx({container: true, claimed: state === 'CLAIMED', flex, undesired, selected});
+    var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': key, onClick: this.click, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
     return (<a {...props}/>);
   }
 });

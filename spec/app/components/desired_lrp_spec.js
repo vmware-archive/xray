@@ -2,7 +2,7 @@ require('../spec_helper');
 var update = React.addons.update;
 
 describe('DesiredLrp', function() {
-  var subject, desiredLrp, actualLrps;
+  var Cursor, subject, desiredLrp, actualLrps, callbackSpy;
   beforeEach(function() {
     var DesiredLrp = require('../../../app/components/desired_lrp');
 
@@ -12,11 +12,18 @@ describe('DesiredLrp', function() {
       Factory.build('actualLrp', {process_guid: 'Diego', state: 'CLAIMED'})
     ];
     desiredLrp = Factory.build('desiredLrp', {process_guid: 'Diego', instances: 3});
-    subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue'}}/>, root);
+    callbackSpy = jasmine.createSpy('callback');
+    Cursor = require('../../../app/lib/cursor');
+    var $selectedLrp = new Cursor({selectedLrp: null}, callbackSpy).refine('selectedLrp');
+    subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $selectedLrp, isSelected: false}}/>, root);
   });
 
   afterEach(function() {
     React.unmountComponentAtNode(root);
+  });
+
+  it('ignores the selected lrp cursor', function() {
+    expect(subject.ignoreFastProps).toEqual(['$selectedLrp']);
   });
 
   describe('routes', function() {
@@ -59,8 +66,7 @@ describe('DesiredLrp', function() {
       });
     });
   });
-
-
+  
   describe('when everything is running smoothly', function() {
     beforeEach(function() {
       actualLrps = React.addons.update(actualLrps, {2: {$merge: {state: 'RUNNING'}}});
@@ -75,6 +81,26 @@ describe('DesiredLrp', function() {
   describe('when not all of the actualLrps are running', function() {
     it('marks the lrp with an error', function() {
       expect($('.desired-lrp .type-error-3')).toExist();
+    });
+  });
+
+  describe('when mouse over event is triggered on the desired lrp', function() {
+    beforeEach(function() {
+      $('.desired-lrp').simulate('mouseOver');
+    });
+
+    it('sets the selectedLrp on the receptor', function() {
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: desiredLrp}));
+    });
+  });
+
+  describe('when the desiredLrp is selected', function() {
+    beforeEach(function() {
+      subject.setProps({isSelected: true});
+    });
+
+    it('highlights the container', function() {
+      expect('.container-sidebar').toHaveClass('selected');
     });
   });
 });

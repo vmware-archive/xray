@@ -1,3 +1,5 @@
+@require '_colors'
+
 $full-width
   width 100%
 
@@ -14,3 +16,20 @@ $zero
   left: 0
   right: 0
   bottom: 0
+
+
+$selected
+  opacity(0.3)
+  &.selected
+    opacity(1)
+    position: relative
+    &:before
+      content: ''
+      width 100%
+      height: 100%
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      box-shadow: inset 0 0 50px $white, 0 0 4px $white

@@ -16,7 +16,7 @@ describe('Container', function() {
     callbackSpy = jasmine.createSpy('callback');
     var $selectedLrp = new Cursor({selectedLrp: null}, callbackSpy).refine('selectedLrp');
     React.withContext({colors: ['#fff', '#000'], scaling: 'containers', modal: modalSpy}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, selected: false, $selectedLrp}}/>, root);
+      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, isSelected: false, $selectedLrp}}/>, root);
     });
   });
 
@@ -75,11 +75,16 @@ describe('Container', function() {
 
   describe('when the desiredLrp is selected', function() {
     beforeEach(function() {
-      subject.setProps({selected: true});
+      subject.setProps({isSelected: true});
     });
 
     it('highlights the container', function() {
-      expect('.container').toHaveClass('hover');
+      expect('.container').toHaveClass('selected');
     });
   });
+
+  it('ignores the selected lrp cursor', function() {
+    expect(subject.ignoreFastProps).toEqual(['$selectedLrp']);
+  });
+
 });

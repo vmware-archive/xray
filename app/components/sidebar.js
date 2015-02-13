@@ -23,7 +23,9 @@ var Sidebar = React.createClass({
       var odd = i % 2;
       var className = cx({'bg-dark-1': odd, 'bg-dark-2': !odd});
       var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
-      var props = {className, containerColor, desiredLrp, actualLrps: filtered, key};
+      var $selectedLrp = $receptor.refine('selectedLrp');
+      var isSelected = !!(desiredLrp && $selectedLrp.get() === desiredLrp);
+      var props = {className, containerColor, desiredLrp, actualLrps: filtered, key, $selectedLrp, isSelected};
       return <DesiredLrp {...props}/>;
     }, this);
 

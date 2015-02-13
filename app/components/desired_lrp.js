@@ -1,5 +1,5 @@
 var FastMixin = require('../mixins/fast_mixin');
-var {mergeClassNames} = require('../helpers/application_helper');
+var HoverLrpMixin = require('../mixins/hover_lrp_mixin');
 var prettyBytes = require('pretty-bytes');
 var PUI = {Media: require('../vendor/media').Media};
 var React = require('react/addons');
@@ -34,37 +34,41 @@ var Routes = React.createClass({
 });
 
 var DesiredLrp = React.createClass({
-  mixins: [FastMixin],
+  mixins: [FastMixin, HoverLrpMixin],
 
   propTypes: {
     desiredLrp: types.object.isRequired,
     actualLrps: types.array.isRequired,
-    containerColor: types.string
+    containerColor: types.string,
+    isSelected: types.bool.isRequired,
+    $selectedLrp: types.object.isRequired
   },
 
+  ignoreFastProps: ['$selectedLrp'],
+
   render() {
-    var {actualLrps, desiredLrp, containerColor, className} = this.props;
+    var {actualLrps, desiredLrp, containerColor, className, isSelected} = this.props;
     var {disk_mb: disk, memory_mb: memory, process_guid: processGuid, routes: {'cf-router': routes}} = desiredLrp;
     var imageStyle = {backgroundColor: containerColor};
-    var leftImage = (<a className="container-sidebar" style={imageStyle} role="button"/>);
+    var leftImage = (<a className={cx({'container-sidebar': true, selected: isSelected})} style={imageStyle} role="button"/>);
     disk = prettyBytes(disk * 1000000);
     memory = prettyBytes(memory * 1000000);
     var instancesRunning = actualLrps.filter(({state}) => state === 'RUNNING').length;
-    var instances = `${instancesRunning}/${desiredLrp.instances}`;
-    className = mergeClassNames(className, cx({'desired-lrp': true, 'pam': true}));
-
     var instancesError = instancesRunning !== desiredLrp.instances;
+    var instances = `${instancesRunning}/${desiredLrp.instances}`;
     return (
-      <PUI.Media leftImage={leftImage} key={processGuid} className={className}>
-        <section>
-          <div className="type-ellipsis-1-line">{processGuid}</div>
-          <Routes {...{routes}}/>
-          <div>
-            <span className={cx({'type-error-3': instancesError, 'type-brand-5': !instancesError})}>{instances}</span>
-            &nbsp;(M: {memory} D: {disk})
-          </div>
-        </section>
-      </PUI.Media>
+      <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} className={className}>
+        <PUI.Media leftImage={leftImage} key={processGuid} className={cx({'desired-lrp pam': true, 'bg-accent-2': isSelected})}>
+          <section>
+            <div className="type-ellipsis-1-line">{processGuid}</div>
+            <Routes {...{routes}}/>
+            <div>
+              <span className={cx({'type-error-3': instancesError, 'type-brand-5': !instancesError})}>{instances}</span>
+              &nbsp;(M: {memory} D: {disk})
+            </div>
+          </section>
+        </PUI.Media>
+      </div>
     );
   }
 });
