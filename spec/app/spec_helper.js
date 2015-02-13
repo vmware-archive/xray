@@ -14,6 +14,9 @@ global.jasmineReact = require('jasmine-react-helpers');
 global.Deferred = require('../support/deferred');
 
 $.fn.simulate = function(eventName, ...args) {
+  if (!this.length) {
+    throw new Error(`jQuery Simulate has an empty selection for '${this.selector}'`);
+  }
   $.each(this, function() {
     if (['mouseOver', 'mouseOut'].includes(eventName)) {
       React.addons.TestUtils.SimulateNative[eventName](this, ...args);

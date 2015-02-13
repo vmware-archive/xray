@@ -60,7 +60,7 @@ var DesiredLrp = React.createClass({
       <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} className={className}>
         <PUI.Media leftImage={leftImage} key={processGuid} className={cx({'desired-lrp pam': true, 'bg-accent-2': isSelected})}>
           <section>
-            <div className="type-ellipsis-1-line">{processGuid}</div>
+            <div className="process-guid type-ellipsis-1-line">{processGuid}</div>
             <Routes {...{routes}}/>
             <div>
               <span className={cx({'type-error-3': instancesError, 'type-brand-5': !instancesError})}>{instances}</span>

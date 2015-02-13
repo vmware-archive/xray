@@ -24,7 +24,7 @@ var Application = React.createClass({
   },
 
   getInitialState() {
-    return {receptor: {cells: [], desiredLrps: [], actualLrps: [], selectedLrp: null}, receptorUrl: this.props.config.receptorUrl};
+    return {receptor: {cells: [], desiredLrps: [], actualLrps: [], selectedLrp: null, filter: ''}, receptorUrl: this.props.config.receptorUrl};
   },
 
   componentDidMount() {
