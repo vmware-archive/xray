@@ -61,8 +61,6 @@ getJasmineRequireObj().ConsoleReporter = function() {
       specCount = 0;
       failureCount = 0;
       pendingCount = 0;
-      print('Started');
-      printNewline();
       timer.start();
     };
 
