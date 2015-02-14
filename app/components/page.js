@@ -1,6 +1,7 @@
 var BaseApi = require('../api/base_api');
 var React = require('react/addons');
 var ReceptorApi = require('../api/receptor_api');
+var CellsApi = require('../api/cells_api');
 var {setCorrectingInterval} = require('correcting-interval');
 var {diff} = require('../helpers/array_helper');
 var Sidebar = require('./sidebar');
@@ -68,7 +69,8 @@ var Page = React.createClass({
   },
 
   statics: {
-    POLL_INTERVAL: 100000
+    CELL_POLL_INTERVAL: 10000,
+    RECEPTOR_POLL_INTERVAL: 120000
   },
 
   componentDidMount() {
@@ -82,6 +84,7 @@ var Page = React.createClass({
   componentWillReceiveProps(nextProps) {
     if (nextProps.receptorUrl && !BaseApi.baseUrl) {
       BaseApi.baseUrl = nextProps.receptorUrl;
+      this.updateReceptor();
       this.pollReceptor();
       this.streamSSE(nextProps.receptorUrl);
     }
@@ -133,13 +136,22 @@ var Page = React.createClass({
           actualLrps: applyUpdate(actualLrps, 'instance_guid', (a, b) => a.since !== b.since),
           desiredLrps: applyUpdate(desiredLrps, 'process_guid')
         });
-      }.bind(this))
+      })
       .catch(reason => console.error('Receptor Promise failed because', reason));
   },
 
+  updateCells() {
+    var {$receptor} = this.props;
+    return CellsApi.fetch()
+      .then(function({cells}) {
+        $receptor.refine('cells').update(applyUpdate(cells, 'cell_id'));
+      })
+      .catch(reason => console.error('Cells Promise failed because', reason));
+  },
+
   pollReceptor() {
-    this.updateReceptor();
-    setCorrectingInterval(this.updateReceptor, Page.POLL_INTERVAL);
+    setCorrectingInterval(this.updateCells, Page.CELL_POLL_INTERVAL);
+    setCorrectingInterval(this.updateReceptor, Page.RECEPTOR_POLL_INTERVAL);
   },
 
   render() {

@@ -14,7 +14,7 @@ describe('Application', function() {
   });
 
   describe('when a receptor url is provided in configuration', function() {
-    var ReceptorApi, actualLrps, cells, desiredLrps;
+    var CellsApi, ReceptorApi, actualLrps, cells, desiredLrps;
 
     beforeEach(function() {
       var props = {config: {receptorUrl: RECEPTOR_URL, colors: ['#fff', '#000']}};
@@ -26,6 +26,8 @@ describe('Application', function() {
       ];
 
       ReceptorApi = require('../../../app/api/receptor_api');
+      CellsApi = require('../../../app/api/cells_api');
+      spyOn(CellsApi, 'fetch').and.callThrough();
       var receptorPromise = Deferred();
       spyOn(ReceptorApi, 'fetch').and.returnValue(receptorPromise);
       subject = React.render(<Application {...props}/>, root);
@@ -41,10 +43,21 @@ describe('Application', function() {
     });
 
     describe('#pollReceptor', function() {
-      describe('when the poll interval time has passed', function() {
+      describe('when the cell poll interval time has passed', function() {
         beforeEach(function() {
           ReceptorApi.fetch.calls.reset();
-          jasmine.clock().tick(require('../../../app/components/page').POLL_INTERVAL);
+          jasmine.clock().tick(require('../../../app/components/page').CELL_POLL_INTERVAL);
+        });
+
+        it('fetches the receptor', function() {
+          expect(CellsApi.fetch).toHaveBeenCalled();
+        });
+      });
+
+      describe('when the receptor poll interval time has passed', function() {
+        beforeEach(function() {
+          ReceptorApi.fetch.calls.reset();
+          jasmine.clock().tick(require('../../../app/components/page').RECEPTOR_POLL_INTERVAL);
         });
 
         it('fetches the receptor', function() {
