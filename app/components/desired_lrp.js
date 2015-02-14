@@ -48,8 +48,14 @@ var DesiredLrp = React.createClass({
 
   render() {
     var {actualLrps, desiredLrp, containerColor, className, isSelected} = this.props;
-    var routerKey = Object.keys(desiredLrp.routes)[0];
-    var {disk_mb: disk, memory_mb: memory, process_guid: processGuid, routes: {[routerKey]: routes}} = desiredLrp;
+    var routes;
+    if (desiredLrp.routes) {
+      var routerKey = Object.keys(desiredLrp.routes)[0];
+      if (routerKey) {
+        routes = desiredLrp.routes[routerKey];
+      }
+    }
+    var {disk_mb: disk, memory_mb: memory, process_guid: processGuid} = desiredLrp;
     var imageStyle = {backgroundColor: containerColor};
     var leftImage = (<a className={cx({'container-sidebar': true, selected: isSelected})} style={imageStyle} role="button"/>);
     disk = prettyBytes(disk * 1000000);
@@ -62,7 +68,7 @@ var DesiredLrp = React.createClass({
         <PUI.Media leftImage={leftImage} key={processGuid} className={cx({'desired-lrp pam': true, 'bg-accent-2': isSelected})}>
           <section>
             <div className="process-guid type-ellipsis-1-line">{processGuid}</div>
-            <Routes {...{routes}}/>
+            {routes && <Routes {...{routes}}/>}
             <div>
               <span className={cx({'type-error-3': instancesError, 'type-brand-5': !instancesError})}>{instances}</span>
               &nbsp;(M: {memory} D: {disk})

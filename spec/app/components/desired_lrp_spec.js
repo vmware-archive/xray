@@ -27,6 +27,14 @@ describe('DesiredLrp', function() {
   });
 
   describe('routes', function() {
+    describe('with no routes', function() {
+      it('does not throw an exception', function() {
+        desiredLrp = update(desiredLrp, {$merge: {routes: null}});
+        subject.setProps({desiredLrp});
+        //expect(() => subject.setProps({desiredLrp})).not.toThrow();
+      });
+    });
+
     describe('with more than one route', function() {
       it('renders the routes with ports', function() {
         desiredLrp.routes['cf-router'].forEach(function({port, hostnames}, i) {

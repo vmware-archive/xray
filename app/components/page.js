@@ -40,6 +40,8 @@ function createResource(cursorName, resourceKey) {
   return function({[resourceKey]: resource}) {
     var {$receptor} = this.props;
     var $cursor = $receptor.refine(cursorName);
+    var oldResource = $cursor.get().find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
+    if (oldResource) return;
     $cursor.push(resource);
   };
 }
@@ -49,6 +51,7 @@ function removeResource(cursorName, resourceKey) {
     var {$receptor} = this.props;
     var $cursor = $receptor.refine(cursorName);
     var oldResource = $cursor.get().find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
+    if (!oldResource) return;
     $cursor.remove(oldResource);
   };
 }
@@ -58,6 +61,10 @@ function changeResource(cursorName, resourceKey) {
     var {$receptor} = this.props;
     var $cursor = $receptor.refine(cursorName);
     var oldResource = $cursor.get().find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
+    if (!oldResource) {
+      $cursor.push(resource);
+      return;
+    }
     $cursor.refine(oldResource).set(resource);
   };
 }

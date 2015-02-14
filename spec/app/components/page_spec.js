@@ -78,6 +78,45 @@ describe('Page', function() {
           expect(callbackSpy.calls.mostRecent().args[0].actualLrps).not.toContain(actualLrps[1]);
         });
       });
+
+      describe('conflict resolution', function() {
+        describe('when a actual lrp is changed but does not exist', function() {
+          var actualLrp;
+          beforeEach(function() {
+            actualLrp = Factory.build('actualLrp');
+            mockEventSource.trigger('actual_lrp_changed', {
+              actual_lrp_before: actualLrps,
+              actual_lrp_after: actualLrp
+            });
+          });
+          it('updates the receptor with the new lrp', function() {
+            expect(callbackSpy).toHaveBeenCalled();
+            expect(callbackSpy.calls.mostRecent().args[0].actualLrps).toHaveLength(3);
+            expect(callbackSpy.calls.mostRecent().args[0].actualLrps).toContain(actualLrp);
+          });
+        });
+        describe('when an actual lrp is removed but does not exist', function() {
+          beforeEach(function() {
+            mockEventSource.trigger('actual_lrp_removed', {
+              actual_lrp: Factory.build('actualLrp')
+            });
+          });
+
+          it('does not update the receptor', function() {
+            expect(callbackSpy).not.toHaveBeenCalled();
+          });
+        });
+        describe('when an actual lrp is created but it already exists', function() {
+          beforeEach(function() {
+            mockEventSource.trigger('actual_lrp_created', {
+              actual_lrp: actualLrps[0]
+            });
+          });
+          it('does not update the receptor', function() {
+            expect(callbackSpy).not.toHaveBeenCalled();
+          });
+        });
+      });
     });
 
     describe('for desired lrps', function() {
@@ -120,7 +159,7 @@ describe('Page', function() {
           expect(callbackSpy.calls.mostRecent().args[0].desiredLrps).not.toContain(desiredLrps[1]);
         });
       });
-      
+
     });
   });
 });
