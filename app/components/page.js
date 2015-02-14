@@ -35,6 +35,32 @@ function parseData(callback, context) {
   };
 }
 
+function createResource(cursorName, resourceKey) {
+  return function({[resourceKey]: resource}) {
+    var {$receptor} = this.props;
+    var $cursor = $receptor.refine(cursorName);
+    $cursor.push(resource);
+  };
+}
+
+function removeResource(cursorName, resourceKey) {
+  return function({[resourceKey]: resource}) {
+    var {$receptor} = this.props;
+    var $cursor = $receptor.refine(cursorName);
+    var oldResource = $cursor.get().find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
+    $cursor.remove(oldResource);
+  };
+}
+
+function changeResource(cursorName, resourceKey) {
+  return function({[resourceKey]: resource}) {
+    var {$receptor} = this.props;
+    var $cursor = $receptor.refine(cursorName);
+    var oldResource = $cursor.get().find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
+    $cursor.refine(oldResource).set(resource);
+  };
+}
+
 var Page = React.createClass({
   propTypes: {
     receptorUrl: types.string,
@@ -50,7 +76,7 @@ var Page = React.createClass({
   },
 
   componentWillUnmount() {
-    this.cleanUpSSE();
+    this.destroySSE();
   },
 
   componentWillReceiveProps(nextProps) {
@@ -61,33 +87,41 @@ var Page = React.createClass({
     }
   },
 
-  cleanUpSSE() {
+  createSSE(receptorUrl) {
+    var sse = new StreamSource(`${receptorUrl}/v1/events`, {withCredentials: true});
+    privates.set(this, {sse});
+  },
+
+  destroySSE() {
     var {sse} = privates.get(this) || {};
     if (sse) sse.off();
   },
+  
+  streamActualLrps() {
+    var {sse} = privates.get(this) || {};
+    if (!sse) return;
+    
+    sse
+      .on('actual_lrp_created', parseData(createResource('actualLrps', 'actual_lrp'), this))
+      .on('actual_lrp_changed', parseData(changeResource('actualLrps', 'actual_lrp_after'), this))
+      .on('actual_lrp_removed', parseData(removeResource('actualLrps', 'actual_lrp'), this));
+  },
+
+  streamDesiredLrps() {
+    var {sse} = privates.get(this) || {};
+    if (!sse) return;
+
+    sse
+      .on('desired_lrp_created', parseData(createResource('desiredLrps', 'desired_lrp'), this))
+      .on('desired_lrp_changed', parseData(changeResource('desiredLrps', 'desired_lrp_after'), this))
+      .on('desired_lrp_removed', parseData(removeResource('desiredLrps', 'desired_lrp'), this));
+  },
 
   streamSSE(receptorUrl) {
-    this.cleanUpSSE();
-    var sse = new StreamSource(`${receptorUrl}/v1/events`, {withCredentials: true});
-    privates.set(this, {sse});
-    sse
-      .on('actual_lrp_created', parseData(function({actual_lrp}) {
-        var {$receptor} = this.props;
-        var $actualLrps = $receptor.refine('actualLrps');
-        $actualLrps.push(actual_lrp);
-      }, this))
-      .on('actual_lrp_changed', parseData(function({actual_lrp_after: afterLrp}) {
-        var {$receptor} = this.props;
-        var $actualLrps = $receptor.refine('actualLrps');
-        var oldLrp = $actualLrps.get().find(({modification_tag: {epoch}}) => epoch === afterLrp.modification_tag.epoch);
-        $actualLrps.refine(oldLrp).set(afterLrp);
-      }, this))
-      .on('actual_lrp_removed', parseData(function({actual_lrp}) {
-        var {$receptor} = this.props;
-        var $actualLrps = $receptor.refine('actualLrps');
-        var oldLrp = $actualLrps.get().find(({modification_tag: {epoch}}) => epoch === actual_lrp.modification_tag.epoch);
-        $actualLrps.remove(oldLrp);
-      }, this))
+    this.destroySSE();
+    this.createSSE(receptorUrl);
+    this.streamActualLrps();
+    this.streamDesiredLrps();
   },
 
   updateReceptor() {
