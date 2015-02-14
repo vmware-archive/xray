@@ -37,6 +37,12 @@ describe('Sidebar', function() {
   });
 
   describe('when filtering', function() {
+    it('filters even when a desired lrp has no routes', function() {
+      expect(function() {
+        subject.setProps({$receptor: new Cursor({desiredLrps: [Factory.build('desiredLrp', {routes: null})], actualLrps, filter: 'filter'}, jasmine.createSpy('callback'))});
+      }).not.toThrow();
+    });
+
     it('filters the desired lrps based on process guid', function() {
       var processGuidFilter = 'Ama';
       subject.setProps({$receptor: new Cursor({desiredLrps, actualLrps, filter: processGuidFilter}, jasmine.createSpy('callback'))});

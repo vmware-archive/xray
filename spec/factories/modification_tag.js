@@ -1,4 +1,4 @@
 var Factory = require('rosie').Factory;
 Factory.define('modificationTag')
-  .sequence('epoch')
+  .sequence('epoch', i => i.toString())
   .sequence('index');

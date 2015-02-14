@@ -7,6 +7,7 @@ var cx = React.addons.classSet;
 var types = React.PropTypes;
 
 function matchesRoutes(desiredLrp, filter) {
+  if (!desiredLrp.routes) return false;
   var routerKey = Object.keys(desiredLrp.routes)[0];
   var routes = desiredLrp.routes[routerKey];
   return routes.some(route => route.hostnames.some(hostname => hostname.includes(filter)));

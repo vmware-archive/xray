@@ -31,7 +31,7 @@ describe('DesiredLrp', function() {
       it('does not throw an exception', function() {
         desiredLrp = update(desiredLrp, {$merge: {routes: null}});
         subject.setProps({desiredLrp});
-        //expect(() => subject.setProps({desiredLrp})).not.toThrow();
+        expect(() => subject.setProps({desiredLrp})).not.toThrow();
       });
     });
 
