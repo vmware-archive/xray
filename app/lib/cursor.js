@@ -1,6 +1,5 @@
-var React = require('react/addons');
+var {addons: {update}} = require('react/addons');
 
-var update = React.addons.update;
 var privates = new WeakMap();
 
 class Cursor {
@@ -43,11 +42,11 @@ class Cursor {
   }
 
   remove(object) {
-    return this.splice(this.get().indexOf(object), 1);
+    return this.splice([this.get().indexOf(object), 1]);
   }
 
   splice(...options) {
-    return this.update({$splice: [options]});
+    return this.update({$splice: options});
   }
 
   unshift(...options) {
