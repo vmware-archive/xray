@@ -1,4 +1,4 @@
-require('6to5/register')({experimental: true});
+require('babel/register')({experimental: true});
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var requireDir = require('require-dir');
 requireDir('./tasks');

@@ -1,4 +1,4 @@
-require('6to5/polyfill');
+require('babel/polyfill');
 var Cursor = require('../lib/cursor');
 var Layout = require('../../server/components/layout');
 var Modal = require('./modal');

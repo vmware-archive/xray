@@ -5,7 +5,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loader: '6to5-loader?experimental=true'}
+      {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader?experimental=true'}
     ]
   },
   output: {
