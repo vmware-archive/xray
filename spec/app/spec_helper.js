@@ -1,4 +1,4 @@
-require('6to5/polyfill');
+require('babel/polyfill');
 var factories = require.context('../factories', true, /\.js$/);
 factories.keys().forEach(factories);
 require('jasmine_dom_matchers');
