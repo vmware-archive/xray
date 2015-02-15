@@ -1,2 +1,1 @@
-web: gulp s
-jasmine: gulp jasmine
+web: npm start
