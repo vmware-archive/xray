@@ -2,8 +2,8 @@ function diff(oldArr, newArr, id, changeCallback) {
   oldArr = oldArr || [];
   newArr = newArr || [];
 
-  var oldMap = oldArr.reduce((memo, e) => (memo[e[id]] = e) && memo, {});
-  var newMap = newArr.reduce((memo, e) => (memo[e[id]] = e) && memo, {});
+  var oldMap = oldArr.reduce((memo, e) => (memo[e[id]] = e, memo), {});
+  var newMap = newArr.reduce((memo, e) => (memo[e[id]] = e, memo), {});
   var oldIds = Object.keys(oldMap);
   var newIds = Object.keys(newMap);
 
