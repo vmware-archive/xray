@@ -33,8 +33,8 @@ var ReceptorUrlModal = React.createClass({
             <input type="text" onChange={this.change} autoFocus/>
           </PUI.ModalBody>
           <PUI.ModalFooter>
-            <PUI.PrimaryButton type="submit">Submit</PUI.PrimaryButton>
-            <PUI.DefaultButton onClick={this.closeModal}>Close</PUI.DefaultButton>
+            <PUI.LowlightButton onClick={this.closeModal}>Close</PUI.LowlightButton>
+            <PUI.HighlightButton type="submit">Submit</PUI.HighlightButton>
           </PUI.ModalFooter>
         </PUI.Modal>
       </form>

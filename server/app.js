@@ -1,4 +1,5 @@
 var basicAuth = require('node-basicauth');
+var bodyParser = require('body-parser');
 var express = require('express');
 var fs = require('fs');
 var Application = require('../app/components/application');
@@ -13,12 +14,14 @@ if (XRAY_USER && XRAY_PASSWORD) {
   app.use(basicAuth({[XRAY_USER]: XRAY_PASSWORD}));
 }
 
+app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../public'));
 app.use(express.static(__dirname + '/../vendor/pui-v1.4.0'));
 
 function getReceptorCredentials(receptorUrl) {
   if (!receptorUrl) return;
   var {user, password} = getCredentials(receptorUrl);
+  if (!user || !password) return;
   return new Buffer(`${user}:${password}`).toString('base64');
 }
 
@@ -32,12 +35,19 @@ app.get('/', function(req, res) {
   var html = React.renderToStaticMarkup(<Layout {...props}/>);
 
   var receptorAuthorization = getReceptorCredentials(receptorUrl);
-  var result = res
-    .status(200)
-    .type('html');
+  var result = res.status(200).type('html');
   if (receptorAuthorization) result.cookie('receptor_authorization', receptorAuthorization);
-  result
-    .send(`<!DOCTYPE html>${html}`);
+  result.send(`<!DOCTYPE html>${html}`);
+});
+
+app.post('/receptor_url', function(req, res) {
+  var {receptor_url: receptorUrl} = req.body;
+  if (!receptorUrl) return res.status(422).type('json').send({error: 'receptor_url is required'});
+
+  var receptorAuthorization = getReceptorCredentials(receptorUrl);
+  var result = res.status(200).type('json');
+  if (receptorAuthorization) result.cookie('receptor_authorization', receptorAuthorization);
+  result.send({ok: true});
 });
 
 module.exports = app;

@@ -9,6 +9,15 @@ beforeEach(function() {
           return { pass };
         }
       }
+    },
+
+    toHaveBeenRequested() {
+      return {
+        compare(actual) {
+          var pass = jasmine.Ajax.requests.filter(new RegExp(actual)).length > 0;
+          return { pass };
+        }
+      }
     }
   });
 });

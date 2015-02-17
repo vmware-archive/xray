@@ -4,6 +4,7 @@ var Layout = require('../../server/components/layout');
 var Modal = require('./modal');
 var Page = require('./page');
 var React = require('react/addons');
+var ReceptorUrlApi = require('../api/receptor_url_api');
 var ReceptorUrlModal = require('./receptor_url_modal');
 var Zones = require('./zones');
 
@@ -39,7 +40,8 @@ var Application = React.createClass({
   },
 
   updateReceptorUrl({receptorUrl}) {
-    this.setState({receptorUrl});
+    ReceptorUrlApi.create({receptorUrl})
+                  .then(() => this.setState({receptorUrl}));
   },
 
   render() {

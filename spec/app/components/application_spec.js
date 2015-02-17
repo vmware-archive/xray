@@ -176,7 +176,6 @@ describe('Application', function() {
     });
   });
 
-
   describe('when no receptor url is provided in configuration', function() {
     var Modal;
     beforeEach(function() {
@@ -200,13 +199,28 @@ describe('Application', function() {
         request = jasmine.Ajax.requests.mostRecent();
       });
 
-      it('makes ajax requests for the cells', function() {
-        expect(jasmine.Ajax.requests.filter(`${NEW_RECEPTOR_URL}/v1/cells`)[0]).toBeDefined();
-        expect(jasmine.Ajax.requests.filter(`${NEW_RECEPTOR_URL}/v1/actual_lrps`)[0]).toBeDefined();
+      it('sends the receptor url to the server (cookie requested)', function() {
+        expect('receptor_url').toHaveBeenRequested();
+        expect(JSON.parse(request.params)).toEqual({receptor_url: NEW_RECEPTOR_URL});
       });
 
-      it('makes ajax requests for the desired lrps', function() {
-        expect(jasmine.Ajax.requests.filter(`${NEW_RECEPTOR_URL}/v1/desired_lrps`)[0]).toBeDefined();
+      describe('after the cookie thing', function() {
+        beforeEach(function() {
+          request.respondWith({
+            status: 200,
+            responseText: ''
+          });
+          mockPromises.executeForResolvedPromises();
+        });
+
+        it('makes ajax requests for the cells', function() {
+          expect(`${NEW_RECEPTOR_URL}/v1/cells`).toHaveBeenRequested();
+          expect(`${NEW_RECEPTOR_URL}/v1/actual_lrps`).toHaveBeenRequested();
+        });
+
+        it('makes ajax requests for the desired lrps', function() {
+          expect(`${NEW_RECEPTOR_URL}/v1/desired_lrps`).toHaveBeenRequested();
+        });
       });
     });
   });
