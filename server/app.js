@@ -42,7 +42,14 @@ app.get('/', function(req, res) {
 
 app.post('/receptor_url', function(req, res) {
   var {receptor_url: receptorUrl} = req.body;
-  if (!receptorUrl) return res.status(422).type('json').send({error: 'receptor_url is required'});
+  if (!receptorUrl) {
+    res
+      .status(422)
+      .type('json')
+      .clearCookie('receptor_authorization')
+      .send({error: 'receptor_url is required'});
+    return;
+  }
 
   var receptorAuthorization = getReceptorCredentials(receptorUrl);
   var result = res.status(200).type('json');
