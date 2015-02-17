@@ -1,5 +1,5 @@
 var Promise = require('../../lib/promise');
-var mockPromises = require('../support/vendor/mock-promises');
+var mockPromises = require('mock-promises');
 
 var Deferred = function() {
   var resolver, rejector;
