@@ -14,13 +14,22 @@ var DesiredLrpDetail = React.createClass({
     var {$receptor} = this.props;
     var {actualLrps = [], desiredLrps = [], selectedLrp} = $receptor.get();
     var desiredLrp = selectedLrp && findDesiredLrp(desiredLrps, selectedLrp);
-    if (!desiredLrp) return null;
+    var isDeleted = false;
+    if(!desiredLrp) {
+      if(selectedLrp) {
+        desiredLrp = selectedLrp;
+        isDeleted = true;
+      } else {
+        return null;
+      }
+    }
 
     actualLrps = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
     var props = {actualLrps, desiredLrp, $selectedLrp: $receptor.refine('selectedLrp')};
     return (
       <div className="desired-lrp-detail">
         <DesiredLrp {...props}/>
+        {isDeleted && <span className="pam">This process has been deleted. Information in this panel is out of date.</span>}
         <ActualLrpList {...{actualLrps}}/>
       </div>
     );

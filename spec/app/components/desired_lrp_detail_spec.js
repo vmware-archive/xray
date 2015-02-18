@@ -49,13 +49,18 @@ describe('DesiredLrpDetail', function() {
   describe('when the desiredLrp has been deleted', function() {
     var deletedLrp;
     beforeEach(function() {
-      deletedLrp = Factory.build('desiredLrp');
-    });
-
-    it('does not throw', function() {
+      deletedLrp = Factory.build('desiredLrp', {process_guid: 'Heroku'});
       var data = $receptor.get();
       $receptor = new Cursor(Object.assign({}, data, {selectedLrp: deletedLrp}));
-      expect(() => subject.setProps({$receptor})).not.toThrow();
+      subject.setProps({$receptor})
+    });
+
+    it('renders a header with the old data', function() {
+      expect('.desired-lrp-detail').toContainText('Heroku')
+    });
+
+    it('renders a message instead of the actual lrps', function() {
+      expect('.desired-lrp-detail').toContainText('This process has been deleted');
     });
   });
 });
