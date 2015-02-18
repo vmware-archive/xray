@@ -3,6 +3,7 @@ var HoverLrpMixin = require('../mixins/hover_lrp_mixin');
 var prettyBytes = require('pretty-bytes');
 var PUI = {Media: require('../vendor/media').Media};
 var React = require('react/addons');
+var {pickColor} = require('../helpers/application_helper');
 
 var types = React.PropTypes;
 var cx = React.addons.classSet;
@@ -39,15 +40,18 @@ var DesiredLrp = React.createClass({
   propTypes: {
     desiredLrp: types.object.isRequired,
     actualLrps: types.array.isRequired,
-    containerColor: types.string,
-    isSelected: types.bool.isRequired,
+    isSelected: types.bool,
     $selectedLrp: types.object.isRequired
+  },
+
+  contextTypes: {
+    colors: types.array.isRequired
   },
 
   ignoreFastProps: ['$selectedLrp'],
 
   render() {
-    var {actualLrps, desiredLrp, containerColor, className, isSelected} = this.props;
+    var {actualLrps, desiredLrp, className, isSelected} = this.props;
     var routes;
     if (desiredLrp.routes) {
       var routerKey = Object.keys(desiredLrp.routes)[0];
@@ -56,6 +60,7 @@ var DesiredLrp = React.createClass({
       }
     }
     var {disk_mb: disk, memory_mb: memory, process_guid: processGuid} = desiredLrp;
+    var containerColor = pickColor(this.context.colors, processGuid);
     var imageStyle = {backgroundColor: containerColor};
     var leftImage = (<a className={cx({'container-sidebar': true, selected: isSelected})} style={imageStyle} role="button"/>);
     disk = prettyBytes(disk * 1000000);

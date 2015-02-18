@@ -15,7 +15,10 @@ describe('DesiredLrp', function() {
     callbackSpy = jasmine.createSpy('callback');
     Cursor = require('../../../app/lib/cursor');
     var $selectedLrp = new Cursor({selectedLrp: null}, callbackSpy).refine('selectedLrp');
-    subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $selectedLrp, isSelected: false}}/>, root);
+    var colors = ['#fff', '#000'];
+    React.withContext({colors}, function() {
+      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $selectedLrp, isSelected: false}}/>, root);
+    });
   });
 
   afterEach(function() {
