@@ -1,11 +1,12 @@
 var FastMixin = require('../mixins/fast_mixin');
 var Container = require('./container');
+var sortBy = require('lodash.sortby');
 var React = require('react/addons');
+var {findDesiredLrp} = require('../helpers/desired_lrp_helper');
+var {lpad} = require('../helpers/string_helper');
+var {mergeClassNames} = require('../helpers/application_helper');
 
 var types = React.PropTypes;
-var {lpad} = require('../helpers/string_helper');
-var sortBy = require('lodash.sortby');
-var {mergeClassNames} = require('../helpers/application_helper');
 
 var Cell = React.createClass({
   mixins: [FastMixin],
@@ -31,7 +32,9 @@ var Cell = React.createClass({
         var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === actualLrp.process_guid);
         var $hoverLrp = $receptor.refine('hoverLrp');
         var $selectedLrp = $receptor.refine('selectedLrp');
-        var isSelected = !!(desiredLrp && ($hoverLrp.get() === desiredLrp) || ($selectedLrp.get() === desiredLrp)) ;
+        var hasHover = $hoverLrp.get() && findDesiredLrp([desiredLrp], $hoverLrp.get());
+        var hasSelection = $selectedLrp.get() && findDesiredLrp([desiredLrp], $selectedLrp.get());
+        var isSelected = !!(desiredLrp && hasHover || hasSelection);
         return (<Container {...{actualLrp, denominator, desiredLrp, $hoverLrp, $selectedLrp, isSelected}} key={actualLrp.instance_guid}/>);
       });
 

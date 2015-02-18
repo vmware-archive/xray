@@ -52,6 +52,7 @@
     "gulp-webpack": "^1.2.0",
     "lodash.compact": "^3.0.0",
     "lodash.flatten": "^3.0.0",
+    "lodash.max": "^3.0.0",
     "lodash.sortby": "^3.0.0",
     "lsof": "^0.1.0",
     "mime": "^1.2.11",

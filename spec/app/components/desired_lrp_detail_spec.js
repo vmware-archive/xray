@@ -45,4 +45,17 @@ describe('DesiredLrpDetail', function() {
   it('renders actual lrp list', function() {
     expect(ActualLrpList.type.prototype.render).toHaveBeenCalled();
   });
+
+  describe('when the desiredLrp has been deleted', function() {
+    var deletedLrp;
+    beforeEach(function() {
+      deletedLrp = Factory.build('desiredLrp');
+    });
+
+    it('does not throw', function() {
+      var data = $receptor.get();
+      $receptor = new Cursor(Object.assign({}, data, {selectedLrp: deletedLrp}));
+      expect(() => subject.setProps({$receptor})).not.toThrow();
+    });
+  });
 });
