@@ -12,7 +12,7 @@ var ActualLrpList = React.createClass({
 
   renderActualLrp({cell_id: cellId, index, since, state}, i) {
     var odd = i % 2;
-    var className = cx({'actual-lrp': true, 'bg-dark-1': !odd, 'bg-dark-2': odd, 'bg-error-1': state === 'CRASHED'});
+    var className = cx({'actual-lrp': true, 'bg-dark-1': !odd, 'bg-dark-2': odd, 'bg-error-1': state === 'CRASHED', 'unclaimed': state === 'UNCLAIMED'});
     return (
       <tr className={className} key={index}>
         <td className="phm index txt-c">{index}</td>
