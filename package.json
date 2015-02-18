@@ -66,6 +66,7 @@
     "run-sequence": "^1.0.2",
     "superagent": "^0.21.0",
     "through2": "^0.6.3",
+    "timeago": "git://github.com/rdy/node-timeago.git#75cb5efe9006217988b1c1809c74c71b2ba0d69d",
     "webpack": "^1.5.3"
   }
 }

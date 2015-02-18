@@ -5,4 +5,5 @@ Factory.define('actualLrp')
   .sequence('cell_id')
   .sequence('index')
   .attr('modification_tag', () => Factory.build('modificationTag'))
-  .attr('state', 'RUNNING');
+  .attr('state', 'RUNNING')
+  .attr('since', 123456789*1000000);

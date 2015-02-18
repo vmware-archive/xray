@@ -1,5 +1,6 @@
-var React = require('react/addons');
+var ActualLrpList = require('./actual_lrp_list');
 var DesiredLrp = require('./desired_lrp');
+var React = require('react/addons');
 
 var types = React.PropTypes;
 
@@ -16,6 +17,7 @@ var DesiredLrpDetail = React.createClass({
     return (
       <div className="detail">
         <DesiredLrp {...props}/>
+        <ActualLrpList {...{actualLrps}}/>
       </div>
     );
   }

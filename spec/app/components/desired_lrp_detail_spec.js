@@ -1,8 +1,10 @@
 require('../spec_helper');
 
 describe('DesiredLrpDetail', function() {
-  var DesiredLrp, Cursor, subject, actualLrps, desiredLrps, $receptor;
+  var ActualLrpList, DesiredLrp, Cursor, subject, actualLrps, desiredLrps, $receptor;
   beforeEach(function() {
+    ActualLrpList = require('../../../app/components/actual_lrp_list');
+    spyOn(ActualLrpList.type.prototype, 'render').and.callThrough();
     DesiredLrp = require('../../../app/components/desired_lrp');
     spyOn(DesiredLrp.type.prototype, 'render').and.callThrough();
     var DesiredLrpDetail = require('../../../app/components/desired_lrp_detail');
@@ -38,5 +40,9 @@ describe('DesiredLrpDetail', function() {
 
   it('renders the expected lrps count', function() {
     expect('.detail').toContainText('1/5');
+  });
+
+  it('renders actual lrp list', function() {
+    expect(ActualLrpList.type.prototype.render).toHaveBeenCalled();
   });
 });
