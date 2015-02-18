@@ -47,7 +47,7 @@ var DesiredLrpList = React.createClass({
     }
 
     return (
-      <div>
+      <div className="desired-lrp-list">
         <SidebarHeader $filter={$receptor.refine('filter')}/>
         <section className="desired-lrps">
           {this.renderDesiredLrps(desiredLrps)}

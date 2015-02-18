@@ -8,12 +8,10 @@
   height: container-height
   display: block
 
-.sidebar-panel, .sidebar-body, .sidebar
+.sidebar-panel, .sidebar-body, .sidebar, .desired-lrp-list, .desired-lrp-detail
   @extend $full-height
 
-.sidebar
-  display(flex)
-  flex-direction(column)
+.desired-lrp-list, .desired-lrp-detail
   .media, .media-body
     overflow: hidden
   .media-body, .media-left, .media-right
@@ -22,6 +20,10 @@
     width: auto
   .media-left
     float: left
+
+.desired-lrp-list
+  display(flex)
+  flex-direction(column)
   .desired-lrps
     @extend $scrollable-y
     flex(1)
@@ -38,7 +40,9 @@
       vertical-align: top
       &.port
         width: 45px
-  .detail .container-sidebar
+
+.desired-lrp-detail
+  .container-sidebar
     opacity(1)
 
 .actual-lrps

@@ -34,12 +34,12 @@ describe('DesiredLrpDetail', function() {
   });
 
   it('renders a desired lrp', function() {
-    expect('.detail').toExist();
+    expect('.desired-lrp-detail').toExist();
     expect(DesiredLrp.type.prototype.render).toHaveBeenCalled();
   });
 
   it('renders the expected lrps count', function() {
-    expect('.detail').toContainText('1/5');
+    expect('.desired-lrp-detail').toContainText('1/5');
   });
 
   it('renders actual lrp list', function() {
