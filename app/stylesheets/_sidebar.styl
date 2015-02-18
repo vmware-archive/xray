@@ -12,6 +12,8 @@
   @extend $full-height
 
 .desired-lrp-list, .desired-lrp-detail
+  display(flex)
+  flex-direction(column)
   .media, .media-body
     overflow: hidden
   .media-body, .media-left, .media-right
@@ -22,8 +24,6 @@
     float: left
 
 .desired-lrp-list
-  display(flex)
-  flex-direction(column)
   .desired-lrps
     @extend $scrollable-y
     flex(1)
@@ -44,12 +44,14 @@
 .desired-lrp-detail
   .container-sidebar
     opacity(1)
-
-.actual-lrps
-  @extend $full-width
-  table-layout: fixed
-  font-size: 18px
-  .index, .since
-    width: 15%
-  .state
-    text-transform: capitalize
+  .actual-lrps
+    @extend $scrollable-y
+    flex(1)
+    font-size: 18px
+    table
+      @extend $full
+      table-layout: fixed
+    .index, .since
+      width: 15%
+    .state
+      text-transform: capitalize

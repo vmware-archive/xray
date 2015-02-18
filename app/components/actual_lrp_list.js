@@ -28,7 +28,7 @@ var ActualLrpList = React.createClass({
   },
 
   render() {
-    return (<table className="actual-lrps"><tbody>{this.renderActualLrps()}</tbody></table>);
+    return (<div className="actual-lrps"><table><tbody>{this.renderActualLrps()}</tbody></table></div>);
   }
 });
 
