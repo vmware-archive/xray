@@ -63,13 +63,17 @@ describe('Cell', function() {
         expect('.container:eq(0)').toHaveCss({'background-color': 'rgba(0, 0, 0, 0)'});
         expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
       });
+
+      it('does not crash if there is a selectedLrp', function() {
+        $receptor = new Cursor({desiredLrps, selectedLrp: Factory.build('desiredLrp')}, jasmine.createSpy('callback'));
+        expect(() => subject.setProps({$receptor})).not.toThrow();
+      });
     });
 
     it('deals with selecting lrps', function() {
       $('.container:eq(0)').simulate('click');
       expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: desiredLrps[1]}));
     });
-
 
     describe('with a selected lrp', function() {
       beforeEach(function() {

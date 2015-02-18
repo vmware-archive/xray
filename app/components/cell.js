@@ -30,11 +30,15 @@ var Cell = React.createClass({
     var containers = actualLrps && sortBy(actualLrps, lrp => lrp.process_guid + lpad(lrp.index, '0', 5)).map(function(actualLrp) {
         //TODO: desiredLrps could be a hash for O(1) lookup instead of a find
         var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === actualLrp.process_guid);
+        var isSelected = false;
         var $hoverLrp = $receptor.refine('hoverLrp');
         var $selectedLrp = $receptor.refine('selectedLrp');
-        var hasHover = $hoverLrp.get() && findDesiredLrp([desiredLrp], $hoverLrp.get());
-        var hasSelection = $selectedLrp.get() && findDesiredLrp([desiredLrp], $selectedLrp.get());
-        var isSelected = !!(desiredLrp && hasHover || hasSelection);
+        if(desiredLrp) {
+          var hasHover = $hoverLrp.get() && findDesiredLrp([desiredLrp], $hoverLrp.get());
+          var hasSelection = $selectedLrp.get() && findDesiredLrp([desiredLrp], $selectedLrp.get());
+          isSelected = !!(desiredLrp && hasHover || hasSelection);
+        }
+
         return (<Container {...{actualLrp, denominator, desiredLrp, $hoverLrp, $selectedLrp, isSelected}} key={actualLrp.instance_guid}/>);
       });
 
