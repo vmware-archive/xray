@@ -14,9 +14,9 @@ describe('Container', function() {
 
     Cursor = require('../../../app/lib/cursor');
     callbackSpy = jasmine.createSpy('callback');
-    var $selectedLrp = new Cursor({selectedLrp: null}, callbackSpy).refine('selectedLrp');
+    var $hoverLrp = new Cursor({hoverLrp: null}, callbackSpy).refine('hoverLrp');
     React.withContext({colors: ['#fff', '#000'], scaling: 'containers', modal: modalSpy}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, isSelected: false, $selectedLrp}}/>, root);
+      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, isSelected: false, $hoverLrp}}/>, root);
     });
   });
 
@@ -31,16 +31,6 @@ describe('Container', function() {
   it('does not add the claimed class to the container', function() {
     expect(subject.props.actualLrp.state).toEqual('RUNNING');
     expect('.container').not.toHaveClass('claimed');
-  });
-
-  describe('when clicking on the container', function() {
-    beforeEach(function() {
-      $('.container').simulate('click');
-    });
-
-    it('opens a modal', function() {
-      expect(modalSpy.open).toHaveBeenCalled();
-    });
   });
 
   describe('when the state of the actual lrp is CLAIMED', function() {
@@ -59,7 +49,7 @@ describe('Container', function() {
     });
 
     it('sets the selected desiredLrp', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: desiredLrp}));
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverLrp: desiredLrp}));
     });
 
     describe('when mouse out is triggered on the container', function() {
@@ -68,12 +58,12 @@ describe('Container', function() {
       });
 
       it('unsets the desiredLrp on the receptor', function() {
-        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: undefined}));
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverLrp: undefined}));
       });
     });
   });
 
-  describe('when the desiredLrp is selected', function() {
+  describe('when the desiredLrp is hovered', function() {
     beforeEach(function() {
       subject.setProps({isSelected: true});
     });
@@ -83,8 +73,8 @@ describe('Container', function() {
     });
   });
 
-  it('ignores the selected lrp cursor', function() {
-    expect(subject.ignoreFastProps).toEqual(['$selectedLrp']);
+  it('ignores the hover and selected lrp cursor', function() {
+    expect(subject.ignoreFastProps).toEqual(['$hoverLrp', '$selectedLrp']);
   });
 
 });

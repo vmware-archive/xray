@@ -41,14 +41,19 @@ var DesiredLrp = React.createClass({
     desiredLrp: types.object.isRequired,
     actualLrps: types.array.isRequired,
     isSelected: types.bool,
-    $selectedLrp: types.object.isRequired
+    $hoverLrp: types.object,
+    $selectedLrp: types.object
   },
 
   contextTypes: {
     colors: types.array.isRequired
   },
 
-  ignoreFastProps: ['$selectedLrp'],
+  ignoreFastProps: ['$hoverLrp', '$selectedLrp'],
+
+  getDefaultProps() {
+    return {isSelected: false, $hoverLrp: null};
+  },
 
   render() {
     var {actualLrps, desiredLrp, className, isSelected} = this.props;
@@ -69,7 +74,7 @@ var DesiredLrp = React.createClass({
     var instancesError = instancesRunning !== desiredLrp.instances;
     var instances = `${instancesRunning}/${desiredLrp.instances}`;
     return (
-      <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} className={className}>
+      <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>
         <PUI.Media leftImage={leftImage} key={processGuid} className={cx({'desired-lrp pam': true, 'bg-accent-2': isSelected})}>
           <section>
             <div className="process-guid type-ellipsis-1-line">{processGuid}</div>

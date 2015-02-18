@@ -161,11 +161,19 @@ var Page = React.createClass({
     setCorrectingInterval(this.updateReceptor, Page.RECEPTOR_POLL_INTERVAL);
   },
 
+  onScrimClick() {
+    this.props.$receptor.merge({selectedLrp: null, hoverLrp: null});
+  },
+
   render() {
     var {$receptor} = this.props;
+    var selection = !!($receptor.get('hoverLrp') || $receptor.get('selectedLrp'));
     return (
-      <div className={cx({'page type-neutral-8': true, selection: !!$receptor.get('selectedLrp')})}>
-        <PUI.Panel className="main-panel man" scrollable={true}>{this.props.children}</PUI.Panel>
+      <div className={cx({'page type-neutral-8': true, selection})}>
+        <PUI.Panel className="main-panel man" scrollable={true}>
+          {this.props.children}
+          {$receptor.get('selectedLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
+        </PUI.Panel>
         <PUI.Panel className="sidebar-panel bg-dark-2 man" padding="pan sidebar-body"><Sidebar {...{$receptor}}/></PUI.Panel>
       </div>
     );

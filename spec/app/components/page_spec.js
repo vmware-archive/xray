@@ -26,14 +26,45 @@ describe('Page', function() {
     React.unmountComponentAtNode(root);
   });
 
-  describe('when a desiredLrp is selected', function() {
+  describe('when there is a selected lrp', function() {
+    var selectedLrpCallbackSpy;
     beforeEach(function() {
-      var $receptor = new Cursor({selectedLrp: Factory.build('desiredLrp')}, jasmine.createSpy('callback'));
+      selectedLrpCallbackSpy = jasmine.createSpy('callback');
+      var desiredLrp = Factory.build('desiredLrp');
+      var $receptor = new Cursor({selectedLrp: desiredLrp, hoverLrp: desiredLrp}, selectedLrpCallbackSpy);
+      subject.setProps({$receptor});
+    });
+
+    it('renders a scrim', function() {
+      expect('.scrim').toExist();
+    });
+
+    it('adds the selection class to the page', function() {
+      expect('.page').toHaveClass('selection');
+    });
+
+    describe('when clicking on the scrim', function() {
+      beforeEach(function() {
+        $('.scrim').simulate('click');
+      });
+      it('removes the selected lrp', function() {
+        expect(selectedLrpCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: null, hoverLrp: null}));
+      });
+    });
+  });
+
+  describe('when a desiredLrp is hovered', function() {
+    beforeEach(function() {
+      var $receptor = new Cursor({hoverLrp: Factory.build('desiredLrp')}, jasmine.createSpy('callback'));
       subject.setProps({$receptor});
     });
 
     it('adds the selection class to the page', function() {
       expect('.page').toHaveClass('selection');
+    });
+
+    it('does not have a scrim', function() {
+      expect('.scrim').not.toExist();
     });
   });
 

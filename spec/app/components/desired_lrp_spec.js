@@ -2,7 +2,7 @@ require('../spec_helper');
 var update = React.addons.update;
 
 describe('DesiredLrp', function() {
-  var Cursor, subject, desiredLrp, actualLrps, callbackSpy;
+  var Cursor, subject, desiredLrp, actualLrps, hoverLrpCallbackSpy, selectedLrpCallbackSpy;
   beforeEach(function() {
     var DesiredLrp = require('../../../app/components/desired_lrp');
 
@@ -12,12 +12,15 @@ describe('DesiredLrp', function() {
       Factory.build('actualLrp', {process_guid: 'Diego', state: 'CLAIMED'})
     ];
     desiredLrp = Factory.build('desiredLrp', {process_guid: 'Diego', instances: 3});
-    callbackSpy = jasmine.createSpy('callback');
+    hoverLrpCallbackSpy = jasmine.createSpy('hoverCallback');
+    selectedLrpCallbackSpy = jasmine.createSpy('selectedCallback');
+
     Cursor = require('../../../app/lib/cursor');
-    var $selectedLrp = new Cursor({selectedLrp: null}, callbackSpy).refine('selectedLrp');
+    var $hoverLrp = new Cursor({hoverLrp: null}, hoverLrpCallbackSpy).refine('hoverLrp');
+    var $selectedLrp = new Cursor({selectedLrp: null}, selectedLrpCallbackSpy).refine('selectedLrp');
     var colors = ['#fff', '#000'];
     React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $selectedLrp, isSelected: false}}/>, root);
+      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $hoverLrp, $selectedLrp, isSelected: false}}/>, root);
     });
   });
 
@@ -25,8 +28,8 @@ describe('DesiredLrp', function() {
     React.unmountComponentAtNode(root);
   });
 
-  it('ignores the selected lrp cursor', function() {
-    expect(subject.ignoreFastProps).toEqual(['$selectedLrp']);
+  it('ignores the selected and hover lrp cursor', function() {
+    expect(subject.ignoreFastProps).toEqual(['$hoverLrp', '$selectedLrp']);
   });
 
   describe('routes', function() {
@@ -100,8 +103,8 @@ describe('DesiredLrp', function() {
       $('.desired-lrp').simulate('mouseOver');
     });
 
-    it('sets the selectedLrp on the receptor', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: desiredLrp}));
+    it('sets the hoverLrp on the receptor', function() {
+      expect(hoverLrpCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverLrp: desiredLrp}));
     });
   });
 
@@ -112,6 +115,16 @@ describe('DesiredLrp', function() {
 
     it('highlights the container', function() {
       expect('.container-sidebar').toHaveClass('selected');
+    });
+  });
+
+  describe('when user clicks on the component', function() {
+    beforeEach(function() {
+      $('.desired-lrp').simulate('click');
+    });
+
+    it('selects the lrp', function() {
+      expect(selectedLrpCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: desiredLrp}));
     });
   });
 });

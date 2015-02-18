@@ -25,9 +25,16 @@ body
   flex-direction(row)
   .main-panel
     flex(1)
+    position: relative
   .sidebar-panel
     width: 300px
 
 .panel-scrollable
   max-height: inherit //Talk to Pivotal UI about this
 
+.clickable
+  cursor: pointer
+
+.scrim
+  @extend $zero
+  z-index: 1000

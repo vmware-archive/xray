@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Cell', function() {
-  var Cursor, Cell, subject, cell, actualLrps, desiredLrps, update, $receptor;
+  var Cursor, Cell, subject, cell, actualLrps, desiredLrps, update, $receptor, callbackSpy;
   function render(options) {
     var style = {width: '100px'};
     var subject;
@@ -28,7 +28,8 @@ describe('Cell', function() {
       Factory.build('desiredLrp', {process_guid: 'diego', disk_mb: 300, memory_mb: 15}),
       Factory.build('desiredLrp', {process_guid: 'google', disk_mb: 200, memory_mb: 10})
     ];
-    $receptor = new Cursor({desiredLrps}, jasmine.createSpy('callback'));
+    callbackSpy = jasmine.createSpy('callback');
+    $receptor = new Cursor({desiredLrps}, callbackSpy);
   });
 
   afterEach(function() {
@@ -61,6 +62,36 @@ describe('Cell', function() {
         expect('.container:eq(0)').toHaveClass('undesired');
         expect('.container:eq(0)').toHaveCss({'background-color': 'rgba(0, 0, 0, 0)'});
         expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
+      });
+    });
+
+    it('deals with selecting lrps', function() {
+      $('.container:eq(0)').simulate('click');
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: desiredLrps[1]}));
+    });
+
+
+    describe('with a selected lrp', function() {
+      beforeEach(function() {
+        var props = subject.props.$receptor.get();
+        $receptor = new Cursor(Object.assign({}, props, {selectedLrp: desiredLrps[1]}));
+        subject.setProps({$receptor})
+      });
+
+      it('adds the selected class to the container', function() {
+        expect('.container:eq(0)').toHaveClass('selected');
+      });
+    });
+
+    describe('with a hover lrp', function() {
+      beforeEach(function() {
+        var props = subject.props.$receptor.get();
+        $receptor = new Cursor(Object.assign({}, props, {hoverLrp: desiredLrps[1]}));
+        subject.setProps({$receptor})
+      });
+
+      it('adds the selected class to the container', function() {
+        expect('.container:eq(0)').toHaveClass('selected');
       });
     });
   });

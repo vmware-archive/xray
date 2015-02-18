@@ -1,6 +1,5 @@
 var FastMixin = require('../mixins/fast_mixin');
 var HoverLrpMixin = require('../mixins/hover_lrp_mixin');
-var ActualLrpModal = require('./actual_lrp_modal');
 var React = require('react/addons');
 var {pickColor} = require('../helpers/application_helper');
 
@@ -14,7 +13,9 @@ var Container = React.createClass({
     actualLrp: types.object.isRequired,
     desiredLrp: types.object,
     denominator: types.number.isRequired,
-    isSelected: types.bool.isRequired
+    isSelected: types.bool.isRequired,
+    $hoverLrp: types.object,
+    $selectedLrp: types.object
   },
 
   contextTypes: {
@@ -23,12 +24,7 @@ var Container = React.createClass({
     modal: types.object
   },
 
-  ignoreFastProps: ['$selectedLrp'],
-
-  click() {
-    var {modal} = this.context;
-    if (modal) modal.open(<ActualLrpModal actualLrp={this.props.actualLrp}/>);
-  },
+  ignoreFastProps: ['$hoverLrp', '$selectedLrp'],
 
   render() {
     var {state, instance_guid: key, process_guid: processGuid} = this.props.actualLrp;
@@ -52,7 +48,7 @@ var Container = React.createClass({
     }
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
     var className = cx({container: true, claimed: state === 'CLAIMED', flex, undesired, selected});
-    var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': key, onClick: this.click, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
+    var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': key, onClick: this.onClick, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
     return (<a {...props}/>);
   }
 });
