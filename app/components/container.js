@@ -2,6 +2,7 @@ var FastMixin = require('../mixins/fast_mixin');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var React = require('react/addons');
 var {pickColor} = require('../helpers/application_helper');
+var {getHostname} = require('../helpers/lrp_helper');
 
 var types = React.PropTypes;
 var cx = React.addons.classSet;
@@ -35,7 +36,7 @@ var Container = React.createClass({
     var flex;
     var undesired;
     var percentWidth = 1.0 / 50.0;
-    var backgroundColor = pickColor(this.context.colors, processGuid);
+    var backgroundColor
 
     if (!desiredLrp) {
       undesired = true;
@@ -46,6 +47,7 @@ var Container = React.createClass({
         percentWidth = numerator/denominator;
         flex = numerator === 0;
       }
+      backgroundColor = pickColor(this.context.colors, getHostname(desiredLrp) || processGuid);
     }
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
     var className = cx({container: true, claimed: state === 'CLAIMED', flex, undesired, selected, highlight});
