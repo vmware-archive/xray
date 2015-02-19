@@ -2,7 +2,7 @@ require('../spec_helper');
 var update = React.addons.update;
 
 describe('DesiredLrp', function() {
-  var Cursor, subject, desiredLrp, actualLrps, hoverLrpCallbackSpy, selectedLrpCallbackSpy;
+  var Cursor, subject, desiredLrp, actualLrps, hoverDesiredLrpCallbackSpy, selectedDesiredLrpCallbackSpy;
   beforeEach(function() {
     var DesiredLrp = require('../../../app/components/desired_lrp');
 
@@ -12,15 +12,15 @@ describe('DesiredLrp', function() {
       Factory.build('actualLrp', {process_guid: 'Diego', state: 'CLAIMED'})
     ];
     desiredLrp = Factory.build('desiredLrp', {process_guid: 'Diego', instances: 3});
-    hoverLrpCallbackSpy = jasmine.createSpy('hoverCallback');
-    selectedLrpCallbackSpy = jasmine.createSpy('selectedCallback');
+    hoverDesiredLrpCallbackSpy = jasmine.createSpy('hoverCallback');
+    selectedDesiredLrpCallbackSpy = jasmine.createSpy('selectedCallback');
 
     Cursor = require('../../../app/lib/cursor');
-    var $hoverLrp = new Cursor({hoverLrp: null}, hoverLrpCallbackSpy).refine('hoverLrp');
-    var $selectedLrp = new Cursor({selectedLrp: null}, selectedLrpCallbackSpy).refine('selectedLrp');
+    var $hoverDesiredLrp = new Cursor({hoverDesiredLrp: null}, hoverDesiredLrpCallbackSpy).refine('hoverDesiredLrp');
+    var $selectedDesiredLrp = new Cursor({selectedDesiredLrp: null}, selectedDesiredLrpCallbackSpy).refine('selectedDesiredLrp');
     var colors = ['#fff', '#000'];
     React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $hoverLrp, $selectedLrp, isSelected: false}}/>, root);
+      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $hoverDesiredLrp, $selectedDesiredLrp, isSelected: false}}/>, root);
     });
   });
 
@@ -29,7 +29,7 @@ describe('DesiredLrp', function() {
   });
 
   it('ignores the selected and hover lrp cursor', function() {
-    expect(subject.ignoreFastProps).toEqual(['$hoverLrp', '$selectedLrp']);
+    expect(subject.ignoreFastProps).toEqual(['$hoverDesiredLrp', '$selectedDesiredLrp']);
   });
 
   describe('routes', function() {
@@ -103,8 +103,8 @@ describe('DesiredLrp', function() {
       $('.desired-lrp').simulate('mouseOver');
     });
 
-    it('sets the hoverLrp on the receptor', function() {
-      expect(hoverLrpCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverLrp: desiredLrp}));
+    it('sets the hoverDesiredLrp on the receptor', function() {
+      expect(hoverDesiredLrpCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: desiredLrp}));
     });
   });
 
@@ -124,7 +124,7 @@ describe('DesiredLrp', function() {
     });
 
     it('selects the lrp', function() {
-      expect(selectedLrpCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: desiredLrp}));
+      expect(selectedDesiredLrpCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedDesiredLrp: desiredLrp}));
     });
   });
 });

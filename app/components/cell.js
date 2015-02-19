@@ -31,15 +31,15 @@ var Cell = React.createClass({
         //TODO: desiredLrps could be a hash for O(1) lookup instead of a find
         var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === actualLrp.process_guid);
         var isSelected = false;
-        var $hoverLrp = $receptor.refine('hoverLrp');
-        var $selectedLrp = $receptor.refine('selectedLrp');
+        var $hoverDesiredLrp = $receptor.refine('hoverDesiredLrp');
+        var $selectedDesiredLrp = $receptor.refine('selectedDesiredLrp');
         if(desiredLrp) {
-          var hasHover = $hoverLrp.get() && findDesiredLrp([desiredLrp], $hoverLrp.get());
-          var hasSelection = $selectedLrp.get() && findDesiredLrp([desiredLrp], $selectedLrp.get());
+          var hasHover = $hoverDesiredLrp.get() && findDesiredLrp([desiredLrp], $hoverDesiredLrp.get());
+          var hasSelection = $selectedDesiredLrp.get() && findDesiredLrp([desiredLrp], $selectedDesiredLrp.get());
           isSelected = !!(desiredLrp && hasHover || hasSelection);
         }
 
-        return (<Container {...{actualLrp, denominator, desiredLrp, $hoverLrp, $selectedLrp, isSelected}} key={actualLrp.modification_tag.epoch}/>);
+        return (<Container {...{actualLrp, denominator, desiredLrp, $hoverDesiredLrp, $selectedDesiredLrp, isSelected}} key={actualLrp.modification_tag.epoch}/>);
       });
 
     return (

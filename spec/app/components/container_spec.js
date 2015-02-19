@@ -14,9 +14,9 @@ describe('Container', function() {
 
     Cursor = require('../../../app/lib/cursor');
     callbackSpy = jasmine.createSpy('callback');
-    var $hoverLrp = new Cursor({hoverLrp: null}, callbackSpy).refine('hoverLrp');
+    var $hoverDesiredLrp = new Cursor({hoverDesiredLrp: null}, callbackSpy).refine('hoverDesiredLrp');
     React.withContext({colors: ['#fff', '#000'], scaling: 'containers', modal: modalSpy}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, isSelected: false, $hoverLrp}}/>, root);
+      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, isSelected: false, $hoverDesiredLrp}}/>, root);
     });
   });
 
@@ -49,7 +49,7 @@ describe('Container', function() {
     });
 
     it('sets the selected desiredLrp', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverLrp: desiredLrp}));
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: desiredLrp}));
     });
 
     describe('when mouse out is triggered on the container', function() {
@@ -58,7 +58,7 @@ describe('Container', function() {
       });
 
       it('unsets the desiredLrp on the receptor', function() {
-        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverLrp: undefined}));
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: undefined}));
       });
     });
   });
@@ -74,7 +74,7 @@ describe('Container', function() {
   });
 
   it('ignores the hover and selected lrp cursor', function() {
-    expect(subject.ignoreFastProps).toEqual(['$hoverLrp', '$selectedLrp']);
+    expect(subject.ignoreFastProps).toEqual(['$hoverDesiredLrp', '$selectedDesiredLrp']);
   });
 
 });

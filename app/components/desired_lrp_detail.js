@@ -12,12 +12,12 @@ var DesiredLrpDetail = React.createClass({
 
   render() {
     var {$receptor} = this.props;
-    var {actualLrps = [], desiredLrps = [], selectedLrp} = $receptor.get();
-    var desiredLrp = selectedLrp && findDesiredLrp(desiredLrps, selectedLrp);
+    var {actualLrps = [], desiredLrps = [], selectedDesiredLrp} = $receptor.get();
+    var desiredLrp = selectedDesiredLrp && findDesiredLrp(desiredLrps, selectedDesiredLrp);
     var isDeleted = false;
     if(!desiredLrp) {
-      if(selectedLrp) {
-        desiredLrp = selectedLrp;
+      if(selectedDesiredLrp) {
+        desiredLrp = selectedDesiredLrp;
         isDeleted = true;
       } else {
         return null;
@@ -25,7 +25,7 @@ var DesiredLrpDetail = React.createClass({
     }
 
     actualLrps = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
-    var props = {actualLrps, desiredLrp, $selectedLrp: $receptor.refine('selectedLrp')};
+    var props = {actualLrps, desiredLrp, $selectedDesiredLrp: $receptor.refine('selectedDesiredLrp')};
     return (
       <div className="desired-lrp-detail">
         <DesiredLrp {...props}/>

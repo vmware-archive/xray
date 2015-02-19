@@ -20,8 +20,8 @@ var DesiredLrpList = React.createClass({
   renderDesiredLrps(desiredLrps) {
     var {$receptor} = this.props;
     var {actualLrps = []} = $receptor.get();
-    var $hoverLrp = $receptor.refine('hoverLrp');
-    var $selectedLrp = $receptor.refine('selectedLrp');
+    var $hoverDesiredLrp = $receptor.refine('hoverDesiredLrp');
+    var $selectedDesiredLrp = $receptor.refine('selectedDesiredLrp');
 
     if(!desiredLrps.length) {
       return <div className="mam">No filtered processes found.</div>;
@@ -32,8 +32,8 @@ var DesiredLrpList = React.createClass({
       var odd = i % 2;
       var className = cx({'clickable': true, 'bg-dark-1': odd, 'bg-dark-2': !odd});
       var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
-      var isSelected = !!(desiredLrp && $hoverLrp.get() === desiredLrp);
-      var props = {className, desiredLrp, actualLrps: filtered, key, $hoverLrp, $selectedLrp, isSelected};
+      var isSelected = !!(desiredLrp && $hoverDesiredLrp.get() === desiredLrp);
+      var props = {className, desiredLrp, actualLrps: filtered, key, $hoverDesiredLrp, $selectedDesiredLrp, isSelected};
       return <DesiredLrp {...props}/>;
     }, this);
   },

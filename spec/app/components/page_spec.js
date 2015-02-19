@@ -27,11 +27,11 @@ describe('Page', function() {
   });
 
   describe('when there is a selected lrp', function() {
-    var selectedLrpCallbackSpy;
+    var selectedDesiredLrpCallbackSpy;
     beforeEach(function() {
-      selectedLrpCallbackSpy = jasmine.createSpy('callback');
+      selectedDesiredLrpCallbackSpy = jasmine.createSpy('callback');
       var desiredLrp = Factory.build('desiredLrp');
-      var $receptor = new Cursor({selectedLrp: desiredLrp, hoverLrp: desiredLrp}, selectedLrpCallbackSpy);
+      var $receptor = new Cursor({selectedDesiredLrp: desiredLrp, hoverDesiredLrp: desiredLrp}, selectedDesiredLrpCallbackSpy);
       subject.setProps({$receptor});
     });
 
@@ -48,14 +48,14 @@ describe('Page', function() {
         $('.scrim').simulate('click');
       });
       it('removes the selected lrp', function() {
-        expect(selectedLrpCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: null, hoverLrp: null}));
+        expect(selectedDesiredLrpCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedDesiredLrp: null, hoverDesiredLrp: null}));
       });
     });
   });
 
   describe('when a desiredLrp is hovered', function() {
     beforeEach(function() {
-      var $receptor = new Cursor({hoverLrp: Factory.build('desiredLrp')}, jasmine.createSpy('callback'));
+      var $receptor = new Cursor({hoverDesiredLrp: Factory.build('desiredLrp')}, jasmine.createSpy('callback'));
       subject.setProps({$receptor});
     });
 

@@ -11,7 +11,7 @@ var Sidebar = React.createClass({
 
   render() {
     var {$receptor} = this.props;
-    var hasDetails = !!$receptor.get('selectedLrp');
+    var hasDetails = !!$receptor.get('selectedDesiredLrp');
     return (
       <div className="sidebar">
       {!hasDetails && <DesiredLrpList {...this.props}/>}

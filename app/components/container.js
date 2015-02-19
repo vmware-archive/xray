@@ -1,5 +1,5 @@
 var FastMixin = require('../mixins/fast_mixin');
-var HoverLrpMixin = require('../mixins/hover_lrp_mixin');
+var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var React = require('react/addons');
 var {pickColor} = require('../helpers/application_helper');
 
@@ -7,15 +7,15 @@ var types = React.PropTypes;
 var cx = React.addons.classSet;
 
 var Container = React.createClass({
-  mixins: [FastMixin, HoverLrpMixin],
+  mixins: [FastMixin, HoverDesiredLrpMixin],
 
   propTypes: {
     actualLrp: types.object.isRequired,
     desiredLrp: types.object,
     denominator: types.number.isRequired,
     isSelected: types.bool.isRequired,
-    $hoverLrp: types.object,
-    $selectedLrp: types.object
+    $hoverDesiredLrp: types.object,
+    $selectedDesiredLrp: types.object
   },
 
   contextTypes: {
@@ -24,7 +24,7 @@ var Container = React.createClass({
     modal: types.object
   },
 
-  ignoreFastProps: ['$hoverLrp', '$selectedLrp'],
+  ignoreFastProps: ['$hoverDesiredLrp', '$selectedDesiredLrp'],
 
   render() {
     var {state, instance_guid: instanceGuid, modification_tag: {epoch: key}, process_guid: processGuid} = this.props.actualLrp;

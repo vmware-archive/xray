@@ -1,5 +1,5 @@
 var FastMixin = require('../mixins/fast_mixin');
-var HoverLrpMixin = require('../mixins/hover_lrp_mixin');
+var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var prettyBytes = require('pretty-bytes');
 var PUI = {Media: require('../vendor/media').Media};
 var React = require('react/addons');
@@ -35,24 +35,24 @@ var Routes = React.createClass({
 });
 
 var DesiredLrp = React.createClass({
-  mixins: [FastMixin, HoverLrpMixin],
+  mixins: [FastMixin, HoverDesiredLrpMixin],
 
   propTypes: {
     desiredLrp: types.object.isRequired,
     actualLrps: types.array.isRequired,
     isSelected: types.bool,
-    $hoverLrp: types.object,
-    $selectedLrp: types.object
+    $hoverDesiredLrp: types.object,
+    $selectedDesiredLrp: types.object
   },
 
   contextTypes: {
     colors: types.array.isRequired
   },
 
-  ignoreFastProps: ['$hoverLrp', '$selectedLrp'],
+  ignoreFastProps: ['$hoverDesiredLrp', '$selectedDesiredLrp'],
 
   getDefaultProps() {
-    return {isSelected: false, $hoverLrp: null};
+    return {isSelected: false, $hoverDesiredLrp: null};
   },
 
   render() {

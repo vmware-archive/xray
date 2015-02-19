@@ -162,17 +162,17 @@ var Page = React.createClass({
   },
 
   onScrimClick() {
-    this.props.$receptor.merge({selectedLrp: null, hoverLrp: null});
+    this.props.$receptor.merge({selectedDesiredLrp: null, hoverDesiredLrp: null});
   },
 
   render() {
     var {$receptor} = this.props;
-    var selection = !!($receptor.get('hoverLrp') || $receptor.get('selectedLrp'));
+    var selection = !!($receptor.get('hoverDesiredLrp') || $receptor.get('selectedDesiredLrp'));
     return (
       <div className={cx({'page type-neutral-8': true, selection})}>
         <PUI.Panel className="main-panel man" scrollable={true}>
           {this.props.children}
-          {$receptor.get('selectedLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
+          {$receptor.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
         </PUI.Panel>
         <PUI.Panel className="sidebar-panel bg-dark-2 man" padding="pan sidebar-body"><Sidebar {...{$receptor}}/></PUI.Panel>
       </div>

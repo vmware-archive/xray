@@ -14,14 +14,14 @@ describe('DesiredLrpDetail', function() {
       Factory.build('actualLrp', {process_guid: 'Diego'}),
       Factory.build('actualLrp', {process_guid: 'Diego', state: 'CLAIMED'})
     ];
-    var selectedLrp = Factory.build('desiredLrp', {process_guid: 'Amazon', instances: 5});
+    var selectedDesiredLrp = Factory.build('desiredLrp', {process_guid: 'Amazon', instances: 5});
     desiredLrps = [
-      selectedLrp,
+      selectedDesiredLrp,
       Factory.build('desiredLrp', {process_guid: 'Diego', instances: 3})
     ];
 
     Cursor = require('../../../app/lib/cursor');
-    $receptor = new Cursor({desiredLrps, actualLrps, selectedLrp, filter: ''}, jasmine.createSpy('callback'));
+    $receptor = new Cursor({desiredLrps, actualLrps, selectedDesiredLrp, filter: ''}, jasmine.createSpy('callback'));
     var colors = ['#fff', '#000'];
 
     React.withContext({colors}, function() {
@@ -51,7 +51,7 @@ describe('DesiredLrpDetail', function() {
     beforeEach(function() {
       deletedLrp = Factory.build('desiredLrp', {process_guid: 'Heroku'});
       var data = $receptor.get();
-      $receptor = new Cursor(Object.assign({}, data, {selectedLrp: deletedLrp}));
+      $receptor = new Cursor(Object.assign({}, data, {selectedDesiredLrp: deletedLrp}));
       subject.setProps({$receptor})
     });
 

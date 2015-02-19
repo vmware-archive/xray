@@ -64,21 +64,21 @@ describe('Cell', function() {
         expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
       });
 
-      it('does not crash if there is a selectedLrp', function() {
-        $receptor = new Cursor({desiredLrps, selectedLrp: Factory.build('desiredLrp')}, jasmine.createSpy('callback'));
+      it('does not crash if there is a selectedDesiredLrp', function() {
+        $receptor = new Cursor({desiredLrps, selectedDesiredLrp: Factory.build('desiredLrp')}, jasmine.createSpy('callback'));
         expect(() => subject.setProps({$receptor})).not.toThrow();
       });
     });
 
     it('deals with selecting lrps', function() {
       $('.container:eq(0)').simulate('click');
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedLrp: desiredLrps[1]}));
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedDesiredLrp: desiredLrps[1]}));
     });
 
     describe('with a selected lrp', function() {
       beforeEach(function() {
         var props = subject.props.$receptor.get();
-        $receptor = new Cursor(Object.assign({}, props, {selectedLrp: desiredLrps[1]}));
+        $receptor = new Cursor(Object.assign({}, props, {selectedDesiredLrp: desiredLrps[1]}));
         subject.setProps({$receptor})
       });
 
@@ -90,7 +90,7 @@ describe('Cell', function() {
     describe('with a hover lrp', function() {
       beforeEach(function() {
         var props = subject.props.$receptor.get();
-        $receptor = new Cursor(Object.assign({}, props, {hoverLrp: desiredLrps[1]}));
+        $receptor = new Cursor(Object.assign({}, props, {hoverDesiredLrp: desiredLrps[1]}));
         subject.setProps({$receptor})
       });
 

@@ -16,7 +16,7 @@ describe('Sidebar', function() {
     ];
 
     Cursor = require('../../../app/lib/cursor');
-    $receptor = new Cursor({desiredLrps, actualLrps, selectedLrp: null, filter: ''}, jasmine.createSpy('callback'));
+    $receptor = new Cursor({desiredLrps, actualLrps, selectedDesiredLrp: null, filter: ''}, jasmine.createSpy('callback'));
     var colors = ['#fff', '#000'];
     React.withContext({colors}, function() {
       subject = React.render(<Sidebar {...{$receptor}}/>, root);
