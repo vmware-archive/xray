@@ -71,16 +71,16 @@ var DesiredLrp = React.createClass({
     disk = prettyBytes(disk * 1000000);
     memory = prettyBytes(memory * 1000000);
     var instancesRunning = actualLrps.filter(({state}) => state === 'RUNNING').length;
-    var instancesError = instancesRunning !== desiredLrp.instances;
+    var instancesError = instancesRunning < desiredLrp.instances;
     var instances = `${instancesRunning}/${desiredLrp.instances}`;
     return (
       <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>
-        <PUI.Media leftImage={leftImage} key={processGuid} className={cx({'desired-lrp pam': true, 'bg-accent-2': isSelected})}>
+        <PUI.Media leftImage={leftImage} key={processGuid} className={cx({'desired-lrp pam': true, 'bg-accent-2': isSelected, 'bg-error-1': instancesError && !isSelected})}>
           <section>
             <div className="process-guid type-ellipsis-1-line">{processGuid}</div>
             {routes && <Routes {...{routes}}/>}
             <div>
-              <span className={cx({'type-error-3': instancesError, 'type-brand-5': !instancesError})}>{instances}</span>
+              <span>{instances}</span>
               &nbsp;(M: {memory} D: {disk})
             </div>
           </section>
