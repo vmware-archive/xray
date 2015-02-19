@@ -1,7 +1,7 @@
 var ActualLrpList = require('./actual_lrp_list');
 var DesiredLrp = require('./desired_lrp');
 var React = require('react/addons');
-var {findDesiredLrp} = require('../helpers/desired_lrp_helper');
+var {findLrp} = require('../helpers/lrp_helper');
 
 var types = React.PropTypes;
 
@@ -13,7 +13,7 @@ var DesiredLrpDetail = React.createClass({
   render() {
     var {$receptor} = this.props;
     var {actualLrps = [], desiredLrps = [], selectedDesiredLrp} = $receptor.get();
-    var desiredLrp = selectedDesiredLrp && findDesiredLrp(desiredLrps, selectedDesiredLrp);
+    var desiredLrp = selectedDesiredLrp && findLrp(desiredLrps, selectedDesiredLrp);
     var isDeleted = false;
     if(!desiredLrp) {
       if(selectedDesiredLrp) {
@@ -30,7 +30,7 @@ var DesiredLrpDetail = React.createClass({
       <div className="desired-lrp-detail">
         <DesiredLrp {...props}/>
         {isDeleted && <span className="pam">This process has been deleted. Information in this panel is out of date.</span>}
-        <ActualLrpList {...{actualLrps}}/>
+        <ActualLrpList {...{actualLrps, $hoverActualLrp: $receptor.refine('hoverActualLrp')}}/>
       </div>
     );
   }

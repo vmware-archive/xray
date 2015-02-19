@@ -16,7 +16,7 @@ describe('Container', function() {
     callbackSpy = jasmine.createSpy('callback');
     var $hoverDesiredLrp = new Cursor({hoverDesiredLrp: null}, callbackSpy).refine('hoverDesiredLrp');
     React.withContext({colors: ['#fff', '#000'], scaling: 'containers', modal: modalSpy}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, isSelected: false, $hoverDesiredLrp}}/>, root);
+      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, isSelected: false, isHighlighted: false, $hoverDesiredLrp}}/>, root);
     });
   });
 
@@ -58,7 +58,7 @@ describe('Container', function() {
       });
 
       it('unsets the desiredLrp on the receptor', function() {
-        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: undefined}));
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: null}));
       });
     });
   });
@@ -73,7 +73,17 @@ describe('Container', function() {
     });
   });
 
-  it('ignores the hover and selected lrp cursor', function() {
+  describe('when the actual lrp is highlighted', function() {
+    beforeEach(function() {
+      subject.setProps({isHighlighted: true});
+    });
+
+    it('highlights the container', function() {
+      expect('.container').toHaveClass('highlight');
+    });
+  });
+
+  it('ignores the hover and selected lrp cursor for rendering', function() {
     expect(subject.ignoreFastProps).toEqual(['$hoverDesiredLrp', '$selectedDesiredLrp']);
   });
 

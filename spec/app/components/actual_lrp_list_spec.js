@@ -4,13 +4,14 @@ describe('ActualLrpList', function() {
   var actualLrps, subject;
   beforeEach(function() {
     var ActualLrpList = require('../../../app/components/actual_lrp_list');
+    var Cursor = require('../../../app/lib/cursor');
     actualLrps = [
       Factory.build('actualLrp', {index: 0}),
       Factory.build('actualLrp', {index: 1, state: 'UNCLAIMED'}),
       Factory.build('actualLrp', {index: 2, state: 'CRASHED'}),
       Factory.build('actualLrp', {index: 3, state: 'UNCLAIMED', placement_error: 'We crossed the streams'})
     ];
-    subject = React.render(<ActualLrpList {...{actualLrps}}/>, root);
+    subject = React.render(<ActualLrpList {...{actualLrps, $hoverActualLrp: new Cursor({}, jasmine.createSpy('callback'))}}/>, root);
   });
 
   afterEach(function() {

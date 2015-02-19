@@ -25,7 +25,7 @@ var Application = React.createClass({
   },
 
   getInitialState() {
-    return {receptor: {cells: [], desiredLrps: [], actualLrps: [], hoverDesiredLrp: null, filter: '', selectedDesiredLrp: null}, receptorUrl: this.props.config.receptorUrl};
+    return {receptor: {cells: [], desiredLrps: [], actualLrps: [], hoverDesiredLrp: null, filter: '', selectedDesiredLrp: null, hoverActualLrp: null}, receptorUrl: this.props.config.receptorUrl};
   },
 
   componentDidMount() {

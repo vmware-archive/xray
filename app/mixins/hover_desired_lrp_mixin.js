@@ -15,7 +15,7 @@ var HoverDesiredLrpMixin = {
 
   onMouseLeave() {
     var {$hoverDesiredLrp} = this.props;
-    $hoverDesiredLrp && $hoverDesiredLrp.set(undefined);
+    $hoverDesiredLrp && $hoverDesiredLrp.set(null);
   },
 
   onClick() {

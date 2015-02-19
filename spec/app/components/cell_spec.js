@@ -87,7 +87,7 @@ describe('Cell', function() {
       });
     });
 
-    describe('with a hover lrp', function() {
+    describe('with a hover desired lrp', function() {
       beforeEach(function() {
         var props = subject.props.$receptor.get();
         $receptor = new Cursor(Object.assign({}, props, {hoverDesiredLrp: desiredLrps[1]}));
@@ -96,6 +96,19 @@ describe('Cell', function() {
 
       it('adds the selected class to the container', function() {
         expect('.container:eq(0)').toHaveClass('selected');
+      });
+    });
+
+    describe('with a hover actual lrp', function() {
+      beforeEach(function() {
+        var props = subject.props.$receptor.get();
+        $receptor = new Cursor(Object.assign({}, props, {hoverActualLrp: actualLrps[1]}));
+        subject.setProps({$receptor})
+      });
+
+      it('adds the highlight class to the container', function() {
+        expect('.container:eq(0)').toHaveClass('highlight');
+        expect('.container:eq(1)').not.toHaveClass('highlight');
       });
     });
   });

@@ -2,7 +2,7 @@ var FastMixin = require('../mixins/fast_mixin');
 var Container = require('./container');
 var sortBy = require('lodash.sortby');
 var React = require('react/addons');
-var {findDesiredLrp} = require('../helpers/desired_lrp_helper');
+var {findLrp} = require('../helpers/lrp_helper');
 var {lpad} = require('../helpers/string_helper');
 var {mergeClassNames} = require('../helpers/application_helper');
 
@@ -34,12 +34,13 @@ var Cell = React.createClass({
         var $hoverDesiredLrp = $receptor.refine('hoverDesiredLrp');
         var $selectedDesiredLrp = $receptor.refine('selectedDesiredLrp');
         if(desiredLrp) {
-          var hasHover = $hoverDesiredLrp.get() && findDesiredLrp([desiredLrp], $hoverDesiredLrp.get());
-          var hasSelection = $selectedDesiredLrp.get() && findDesiredLrp([desiredLrp], $selectedDesiredLrp.get());
+          var hasHover = $hoverDesiredLrp.get() && findLrp([desiredLrp], $hoverDesiredLrp.get());
+          var hasSelection = $selectedDesiredLrp.get() && findLrp([desiredLrp], $selectedDesiredLrp.get());
           isSelected = !!(desiredLrp && hasHover || hasSelection);
         }
+        var isHighlighted = !!($receptor.get('hoverActualLrp') && findLrp([actualLrp], $receptor.get('hoverActualLrp')));
 
-        return (<Container {...{actualLrp, denominator, desiredLrp, $hoverDesiredLrp, $selectedDesiredLrp, isSelected}} key={actualLrp.modification_tag.epoch}/>);
+        return (<Container {...{actualLrp, denominator, desiredLrp, $hoverDesiredLrp, $selectedDesiredLrp, isSelected, isHighlighted}} key={actualLrp.modification_tag.epoch}/>);
       });
 
     return (

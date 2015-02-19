@@ -14,6 +14,7 @@ var Container = React.createClass({
     desiredLrp: types.object,
     denominator: types.number.isRequired,
     isSelected: types.bool.isRequired,
+    isHighlighted: types.bool.isRequired,
     $hoverDesiredLrp: types.object,
     $selectedDesiredLrp: types.object
   },
@@ -28,7 +29,7 @@ var Container = React.createClass({
 
   render() {
     var {state, instance_guid: instanceGuid, modification_tag: {epoch: key}, process_guid: processGuid} = this.props.actualLrp;
-    var {denominator, desiredLrp, isSelected: selected} = this.props;
+    var {denominator, desiredLrp, isSelected: selected, isHighlighted: highlight} = this.props;
     var {scaling} = this.context;
 
     var flex;
@@ -47,7 +48,7 @@ var Container = React.createClass({
       }
     }
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
-    var className = cx({container: true, claimed: state === 'CLAIMED', flex, undesired, selected});
+    var className = cx({container: true, claimed: state === 'CLAIMED', flex, undesired, selected, highlight});
     var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': instanceGuid, onClick: this.onClick, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
     return (<a {...props}/>);
   }

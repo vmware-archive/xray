@@ -1,3 +1,5 @@
+var FastMixin = require('../mixins/fast_mixin');
+var HoverActualLrpMixin = require('../mixins/hover_actual_lrp_mixin');
 var React = require('react/addons');
 var Timeago = require('./timeago');
 
@@ -5,10 +7,15 @@ var cx = React.addons.classSet;
 var types = React.PropTypes;
 
 var ActualLrp = React.createClass({
+  mixins: [FastMixin, HoverActualLrpMixin],
+
   propTypes: {
     actualLrp: types.object.isRequired,
-    position: types.number.isRequired
+    position: types.number.isRequired,
+    $hoverActualLrp: types.object.isRequired
   },
+
+  ignoreFastProps: ['$hoverActualLrp'],
 
   renderLrpState({state, cellId, placementError}) {
     state = state && state.toLowerCase();
@@ -32,7 +39,7 @@ var ActualLrp = React.createClass({
 
     var className = cx({'actual-lrp': true, 'bg-dark-1': !odd && !crashed, 'bg-dark-2': odd && !crashed, 'bg-error-1': crashed, 'faded': faded});
     return (
-      <tr className={className} key={index}>
+      <tr className={className} key={index} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
         <td className="phm index txt-c">{index}</td>
         {this.renderLrpState({state, cellId, placementError})}
         <td className="phm since txt-r"><Timeago dateTime={new Date(since / 1000000)}/></td>
