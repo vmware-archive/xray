@@ -94,8 +94,8 @@ describe('Cell', function() {
         subject.setProps({$receptor})
       });
 
-      it('adds the selected class to the container', function() {
-        expect('.container:eq(0)').toHaveClass('selected');
+      it('adds the hover class to the container', function() {
+        expect('.container:eq(0)').toHaveClass('hover');
       });
     });
 
