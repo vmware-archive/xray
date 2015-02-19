@@ -39,7 +39,7 @@ var Cell = React.createClass({
           isSelected = !!(desiredLrp && hasHover || hasSelection);
         }
 
-        return (<Container {...{actualLrp, denominator, desiredLrp, $hoverLrp, $selectedLrp, isSelected}} key={actualLrp.instance_guid}/>);
+        return (<Container {...{actualLrp, denominator, desiredLrp, $hoverLrp, $selectedLrp, isSelected}} key={actualLrp.modification_tag.epoch}/>);
       });
 
     return (

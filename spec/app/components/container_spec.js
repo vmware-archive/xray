@@ -35,7 +35,7 @@ describe('Container', function() {
 
   describe('when the state of the actual lrp is CLAIMED', function() {
     beforeEach(function() {
-      subject.setProps({actualLrp: update(subject.props.actualLrp, {$set: {state: 'CLAIMED'}})});
+      subject.setProps({actualLrp: update(subject.props.actualLrp, {$merge: {state: 'CLAIMED'}})});
     });
 
     it('adds the claimed class', function() {
