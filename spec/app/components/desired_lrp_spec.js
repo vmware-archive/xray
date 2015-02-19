@@ -88,13 +88,25 @@ describe('DesiredLrp', function() {
     });
 
     it('does not show any errors', function() {
-      expect($('.desired-lrp .type-error-3')).not.toExist();
+      expect($('.desired-lrp.bg-error-1')).not.toExist();
     });
   });
 
   describe('when not all of the actualLrps are running', function() {
     it('marks the lrp with an error', function() {
-      expect($('.desired-lrp .type-error-3')).toExist();
+      expect($('.desired-lrp.bg-error-1')).toExist();
+    });
+  });
+
+  describe('when there are extra actualLrps running', function() {
+    beforeEach(function() {
+      actualLrps = React.addons.update(actualLrps, {2: {$merge: {state: 'RUNNING'}}});
+      actualLrps = React.addons.update(actualLrps, {$push: [Factory.build('actualLrp')]});
+      subject.setProps({actualLrps});
+    });
+
+    it('does not show any errors', function() {
+      expect($('.desired-lrp.bg-error-1')).not.toExist();
     });
   });
 

@@ -7,6 +7,7 @@ var {lpad} = require('../helpers/string_helper');
 var {mergeClassNames} = require('../helpers/application_helper');
 
 var types = React.PropTypes;
+var cx = React.addons.classSet;
 
 var Cell = React.createClass({
   mixins: [FastMixin],
@@ -30,17 +31,18 @@ var Cell = React.createClass({
     var containers = actualLrps && sortBy(actualLrps, lrp => lrp.process_guid + lpad(lrp.index, '0', 5)).map(function(actualLrp) {
         //TODO: desiredLrps could be a hash for O(1) lookup instead of a find
         var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === actualLrp.process_guid);
+        var isHover = false;
         var isSelected = false;
         var $hoverDesiredLrp = $receptor.refine('hoverDesiredLrp');
         var $selectedDesiredLrp = $receptor.refine('selectedDesiredLrp');
         if(desiredLrp) {
-          var hasHover = $hoverDesiredLrp.get() && findLrp([desiredLrp], $hoverDesiredLrp.get());
-          var hasSelection = $selectedDesiredLrp.get() && findLrp([desiredLrp], $selectedDesiredLrp.get());
-          isSelected = !!(desiredLrp && hasHover || hasSelection);
+          isHover = !!($hoverDesiredLrp.get() && findLrp([desiredLrp], $hoverDesiredLrp.get()));
+          isSelected = !!($selectedDesiredLrp.get() && findLrp([desiredLrp], $selectedDesiredLrp.get()));
         }
         var isHighlighted = !!($receptor.get('hoverActualLrp') && findLrp([actualLrp], $receptor.get('hoverActualLrp')));
+        var containerClasses = cx({ highlight: isHighlighted, hover: isHover, selected: isSelected});
 
-        return (<Container {...{actualLrp, denominator, desiredLrp, $hoverDesiredLrp, $selectedDesiredLrp, isSelected, isHighlighted}} key={actualLrp.modification_tag.epoch}/>);
+        return (<Container {...{actualLrp, denominator, desiredLrp, $hoverDesiredLrp, $selectedDesiredLrp, className: containerClasses}} key={actualLrp.modification_tag.epoch}/>);
       });
 
     return (

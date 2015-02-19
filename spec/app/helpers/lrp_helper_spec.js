@@ -22,4 +22,46 @@ describe('LrpHelper', function() {
       expect(subject.findLrp([], Factory.build('desiredLrp'))).toBe(null);
     });
   });
+
+  describe('#getRoutes', function() {
+    var cfRoutes;
+    beforeEach(function() {
+      cfRoutes = [Factory.build('route', {'hostnames': ['foo.com', 'bar.com']}), Factory.build('route', {'hostnames': ['p.dubs']})];
+    });
+
+    it('returns the routes of the first router', function() {
+      var routes = {
+        'cf-router': cfRoutes,
+        'df-router': Factory.buildList('route', 3)
+      };
+      var desiredLrp = Factory.build('desiredLrp', {routes});
+      expect(subject.getRoutes(desiredLrp)).toEqual(cfRoutes);
+    });
+
+    it('returns empty array if there are no routes', function(){
+      expect(subject.getRoutes(Factory.build('desiredLrp', {routes: {}}))).toEqual([]);
+      expect(subject.getRoutes(Factory.build('desiredLrp', {routes: undefined}))).toEqual([]);
+    });
+  });
+
+  describe('#getHostname', function() {
+    var cfRoutes;
+    beforeEach(function() {
+      cfRoutes = [Factory.build('route', {'hostnames': ['foo.com', 'bar.com']}), Factory.build('route', {'hostnames': ['p.dubs']})];
+    });
+
+    it('returns the first hostname', function() {
+      var routes = {
+        'cf-router': cfRoutes,
+        'df-router': Factory.buildList('route', 3)
+      };
+      var desiredLrp = Factory.build('desiredLrp', {routes});
+      expect(subject.getHostname(desiredLrp)).toEqual('foo.com');
+    });
+
+    it('return null if there is no hostname', function() {
+      expect(subject.getHostname(Factory.build('desiredLrp', {routes: {}}))).toBeNull();
+    });
+
+  });
 });
