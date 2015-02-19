@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Sidebar', function() {
-  var Cursor, subject, $receptor, desiredLrps, actualLrps;
+  var Cursor, subject, $receptor, desiredLrps, actualLrps, callbackSpy;
   beforeEach(function() {
     var Sidebar = require('../../../app/components/sidebar');
     actualLrps = [
@@ -16,7 +16,8 @@ describe('Sidebar', function() {
     ];
 
     Cursor = require('../../../app/lib/cursor');
-    $receptor = new Cursor({desiredLrps, actualLrps, selectedDesiredLrp: null, filter: ''}, jasmine.createSpy('callback'));
+    callbackSpy = jasmine.createSpy('callback');
+    $receptor = new Cursor({desiredLrps, actualLrps, selectedDesiredLrp: null, filter: '', sidebarCollapsed: false}, callbackSpy);
     var colors = ['#fff', '#000'];
     React.withContext({colors}, function() {
       subject = React.render(<Sidebar {...{$receptor}}/>, root);
@@ -31,9 +32,35 @@ describe('Sidebar', function() {
     expect($('.media')).toHaveLength(desiredLrps.length);
   });
 
+  it('renders the sidebar toggle', function() {
+    expect('.sidebar-toggle').toExist();
+  });
+
   it('displays the number of instances for a desired lrp', function() {
     expect('.desired-lrp:eq(0)').toContainText('1/5');
     expect('.desired-lrp:eq(1)').toContainText('2/3');
+  });
+
+  describe('when clicking on the sidebar toggle', function() {
+    beforeEach(function() {
+      $('.sidebar-toggle').simulate('click');
+    });
+
+    it('calls the receptor callback with a toggled sidebar collapsed', function() {
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sidebarCollapsed: true}));
+    });
+
+    describe('when clicking on the sidebar toggle again', function() {
+      beforeEach(function() {
+        $receptor = new Cursor({desiredLrps, actualLrps, selectedDesiredLrp: null, filter: '', sidebarCollapsed: true}, callbackSpy);
+        subject.setProps({$receptor});
+        $('.sidebar-toggle').simulate('click');
+      });
+
+      it('removes the collapsed class from the sidebar', function() {
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sidebarCollapsed: false}));
+      });
+    });
   });
 
   describe('when filtering', function() {
@@ -58,7 +85,7 @@ describe('Sidebar', function() {
     it('displays help text when there are no filtered results', function() {
       subject.setProps({$receptor: new Cursor({desiredLrps, actualLrps, filter: 'ZZZZZZZZ!@$'}, jasmine.createSpy('callback'))});
       expect('.desired-lrp').not.toExist();
-      expect('.sidebar').toHaveText('No filtered processes found.');
+      expect('.sidebar').toContainText('No filtered processes found.');
     });
   });
 });

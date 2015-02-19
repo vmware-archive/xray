@@ -11,6 +11,16 @@
 .sidebar-panel, .sidebar-body, .sidebar, .desired-lrp-list, .desired-lrp-detail
   @extend $full-height
 
+.sidebar-panel
+  position: relative
+  sidebar-toggle-width = 19px
+
+  .sidebar-toggle
+    position: absolute
+    left: -(sidebar-toggle-width + 5px)
+    top: 0
+    color: $white
+
 .desired-lrp-list, .desired-lrp-detail
   display(flex)
   flex-direction(column)

@@ -8,8 +8,8 @@ var Sidebar = require('./sidebar');
 var StreamSource = require('../lib/stream_source');
 var PUI = {Panel: require('../vendor/panels').Panel};
 
-var types = React.PropTypes;
 var cx = React.addons.classSet;
+var types = React.PropTypes;
 
 var privates = new WeakMap();
 
@@ -169,7 +169,7 @@ var Page = React.createClass({
     var {$receptor} = this.props;
     var selection = !!($receptor.get('hoverDesiredLrp') || $receptor.get('selectedDesiredLrp'));
     return (
-      <div className={cx({'page type-neutral-8': true, selection})}>
+      <div className={cx({'page type-neutral-8': true, 'sidebar-collapsed': $receptor.get('sidebarCollapsed'), selection})}>
         <PUI.Panel className="main-panel man" scrollable={true}>
           {this.props.children}
           {$receptor.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}

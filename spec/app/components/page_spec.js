@@ -68,6 +68,17 @@ describe('Page', function() {
     });
   });
 
+  describe('when the sidebar is collapsed ', function() {
+    beforeEach(function() {
+      var $receptor = new Cursor({sidebarCollapsed: true}, jasmine.createSpy('callback'));
+      subject.setProps({$receptor});
+    });
+
+    it('adds the sidebar collapsed class to the page', function() {
+      expect('.page').toHaveClass('sidebar-collapsed');
+    });
+  });
+
   describe('event stream', function() {
     describe('for actual lrps', function() {
       describe('when an actual_lrp change event is received', function() {
