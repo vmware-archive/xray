@@ -19,15 +19,15 @@ body
   input[type="text"]
     @extend $full-width
 
-
 .page
   @extend $full
   position: relative
   .main-panel, .sidebar-panel
+    position: absolute
     top: 0
     bottom: 0
+    box-sizing: border-box
   .main-panel
-    position: absolute
     left: 0
     right: sidebar-width
   .sidebar-panel

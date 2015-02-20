@@ -8,8 +8,12 @@
   height: container-size
   display: block
 
-.sidebar-panel, .sidebar-body, .sidebar, .desired-lrp-list, .desired-lrp-detail
+.sidebar, .panel-body, .desired-lrp-list, .desired-lrp-detail
   @extend $full-height
+
+.sidebar
+  display(flex)
+  flex-direction(column)
 
 .sidebar-header
   overflow: hidden
@@ -21,8 +25,8 @@
     overflow: hidden
 
 .desired-lrp-list, .desired-lrp-detail
-  display(flex)
-  flex-direction(column)
+  @extend $scrollable-y
+  flex(1)
   .media, .media-body
     overflow: hidden
   .media-body, .media-left, .media-right
@@ -33,9 +37,6 @@
     float: left
 
 .desired-lrp-list
-  .desired-lrps
-    @extend $scrollable-y
-    flex(1)
   .desired-lrp
     margin: 0
   .routes
