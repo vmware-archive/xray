@@ -1,5 +1,6 @@
 var ActualLrp = require('./actual_lrp');
 var FastMixin = require('../mixins/fast_mixin');
+var {findLrp} = require('../helpers/lrp_helper');
 var React = require('react/addons');
 var sortBy = require('lodash.sortby');
 
@@ -13,12 +14,11 @@ var ActualLrpList = React.createClass({
     $hoverActualLrp: types.object.isRequired
   },
 
-  ignoreFastProps: ['$hoverActualLrp'],
-
   renderActualLrps() {
     var {$hoverActualLrp} = this.props;
     return sortBy(this.props.actualLrps, a => a.index).map(function(actualLrp, position) {
-      return (<ActualLrp {...{actualLrp, position, $hoverActualLrp, key: actualLrp.index}}/>);
+      var isHover = !!($hoverActualLrp.get() && findLrp([actualLrp], $hoverActualLrp.get()));
+      return (<ActualLrp {...{actualLrp, position, isHover, $hoverActualLrp, key: actualLrp.index}}/>);
     });
   },
 

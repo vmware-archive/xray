@@ -12,7 +12,8 @@ var ActualLrp = React.createClass({
   propTypes: {
     actualLrp: types.object.isRequired,
     position: types.number.isRequired,
-    $hoverActualLrp: types.object.isRequired
+    $hoverActualLrp: types.object.isRequired,
+    isHover: types.bool
   },
 
   ignoreFastProps: ['$hoverActualLrp'],
@@ -31,13 +32,16 @@ var ActualLrp = React.createClass({
   },
 
   render() {
-    var {actualLrp, position} = this.props;
+    var {actualLrp, position, isHover} = this.props;
     var {cell_id: cellId, index, since, state, placement_error: placementError} = actualLrp;
     var odd = position % 2;
     var faded = state === 'UNCLAIMED' && !placementError;
     var crashed = state === 'CRASHED' || placementError;
+    var backgroundClass = odd ? 'bg-dark-2' : 'bg-dark-1';
+    if(crashed) {backgroundClass = 'bg-error-1';}
+    if(isHover) {backgroundClass = 'bg-accent-2';}
 
-    var className = cx({'actual-lrp': true, 'bg-dark-1': !odd && !crashed, 'bg-dark-2': odd && !crashed, 'bg-error-1': crashed, 'faded': faded});
+    var className = cx({'actual-lrp': true, [backgroundClass]: true, 'faded': faded});
     return (
       <tr className={className} key={index} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
         <td className="phm index txt-c">{index}</td>

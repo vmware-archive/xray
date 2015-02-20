@@ -1,17 +1,17 @@
 require('../spec_helper');
 
 describe('ActualLrpList', function() {
-  var actualLrps, subject;
+  var actualLrps, subject, Cursor;
   beforeEach(function() {
     var ActualLrpList = require('../../../app/components/actual_lrp_list');
-    var Cursor = require('../../../app/lib/cursor');
+    Cursor = require('../../../app/lib/cursor');
     actualLrps = [
       Factory.build('actualLrp', {index: 0}),
       Factory.build('actualLrp', {index: 1, state: 'UNCLAIMED'}),
       Factory.build('actualLrp', {index: 2, state: 'CRASHED'}),
       Factory.build('actualLrp', {index: 3, state: 'UNCLAIMED', placement_error: 'We crossed the streams'})
     ];
-    subject = React.render(<ActualLrpList {...{actualLrps, $hoverActualLrp: new Cursor({}, jasmine.createSpy('callback'))}}/>, root);
+    subject = React.render(<ActualLrpList {...{actualLrps, $hoverActualLrp: new Cursor({}, jasmine.createSpy('callback')).refine('hoverActualLrp')}}/>, root);
   });
 
   afterEach(function() {
@@ -38,5 +38,18 @@ describe('ActualLrpList', function() {
     expect('.actual-lrp:eq(0)').not.toHaveClass('faded');
     expect('.actual-lrp:eq(1)').toHaveClass('faded');
     expect('.actual-lrp:eq(2)').not.toHaveClass('faded');
+  });
+
+  describe('when hovering over an actuallrp', function() {
+    beforeEach(function() {
+      var $hoverActualLrp = new Cursor({hoverActualLrp: actualLrps[1]}, jasmine.createSpy('callback')).refine('hoverActualLrp');
+      subject.setProps({$hoverActualLrp});
+    });
+
+    it('highlights that lrp', function() {
+      expect('.actual-lrp:eq(0)').not.toHaveClass('bg-accent-2');
+      expect('.actual-lrp:eq(1)').toHaveClass('bg-accent-2');
+      expect('.actual-lrp:eq(2)').not.toHaveClass('bg-accent-2');
+    });
   });
 });
