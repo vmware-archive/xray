@@ -1,11 +1,17 @@
-var React = require('react/addons');
 var Cells = require('./cells');
-
-var PUI = Object.assign({}, {RadioGroup: require('../vendor/radio-group').RadioGroup, Radio: require('../vendor/radio').Radio});
+var React = require('react/addons');
+var ReceptorMixin = require('../mixins/receptor_mixin');
+var PUI = Object.assign({}, {
+  Icon: require('../vendor/icon').Icon,
+  RadioGroup: require('../vendor/radio-group').RadioGroup,
+  Radio: require('../vendor/radio').Radio
+});
 
 var types = React.PropTypes;
 
 var Zones = React.createClass({
+  mixins: [ReceptorMixin],
+
   propTypes: {
     $receptor: types.object
   },
@@ -54,6 +60,7 @@ var Zones = React.createClass({
     return (
       <div className="zones">
         <header>
+          <PUI.Icon name="refresh" className="refresh mrm" onClick={this.updateReceptor}/>
           <PUI.RadioGroup name="scale_type" onChange={this.changeScale}>
             <div>Container Scaling:</div>
             <PUI.Radio value="containers" checked={scaling === 'containers'}>containers</PUI.Radio>

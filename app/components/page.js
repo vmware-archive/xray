@@ -1,34 +1,14 @@
 var BaseApi = require('../api/base_api');
 var React = require('react/addons');
-var ReceptorApi = require('../api/receptor_api');
-var CellsApi = require('../api/cells_api');
-var {setCorrectingInterval} = require('correcting-interval');
-var {diff} = require('../helpers/array_helper');
+var PUI = {Panel: require('../vendor/panels').Panel};
+var ReceptorMixin = require('../mixins/receptor_mixin');
 var Sidebar = require('./sidebar');
 var StreamSource = require('../lib/stream_source');
-var PUI = {Panel: require('../vendor/panels').Panel};
 
 var cx = React.addons.classSet;
 var types = React.PropTypes;
 
 var privates = new WeakMap();
-
-function applyUpdate(newArr, id, changeCallback) {
-  return {
-    $apply: function(oldArr) {
-      var {added, removed, changed} = diff(oldArr, newArr, id, changeCallback);
-      var results = oldArr.filter(x => !removed.includes(x));
-      if (changed && changed.length) {
-        /* jshint unused:false */
-        var currentChanged = changed.map(([current, next]) => current);
-        var nextChanged = changed.map(([current, next]) => next);
-        /* jshint unused:true */
-        results = results.map(x => currentChanged.includes(x) ? nextChanged[currentChanged.indexOf(x)] : x);
-      }
-      return results.concat(added);
-    }
-  };
-}
 
 function parseData(callback, context) {
   return function({data}) {
@@ -70,14 +50,11 @@ function changeResource(cursorName, resourceKey) {
 }
 
 var Page = React.createClass({
+  mixins: [ReceptorMixin],
+
   propTypes: {
     receptorUrl: types.string,
     $receptor: types.object.isRequired
-  },
-
-  statics: {
-    CELL_POLL_INTERVAL: 10000,
-    RECEPTOR_POLL_INTERVAL: 120000
   },
 
   componentDidMount() {
@@ -132,33 +109,6 @@ var Page = React.createClass({
     this.createSSE(receptorUrl);
     this.streamActualLrps();
     this.streamDesiredLrps();
-  },
-
-  updateReceptor() {
-    var {$receptor} = this.props;
-    return ReceptorApi.fetch()
-      .then(function({actualLrps, cells, desiredLrps}) {
-        $receptor.update({
-          cells: applyUpdate(cells, 'cell_id'),
-          actualLrps: applyUpdate(actualLrps, 'instance_guid', (a, b) => a.since !== b.since),
-          desiredLrps: applyUpdate(desiredLrps, 'process_guid')
-        });
-      })
-      .catch(reason => console.error('Receptor Promise failed because', reason));
-  },
-
-  updateCells() {
-    var {$receptor} = this.props;
-    return CellsApi.fetch()
-      .then(function({cells}) {
-        $receptor.refine('cells').update(applyUpdate(cells, 'cell_id'));
-      })
-      .catch(reason => console.error('Cells Promise failed because', reason));
-  },
-
-  pollReceptor() {
-    setCorrectingInterval(this.updateCells, Page.CELL_POLL_INTERVAL);
-    setCorrectingInterval(this.updateReceptor, Page.RECEPTOR_POLL_INTERVAL);
   },
 
   onScrimClick() {
