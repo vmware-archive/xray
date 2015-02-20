@@ -35,7 +35,7 @@ var Page = React.createClass({
 
   render() {
     var {$receptor} = this.props;
-    var selection = !!($receptor.get('hoverDesiredLrp') || $receptor.get('selectedDesiredLrp'));
+    var selection = !!($receptor.get('hoverDesiredLrp') || $receptor.get('selectedDesiredLrp')) || $receptor.get('filter');
     return (
       <div className={cx({'page type-neutral-8': true, 'sidebar-collapsed': $receptor.get('sidebarCollapsed'), selection})}>
         <PUI.Panel className="main-panel man" scrollable={true}>

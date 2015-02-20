@@ -1,15 +1,9 @@
 var React = require('react/addons');
 var DesiredLrp = require('./desired_lrp');
+var {filterDesiredLrps} = require('../helpers/lrp_helper');
 
 var cx = React.addons.classSet;
 var types = React.PropTypes;
-
-function matchesRoutes(desiredLrp, filter) {
-  if (!desiredLrp.routes) return false;
-  var routerKey = Object.keys(desiredLrp.routes)[0];
-  var routes = desiredLrp.routes[routerKey];
-  return routes.some(route => route.hostnames.some(hostname => hostname.includes(filter)));
-}
 
 var DesiredLrpList = React.createClass({
   propTypes: {
@@ -40,7 +34,7 @@ var DesiredLrpList = React.createClass({
     var {$receptor} = this.props;
     var {filter, desiredLrps = []} = $receptor.get();
     if (filter) {
-      desiredLrps = desiredLrps.filter(desiredLrp => desiredLrp.process_guid.includes(filter) || matchesRoutes(desiredLrp, filter))
+      desiredLrps = filterDesiredLrps(desiredLrps, filter);
     }
 
     return (

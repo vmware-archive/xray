@@ -111,6 +111,45 @@ describe('Cell', function() {
         expect('.container:eq(1)').not.toHaveClass('highlight');
       });
     });
+
+    describe('with filtered desired lrps', function() {
+      beforeEach(function() {
+        var props = subject.props.$receptor.get();
+        $receptor = new Cursor(Object.assign({}, props, {filter: 'iego'}));
+        subject.setProps({$receptor});
+      });
+      it('adds the selected class if the desired lrp passes the filter', function() {
+        expect('.container:eq(0)').toHaveClass('selected');
+        expect('.container:eq(1)').not.toHaveClass('selected');
+        expect('.container:eq(2)').not.toHaveClass('selected');
+      });
+
+      describe('when there is also a selected desiredLrp', function() {
+        beforeEach(function() {
+          var props = subject.props.$receptor.get();
+          $receptor = new Cursor(Object.assign({}, props, {selectedDesiredLrp: desiredLrps[2]}));
+          subject.setProps({$receptor});
+        });
+        it('does not select from the filter', function() {
+          expect('.container:eq(0)').not.toHaveClass('selected');
+          expect('.container:eq(1)').toHaveClass('selected');
+          expect('.container:eq(2)').not.toHaveClass('selected');
+        });
+      });
+
+      describe('when there is also a hover desiredLrp', function() {
+        beforeEach(function() {
+          var props = subject.props.$receptor.get();
+          $receptor = new Cursor(Object.assign({}, props, {hoverDesiredLrp: desiredLrps[2]}));
+          subject.setProps({$receptor});
+        });
+        it('does not select from the filter', function() {
+          expect('.container:eq(0)').not.toHaveClass('selected');
+          expect('.container:eq(1)').toHaveClass('hover');
+          expect('.container:eq(2)').not.toHaveClass('selected');
+        });
+      });
+    });
   });
 
   describe('with memory', function() {

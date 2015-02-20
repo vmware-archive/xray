@@ -8,6 +8,11 @@ function getRoutes(desiredLrp) {
   return routes[routers[0]];
 }
 
+function matchesRoutes(desiredLrp, filter) {
+  var routes = getRoutes(desiredLrp);
+  return routes.some(route => route.hostnames.some(hostname => hostname.includes(filter)));
+}
+
 module.exports = {
   findLrp(lrps, {modification_tag: {epoch}}) {
     //TODO: desiredLrps could be a hash for O(1) lookup instead of a find
@@ -22,5 +27,9 @@ module.exports = {
     var routes = getRoutes(desiredLrp);
     if(!routes.length) {return null;}
     return routes[0].hostnames[0];
+  },
+
+  filterDesiredLrps(desiredLrps, filter) {
+    return desiredLrps.filter(desiredLrp => desiredLrp.process_guid.includes(filter) || matchesRoutes(desiredLrp, filter));
   }
 };
