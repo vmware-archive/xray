@@ -1,5 +1,6 @@
-var React = require('react/addons');
 var DesiredLrp = require('./desired_lrp');
+var React = require('react/addons');
+var SidebarHeader = require('./sidebar_header');
 var {filterDesiredLrps} = require('../helpers/lrp_helper');
 
 var cx = React.addons.classSet;
@@ -39,6 +40,7 @@ var DesiredLrpList = React.createClass({
 
     return (
       <div className="desired-lrp-list">
+        <SidebarHeader {...{$receptor}}/>
         <section className="desired-lrps">
           {this.renderDesiredLrps(desiredLrps)}
         </section>

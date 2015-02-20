@@ -9,11 +9,12 @@
 .sidebar, .panel-body, .desired-lrp-list, .desired-lrp-detail
   @extend $full-height
 
-.sidebar, .desired-lrp-detail
-  display(flex)
-  flex-direction(column)
+.sidebar
+  table
+    @extend $full-width
+    table-layout: fixed
 
-.desired-lrp-list, .actual-lrps
+.desired-lrps, .actual-lrps
   @extend $scrollable-y
   flex(1)
 
@@ -27,13 +28,15 @@
     overflow: hidden
 
 .desired-lrp-list, .desired-lrp-detail
+  display(flex)
+  flex-direction(column)
   .media, .media-body
     overflow: hidden
   .media-body, .media-left, .media-right
     display: block
   .media-body
     width: auto
-  .media-left
+  .media-left 
     float: left
 
 .desired-lrp-list
@@ -43,9 +46,6 @@
     a
       &:hover
         text-decoration: underline
-    table
-      @extend $full-width
-      table-layout: fixed
     td
       vertical-align: top
       &.port
@@ -55,9 +55,6 @@
   .actual-lrps
     cursor: default
     font-size: 18px
-    table
-      @extend $full
-      table-layout: fixed
     .index, .since
       width: 15%
     .state
