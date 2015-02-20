@@ -40,7 +40,7 @@ var Cell = React.createClass({
           isSelected = !!($selectedDesiredLrp.get() && findLrp([desiredLrp], $selectedDesiredLrp.get()));
         }
         var isHighlighted = !!($receptor.get('hoverActualLrp') && findLrp([actualLrp], $receptor.get('hoverActualLrp')));
-        var containerClasses = cx({ highlight: isHighlighted, hover: isHover, selected: isSelected});
+        var containerClasses = cx({ highlight: isHighlighted, hover: isHover && !isSelected, selected: isSelected});
 
         return (<Container {...{actualLrp, denominator, desiredLrp, $hoverDesiredLrp, $selectedDesiredLrp, className: containerClasses}} key={actualLrp.modification_tag.epoch}/>);
       });
