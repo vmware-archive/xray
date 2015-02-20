@@ -8,11 +8,11 @@ describe('UrlHelper', function() {
 
   describe('#getCredentials', function() {
     it('returns the username and password when it is passed as basic auth', function() {
-      expect(subject.getCredentials('http://name:pass@example.com')).toEqual({user: 'name', password: 'pass'});
+      expect(subject.getCredentials('http://name:pass@example.com')).toEqual({user: 'name', password: 'pass', url: 'http://example.com'});
     });
 
     it('returns undefined for user and password when it is not passed as basic auth', function() {
-      expect(subject.getCredentials('http://example.com')).toEqual({user: undefined, password: undefined});
+      expect(subject.getCredentials('http://example.com')).toEqual({user: undefined, password: undefined, url: 'http://example.com'});
     });
   });
 });
