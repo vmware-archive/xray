@@ -8,7 +8,7 @@
     "url": "https://github.com/pivotal-cf-experimental/xray.git"
   },
   "scripts": {
-    "test": "./node_modules/.bin/gulp jasmine",
+    "test": "./node_modules/.bin/gulp spec",
     "start": "node index.js",
     "postinstall": "./node_modules/.bin/gulp assets"
   },

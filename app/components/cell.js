@@ -55,8 +55,7 @@ var Cell = React.createClass({
   },
 
   render() {
-    var {cell, $receptor} = this.props;
-    var {actualLrps, style} = this.props;
+    var {cell, $receptor, actualLrps, style} = this.props;
     var {scaling} = this.context;
     var denominator = scaling === 'containers' ? 50 : cell.capacity[scaling];
     var containers = actualLrps && sortBy(actualLrps, lrp => lrp.process_guid + lpad(lrp.index, '0', 5)).map(function(actualLrp) {
