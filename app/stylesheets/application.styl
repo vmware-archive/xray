@@ -35,12 +35,13 @@ body
     right: 0
     width: sidebar-width
 
-sidebar-animation-duration = 300ms
+sidebar-animation-duration = 120ms
 
+sidebar-collapsed-width = container-size + 7 * 2
 .main-panel
   transition: right sidebar-animation-duration ease-in
   .sidebar-collapsed &
-    right: 0
+    right: sidebar-collapsed-width
 
 .sidebar-panel
   transform(translate3d(0, 0, 0))
@@ -48,11 +49,15 @@ sidebar-animation-duration = 300ms
   .sidebar-toggle
     transform(rotateZ(0))
     transition: transform sidebar-animation-duration linear
+  .media-body, .sidebar-header
+    opacity: 1
+    transition: opacity sidebar-animation-duration linear
   .sidebar-collapsed &
-    transform(translate3d(sidebar-width, 0, 0))
+    transform(translate3d(sidebar-width - sidebar-collapsed-width, 0, 0))
+    .media-body
+      display: none
     .sidebar-toggle
       transform(rotateZ(180deg))
-
 .panel-scrollable
   max-height: inherit //Talk to Pivotal UI about this
 

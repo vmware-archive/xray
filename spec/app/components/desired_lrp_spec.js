@@ -2,7 +2,7 @@ require('../spec_helper');
 var update = React.addons.update;
 
 describe('DesiredLrp', function() {
-  var Cursor, subject, desiredLrp, actualLrps, hoverDesiredLrpCallbackSpy, selectedDesiredLrpCallbackSpy;
+  var Cursor, subject, desiredLrp, actualLrps, hoverDesiredLrpCallbackSpy, selectedDesiredLrpCallbackSpy, sidebarCollapsedCallbackSpy;
   beforeEach(function() {
     var DesiredLrp = require('../../../app/components/desired_lrp');
 
@@ -14,13 +14,16 @@ describe('DesiredLrp', function() {
     desiredLrp = Factory.build('desiredLrp', {process_guid: 'Diego', instances: 3});
     hoverDesiredLrpCallbackSpy = jasmine.createSpy('hoverCallback');
     selectedDesiredLrpCallbackSpy = jasmine.createSpy('selectedCallback');
+    sidebarCollapsedCallbackSpy = jasmine.createSpy('sidebarCollapsedCallback');
 
     Cursor = require('../../../app/lib/cursor');
     var $hoverDesiredLrp = new Cursor({hoverDesiredLrp: null}, hoverDesiredLrpCallbackSpy).refine('hoverDesiredLrp');
     var $selectedDesiredLrp = new Cursor({selectedDesiredLrp: null}, selectedDesiredLrpCallbackSpy).refine('selectedDesiredLrp');
+
+    var $sidebarCollapsed = new Cursor(false, sidebarCollapsedCallbackSpy);
     var colors = ['#fff', '#000'];
     React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $hoverDesiredLrp, $selectedDesiredLrp, isSelected: false}}/>, root);
+      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $hoverDesiredLrp, $selectedDesiredLrp, $sidebarCollapsed, isSelected: false}}/>, root);
     });
   });
 
