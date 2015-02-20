@@ -14,8 +14,7 @@ var Container = React.createClass({
     actualLrp: types.object.isRequired,
     desiredLrp: types.object,
     denominator: types.number.isRequired,
-    $hoverDesiredLrp: types.object,
-    $selectedDesiredLrp: types.object
+    $receptor: types.object.isRequired
   },
 
   contextTypes: {
@@ -24,7 +23,7 @@ var Container = React.createClass({
     modal: types.object
   },
 
-  ignoreFastProps: ['$hoverDesiredLrp', '$selectedDesiredLrp'],
+  ignoreFastProps: ['$receptor'],
 
   render() {
     var {state, instance_guid: instanceGuid, modification_tag: {epoch: key}, process_guid: processGuid} = this.props.actualLrp;

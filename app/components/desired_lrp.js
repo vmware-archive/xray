@@ -42,18 +42,17 @@ var DesiredLrp = React.createClass({
     desiredLrp: types.object.isRequired,
     actualLrps: types.array.isRequired,
     isSelected: types.bool,
-    $hoverDesiredLrp: types.object,
-    $selectedDesiredLrp: types.object
+    $receptor: types.object.isRequired
   },
 
   contextTypes: {
     colors: types.array.isRequired
   },
 
-  ignoreFastProps: ['$hoverDesiredLrp', '$selectedDesiredLrp'],
+  ignoreFastProps: ['$receptor'],
 
   getDefaultProps() {
-    return {isSelected: false, $hoverDesiredLrp: null};
+    return {isSelected: false};
   },
 
   render() {

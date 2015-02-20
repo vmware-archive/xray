@@ -1,27 +1,39 @@
 require('../spec_helper');
 
 describe('SidebarHeader', function() {
-  var subject, callbackSpy;
+  var Cursor, subject, callbackSpy, $receptor;
   beforeEach(function() {
     var SidebarHeader = require('../../../app/components/sidebar_header');
-    var Cursor = require('../../../app/lib/cursor');
+    Cursor = require('../../../app/lib/cursor');
     callbackSpy = jasmine.createSpy('callback');
-    var $filter = new Cursor({filter: ''}, callbackSpy).refine('filter');
-    subject = React.render(<SidebarHeader {...{hasDetails: false, $filter}}/>, root);
+    $receptor = new Cursor({filter: '', sidebarCollapsed: false}, callbackSpy);
+    subject = React.render(<SidebarHeader {...{$receptor}}/>, root);
   });
 
   it('sets the filter when the user types', function() {
     $('.sidebar-header :text').val('foo').simulate('change');
-    expect(callbackSpy).toHaveBeenCalledWith({filter: 'foo'});
+    expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({filter: 'foo'}));
   });
 
-  describe('when has details is true', function() {
+  describe('when clicking on the sidebar toggle', function() {
     beforeEach(function() {
-      subject.setProps({hasDetails: true});
+      $('.sidebar-toggle').simulate('click');
     });
 
-    it('does not render the filter', function() {
-      expect('input[type=text]').not.toExist();
+    it('calls the receptor callback with a toggled sidebar collapsed', function() {
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sidebarCollapsed: true}));
+    });
+
+    describe('when clicking on the sidebar toggle again', function() {
+      beforeEach(function() {
+        $receptor = new Cursor({filter: '', sidebarCollapsed: true}, callbackSpy);
+        subject.setProps({$receptor});
+        $('.sidebar-toggle').simulate('click');
+      });
+
+      it('removes the collapsed class from the sidebar', function() {
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sidebarCollapsed: false}));
+      });
     });
   });
 });

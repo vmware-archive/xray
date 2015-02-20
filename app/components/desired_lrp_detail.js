@@ -25,7 +25,7 @@ var DesiredLrpDetail = React.createClass({
     }
 
     actualLrps = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
-    var props = {actualLrps, desiredLrp, $selectedDesiredLrp: $receptor.refine('selectedDesiredLrp')};
+    var props = {actualLrps, desiredLrp, $receptor};
     return (
       <div className="desired-lrp-detail">
         <DesiredLrp {...props}/>

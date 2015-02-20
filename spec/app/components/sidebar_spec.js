@@ -40,29 +40,7 @@ describe('Sidebar', function() {
     expect('.desired-lrp:eq(0)').toContainText('1/5');
     expect('.desired-lrp:eq(1)').toContainText('2/3');
   });
-
-  describe('when clicking on the sidebar toggle', function() {
-    beforeEach(function() {
-      $('.sidebar-toggle').simulate('click');
-    });
-
-    it('calls the receptor callback with a toggled sidebar collapsed', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sidebarCollapsed: true}));
-    });
-
-    describe('when clicking on the sidebar toggle again', function() {
-      beforeEach(function() {
-        $receptor = new Cursor({desiredLrps, actualLrps, selectedDesiredLrp: null, filter: '', sidebarCollapsed: true}, callbackSpy);
-        subject.setProps({$receptor});
-        $('.sidebar-toggle').simulate('click');
-      });
-
-      it('removes the collapsed class from the sidebar', function() {
-        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sidebarCollapsed: false}));
-      });
-    });
-  });
-
+  
   describe('when filtering', function() {
     it('filters even when a desired lrp has no routes', function() {
       expect(function() {

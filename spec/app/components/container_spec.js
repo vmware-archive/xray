@@ -14,9 +14,9 @@ describe('Container', function() {
 
     Cursor = require('../../../app/lib/cursor');
     callbackSpy = jasmine.createSpy('callback');
-    var $hoverDesiredLrp = new Cursor({hoverDesiredLrp: null}, callbackSpy).refine('hoverDesiredLrp');
+    var $receptor = new Cursor({hoverDesiredLrp: null}, callbackSpy);
     React.withContext({colors: ['#fff', '#000'], scaling: 'containers', modal: modalSpy}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, className: "", $hoverDesiredLrp}}/>, root);
+      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, className: "", $receptor}}/>, root);
     });
   });
 
@@ -84,7 +84,7 @@ describe('Container', function() {
   });
 
   it('ignores the hover and selected lrp cursor for rendering', function() {
-    expect(subject.ignoreFastProps).toEqual(['$hoverDesiredLrp', '$selectedDesiredLrp']);
+    expect(subject.ignoreFastProps).toEqual(['$receptor']);
   });
 
 });

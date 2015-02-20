@@ -19,30 +19,28 @@ var DesiredLrpList = React.createClass({
   renderDesiredLrps(desiredLrps) {
     var {$receptor} = this.props;
     var {actualLrps = []} = $receptor.get();
-    var $hoverDesiredLrp = $receptor.refine('hoverDesiredLrp');
-    var $selectedDesiredLrp = $receptor.refine('selectedDesiredLrp');
 
     if(!desiredLrps.length) {
       return <div className="mam">No filtered processes found.</div>;
     }
-    var sidebarCollapsed = $receptor.get('sidebarCollapsed');
+
+    var {sidebarCollapsed, hoverDesiredLrp} = $receptor.get();
     return desiredLrps.map(function(desiredLrp, i) {
       var key = desiredLrp.process_guid;
-      var odd = sidebarCollapsed ? 0 : i % 2;
+      var odd = sidebarCollapsed ? false : i % 2;
       var className = cx({'clickable': true, 'bg-dark-1': odd, 'bg-dark-2': !odd});
       var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
-      var isSelected = !!(desiredLrp && $hoverDesiredLrp.get() === desiredLrp);
-      var props = {className, desiredLrp, actualLrps: filtered, key, $hoverDesiredLrp, $selectedDesiredLrp, isSelected};
+      var isSelected = !!(desiredLrp && hoverDesiredLrp === desiredLrp);
+      var props = {className, desiredLrp, actualLrps: filtered, key, $receptor, isSelected};
       return <DesiredLrp {...props}/>;
     }, this);
   },
 
   render() {
     var {$receptor} = this.props;
-    var {filter} = $receptor.get();
-    var {desiredLrps = []} = $receptor.get();
+    var {filter, desiredLrps = []} = $receptor.get();
     if (filter) {
-      desiredLrps = desiredLrps.filter(desiredLrp  => desiredLrp.process_guid.includes(filter) || matchesRoutes(desiredLrp, filter))
+      desiredLrps = desiredLrps.filter(desiredLrp => desiredLrp.process_guid.includes(filter) || matchesRoutes(desiredLrp, filter))
     }
 
     return (

@@ -33,16 +33,16 @@ var Cell = React.createClass({
         var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === actualLrp.process_guid);
         var isHover = false;
         var isSelected = false;
-        var $hoverDesiredLrp = $receptor.refine('hoverDesiredLrp');
-        var $selectedDesiredLrp = $receptor.refine('selectedDesiredLrp');
+        var hoverDesiredLrp = $receptor.get('hoverDesiredLrp');
+        var selectedDesiredLrp = $receptor.get('selectedDesiredLrp');
         if(desiredLrp) {
-          isHover = !!($hoverDesiredLrp.get() && findLrp([desiredLrp], $hoverDesiredLrp.get()));
-          isSelected = !!($selectedDesiredLrp.get() && findLrp([desiredLrp], $selectedDesiredLrp.get()));
+          isHover = !!(hoverDesiredLrp && findLrp([desiredLrp], hoverDesiredLrp));
+          isSelected = !!(selectedDesiredLrp && findLrp([desiredLrp], selectedDesiredLrp));
         }
         var isHighlighted = !!($receptor.get('hoverActualLrp') && findLrp([actualLrp], $receptor.get('hoverActualLrp')));
         var containerClasses = cx({ highlight: isHighlighted, hover: isHover && !isSelected, selected: isSelected});
 
-        return (<Container {...{actualLrp, denominator, desiredLrp, $hoverDesiredLrp, $selectedDesiredLrp, className: containerClasses}} key={actualLrp.modification_tag.epoch}/>);
+        return (<Container {...{actualLrp, denominator, desiredLrp, $receptor, className: containerClasses}} key={actualLrp.modification_tag.epoch}/>);
       });
 
     return (
