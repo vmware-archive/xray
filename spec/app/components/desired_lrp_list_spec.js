@@ -1,6 +1,6 @@
 require('../spec_helper');
 describe('DesiredLrpList', function() {
-  var Cursor, subject, actualLrps, desiredLrps;
+  var Cursor, subject, desiredLrps;
   beforeEach(function() {
     var DesiredLrpList = require('../../../app/components/desired_lrp_list');
     Cursor = require('../../../app/lib/cursor');
