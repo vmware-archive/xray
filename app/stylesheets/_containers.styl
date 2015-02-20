@@ -12,10 +12,9 @@
   &.undesired
     background-color: transparent
     position: relative
-    &:before
+    .mask
       @extend $zero
       @extend $full
-      content: ''
       border: 3px solid $white
   &.claimed
     animation(fade-in 1s linear infinite alternate)

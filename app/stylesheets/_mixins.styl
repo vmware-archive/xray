@@ -31,12 +31,14 @@ $zero
 
 $selected
   opacity(0.15)
+  .mask
+    display: none
   &.selected, &.hover
     opacity(1)
   &.hover
     position: relative
-    &:before
-      content: ''
+    .mask
+      display: block
       width 100%
       height: 100%
       position: absolute

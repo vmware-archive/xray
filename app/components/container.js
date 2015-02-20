@@ -49,7 +49,7 @@ var Container = React.createClass({
     var style = {width: `${percentWidth*100}%`, backgroundColor: backgroundColor};
     className = mergeClassNames(className, cx({container: true, claimed: state === 'CLAIMED', flex, undesired}));
     var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': instanceGuid, onClick: this.onClick, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
-    return (<a {...props}/>);
+    return (<a {...props}><span className="mask"/></a>);
   }
 });
 
