@@ -5,11 +5,12 @@ var {getCredentials} = require('../helpers/url_helper');
 var BaseApi = {
   baseUrl: null,
 
-  get(url) {
-    var {user, password} = getCredentials(this.baseUrl);
+  get(route) {
+    var {user, password, url} = getCredentials(this.baseUrl);
     return new Promise(function(resolve, reject) {
-      request.get(`${BaseApi.baseUrl}/v1/${url}`)
+      request.get(`${url}/v1/${route}`)
         .auth(user, password)
+        .withCredentials()
         .accept('json')
         .end(function(err, res) {
           if (err) return reject(err);

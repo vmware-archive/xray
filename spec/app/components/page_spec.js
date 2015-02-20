@@ -83,7 +83,7 @@ describe('Page', function() {
     describe('for actual lrps', function() {
       describe('when an actual_lrp change event is received', function() {
         beforeEach(function() {
-          mockEventSource.trigger('actual_lrp_changed', {
+          MockEventSource.mostRecent().trigger('actual_lrp_changed', {
             actual_lrp_before: actualLrps[1],
             actual_lrp_after: Object.assign({}, actualLrps[1], {state: 'CLAIMED', instance_guid: '123'})
           });
@@ -98,7 +98,7 @@ describe('Page', function() {
         var actualLrp;
         beforeEach(function() {
           actualLrp = Factory.build('actualLrp');
-          mockEventSource.trigger('actual_lrp_created', {
+          MockEventSource.mostRecent().trigger('actual_lrp_created', {
             actual_lrp: actualLrp
           });
         });
@@ -110,7 +110,7 @@ describe('Page', function() {
 
       describe('when an actual_lrp removed event is received', function() {
         beforeEach(function() {
-          mockEventSource.trigger('actual_lrp_removed', {
+          MockEventSource.mostRecent().trigger('actual_lrp_removed', {
             actual_lrp: actualLrps[1]
           });
         });
@@ -126,7 +126,7 @@ describe('Page', function() {
           var actualLrp;
           beforeEach(function() {
             actualLrp = Factory.build('actualLrp');
-            mockEventSource.trigger('actual_lrp_changed', {
+            MockEventSource.mostRecent().trigger('actual_lrp_changed', {
               actual_lrp_before: actualLrps,
               actual_lrp_after: actualLrp
             });
@@ -139,7 +139,7 @@ describe('Page', function() {
         });
         describe('when an actual lrp is removed but does not exist', function() {
           beforeEach(function() {
-            mockEventSource.trigger('actual_lrp_removed', {
+            MockEventSource.mostRecent().trigger('actual_lrp_removed', {
               actual_lrp: Factory.build('actualLrp')
             });
           });
@@ -150,7 +150,7 @@ describe('Page', function() {
         });
         describe('when an actual lrp is created but it already exists', function() {
           beforeEach(function() {
-            mockEventSource.trigger('actual_lrp_created', {
+            MockEventSource.mostRecent().trigger('actual_lrp_created', {
               actual_lrp: actualLrps[0]
             });
           });
@@ -164,7 +164,7 @@ describe('Page', function() {
     describe('for desired lrps', function() {
       describe('when an desired_lrp change event is received', function() {
         beforeEach(function() {
-          mockEventSource.trigger('desired_lrp_changed', {
+          MockEventSource.mostRecent().trigger('desired_lrp_changed', {
             desired_lrp_before: desiredLrps[1],
             desired_lrp_after: Object.assign({}, desiredLrps[1], {disk_mb: 9999})
           });
@@ -179,7 +179,7 @@ describe('Page', function() {
         var desiredLrp;
         beforeEach(function() {
           desiredLrp = Factory.build('desiredLrp');
-          mockEventSource.trigger('desired_lrp_created', {
+          MockEventSource.mostRecent().trigger('desired_lrp_created', {
             desired_lrp: desiredLrp
           });
         });
@@ -191,7 +191,7 @@ describe('Page', function() {
 
       describe('when an desired_lrp removed event is received', function() {
         beforeEach(function() {
-          mockEventSource.trigger('desired_lrp_removed', {
+          MockEventSource.mostRecent().trigger('desired_lrp_removed', {
             desired_lrp: desiredLrps[1]
           });
         });

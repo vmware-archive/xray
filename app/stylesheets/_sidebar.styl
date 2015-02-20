@@ -9,9 +9,13 @@
 .sidebar, .panel-body, .desired-lrp-list, .desired-lrp-detail
   @extend $full-height
 
-.sidebar
+.sidebar, .desired-lrp-detail
   display(flex)
   flex-direction(column)
+
+.desired-lrp-list, .actual-lrps
+  @extend $scrollable-y
+  flex(1)
 
 .sidebar-header
   overflow: hidden
@@ -23,8 +27,6 @@
     overflow: hidden
 
 .desired-lrp-list, .desired-lrp-detail
-  @extend $scrollable-y
-  flex(1)
   .media, .media-body
     overflow: hidden
   .media-body, .media-left, .media-right
@@ -52,8 +54,6 @@
 .desired-lrp-detail
   .actual-lrps
     cursor: default
-    @extend $scrollable-y
-    flex(1)
     font-size: 18px
     table
       @extend $full

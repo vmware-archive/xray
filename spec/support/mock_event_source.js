@@ -1,6 +1,11 @@
 var callbacks = {};
-function MockEventSource() {
-  return {
+var oldEventSource;
+var instance;
+
+function MockEventSource(url, options = {}) {
+  instance = {
+    url,
+    options,
     trigger(eventName, data) {
       callbacks[eventName] && callbacks[eventName].forEach(function(cb) {
         cb({data: typeof data === 'object' ? JSON.stringify(data) : data});
@@ -19,11 +24,11 @@ function MockEventSource() {
         callbacks[eventName].splice(index, 1);
       }
     }
-  }
+  };
+  return instance;
 }
 
-var oldEventSource;
-module.exports = Object.assign({}, {
+Object.assign(MockEventSource, {
   install() {
     if (oldEventSource) {
       throw new Error('MockEventSource is already installed!');
@@ -35,5 +40,11 @@ module.exports = Object.assign({}, {
   uninstall() {
     global.EventSource = oldEventSource;
     oldEventSource = null;
+  },
+
+  mostRecent() {
+    return instance;
   }
-}, MockEventSource());
+});
+
+module.exports = MockEventSource;
