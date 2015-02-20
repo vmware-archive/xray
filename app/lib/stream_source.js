@@ -1,7 +1,9 @@
 var privates = new WeakMap();
+var {getCredentials} = require('../helpers/url_helper');
 
 class StreamSource {
-  constructor(url, options = {}) {
+  constructor(fullUrl, options = {}) {
+    var {url} = getCredentials(fullUrl);
     var eventSource = new EventSource(url, options);
     privates.set(this, {eventSource, callbacks: {}});
   }
