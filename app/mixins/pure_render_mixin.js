@@ -1,6 +1,6 @@
 var Cursor = require('../lib/cursor');
 
-function isEqual(next, current, ignore) {
+function isNotEqual(next, current, ignore) {
   return function(p) {
     if (ignore.includes(p)) return false;
     if (next[p] instanceof Cursor && current[p] instanceof Cursor) {
@@ -17,7 +17,7 @@ var PureRenderMixin = {
       {next: nextState, current: this.state, type: 'State'},
       {next: nextContext, current: this.context, type: 'Context'}].some(function({next, current, type}) {
         var ignore = `ignorePureRender${type}`;
-        return next && Object.keys(next).some(isEqual(next, current, this[ignore] || []));
+        return next && Object.keys(next).some(isNotEqual(next, current, this[ignore] || []));
       }, this);
   }
 };
