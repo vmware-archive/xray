@@ -1,6 +1,6 @@
 var React = require('react/addons');
 var Cell = require('./cell');
-var FastMixin = require('../mixins/fast_mixin');
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var sortBy = require('lodash.sortby');
 
 var cx = React.addons.classSet;
@@ -8,7 +8,7 @@ var cx = React.addons.classSet;
 var types = React.PropTypes;
 
 var Cells = React.createClass({
-  mixins: [FastMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     cells: types.array,

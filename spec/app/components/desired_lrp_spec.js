@@ -26,8 +26,8 @@ describe('DesiredLrp', function() {
     React.unmountComponentAtNode(root);
   });
 
-  it('ignores the selected and hover lrp cursor', function() {
-    expect(subject.ignoreFastProps).toEqual(['$receptor']);
+  it('ignores the receptor cursor for rendering', function() {
+    expect(subject.ignorePureRenderProps).toEqual(['$receptor']);
   });
 
   describe('routes', function() {

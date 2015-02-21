@@ -1,4 +1,4 @@
-var FastMixin = require('../mixins/fast_mixin');
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var prettyBytes = require('pretty-bytes');
 var PUI = {Media: require('../vendor/media').Media};
@@ -9,12 +9,16 @@ var {getRoutes, getHostname} = require('../helpers/lrp_helper');
 var types = React.PropTypes;
 var cx = React.addons.classSet;
 
+function stopPropagation(e) {
+  e.stopPropagation();
+}
+
 function links(array) {
-  return array.map((hostname, i) => <a className="type-accent-4 type-ellipsis-1-line" href={`//${hostname}`} key={i} title={hostname} target="_blank">{hostname}</a>)
+  return array.map((hostname, i) => <a className="type-accent-4 type-ellipsis-1-line" href={`//${hostname}`} key={i} title={hostname} target="_blank" onClick={stopPropagation}>{hostname}</a>)
 }
 
 var Routes = React.createClass({
-  mixins: [FastMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     routes: types.array.isRequired
@@ -36,7 +40,7 @@ var Routes = React.createClass({
 });
 
 var DesiredLrp = React.createClass({
-  mixins: [FastMixin, HoverDesiredLrpMixin],
+  mixins: [PureRenderMixin, HoverDesiredLrpMixin],
 
   propTypes: {
     desiredLrp: types.object.isRequired,
@@ -49,7 +53,7 @@ var DesiredLrp = React.createClass({
     colors: types.array.isRequired
   },
 
-  ignoreFastProps: ['$receptor'],
+  ignorePureRenderProps: ['$receptor'],
 
   getDefaultProps() {
     return {isSelected: false};

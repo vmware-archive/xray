@@ -1,4 +1,4 @@
-var FastMixin = require('../mixins/fast_mixin');
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var HoverActualLrpMixin = require('../mixins/hover_actual_lrp_mixin');
 var React = require('react/addons');
 var Timeago = require('./timeago');
@@ -7,7 +7,7 @@ var cx = React.addons.classSet;
 var types = React.PropTypes;
 
 var ActualLrp = React.createClass({
-  mixins: [FastMixin, HoverActualLrpMixin],
+  mixins: [PureRenderMixin, HoverActualLrpMixin],
 
   propTypes: {
     actualLrp: types.object.isRequired,
@@ -16,7 +16,7 @@ var ActualLrp = React.createClass({
     isHover: types.bool
   },
 
-  ignoreFastProps: ['$hoverActualLrp'],
+  ignorePureRenderProps: ['$hoverActualLrp'],
 
   renderLrpState({state, cellId, placementError}) {
     state = state && state.toLowerCase();

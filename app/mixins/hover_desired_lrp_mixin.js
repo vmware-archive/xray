@@ -17,7 +17,8 @@ var HoverDesiredLrpMixin = {
     $receptor.merge({hoverDesiredLrp: null});
   },
 
-  onClick() {
+  onClick(e) {
+    e.stopPropagation();
     var {desiredLrp, $receptor} = this.props;
     $receptor.merge({selectedDesiredLrp: desiredLrp, sidebarCollapsed: false});
   }

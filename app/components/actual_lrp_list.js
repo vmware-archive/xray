@@ -1,5 +1,5 @@
 var ActualLrp = require('./actual_lrp');
-var FastMixin = require('../mixins/fast_mixin');
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var {findLrp} = require('../helpers/lrp_helper');
 var React = require('react/addons');
 var sortBy = require('lodash.sortby');
@@ -7,7 +7,7 @@ var sortBy = require('lodash.sortby');
 var types = React.PropTypes;
 
 var ActualLrpList = React.createClass({
-  mixins: [FastMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     actualLrps: types.array.isRequired,

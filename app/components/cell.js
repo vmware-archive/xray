@@ -1,4 +1,4 @@
-var FastMixin = require('../mixins/fast_mixin');
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var Container = require('./container');
 var sortBy = require('lodash.sortby');
 var React = require('react/addons');
@@ -30,7 +30,7 @@ function determineSelectedHover($receptor, desiredLrp) {
 }
 
 var Cell = React.createClass({
-  mixins: [FastMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     actualLrps: types.array,

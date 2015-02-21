@@ -83,8 +83,7 @@ describe('Container', function() {
     });
   });
 
-  it('ignores the hover and selected lrp cursor for rendering', function() {
-    expect(subject.ignoreFastProps).toEqual(['$receptor']);
+  it('ignores the receptor cursor for rendering', function() {
+    expect(subject.ignorePureRenderProps).toEqual(['$receptor']);
   });
-
 });

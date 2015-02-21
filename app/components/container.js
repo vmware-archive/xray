@@ -1,4 +1,4 @@
-var FastMixin = require('../mixins/fast_mixin');
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var {getHostname} = require('../helpers/lrp_helper');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var {mergeClassNames, pickColor} = require('../helpers/application_helper');
@@ -8,7 +8,7 @@ var types = React.PropTypes;
 var cx = React.addons.classSet;
 
 var Container = React.createClass({
-  mixins: [FastMixin, HoverDesiredLrpMixin],
+  mixins: [PureRenderMixin, HoverDesiredLrpMixin],
 
   propTypes: {
     actualLrp: types.object.isRequired,
@@ -23,7 +23,7 @@ var Container = React.createClass({
     modal: types.object
   },
 
-  ignoreFastProps: ['$receptor'],
+  ignorePureRenderProps: ['$receptor'],
 
   render() {
     var {state, instance_guid: instanceGuid, modification_tag: {epoch: key}, process_guid: processGuid} = this.props.actualLrp;

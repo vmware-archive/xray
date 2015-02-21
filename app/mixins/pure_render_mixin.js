@@ -10,16 +10,16 @@ function isEqual(next, current, ignore) {
   };
 }
 
-var FastMixin = {
+var PureRenderMixin = {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     return [
       {next: nextProps, current: this.props, type: 'Props'},
       {next: nextState, current: this.state, type: 'State'},
       {next: nextContext, current: this.context, type: 'Context'}].some(function({next, current, type}) {
-        var ignore = `ignoreFast${type}`;
+        var ignore = `ignorePureRender${type}`;
         return next && Object.keys(next).some(isEqual(next, current, this[ignore] || []));
       }, this);
   }
 };
 
-module.exports = FastMixin;
+module.exports = PureRenderMixin;

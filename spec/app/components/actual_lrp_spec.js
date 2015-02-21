@@ -38,6 +38,10 @@ describe('ActualLrp', function() {
     });
   });
 
+  it('ignores the hover actual lrp cursor for rendering', function() {
+    expect(subject.ignorePureRenderProps).toEqual(['$hoverActualLrp']);
+  });
+
   describe('when the mouse over event is triggered on the component', function() {
     beforeEach(function() {
       $(subject.getDOMNode()).simulate('mouseOver');
@@ -59,6 +63,6 @@ describe('ActualLrp', function() {
   });
 
   it('ignores the hover lrp cursor for rendering', function() {
-    expect(subject.ignoreFastProps).toEqual(['$hoverActualLrp']);
+    expect(subject.ignorePureRenderProps).toEqual(['$hoverActualLrp']);
   });
 });

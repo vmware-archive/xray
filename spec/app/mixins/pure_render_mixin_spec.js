@@ -1,9 +1,9 @@
-describe('FastMixin', function() {
+describe('PureRenderMixin', function() {
   const data = {a: 'a', b: 'b'};
   var subject, one, two, three, nested, renderSpy, wrapper, Cursor;
   var update = React.addons.update;
   beforeEach(function() {
-    var FastMixin = require('../../../app/mixins/fast_mixin');
+    var PureRenderMixin = require('../../../app/mixins/pure_render_mixin');
     renderSpy = jasmine.createSpy('render').and.returnValue(null);
     nested = { foo: 'bar'};
     one = {name: 'one', nested: nested};
@@ -13,8 +13,8 @@ describe('FastMixin', function() {
     wrapper = {one: one, two: two, three: three};
 
     var Klass = React.createClass({
-      mixins: [FastMixin],
-      ignoreFastProps: ['ignore'],
+      mixins: [PureRenderMixin],
+      ignorePureRenderProps: ['ignore'],
       getInitialState(){ return {three}},
       render: renderSpy
     });
