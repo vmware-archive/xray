@@ -16,6 +16,28 @@ describe('ActualLrp', function() {
     React.unmountComponentAtNode(root);
   });
 
+  describe('when the state is crashed', function() {
+    beforeEach(function() {
+      actualLrp = Factory.build('actualLrp', {state: 'CRASHED'});
+      subject.setProps({actualLrp});
+    });
+
+    it('adds the bg error 1 class', function() {
+      expect('.bg-error-1').toExist();
+    });
+  });
+
+  describe('when the state is claimed', function() {
+    beforeEach(function() {
+      actualLrp = Factory.build('actualLrp', {state: 'CLAIMED'});
+      subject.setProps({actualLrp});
+    });
+
+    it('adds the claimed class', function() {
+      expect('.claimed').toExist();
+    });
+  });
+
   describe('when the mouse over event is triggered on the component', function() {
     beforeEach(function() {
       $(subject.getDOMNode()).simulate('mouseOver');
