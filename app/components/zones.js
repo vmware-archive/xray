@@ -61,12 +61,14 @@ var Zones = React.createClass({
       <div className="zones">
         <header>
           <PUI.Icon name="refresh" className="refresh mrm" onClick={this.updateReceptor}/>
-          <PUI.RadioGroup name="scale_type" onChange={this.changeScale}>
-            <div>Container Scaling:</div>
-            <PUI.Radio value="containers" checked={scaling === 'containers'}>containers</PUI.Radio>
-            <PUI.Radio value="memory_mb" checked={scaling === 'memory_mb'}>memory</PUI.Radio>
-            <PUI.Radio value="disk_mb" checked={scaling === 'disk_mb'}>disk</PUI.Radio>
-          </PUI.RadioGroup>
+          <div className="form-inline">
+            <PUI.RadioGroup name="scale_type" onChange={this.changeScale}>
+              <div>Container Scaling:</div>
+              <PUI.Radio value="containers" checked={scaling === 'containers'}> containers</PUI.Radio>
+              <PUI.Radio value="memory_mb" checked={scaling === 'memory_mb'}> memory</PUI.Radio>
+              <PUI.Radio value="disk_mb" checked={scaling === 'disk_mb'}> disk</PUI.Radio>
+            </PUI.RadioGroup>
+          </div>
         </header>
         {this.renderZones()}
       </div>
