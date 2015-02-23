@@ -38,11 +38,11 @@ var Page = React.createClass({
     var selection = !!($receptor.get('hoverDesiredLrp') || $receptor.get('selectedDesiredLrp')) || $receptor.get('filter');
     return (
       <div className={cx({'page type-neutral-8': true, 'sidebar-collapsed': $receptor.get('sidebarCollapsed'), selection})}>
-        <PUI.Panel className="main-panel man" scrollable={true}>
+        <PUI.Panel className="main-panel man panel-scrollable-layout" scrollable={true}>
           {this.props.children}
           {$receptor.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
         </PUI.Panel>
-        <PUI.Panel className="sidebar-panel bg-dark-2 man" padding="pan sidebar-body"><Sidebar {...{$receptor}}/></PUI.Panel>
+        <PUI.Panel className="sidebar-panel bg-dark-2 man panel-scrollable-layout" padding="pan sidebar-body"><Sidebar {...{$receptor}}/></PUI.Panel>
       </div>
     );
   }
