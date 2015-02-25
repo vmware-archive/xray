@@ -4,7 +4,7 @@ var sortBy = require('lodash.sortby');
 var React = require('react/addons');
 var {findLrp, filterDesiredLrps} = require('../helpers/lrp_helper');
 var {lpad} = require('../helpers/string_helper');
-var {mergeClassnames} = require('../helpers/react_helper');
+var {mergeClassNames} = require('../helpers/react_helper');
 
 var types = React.PropTypes;
 var cx = React.addons.classSet;
@@ -66,7 +66,7 @@ var Cell = React.createClass({
       }, this);
 
     return (
-      <li className={mergeClassnames('cell', this.props.className)} style={style}>
+      <li className={mergeClassNames('cell', this.props.className)} style={style}>
         {containers}
       </li>
     );
