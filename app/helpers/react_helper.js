@@ -4,7 +4,7 @@ var React = require('react/addons');
 var cx = React.addons.classSet;
 
 module.exports = {
-  mergeClassNames(...classNames) {
+  mergeClassnames(...classNames) {
     return cx(flatten(classNames.map(name => (name || '').split(/\s+/))).reduce((memo, c) => ((memo[c] = true),  memo), {}));
   }
 };
