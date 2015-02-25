@@ -4,7 +4,7 @@ var sortBy = require('lodash.sortby');
 var React = require('react/addons');
 var {findLrp, filterDesiredLrps} = require('../helpers/lrp_helper');
 var {lpad} = require('../helpers/string_helper');
-var {mergeClassNames} = require('../helpers/application_helper');
+var {mergeClassNames} = require('../helpers/react_helper');
 
 var types = React.PropTypes;
 var cx = React.addons.classSet;
