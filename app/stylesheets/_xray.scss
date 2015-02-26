@@ -1,0 +1,83 @@
+@import '_colors';
+@import '_mixins';
+@import '_variables';
+
+html, body, #root, .xray {
+  min-height: 100%;
+  @extend %full-height;
+}
+
+body {
+  background-color: $black;
+}
+
+.receptor-url-modal {
+  input[type="text"] {
+    @extend %full-width;
+  }
+}
+
+.page {
+  @extend %full;
+  position: relative;
+  .main-panel, .sidebar-panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    box-sizing: border-box;
+  }
+  .main-panel {
+    left: 0;
+    right: $sidebar-width;
+  }
+  .sidebar-panel {
+    position: absolute;
+    right: 0;
+    width: $sidebar-width;
+  }
+}
+
+$sidebar-animation-duration: 120ms;
+
+$sidebar-collapsed-width: $container-size + 7 * 2;
+.main-panel {
+  transition: right $sidebar-animation-duration ease-in;
+  .sidebar-collapsed & {
+    right: $sidebar-collapsed-width;
+  }
+}
+
+.sidebar-panel {
+  transform: translate3d(0, 0, 0);
+  transition: transform $sidebar-animation-duration ease-in;
+  .sidebar-toggle {
+    transform: rotateZ(0deg);
+    transition: transform $sidebar-animation-duration linear;
+  }
+  .media-body, .sidebar-header {
+    opacity: 1;
+    transition: opacity $sidebar-animation-duration linear;
+  }
+  .sidebar-collapsed & {
+    transform: translate3d($sidebar-width - $sidebar-collapsed-width, 0, 0);
+    .media-body {
+      display: none;
+    }
+    .sidebar-toggle {
+      transform: rotateZ(180deg);
+    }
+  }
+}
+
+.panel-scrollable-layout {
+  max-height: inherit; //Talk to Pivotal UI about this
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.scrim {
+  @extend %zero;
+  z-index: 1000;
+}

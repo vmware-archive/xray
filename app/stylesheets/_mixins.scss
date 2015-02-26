@@ -1,0 +1,62 @@
+@import '_colors';
+
+%full-width {
+  width: 100%
+}
+
+%full-height {
+  height: 100%
+}
+
+%full {
+  @extend %full-width;
+  @extend %full-height;
+}
+
+%scrollable {
+  overflow: auto
+}
+
+%scrollable-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+%scrollable-y {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+%zero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+
+%selected {
+  opacity: 0.15;
+  .mask {
+    display: none;
+  }
+  &.selected, &.hover {
+    opacity: 1;
+  }
+  &.hover {
+    position: relative;
+    .mask {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      box-shadow: inset 0 0 50px $white, 0 0 4px $white;
+    }
+  }
+}
+

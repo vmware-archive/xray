@@ -27,7 +27,7 @@ var Cells = React.createClass({
 
     return (
       <div className="cells">
-        <ul>{cells}</ul>
+        <ul className="pan">{cells}</ul>
       </div>
     );
   }

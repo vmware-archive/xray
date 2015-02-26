@@ -28,7 +28,7 @@ function getReceptorCredentials(receptorUrl) {
 app.get('/', function(req, res) {
   var receptorUrl = req.query.receptor || process.env.RECEPTOR_URL;
   var scripts = ['application.js'];
-  var stylesheets = ['reset.css', 'pivotal-ui.min.css', 'application.css'];
+  var stylesheets = ['pivotal-ui.min.css', 'application.css'];
   var colors = JSON.parse(fs.readFileSync('config/colors.json'));
   var config = {receptorUrl, colors};
   var props = {entry: Application, scripts, stylesheets, config, className: 'bg-neutral-1'};

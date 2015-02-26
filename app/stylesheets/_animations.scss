@@ -1,0 +1,23 @@
+@import '_variables';
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes $animation-name {
+    @content;
+  }
+  @-moz-keyframes $animation-name {
+    @content;
+  }
+  @keyframes $animation-name {
+    @content;
+  }
+}
+
+@include keyframes(fade-in) {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@include keyframes(almost-fade-in) {
+  0% { opacity: 0.33; }
+  100% { opacity: 1; }
+}

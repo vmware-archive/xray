@@ -15,19 +15,16 @@ gulp.task('assets-javascript', function() {
 });
 
 gulp.task('assets-stylesheets', function() {
-  return gulp.src(['app/stylesheets/application.styl', 'app/stylesheets/reset.styl'])
+  return gulp.src(['app/stylesheets/application.scss'])
     .pipe(plugins.plumber())
     .pipe(plugins.if(!isProduction(), plugins.sourcemaps.init()))
-    .pipe(plugins.stylus({
-      use: nib(),
-      compress: isProduction()
-    }))
+    .pipe(plugins.sass())
     .pipe(plugins.if(!isProduction(), plugins.sourcemaps.write()))
     .pipe(gulp.dest('public'));
 });
 
 gulp.task('watch-assets', function() {
-  gulp.watch('app/stylesheets/**/*.styl', ['assets-stylesheets']);
+  gulp.watch('app/stylesheets/**/*.scss', ['assets-stylesheets']);
 });
 
 gulp.task('assets', ['assets-javascript', 'assets-stylesheets']);

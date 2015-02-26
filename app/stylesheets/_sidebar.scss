@@ -1,0 +1,91 @@
+@import '_variables';
+@import '_mixins';
+
+.container-sidebar {
+  width: $container-size;
+  height: $container-size;
+  display: block;
+}
+
+.sidebar, .panel-body, .desired-lrp-list, .desired-lrp-detail {
+  @extend %full-height;
+}
+
+.sidebar {
+  table {
+    @extend %full-width;
+    table-layout: fixed;
+  }
+}
+
+.desired-lrps, .actual-lrps {
+  @extend %scrollable-y;
+  flex: 1;
+}
+
+.sidebar-header {
+  overflow: hidden;
+  .sidebar-toggle {
+    float: left;
+    color: $white;
+    width: $container-size;
+  }
+  .filter-processes {
+    overflow: hidden;
+  }
+}
+
+.desired-lrp-list, .desired-lrp-detail {
+  display: flex;
+  flex-direction: column;
+  .media, .media-body {
+    overflow: hidden;
+  }
+  .media-body, .media-left, .media-right {
+    display: block;
+  }
+  .media-body {
+    width: auto;
+  }
+  .media-left {
+    float: left;
+  }
+}
+
+.desired-lrp-list {
+  .desired-lrp {
+    margin: 0;
+  }
+  .routes {
+    a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    td {
+      vertical-align: top;
+      &.port {
+        width: 45px;
+      }
+    }
+  }
+}
+
+.desired-lrp-detail {
+  .actual-lrps {
+    cursor: default;
+    font-size: 18px;
+    .index, .since {
+      width: 15%;
+    }
+    .state {
+      text-transform: capitalize;
+    }
+    .faded {
+      opacity: 0.2;
+    }
+  }
+  .actual-lrp.claimed {
+    animation-name: almost-fade-in;
+  }
+}
