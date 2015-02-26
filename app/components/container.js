@@ -1,7 +1,8 @@
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var {getHostname} = require('../helpers/lrp_helper');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
-var {mergeClassNames, pickColor} = require('../helpers/application_helper');
+var {pickColor} = require('../helpers/application_helper');
+var {mergeClassNames} = require('../helpers/react_helper');
 var React = require('react/addons');
 
 var types = React.PropTypes;
