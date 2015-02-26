@@ -1,4 +1,4 @@
-require('babel/register')({experimental: true});
+require('babel/register')({optional: ['es7.objectRestSpread']});
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var requireDir = require('require-dir');
 requireDir('./tasks');
