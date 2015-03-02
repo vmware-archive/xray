@@ -2,9 +2,8 @@ require('../spec_helper');
 
 describe('ReceptorApi', function() {
   const RECEPTOR_URL = 'http://example.com';
-  var Promise, subject;
+  var subject;
   beforeEach(function() {
-    Promise = require('../../../lib/promise');
     require('../../../app/api/base_api').baseUrl = RECEPTOR_URL;
     subject = require('../../../app/api/receptor_api');
   });
@@ -12,9 +11,9 @@ describe('ReceptorApi', function() {
   describe('#fetch', function() {
     var doneSpy, actualLrpsPromise, cellsPromise, desiredLrpsPromise, receptorPromise;
     beforeEach(function() {
-      actualLrpsPromise = Deferred();
-      cellsPromise = Deferred();
-      desiredLrpsPromise = Deferred();
+      actualLrpsPromise = new Deferred();
+      cellsPromise = new Deferred();
+      desiredLrpsPromise = new Deferred();
 
       spyOn(require('../../../app/api/actual_lrps_api'), 'fetch').and.returnValue(actualLrpsPromise);
       spyOn(require('../../../app/api/cells_api'), 'fetch').and.returnValue(cellsPromise);

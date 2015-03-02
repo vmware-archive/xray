@@ -13,8 +13,8 @@ var Body = React.createClass({
     scripts = scripts.map(function(src, i) {
       return (<script type="text/javascript" src={src} key={i}/>);
     });
-    var Entry = React.createFactory(entry);
-    var __html = React.renderToString(Entry({config}));
+    var entryFactory = React.createFactory(entry);
+    var __html = React.renderToString(entryFactory({config}));
     var configScript = `var xray = {}; xray.config = ${JSON.stringify(config)};`;
     return (
       <body className={className}>

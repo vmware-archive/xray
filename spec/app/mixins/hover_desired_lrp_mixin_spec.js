@@ -6,7 +6,7 @@ describe('HoverDesiredLrpMixin', function() {
     var HoverDesiredLrpMixin = require('../../../app/mixins/hover_desired_lrp_mixin');
     var Klass = React.createClass({
       mixins: [HoverDesiredLrpMixin],
-      render() { return (<div onClick={this.onClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}/>)}
+      render() { return (<div onClick={this.onClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}/>); }
     });
     var Cursor = require('../../../app/lib/cursor');
     var $receptor = new Cursor({}, jasmine.createSpy('callback'));

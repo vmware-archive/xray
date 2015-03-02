@@ -48,7 +48,7 @@ describe('ActualLrp', function() {
     });
 
     it('sets the hover actual lrp', function() {
-      expect(hoverSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverActualLrp: actualLrp}))
+      expect(hoverSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverActualLrp: actualLrp}));
     });
   });
 
@@ -58,7 +58,7 @@ describe('ActualLrp', function() {
     });
 
     it('sets the hover actual lrp', function() {
-      expect(hoverSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverActualLrp: null}))
+      expect(hoverSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverActualLrp: null}));
     });
   });
 

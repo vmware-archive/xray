@@ -6,18 +6,18 @@ beforeEach(function() {
       return {
         compare(actual) {
           var pass = actual instanceof Array ? !actual.length : !Object.keys(actual).length;
-          return { pass };
+          return {pass};
         }
-      }
+      };
     },
 
     toHaveBeenRequested() {
       return {
         compare(actual) {
           var pass = jasmine.Ajax.requests.filter(new RegExp(actual)).length > 0;
-          return { pass };
+          return {pass};
         }
-      }
+      };
     }
   });
 });

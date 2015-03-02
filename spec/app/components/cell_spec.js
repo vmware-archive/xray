@@ -79,7 +79,7 @@ describe('Cell', function() {
       beforeEach(function() {
         var props = subject.props.$receptor.get();
         $receptor = new Cursor(Object.assign({}, props, {selectedDesiredLrp: desiredLrps[1]}));
-        subject.setProps({$receptor})
+        subject.setProps({$receptor});
       });
 
       it('adds the selected class to the container', function() {
@@ -91,7 +91,7 @@ describe('Cell', function() {
       beforeEach(function() {
         var props = subject.props.$receptor.get();
         $receptor = new Cursor(Object.assign({}, props, {hoverDesiredLrp: desiredLrps[1]}));
-        subject.setProps({$receptor})
+        subject.setProps({$receptor});
       });
 
       it('adds the hover class to the container', function() {
@@ -103,7 +103,7 @@ describe('Cell', function() {
       beforeEach(function() {
         var props = subject.props.$receptor.get();
         $receptor = new Cursor(Object.assign({}, props, {hoverActualLrp: actualLrps[1]}));
-        subject.setProps({$receptor})
+        subject.setProps({$receptor});
       });
 
       it('adds the highlight class to the container', function() {
@@ -158,9 +158,9 @@ describe('Cell', function() {
     });
 
     it('sets the width of each cell based on the scaling', function() {
-      expect('.container:eq(0)').toHaveCss({width: "15px"});
-      expect('.container:eq(1)').toHaveCss({width: "10px"});
-      expect('.container:eq(2)').toHaveCss({width: "25px"});
+      expect('.container:eq(0)').toHaveCss({width: '15px'});
+      expect('.container:eq(1)').toHaveCss({width: '10px'});
+      expect('.container:eq(2)').toHaveCss({width: '25px'});
     });
 
     describe('when the desired memory is zero', function() {
@@ -200,9 +200,9 @@ describe('Cell', function() {
     });
 
     it('sets the width of each cell based on the scaling', function() {
-      expect('.container:eq(0)').toHaveCss({width: "30px"});
-      expect('.container:eq(1)').toHaveCss({width: "20px"});
-      expect('.container:eq(2)').toHaveCss({width: "10px"});
+      expect('.container:eq(0)').toHaveCss({width: '30px'});
+      expect('.container:eq(1)').toHaveCss({width: '20px'});
+      expect('.container:eq(2)').toHaveCss({width: '10px'});
     });
   });
 
@@ -211,9 +211,9 @@ describe('Cell', function() {
       subject = render({desiredLrps: null, scaling: 'containers'});
     });
     it('renders actual lrps at container scaling', function() {
-      expect('.container:eq(0)').toHaveCss({width: "2px"});
-      expect('.container:eq(1)').toHaveCss({width: "2px"});
-      expect('.container:eq(2)').toHaveCss({width: "2px"});
+      expect('.container:eq(0)').toHaveCss({width: '2px'});
+      expect('.container:eq(1)').toHaveCss({width: '2px'});
+      expect('.container:eq(2)').toHaveCss({width: '2px'});
     });
   });
 });

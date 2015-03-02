@@ -28,7 +28,7 @@ describe('Application', function() {
       ReceptorApi = require('../../../app/api/receptor_api');
       CellsApi = require('../../../app/api/cells_api');
       spyOn(CellsApi, 'fetch').and.callThrough();
-      var receptorPromise = Deferred();
+      var receptorPromise = new Deferred();
       spyOn(ReceptorApi, 'fetch').and.returnValue(receptorPromise);
       subject = React.render(<Application {...props}/>, root);
       receptorPromise.resolve({actualLrps, cells, desiredLrps});
@@ -89,7 +89,7 @@ describe('Application', function() {
         ];
 
         subject.setState({receptor: {cells: oldCells, actualLrps: oldActualLrps, desiredLrps: oldDesiredLrps}});
-        newReceptorPromise = Deferred();
+        newReceptorPromise = new Deferred();
         ReceptorApi.fetch.and.returnValue(newReceptorPromise);
         oldState = Object.assign({}, subject.state);
         subject.refs.page.updateReceptor();

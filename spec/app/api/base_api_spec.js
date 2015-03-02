@@ -20,9 +20,8 @@ describe('BaseApi', function() {
       });
     });
 
-
     describe('when credentials are provided', function() {
-      var  user = 'user', password = 'password';
+      var user = 'user', password = 'password';
       beforeEach(function() {
         subject.baseUrl = `http://${user}:${password}@www.example.com`;
         subject.get('foo');
@@ -43,8 +42,6 @@ describe('BaseApi', function() {
         expect(request.url).not.toContain('user:password');
         expect(request.url).toEqual('http://www.example.com/v1/foo');
       });
-
-
     });
   });
 });

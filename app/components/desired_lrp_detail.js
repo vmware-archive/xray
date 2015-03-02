@@ -12,7 +12,9 @@ var DesiredLrpDetail = React.createClass({
 
   render() {
     var {$receptor} = this.props;
-    var {actualLrps = [], desiredLrps = [], selectedDesiredLrp} = $receptor.get();
+    var {actualLrps, desiredLrps, selectedDesiredLrp} = $receptor.get();
+    actualLrps = actualLrps || [];
+    desiredLrps = desiredLrps || [];
     var desiredLrp = selectedDesiredLrp && findLrp(desiredLrps, selectedDesiredLrp);
     var isDeleted = false;
     if(!desiredLrp) {

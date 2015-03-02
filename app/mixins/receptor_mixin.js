@@ -11,10 +11,10 @@ function applyUpdate(newArr, id, changeCallback) {
       var {added, removed, changed} = diff(oldArr, newArr, id, changeCallback);
       var results = oldArr.filter(x => !removed.includes(x));
       if (changed && changed.length) {
-        /* jshint unused:false */
+        /*eslint-disable no-unused-vars*/
         var currentChanged = changed.map(([current, next]) => current);
         var nextChanged = changed.map(([current, next]) => next);
-        /* jshint unused:true */
+        /*eslint-enable no-unused-vars*/
         results = results.map(x => currentChanged.includes(x) ? nextChanged[currentChanged.indexOf(x)] : x);
       }
       return results.concat(added);

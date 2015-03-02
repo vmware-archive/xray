@@ -7,7 +7,7 @@ function parseData(callback, context) {
     callback.call(context, JSON.parse(data));
   };
 }
-
+/*eslint-disable no-unused-vars*/
 function createResource(cursorName, resourceKey) {
   return function({[resourceKey]: resource}) {
     var {$receptor} = this.props;
@@ -40,6 +40,7 @@ function changeResource(cursorName, resourceKey) {
     $cursor.refine(oldResource).set(resource);
   };
 }
+/*eslint-enable no-unused-vars*/
 
 var ReceptorStreamMixin = {
   componentWillUnmount() {

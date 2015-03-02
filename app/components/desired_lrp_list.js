@@ -13,7 +13,8 @@ var DesiredLrpList = React.createClass({
 
   renderDesiredLrps(desiredLrps) {
     var {$receptor} = this.props;
-    var {actualLrps = []} = $receptor.get();
+    var {actualLrps} = $receptor.get();
+    actualLrps = actualLrps || [];
 
     if(!desiredLrps.length) {
       return <div className="mam">No filtered processes found.</div>;
@@ -33,7 +34,8 @@ var DesiredLrpList = React.createClass({
 
   render() {
     var {$receptor} = this.props;
-    var {filter, desiredLrps = []} = $receptor.get();
+    var {filter, desiredLrps} = $receptor.get();
+    desiredLrps = desiredLrps || [];
     if (filter) {
       desiredLrps = filterDesiredLrps(desiredLrps, filter);
     }

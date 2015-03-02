@@ -1,5 +1,7 @@
 describe('ReceptorUrlModal', function() {
+  /*eslint-disable no-unused-vars*/
   var Modal, subject, submitSpy;
+  /*eslint-enable no-unused-vars*/
 
   beforeEach(function() {
     Modal = require('../../../app/vendor/modals').Modal;

@@ -3,7 +3,7 @@ require('./spec_helper');
 describe('app', function() {
   var subject, request;
   beforeEach(function() {
-    subject =  require('../../server/app');
+    subject = require('../../server/app');
     request = require('supertest');
   });
 

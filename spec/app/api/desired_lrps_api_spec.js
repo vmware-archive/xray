@@ -38,7 +38,7 @@ describe('DesiredLrpsApi', function() {
       });
 
       it('resolves the promise with the desiredLrps sorted by process guid', function() {
-        expect(doneSpy.calls.mostRecent().args[0].desiredLrps.map(({process_guid}) => process_guid)).toEqual(['A','B','C']);
+        expect(doneSpy.calls.mostRecent().args[0].desiredLrps.map(({process_guid}) => process_guid)).toEqual(['A', 'B', 'C']);
       });
     });
   });

@@ -17,12 +17,13 @@ class StreamSource {
   }
 
   off(eventName, callback) {
+    var {eventSource, callbacks} = privates.get(this);
+
     function removeEvent(eventName) {
       callbacks[eventName].forEach(callback => eventSource.removeEventListener(eventName, callback));
       callbacks[eventName] = [];
     }
 
-    var {eventSource, callbacks} = privates.get(this);
     callbacks[eventName] = callbacks[eventName] || [];
     if(callback) {
       eventSource.removeEventListener(eventName, callback);

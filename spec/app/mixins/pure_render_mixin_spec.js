@@ -15,7 +15,7 @@ describe('PureRenderMixin', function() {
     var Klass = React.createClass({
       mixins: [PureRenderMixin],
       ignorePureRenderProps: ['ignore'],
-      getInitialState(){ return {three}},
+      getInitialState(){ return {three}; },
       render: renderSpy
     });
     React.withContext({}, function() {

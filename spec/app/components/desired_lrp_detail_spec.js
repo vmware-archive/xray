@@ -52,11 +52,11 @@ describe('DesiredLrpDetail', function() {
       deletedLrp = Factory.build('desiredLrp', {process_guid: 'Heroku'});
       var data = $receptor.get();
       $receptor = new Cursor(Object.assign({}, data, {selectedDesiredLrp: deletedLrp}));
-      subject.setProps({$receptor})
+      subject.setProps({$receptor});
     });
 
     it('renders a header with the old data', function() {
-      expect('.desired-lrp-detail').toContainText('Heroku')
+      expect('.desired-lrp-detail').toContainText('Heroku');
     });
 
     it('renders a message instead of the actual lrps', function() {

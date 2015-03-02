@@ -5,7 +5,7 @@ var Deferred = function() {
   var resolver, rejector;
   var promise = new Promise(function(res, rej) {
     resolver = res;
-    rejector = rej
+    rejector = rej;
   });
 
   var wrapper = Object.assign(promise, {

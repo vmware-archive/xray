@@ -78,7 +78,6 @@ describe('DesiredLrp', function() {
       });
     });
   });
-  
   describe('when everything is running smoothly', function() {
     beforeEach(function() {
       actualLrps = React.addons.update(actualLrps, {2: {$merge: {state: 'RUNNING'}}});

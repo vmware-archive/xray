@@ -19,9 +19,9 @@ app.use(express.static(__dirname + '/../public'));
 app.use(express.static(__dirname + '/../vendor/pui-v1.4.0'));
 
 function getReceptorCredentials(receptorUrl) {
-  if (!receptorUrl) return;
+  if (!receptorUrl) return null;
   var {user, password} = getCredentials(receptorUrl);
-  if (!user || !password) return;
+  if (!user || !password) return null;
   return new Buffer(`${user}:${password}`).toString('base64');
 }
 

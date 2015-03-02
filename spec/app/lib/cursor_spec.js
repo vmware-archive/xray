@@ -49,7 +49,7 @@ describe('Cursor', function() {
       expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({scaling: 'memory', cells}));
     });
 
-    it('calls the callback when cursor is refined',function() {
+    it('calls the callback when cursor is refined', function() {
       subject.refine('scaling').update({$set: 'memory'});
       expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({scaling: 'memory', cells}));
     });

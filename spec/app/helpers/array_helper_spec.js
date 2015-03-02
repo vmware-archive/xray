@@ -20,7 +20,7 @@ describe('ArrayHelper', function() {
     });
 
     it('returns old versions of changed elements', function() {
-      expect(subject.diff([{id: 'one'}, {id: 'two', since: 1}], [{id: 'one'}, {id: 'two', since: 2}], 'id', (a, b) => a.since !== b.since)).toEqual({added: [], removed: [], changed: [[{id: 'two', since: 1}, {id: 'two', since: 2}]]})
+      expect(subject.diff([{id: 'one'}, {id: 'two', since: 1}], [{id: 'one'}, {id: 'two', since: 2}], 'id', (a, b) => a.since !== b.since)).toEqual({added: [], removed: [], changed: [[{id: 'two', since: 1}, {id: 'two', since: 2}]]});
     });
   });
 });

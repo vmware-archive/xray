@@ -11,7 +11,7 @@ var cx = React.addons.classSet;
 
 function detectMatch($receptor, status, match) {
   var target = $receptor.get(status);
-  return !!(target && findLrp([match], target))
+  return !!(target && findLrp([match], target));
 }
 
 function determineSelectedHover($receptor, desiredLrp) {
