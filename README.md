@@ -1,5 +1,5 @@
 #XRAY
-A tool for visualizing Lattice 
+Peer into the Lattice 
 
 <pre>
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM   7I$      MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
