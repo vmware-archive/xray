@@ -1,7 +1,7 @@
+require('../spec_helper');
+
 describe('ReceptorUrlModal', function() {
-  /*eslint-disable no-unused-vars*/
-  var Modal, subject, submitSpy;
-  /*eslint-enable no-unused-vars*/
+  var Modal, submitSpy;
 
   beforeEach(function() {
     Modal = require('../../../app/vendor/modals').Modal;
@@ -9,7 +9,7 @@ describe('ReceptorUrlModal', function() {
     jasmineReact.spyOnClass(Modal, 'close');
     var ReceptorUrlModal = require('../../../app/components/receptor_url_modal');
     submitSpy = jasmine.createSpy('submit');
-    subject = React.render(<ReceptorUrlModal onSubmit={submitSpy}/>, root);
+    React.render(<ReceptorUrlModal onSubmit={submitSpy}/>, root);
   });
 
   afterEach(function() {
