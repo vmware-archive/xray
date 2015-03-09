@@ -11,6 +11,6 @@ module.exports = {
   output: {
     filename: '[name].js'
   },
-  quiet: false,
+  quiet: true,
   watch: true
 };

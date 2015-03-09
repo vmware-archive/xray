@@ -39,8 +39,8 @@ var ActualLrp = React.createClass({
     var faded = state === 'UNCLAIMED' && !placementError;
     var crashed = state === 'CRASHED' || placementError;
     var backgroundClass = odd ? 'bg-dark-2' : 'bg-dark-1';
-    if(crashed) {backgroundClass = 'bg-error-1';}
-    if(isHover) {backgroundClass = 'bg-accent-2';}
+    if (crashed) backgroundClass = 'bg-error-1';
+    if (isHover) backgroundClass = 'bg-accent-2';
 
     var className = cx({
       'actual-lrp': true,

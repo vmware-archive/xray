@@ -2,9 +2,9 @@ var max = require('lodash.max');
 
 function getRoutes(desiredLrp) {
   var routes = desiredLrp.routes;
-  if(!routes) {return [];}
+  if (!routes) return [];
   var routers = Object.keys(routes);
-  if(!routers.length) {return [];}
+  if (!routers.length) return [];
   return routes[routers[0]];
 }
 
@@ -25,7 +25,7 @@ module.exports = {
 
   getHostname(desiredLrp) {
     var routes = getRoutes(desiredLrp);
-    if(!routes.length) {return null;}
+    if (!routes.length) return null;
     return routes[0].hostnames[0];
   },
 

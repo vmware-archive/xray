@@ -15,14 +15,17 @@ gulp.task('assets-javascript', function() {
     .pipe(gulp.dest('public'));
 });
 
-gulp.task('assets-stylesheets', function() {
+function sass() {
   return gulp.src(['app/stylesheets/application.scss'])
     .pipe(plugins.plumber())
     .pipe(plugins.if(!isProduction(), plugins.sourcemaps.init()))
     .pipe(plugins.sass())
     .pipe(plugins.autoprefixer())
-    .pipe(plugins.if(!isProduction(), plugins.sourcemaps.write()))
-    .pipe(gulp.dest('public'));
+    .pipe(plugins.if(!isProduction(), plugins.sourcemaps.write()));
+}
+
+gulp.task('assets-stylesheets', function() {
+  sass().pipe(gulp.dest('public'));
 });
 
 gulp.task('watch-assets', function() {
@@ -42,3 +45,7 @@ gulp.task('clean-assets', ['clean-assets-javascript', 'clean-assets-stylesheets'
 gulp.task('assets', function() {
   runSequence('clean-assets', ['assets-javascript', 'assets-stylesheets']);
 });
+
+module.exports = {
+  sass
+};

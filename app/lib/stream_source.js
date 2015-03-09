@@ -28,7 +28,7 @@ class StreamSource {
     if(callback) {
       eventSource.removeEventListener(eventName, callback);
       var index = callbacks[eventName].indexOf(callback);
-      if(index !== -1) { callbacks[eventName].splice(index, 1);}
+      if (index !== -1) callbacks[eventName].splice(index, 1);
       return this;
     }
     if(eventName) {
