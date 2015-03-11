@@ -9,14 +9,14 @@ gulp.task('spec', function(callback) {
 });
 
 gulp.task('spec-server', function() {
-  return gulp.src('spec/server/**/*.js')
+  return gulp.src('spec/server/**/*_spec.js')
     .pipe(plugins.plumber())
     .pipe(plugins.jasmine());
 });
 
 function testAssets(options = {}) {
   var config = Object.assign({}, require('../config/webpack/test'), options);
-  var javascript = gulp.src(['app/**/*.js', 'spec/app/**/*.js'])
+  var javascript = gulp.src('spec/app/**/*_spec.js')
     .pipe(plugins.webpack(config));
   return mergeStream(javascript, sass());
 }
