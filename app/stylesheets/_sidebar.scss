@@ -53,9 +53,6 @@
 }
 
 .desired-lrp-list {
-  .desired-lrp {
-    margin: 0;
-  }
   .routes {
     a {
       &:hover {
@@ -68,6 +65,12 @@
         width: 45px;
       }
     }
+  }
+}
+
+.sidebar-open {
+  .desired-lrp {
+    @extend %zebra-stripes;
   }
 }
 
@@ -88,4 +91,12 @@
   .actual-lrp.claimed {
     animation-name: almost-fade-in;
   }
+
+  .actual-lrp:hover {
+    background-color: $accent-2;
+  }
+}
+
+.actual-lrp {
+  @extend %zebra-stripes-reverse;
 }

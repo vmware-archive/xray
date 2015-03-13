@@ -11,9 +11,7 @@ var ActualLrp = React.createClass({
 
   propTypes: {
     actualLrp: types.object.isRequired,
-    position: types.number.isRequired,
-    $hoverActualLrp: types.object.isRequired,
-    isHover: types.bool
+    $hoverActualLrp: types.object.isRequired
   },
 
   ignorePureRenderProps: ['$hoverActualLrp'],
@@ -32,19 +30,15 @@ var ActualLrp = React.createClass({
   },
 
   render() {
-    var {actualLrp, position, isHover} = this.props;
+    var {actualLrp} = this.props;
     var {cell_id: cellId, index, since, state, placement_error: placementError} = actualLrp;
-    var odd = position % 2;
     var claimed = state === 'CLAIMED';
     var faded = state === 'UNCLAIMED' && !placementError;
     var crashed = state === 'CRASHED' || placementError;
-    var backgroundClass = odd ? 'bg-dark-2' : 'bg-dark-1';
-    if (crashed) backgroundClass = 'bg-error-1';
-    if (isHover) backgroundClass = 'bg-accent-2';
 
     var className = cx({
       'actual-lrp': true,
-      [backgroundClass]: true,
+      'error': crashed,
       faded, claimed
     });
 

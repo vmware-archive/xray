@@ -16,9 +16,8 @@ var ActualLrpList = React.createClass({
 
   renderActualLrps() {
     var {$hoverActualLrp} = this.props;
-    return sortBy(this.props.actualLrps, a => a.index).map(function(actualLrp, position) {
-      var isHover = !!($hoverActualLrp.get() && findLrp([actualLrp], $hoverActualLrp.get()));
-      return (<ActualLrp {...{actualLrp, position, isHover, $hoverActualLrp, key: actualLrp.index}}/>);
+    return sortBy(this.props.actualLrps, a => a.index).map(function(actualLrp) {
+      return (<ActualLrp {...{actualLrp, $hoverActualLrp, key: actualLrp.index}}/>);
     });
   },
 

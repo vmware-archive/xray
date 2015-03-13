@@ -5,6 +5,7 @@ var PUI = {Media: require('../vendor/media').Media};
 var React = require('react/addons');
 var {pickColor} = require('../helpers/application_helper');
 var {getRoutes, getHostname} = require('../helpers/lrp_helper');
+var {mergeClassNames} = require('../helpers/react_helper');
 
 var types = React.PropTypes;
 var cx = React.addons.classSet;
@@ -61,6 +62,7 @@ var DesiredLrp = React.createClass({
 
   render() {
     var {actualLrps, desiredLrp, className, isSelected} = this.props;
+    className = mergeClassNames(className, 'desired-lrp');
     var routes = getRoutes(desiredLrp);
     var {disk_mb: disk, memory_mb: memory, process_guid: processGuid} = desiredLrp;
     var containerColor = pickColor(this.context.colors, getHostname(desiredLrp) || processGuid);
@@ -73,7 +75,7 @@ var DesiredLrp = React.createClass({
     var instances = `${instancesRunning}/${desiredLrp.instances}`;
     return (
       <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>
-        <PUI.Media leftImage={leftImage} key={processGuid} className={cx({'desired-lrp pam': true, 'bg-accent-2': isSelected, 'bg-error-1': instancesError && !isSelected})}>
+        <PUI.Media leftImage={leftImage} key={processGuid} className={cx({'man pam': true, 'bg-accent-2': isSelected, 'error': instancesError && !isSelected})}>
           <section>
             <div className="process-guid type-ellipsis-1-line">{processGuid}</div>
             {routes && <Routes {...{routes}}/>}

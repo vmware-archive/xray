@@ -3,7 +3,6 @@ var React = require('react/addons');
 var SidebarHeader = require('./sidebar_header');
 var {filterDesiredLrps} = require('../helpers/lrp_helper');
 
-var cx = React.addons.classSet;
 var types = React.PropTypes;
 
 var DesiredLrpList = React.createClass({
@@ -20,11 +19,10 @@ var DesiredLrpList = React.createClass({
       return <div className="mam">No filtered processes found.</div>;
     }
 
-    var {sidebarCollapsed, hoverDesiredLrp} = $receptor.get();
-    return desiredLrps.map(function(desiredLrp, i) {
+    var {hoverDesiredLrp} = $receptor.get();
+    return desiredLrps.map(function(desiredLrp) {
       var key = desiredLrp.process_guid;
-      var odd = sidebarCollapsed ? false : i % 2;
-      var className = cx({'clickable': true, 'bg-dark-1': odd, 'bg-dark-2': !odd});
+      var className = 'clickable';
       var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
       var isSelected = !!(desiredLrp && hoverDesiredLrp === desiredLrp);
       var props = {className, desiredLrp, actualLrps: filtered, key, $receptor, isSelected};

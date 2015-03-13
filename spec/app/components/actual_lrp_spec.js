@@ -22,8 +22,8 @@ describe('ActualLrp', function() {
       subject.setProps({actualLrp});
     });
 
-    it('adds the bg error 1 class', function() {
-      expect('.bg-error-1').toExist();
+    it('adds the error class', function() {
+      expect('.error').toExist();
     });
   });
 

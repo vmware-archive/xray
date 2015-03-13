@@ -13,3 +13,7 @@
     margin: 0
   }
 }
+
+.cell {
+  @extend %zebra-stripes;
+}

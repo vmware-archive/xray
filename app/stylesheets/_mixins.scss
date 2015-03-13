@@ -60,3 +60,20 @@
   }
 }
 
+%zebra-stripes {
+  &:nth-child(odd) {
+    background-color: $dark-2;
+  }
+  &:nth-child(even) {
+    background-color: $dark-1;
+  }
+}
+
+%zebra-stripes-reverse {
+  &:nth-child(odd) {
+    background-color: $dark-1;
+  }
+  &:nth-child(even) {
+    background-color: $dark-2;
+  }
+}

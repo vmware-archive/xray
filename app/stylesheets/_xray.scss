@@ -81,3 +81,7 @@ $sidebar-collapsed-width: $container-size + 7 * 2;
   @extend %zero;
   z-index: 1000;
 }
+
+.error {
+  background-color: $error-1 !important;
+}

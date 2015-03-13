@@ -36,8 +36,9 @@ var Page = React.createClass({
   render() {
     var {$receptor} = this.props;
     var selection = !!($receptor.get('hoverDesiredLrp') || $receptor.get('selectedDesiredLrp')) || $receptor.get('filter');
+    var sidebarCollapsed = $receptor.get('sidebarCollapsed');
     return (
-      <div className={cx({'page type-neutral-8': true, 'sidebar-collapsed': $receptor.get('sidebarCollapsed'), selection})}>
+      <div className={cx({'page type-neutral-8': true, 'sidebar-collapsed': sidebarCollapsed, 'sidebar-open': !sidebarCollapsed, selection})}>
         <PUI.Panel className="main-panel man panel-scrollable-layout" scrollable={true}>
           {this.props.children}
           {$receptor.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
