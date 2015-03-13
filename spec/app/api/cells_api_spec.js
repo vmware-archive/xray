@@ -28,8 +28,8 @@ describe('CellsApi', function() {
           status: 200,
           responseText: JSON.stringify(cells)
         });
-        mockPromises.executeForResolvedPromises();
-        mockPromises.executeForResolvedPromises();
+        MockPromises.executeForResolvedPromises();
+        MockPromises.executeForResolvedPromises();
       });
 
       it('resolves the promise with the cells', function() {

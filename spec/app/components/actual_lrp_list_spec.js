@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('ActualLrpList', function() {
-  var actualLrps, subject, Cursor;
+  var actualLrps, Cursor;
   beforeEach(function() {
     var ActualLrpList = require('../../../app/components/actual_lrp_list');
     Cursor = require('../../../app/lib/cursor');
@@ -11,7 +11,7 @@ describe('ActualLrpList', function() {
       Factory.build('actualLrp', {index: 2, state: 'CRASHED'}),
       Factory.build('actualLrp', {index: 3, state: 'UNCLAIMED', placement_error: 'We crossed the streams'})
     ];
-    subject = React.render(<ActualLrpList {...{actualLrps, $hoverActualLrp: new Cursor({}, jasmine.createSpy('callback')).refine('hoverActualLrp')}}/>, root);
+    React.render(<ActualLrpList {...{actualLrps, $hoverActualLrp: new Cursor({}, jasmine.createSpy('callback')).refine('hoverActualLrp')}}/>, root);
   });
 
   afterEach(function() {

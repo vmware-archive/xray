@@ -1,6 +1,5 @@
 var ActualLrp = require('./actual_lrp');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
-var {findLrp} = require('../helpers/lrp_helper');
 var React = require('react/addons');
 var sortBy = require('lodash.sortby');
 

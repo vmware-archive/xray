@@ -28,8 +28,8 @@ describe('ActualLrpsApi', function() {
           stats: 200,
           responseText: JSON.stringify(actualLrps)
         });
-        mockPromises.executeForResolvedPromises();
-        mockPromises.executeForResolvedPromises();
+        MockPromises.executeForResolvedPromises();
+        MockPromises.executeForResolvedPromises();
       });
 
       it('resolves the promise with the cells and actualLrps', function() {

@@ -3,32 +3,47 @@ var {getCredentials} = require('../helpers/url_helper');
 
 class StreamSource {
   constructor(fullUrl, options = {}) {
+    var json = options.json !== false;
     var {url} = getCredentials(fullUrl);
     var eventSource = new EventSource(url, options);
-    privates.set(this, {eventSource, callbacks: {}});
+    var connectedPromise = new Promise(resolve => eventSource.addEventListener('open', resolve));
+    privates.set(this, {eventSource, callbacks: {}, connectedPromise, json});
   }
 
-  on(eventName, callback) {
-    var {eventSource, callbacks} = privates.get(this);
-    callbacks[eventName] = callbacks[eventName] || [];
-    callbacks[eventName].push(callback);
-    eventSource.addEventListener(eventName, callback, false);
+  close() {
+    var {eventSource} = privates.get(this);
+    eventSource.close();
+  }
+
+  connected() {
+    return privates.get(this).connectedPromise;
+  }
+
+  on(eventName, cb) {
+    var {eventSource, callbacks, json} = privates.get(this);
+    callbacks[eventName] = callbacks[eventName] || new Map();
+    function wrapped(event) {
+      cb.call(this, json ? JSON.parse(event.data) : event);
+    }
+    callbacks[eventName].set(cb, wrapped);
+    eventSource.addEventListener(eventName, wrapped, false);
     return this;
   }
 
-  off(eventName, callback) {
+  off(eventName, cb) {
     var {eventSource, callbacks} = privates.get(this);
-
     function removeEvent(eventName) {
-      callbacks[eventName].forEach(callback => eventSource.removeEventListener(eventName, callback));
-      callbacks[eventName] = [];
+      for (var callback of callbacks[eventName].values()) {
+        eventSource.removeEventListener(eventName, callback);
+      }
+      callbacks[eventName].clear();
     }
 
-    callbacks[eventName] = callbacks[eventName] || [];
-    if(callback) {
-      eventSource.removeEventListener(eventName, callback);
-      var index = callbacks[eventName].indexOf(callback);
-      if (index !== -1) callbacks[eventName].splice(index, 1);
+    callbacks[eventName] = callbacks[eventName] || new Map();
+    var wrapped = callbacks[eventName].get(cb);
+    if (wrapped) {
+      eventSource.removeEventListener(eventName, wrapped);
+      callbacks[eventName].delete(cb);
       return this;
     }
     if(eventName) {

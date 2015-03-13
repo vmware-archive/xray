@@ -221,7 +221,7 @@ describe('Application', function() {
             status: 200,
             responseText: ''
           });
-          mockPromises.executeForResolvedPromises();
+          MockPromises.executeForResolvedPromises();
         });
 
         it('makes ajax requests for the cells', function() {

@@ -2,11 +2,6 @@ var StreamSource = require('../lib/stream_source');
 
 var privates = new WeakMap();
 
-function parseData(callback, context) {
-  return function({data}) {
-    callback.call(context, JSON.parse(data));
-  };
-}
 /*eslint-disable no-unused-vars*/
 function createResource(cursorName, resourceKey) {
   return function({[resourceKey]: resource}) {
@@ -62,9 +57,9 @@ var ReceptorStreamMixin = {
     if (!sse) return;
 
     sse
-      .on('actual_lrp_created', parseData(createResource('actualLrps', 'actual_lrp'), this))
-      .on('actual_lrp_changed', parseData(changeResource('actualLrps', 'actual_lrp_after'), this))
-      .on('actual_lrp_removed', parseData(removeResource('actualLrps', 'actual_lrp'), this));
+      .on('actual_lrp_created', createResource('actualLrps', 'actual_lrp').bind(this))
+      .on('actual_lrp_changed', changeResource('actualLrps', 'actual_lrp_after').bind(this))
+      .on('actual_lrp_removed', removeResource('actualLrps', 'actual_lrp').bind(this));
   },
 
   streamDesiredLrps() {
@@ -72,9 +67,9 @@ var ReceptorStreamMixin = {
     if (!sse) return;
 
     sse
-      .on('desired_lrp_created', parseData(createResource('desiredLrps', 'desired_lrp'), this))
-      .on('desired_lrp_changed', parseData(changeResource('desiredLrps', 'desired_lrp_after'), this))
-      .on('desired_lrp_removed', parseData(removeResource('desiredLrps', 'desired_lrp'), this));
+      .on('desired_lrp_created', createResource('desiredLrps', 'desired_lrp').bind(this))
+      .on('desired_lrp_changed', changeResource('desiredLrps', 'desired_lrp_after').bind(this))
+      .on('desired_lrp_removed', removeResource('desiredLrps', 'desired_lrp').bind(this));
   },
 
   streamSSE(receptorUrl) {

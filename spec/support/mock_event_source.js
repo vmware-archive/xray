@@ -1,50 +1,54 @@
-var callbacks = {};
 var oldEventSource;
-var instance;
+var instances = [];
 
-function MockEventSource(url, options = {}) {
-  instance = {
-    url,
-    options,
-    trigger(eventName, data) {
-      callbacks[eventName] && callbacks[eventName].forEach(function(cb) {
-        cb({data: typeof data === 'object' ? JSON.stringify(data) : data});
-      });
-    },
+var privates = new WeakMap();
+class MockEventSource {
+  constructor(url, options = {}) {
+    privates.set(this, {url, callbacks: {}, options});
+    this.close = jasmine.createSpy('close');
+    instances.unshift(this);
+  }
 
-    addEventListener(eventName, callback) {
-      callbacks[eventName] = callbacks[eventName] || [];
-      callbacks[eventName].push(callback);
-    },
+  get url() { return privates.get(this).url; }
 
-    removeEventListener(eventName, callback) {
-      callbacks[eventName] = callbacks[eventName] || [];
-      var index = callbacks[eventName].indexOf(callback);
-      if (index !== -1) {
-        callbacks[eventName].splice(index, 1);
-      }
-    }
-  };
-  return instance;
-}
+  close() {}
 
-Object.assign(MockEventSource, {
-  install() {
+  trigger(eventName, data) {
+    var {callbacks} = privates.get(this);
+    callbacks[eventName] && callbacks[eventName].forEach(function(cb) {
+      cb({data: typeof data === 'object' ? JSON.stringify(data) : data});
+    });
+  }
+
+  addEventListener(eventName, callback) {
+    var {callbacks} = privates.get(this);
+    callbacks[eventName] = callbacks[eventName] || new Set();
+    callbacks[eventName].add(callback);
+  }
+
+  removeEventListener(eventName, callback) {
+    var {callbacks} = privates.get(this);
+    callbacks[eventName] = callbacks[eventName] || new Set();
+    callbacks[eventName].delete(callback);
+  }
+
+  static install() {
     if (oldEventSource) {
       throw new Error('MockEventSource is already installed!');
     }
     oldEventSource = global.EventSource;
     global.EventSource = MockEventSource;
-  },
+  }
 
-  uninstall() {
+  static uninstall() {
     global.EventSource = oldEventSource;
     oldEventSource = null;
-  },
-
-  mostRecent() {
-    return instance;
+    instances = [];
   }
-});
+
+  static mostRecent() {
+    return instances[0];
+  }
+}
 
 module.exports = MockEventSource;

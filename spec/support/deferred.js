@@ -1,5 +1,4 @@
-var Promise = require('../../lib/promise');
-var mockPromises = require('mock-promises');
+var MockPromises = require('mock-promises');
 
 var Deferred = function() {
   var resolver, rejector;
@@ -11,12 +10,12 @@ var Deferred = function() {
   var wrapper = Object.assign(promise, {
     resolve(...args) {
       resolver(...args);
-      mockPromises.executeForPromise(promise);
+      MockPromises.executeForPromise(promise);
       return wrapper;
     },
     reject(...args) {
       rejector(...args);
-      mockPromises.executeForPromise(promise);
+      MockPromises.executeForPromise(promise);
       return wrapper;
     },
     promise() {

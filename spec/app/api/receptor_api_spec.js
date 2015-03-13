@@ -33,8 +33,8 @@ describe('ReceptorApi', function() {
         actualLrpsPromise.resolve({actualLrps});
         cellsPromise.resolve({cells});
         desiredLrpsPromise.resolve({desiredLrps});
-        mockPromises.executeForResolvedPromises();
-        mockPromises.executeForPromise(receptorPromise);
+        MockPromises.executeForResolvedPromises();
+        MockPromises.executeForPromise(receptorPromise);
       });
 
       it('resolves the promise with cells and desired lrps', function() {

@@ -33,8 +33,8 @@ describe('DesiredLrpsApi', function() {
           status: 200,
           responseText: JSON.stringify(desiredLrps)
         });
-        mockPromises.executeForResolvedPromises();
-        mockPromises.executeForPromise(lrpsPromise);
+        MockPromises.executeForResolvedPromises();
+        MockPromises.executeForPromise(lrpsPromise);
       });
 
       it('resolves the promise with the desiredLrps sorted by process guid', function() {

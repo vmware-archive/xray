@@ -1,4 +1,3 @@
-var Promise = require('../../lib/promise');
 var request = require('superagent');
 var {getCredentials} = require('../helpers/url_helper');
 

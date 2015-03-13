@@ -7,7 +7,7 @@ html, body, #root, .xray {
   @extend %full-height;
 }
 
-body {
+#root {
   background-color: $black;
 }
 
