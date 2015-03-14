@@ -1,4 +1,5 @@
 var DesiredLrp = require('./desired_lrp');
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var React = require('react/addons');
 var SidebarHeader = require('./sidebar_header');
 var {filterDesiredLrps} = require('../helpers/lrp_helper');
@@ -6,6 +7,8 @@ var {filterDesiredLrps} = require('../helpers/lrp_helper');
 var types = React.PropTypes;
 
 var DesiredLrpList = React.createClass({
+  mixins: [PureRenderMixin],
+
   propTypes: {
     $receptor: types.object.isRequired,
     $selection: types.object.isRequired,

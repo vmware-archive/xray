@@ -1,6 +1,9 @@
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var React = require('react/addons');
 
 var Modal = React.createClass({
+  mixins: [PureRenderMixin],
+
   getInitialState() {
     return {title: null};
   },

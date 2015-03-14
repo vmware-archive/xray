@@ -1,6 +1,7 @@
 var BaseApi = require('../api/base_api');
 var React = require('react/addons');
 var PUI = {Panel: require('../vendor/panels').Panel};
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var ReceptorMixin = require('../mixins/receptor_mixin');
 var ReceptorStreamMixin = require('../mixins/receptor_stream_mixin');
 var Zones = require('./zones');
@@ -10,7 +11,7 @@ var cx = React.addons.classSet;
 var types = React.PropTypes;
 
 var Page = React.createClass({
-  mixins: [ReceptorMixin, ReceptorStreamMixin],
+  mixins: [PureRenderMixin, ReceptorMixin, ReceptorStreamMixin],
 
   propTypes: {
     receptorUrl: types.string,

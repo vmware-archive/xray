@@ -1,3 +1,4 @@
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var React = require('react/addons');
 var timeago = require('timeago');
 
@@ -24,6 +25,8 @@ timeago.settings.strings = {
 var types = React.PropTypes;
 
 var Timeago = React.createClass({
+  mixins: [PureRenderMixin],
+  
   propTypes: {
     dateTime: types.object.isRequired
   },

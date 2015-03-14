@@ -1,9 +1,12 @@
-var React = require('react/addons');
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var PUI = {Icon: require('../vendor/icon').Icon};
+var React = require('react/addons');
 
 var types = React.PropTypes;
 
 var SidebarHeader = React.createClass({
+  mixins: [PureRenderMixin],
+
   propTypes: {
     $sidebar: types.object.isRequired
   },

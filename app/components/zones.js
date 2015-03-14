@@ -1,4 +1,5 @@
 var Cells = require('./cells');
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var React = require('react/addons');
 var ReceptorMixin = require('../mixins/receptor_mixin');
 var PUI = Object.assign({}, {
@@ -10,7 +11,7 @@ var PUI = Object.assign({}, {
 var types = React.PropTypes;
 
 var Zones = React.createClass({
-  mixins: [ReceptorMixin],
+  mixins: [PureRenderMixin, ReceptorMixin],
 
   propTypes: {
     $receptor: types.object,
