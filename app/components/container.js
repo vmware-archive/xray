@@ -48,7 +48,7 @@ var Container = React.createClass({
       backgroundColor = pickColor(this.context.colors, getHostname(desiredLrp) || processGuid);
     }
     var style = {width: `${percentWidth * 100}%`, backgroundColor: backgroundColor};
-    className = mergeClassNames(className, cx({container: true, claimed: state === 'CLAIMED', flex, undesired}));
+    className = mergeClassNames(className, cx({'app-container': true, claimed: state === 'CLAIMED', flex, undesired}));
     var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': instanceGuid, onClick: this.onClick, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
     return (<a {...props}><span className="mask"/></a>);
   }

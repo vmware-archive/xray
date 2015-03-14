@@ -37,8 +37,8 @@ describe('Cells', function() {
     });
 
     it('renders the cells with the expected actual lrps', function() {
-      expect($('.cell:eq(0) .container')).toHaveLength(2);
-      expect($('.cell:eq(1) .container')).not.toExist();
+      expect($('.cell:eq(0) .app-container')).toHaveLength(2);
+      expect($('.cell:eq(1) .app-container')).not.toExist();
     });
   });
 });

@@ -44,11 +44,11 @@ describe('Cell', function() {
     });
 
     it('renders actual lrps', function() {
-      expect($('.cell .container')).toHaveLength(actualLrps.length);
+      expect($('.cell .app-container')).toHaveLength(actualLrps.length);
     });
 
     it('sorts the actual lrps by process guid and index', function() {
-      expect($('.container').map(function() { return $(this).data('instance-guid'); }).toArray()).toEqual(['one', 'two', 'three']);
+      expect($('.app-container').map(function() { return $(this).data('instance-guid'); }).toArray()).toEqual(['one', 'two', 'three']);
     });
 
     describe('when an actualLrp does not have a desiredLrp', function() {
@@ -59,11 +59,11 @@ describe('Cell', function() {
       });
 
       it('gives it a special color', function() {
-        expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
-        expect('.container:eq(0)').not.toHaveClass('flex');
-        expect('.container:eq(0)').toHaveClass('undesired');
-        expect('.container:eq(0)').toHaveCss({'background-color': 'rgba(0, 0, 0, 0)'});
-        expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
+        expect('.app-container:eq(1)').not.toHaveClass(['flex', 'undesired']);
+        expect('.app-container:eq(0)').not.toHaveClass('flex');
+        expect('.app-container:eq(0)').toHaveClass('undesired');
+        expect('.app-container:eq(0)').toHaveCss({'background-color': 'rgba(0, 0, 0, 0)'});
+        expect('.app-container:eq(1)').not.toHaveClass(['flex', 'undesired']);
       });
 
       it('does not crash if there is a selectedDesiredLrp', function() {
@@ -73,7 +73,7 @@ describe('Cell', function() {
     });
 
     it('deals with selecting lrps', function() {
-      $('.container:eq(0)').simulate('click');
+      $('.app-container:eq(0)').simulate('click');
       expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedDesiredLrp: desiredLrps[1]}));
     });
 
@@ -84,7 +84,7 @@ describe('Cell', function() {
       });
 
       it('adds the selected class to the container', function() {
-        expect('.container:eq(0)').toHaveClass('selected');
+        expect('.app-container:eq(0)').toHaveClass('selected');
       });
     });
 
@@ -95,7 +95,7 @@ describe('Cell', function() {
       });
 
       it('adds the hover class to the container', function() {
-        expect('.container:eq(0)').toHaveClass('hover');
+        expect('.app-container:eq(0)').toHaveClass('hover');
       });
     });
 
@@ -106,8 +106,8 @@ describe('Cell', function() {
       });
 
       it('adds the highlight class to the container', function() {
-        expect('.container:eq(0)').toHaveClass('highlight');
-        expect('.container:eq(1)').not.toHaveClass('highlight');
+        expect('.app-container:eq(0)').toHaveClass('highlight');
+        expect('.app-container:eq(1)').not.toHaveClass('highlight');
       });
     });
 
@@ -117,9 +117,9 @@ describe('Cell', function() {
         subject.setProps({$sidebar});
       });
       it('adds the selected class if the desired lrp passes the filter', function() {
-        expect('.container:eq(0)').toHaveClass('selected');
-        expect('.container:eq(1)').not.toHaveClass('selected');
-        expect('.container:eq(2)').not.toHaveClass('selected');
+        expect('.app-container:eq(0)').toHaveClass('selected');
+        expect('.app-container:eq(1)').not.toHaveClass('selected');
+        expect('.app-container:eq(2)').not.toHaveClass('selected');
       });
 
       describe('when there is also a selected desiredLrp', function() {
@@ -128,9 +128,9 @@ describe('Cell', function() {
           subject.setProps({$selection});
         });
         it('does not select from the filter', function() {
-          expect('.container:eq(0)').not.toHaveClass('selected');
-          expect('.container:eq(1)').toHaveClass('selected');
-          expect('.container:eq(2)').not.toHaveClass('selected');
+          expect('.app-container:eq(0)').not.toHaveClass('selected');
+          expect('.app-container:eq(1)').toHaveClass('selected');
+          expect('.app-container:eq(2)').not.toHaveClass('selected');
         });
       });
 
@@ -140,9 +140,9 @@ describe('Cell', function() {
           subject.setProps({$selection});
         });
         it('does not select from the filter', function() {
-          expect('.container:eq(0)').not.toHaveClass('selected');
-          expect('.container:eq(1)').toHaveClass('hover');
-          expect('.container:eq(2)').not.toHaveClass('selected');
+          expect('.app-container:eq(0)').not.toHaveClass('selected');
+          expect('.app-container:eq(1)').toHaveClass('hover');
+          expect('.app-container:eq(2)').not.toHaveClass('selected');
         });
       });
     });
@@ -154,9 +154,9 @@ describe('Cell', function() {
     });
 
     it('sets the width of each cell based on the scaling', function() {
-      expect('.container:eq(0)').toHaveCss({width: '15px'});
-      expect('.container:eq(1)').toHaveCss({width: '10px'});
-      expect('.container:eq(2)').toHaveCss({width: '25px'});
+      expect('.app-container:eq(0)').toHaveCss({width: '15px'});
+      expect('.app-container:eq(1)').toHaveCss({width: '10px'});
+      expect('.app-container:eq(2)').toHaveCss({width: '25px'});
     });
 
     describe('when the desired memory is zero', function() {
@@ -167,9 +167,9 @@ describe('Cell', function() {
       });
 
       it('fills the rest of the space', function() {
-        expect('.container:eq(0)').not.toHaveClass('flex');
-        expect('.container:eq(1)').toHaveClass('flex');
-        expect('.container:eq(2)').not.toHaveClass('flex');
+        expect('.app-container:eq(0)').not.toHaveClass('flex');
+        expect('.app-container:eq(1)').toHaveClass('flex');
+        expect('.app-container:eq(2)').not.toHaveClass('flex');
       });
     });
 
@@ -181,11 +181,11 @@ describe('Cell', function() {
       });
 
       it('gives it a special color', function() {
-        expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
-        expect('.container:eq(0)').not.toHaveClass('flex');
-        expect('.container:eq(0)').toHaveClass('undesired');
-        expect('.container:eq(0)').toHaveCss({'background-color': 'rgba(0, 0, 0, 0)'});
-        expect('.container:eq(1)').not.toHaveClass(['flex', 'undesired']);
+        expect('.app-container:eq(1)').not.toHaveClass(['flex', 'undesired']);
+        expect('.app-container:eq(0)').not.toHaveClass('flex');
+        expect('.app-container:eq(0)').toHaveClass('undesired');
+        expect('.app-container:eq(0)').toHaveCss({'background-color': 'rgba(0, 0, 0, 0)'});
+        expect('.app-container:eq(1)').not.toHaveClass(['flex', 'undesired']);
       });
     });
   });
@@ -196,9 +196,9 @@ describe('Cell', function() {
     });
 
     it('sets the width of each cell based on the scaling', function() {
-      expect('.container:eq(0)').toHaveCss({width: '30px'});
-      expect('.container:eq(1)').toHaveCss({width: '20px'});
-      expect('.container:eq(2)').toHaveCss({width: '10px'});
+      expect('.app-container:eq(0)').toHaveCss({width: '30px'});
+      expect('.app-container:eq(1)').toHaveCss({width: '20px'});
+      expect('.app-container:eq(2)').toHaveCss({width: '10px'});
     });
   });
 
@@ -207,9 +207,9 @@ describe('Cell', function() {
       subject = render({desiredLrps: null, scaling: 'containers'});
     });
     it('renders actual lrps at container scaling', function() {
-      expect('.container:eq(0)').toHaveCss({width: '2px'});
-      expect('.container:eq(1)').toHaveCss({width: '2px'});
-      expect('.container:eq(2)').toHaveCss({width: '2px'});
+      expect('.app-container:eq(0)').toHaveCss({width: '2px'});
+      expect('.app-container:eq(1)').toHaveCss({width: '2px'});
+      expect('.app-container:eq(2)').toHaveCss({width: '2px'});
     });
   });
 });

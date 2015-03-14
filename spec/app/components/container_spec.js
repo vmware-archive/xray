@@ -25,12 +25,12 @@ describe('Container', function() {
   });
 
   it('renders a container', function() {
-    expect('.container').toExist();
+    expect('.app-container').toExist();
   });
 
   it('does not add the claimed class to the container', function() {
     expect(subject.props.actualLrp.state).toEqual('RUNNING');
-    expect('.container').not.toHaveClass('claimed');
+    expect('.app-container').not.toHaveClass('claimed');
   });
 
   describe('when the state of the actual lrp is CLAIMED', function() {
@@ -39,13 +39,13 @@ describe('Container', function() {
     });
 
     it('adds the claimed class', function() {
-      expect('.container').toHaveClass('claimed');
+      expect('.app-container').toHaveClass('claimed');
     });
   });
 
   describe('when mouse over event is triggered on the container', function() {
     beforeEach(function() {
-      $('.container').simulate('mouseOver');
+      $('.app-container').simulate('mouseOver');
     });
 
     it('sets the selected desiredLrp', function() {
@@ -54,7 +54,7 @@ describe('Container', function() {
 
     describe('when mouse out is triggered on the container', function() {
       beforeEach(function() {
-        $('.container').simulate('mouseOut');
+        $('.app-container').simulate('mouseOut');
       });
 
       it('unsets the desiredLrp on the receptor', function() {
@@ -69,7 +69,7 @@ describe('Container', function() {
     });
 
     it('highlights the container', function() {
-      expect('.container').toHaveClass('selected');
+      expect('.app-container').toHaveClass('selected');
     });
   });
 
@@ -79,7 +79,7 @@ describe('Container', function() {
     });
 
     it('highlights the container', function() {
-      expect('.container').toHaveClass('highlight');
+      expect('.app-container').toHaveClass('highlight');
     });
   });
 
