@@ -5,22 +5,22 @@ var types = React.PropTypes;
 
 var SidebarHeader = React.createClass({
   propTypes: {
-    $receptor: types.object.isRequired
+    $sidebar: types.object.isRequired
   },
 
   change(e) {
-    var {$receptor} = this.props;
-    $receptor.merge({filter: e.target.value});
+    var {$sidebar} = this.props;
+    $sidebar.merge({filter: e.target.value});
   },
 
   toggleSidebar() {
-    var {$receptor} = this.props;
-    $receptor.merge({sidebarCollapsed: !$receptor.get('sidebarCollapsed')});
+    var {$sidebar} = this.props;
+    $sidebar.merge({sidebarCollapsed: !$sidebar.get('sidebarCollapsed')});
   },
 
   render() {
-    var {$receptor} = this.props;
-    var value = $receptor.get('filter');
+    var {$sidebar} = this.props;
+    var filter = $sidebar.get('filter');
     return (
       <header className="sidebar-header mam">
         <a className="sidebar-toggle mrm txt-c" role="button" onClick={this.toggleSidebar} title="toggle sidebar">
@@ -28,7 +28,7 @@ var SidebarHeader = React.createClass({
           <PUI.Icon name="angle-double-right" size="2x"/>
         </a>
         <div className="filter-processes">
-          <input className="form-control" type="text" placeholder="Filter processes&hellip;" value={value} onChange={this.change}/>
+          <input className="form-control" type="text" placeholder="Filter processes&hellip;" value={filter} onChange={this.change}/>
         </div>
       </header>
     );

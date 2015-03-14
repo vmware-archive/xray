@@ -3,6 +3,7 @@ var React = require('react/addons');
 var PUI = {Panel: require('../vendor/panels').Panel};
 var ReceptorMixin = require('../mixins/receptor_mixin');
 var ReceptorStreamMixin = require('../mixins/receptor_stream_mixin');
+var Zones = require('./zones');
 var Sidebar = require('./sidebar');
 
 var cx = React.addons.classSet;
@@ -13,7 +14,9 @@ var Page = React.createClass({
 
   propTypes: {
     receptorUrl: types.string,
-    $receptor: types.object.isRequired
+    $receptor: types.object.isRequired,
+    $selection: types.object.isRequired,
+    $sidebar: types.object.isRequired
   },
 
   componentDidMount() {
@@ -30,20 +33,21 @@ var Page = React.createClass({
   },
 
   onScrimClick() {
-    this.props.$receptor.merge({selectedDesiredLrp: null, hoverDesiredLrp: null});
+    this.props.$selection.merge({selectedDesiredLrp: null, hoverDesiredLrp: null});
   },
 
   render() {
-    var {$receptor} = this.props;
-    var selection = !!($receptor.get('hoverDesiredLrp') || $receptor.get('selectedDesiredLrp')) || $receptor.get('filter');
-    var sidebarCollapsed = $receptor.get('sidebarCollapsed');
+    var {$receptor, $sidebar, $selection} = this.props;
+    var selection = !!($selection.get('hoverDesiredLrp') || $selection.get('selectedDesiredLrp')) || $sidebar.get('filter');
+    var sidebarCollapsed = $sidebar.get('sidebarCollapsed');
     return (
       <div className={cx({'page type-neutral-8': true, 'sidebar-collapsed': sidebarCollapsed, 'sidebar-open': !sidebarCollapsed, selection})}>
         <PUI.Panel className="main-panel man panel-scrollable-layout" scrollable={true}>
-          {this.props.children}
-          {$receptor.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
+          <Zones {...{$receptor, $selection, $sidebar}}/>
+          {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
         </PUI.Panel>
-        <PUI.Panel className="sidebar-panel bg-dark-2 man panel-scrollable-layout" padding="pan sidebar-body"><Sidebar {...{$receptor}}/></PUI.Panel>
+        <PUI.Panel className="sidebar-panel bg-dark-2 man panel-scrollable-layout" padding="pan sidebar-body"><Sidebar {...{$receptor, $selection, $sidebar}}/></PUI.Panel>
+        {this.props.children}
       </div>
     );
   }

@@ -47,14 +47,14 @@ var DesiredLrp = React.createClass({
     desiredLrp: types.object.isRequired,
     actualLrps: types.array.isRequired,
     isSelected: types.bool,
-    $receptor: types.object.isRequired
+    $selection: types.object.isRequired
   },
 
   contextTypes: {
     colors: types.array.isRequired
   },
 
-  ignorePureRenderProps: ['$receptor'],
+  ignorePureRenderProps: ['$selection'],
 
   getDefaultProps() {
     return {isSelected: false};

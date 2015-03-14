@@ -1,13 +1,13 @@
 require('../spec_helper');
 
 describe('SidebarHeader', function() {
-  var Cursor, subject, callbackSpy, $receptor;
+  var Cursor, subject, callbackSpy, $sidebar;
   beforeEach(function() {
     var SidebarHeader = require('../../../app/components/sidebar_header');
     Cursor = require('../../../app/lib/cursor');
     callbackSpy = jasmine.createSpy('callback');
-    $receptor = new Cursor({filter: '', sidebarCollapsed: false}, callbackSpy);
-    subject = React.render(<SidebarHeader {...{$receptor}}/>, root);
+    $sidebar = new Cursor({filter: '', sidebarCollapsed: false}, callbackSpy);
+    subject = React.render(<SidebarHeader {...{$sidebar}}/>, root);
   });
 
   it('sets the filter when the user types', function() {
@@ -26,8 +26,8 @@ describe('SidebarHeader', function() {
 
     describe('when clicking on the sidebar toggle again', function() {
       beforeEach(function() {
-        $receptor = new Cursor({filter: '', sidebarCollapsed: true}, callbackSpy);
-        subject.setProps({$receptor});
+        $sidebar = new Cursor({filter: '', sidebarCollapsed: true}, callbackSpy);
+        subject.setProps({$sidebar});
         $('.sidebar-toggle').simulate('click');
       });
 

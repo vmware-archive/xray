@@ -9,18 +9,21 @@ var {mergeClassNames} = require('../helpers/react_helper');
 var types = React.PropTypes;
 var cx = React.addons.classSet;
 
-function detectMatch($receptor, status, match) {
-  var target = $receptor.get(status);
+function detectMatch($selection, status, match) {
+  var target = $selection.get(status);
   return !!(target && findLrp([match], target));
 }
 
-function determineSelectedHover($receptor, desiredLrp) {
+function determineSelectedHover({$receptor, $selection, $sidebar, desiredLrp}) {
   if (!desiredLrp) return {};
 
-  var {desiredLrps, hoverDesiredLrp, selectedDesiredLrp, filter} = $receptor.get();
-  var isSelected = detectMatch($receptor, 'selectedDesiredLrp', desiredLrp);
+  var {desiredLrps} = $receptor.get();
+  var {hoverDesiredLrp, selectedDesiredLrp} = $selection.get();
+  var {filter} = $sidebar.get();
+
+  var isSelected = detectMatch($selection, 'selectedDesiredLrp', desiredLrp);
   if (selectedDesiredLrp) return {isSelected};
-  var isHover = detectMatch($receptor, 'hoverDesiredLrp', desiredLrp);
+  var isHover = detectMatch($selection, 'hoverDesiredLrp', desiredLrp);
   if (hoverDesiredLrp) return {isHover};
   if (filter) {
     var filteredLrps = filterDesiredLrps(desiredLrps, filter);
@@ -35,7 +38,9 @@ var Cell = React.createClass({
   propTypes: {
     actualLrps: types.array,
     cell: types.object.isRequired,
-    $receptor: types.object.isRequired
+    $receptor: types.object.isRequired,
+    $selection: types.object.isRequired,
+    $sidebar: types.object.isRequired
   },
 
   contextTypes: {
@@ -43,25 +48,25 @@ var Cell = React.createClass({
   },
 
   computeSelection(actualLrp) {
-    var {$receptor} = this.props;
+    var {$receptor, $selection} = this.props;
     var {desiredLrps} = $receptor.get();
     //TODO: desiredLrps could be a hash for O(1) lookup instead of a find
     var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === actualLrp.process_guid);
-    var {isSelected, isHover} = determineSelectedHover($receptor, desiredLrp);
+    var {isSelected, isHover} = determineSelectedHover({desiredLrp, ...this.props});
 
-    var isHighlighted = detectMatch($receptor, 'hoverActualLrp', actualLrp);
+    var isHighlighted = detectMatch($selection, 'hoverActualLrp', actualLrp);
 
     return {desiredLrp, isHover, isSelected, isHighlighted};
   },
 
   render() {
-    var {cell, $receptor, actualLrps, style} = this.props;
+    var {cell, actualLrps, style, $selection} = this.props;
     var {scaling} = this.context;
     var denominator = scaling === 'containers' ? 50 : cell.capacity[scaling];
     var containers = actualLrps && sortBy(actualLrps, lrp => lrp.process_guid + lpad(lrp.index, '0', 5)).map(function(actualLrp) {
         var {desiredLrp, isHighlighted, isHover, isSelected} = this.computeSelection(actualLrp);
         var containerClasses = cx({highlight: isHighlighted, hover: isHover, selected: isSelected});
-        var props = {actualLrp, denominator, desiredLrp, $receptor, className: containerClasses};
+        var props = {actualLrp, denominator, desiredLrp, $selection, className: containerClasses};
         return (<Container {...props} key={actualLrp.modification_tag.epoch}/>);
       }, this);
 

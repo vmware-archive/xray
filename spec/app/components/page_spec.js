@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Page', function() {
-  var subject, $receptor, Cursor, actualLrps, desiredLrps, callbackSpy;
+  var subject, $receptor, $sidebar, $selection, Cursor, actualLrps, desiredLrps, callbackSpy;
 
   beforeEach(function() {
     Cursor = require('../../../app/lib/cursor');
@@ -14,10 +14,12 @@ describe('Page', function() {
 
     var colors = ['#fff', '#000'];
 
+    $selection = new Cursor({}, jasmine.createSpy('callback'));
+    $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     callbackSpy = jasmine.createSpy('callback');
     $receptor = new Cursor({actualLrps, desiredLrps}, callbackSpy);
     React.withContext({scaling: 'containers', colors}, function() {
-      subject = React.render(<Page {...{$receptor}}/>, root);
+      subject = React.render(<Page {...{$receptor, $sidebar, $selection}}/>, root);
     });
     subject.setProps({receptorUrl: 'http://example.com'});
   });
@@ -31,8 +33,8 @@ describe('Page', function() {
     beforeEach(function() {
       selectedDesiredLrpCallbackSpy = jasmine.createSpy('callback');
       var desiredLrp = Factory.build('desiredLrp');
-      var $receptor = new Cursor({selectedDesiredLrp: desiredLrp, hoverDesiredLrp: desiredLrp}, selectedDesiredLrpCallbackSpy);
-      subject.setProps({$receptor});
+      $selection = new Cursor({selectedDesiredLrp: desiredLrp, hoverDesiredLrp: desiredLrp}, selectedDesiredLrpCallbackSpy);
+      subject.setProps({$selection});
     });
 
     it('renders a scrim', function() {
@@ -55,8 +57,8 @@ describe('Page', function() {
 
   describe('when a desiredLrp is hovered', function() {
     beforeEach(function() {
-      var $receptor = new Cursor({hoverDesiredLrp: Factory.build('desiredLrp')}, jasmine.createSpy('callback'));
-      subject.setProps({$receptor});
+      $selection = new Cursor({hoverDesiredLrp: Factory.build('desiredLrp')}, jasmine.createSpy('callback'));
+      subject.setProps({$selection});
     });
 
     it('adds the selection class to the page', function() {
@@ -70,8 +72,8 @@ describe('Page', function() {
 
   describe('when the sidebar is collapsed ', function() {
     beforeEach(function() {
-      var $receptor = new Cursor({sidebarCollapsed: true}, jasmine.createSpy('callback'));
-      subject.setProps({$receptor});
+      $sidebar = new Cursor({sidebarCollapsed: true}, jasmine.createSpy('callback'));
+      subject.setProps({$sidebar});
     });
 
     it('adds the sidebar collapsed class to the page', function() {

@@ -6,7 +6,6 @@ var Page = require('./page');
 var React = require('react/addons');
 var ReceptorUrlApi = require('../api/receptor_url_api');
 var ReceptorUrlModal = require('./receptor_url_modal');
-var Zones = require('./zones');
 
 var types = React.PropTypes;
 
@@ -29,11 +28,15 @@ var Application = React.createClass({
       receptor: {
         cells: [],
         desiredLrps: [],
-        actualLrps: [],
+        actualLrps: []
+      },
+      selection: {
         hoverDesiredLrp: null,
-        filter: '',
         selectedDesiredLrp: null,
-        hoverActualLrp: null,
+        hoverActualLrp: null
+      },
+      sidebar: {
+        filter: '',
         sidebarCollapsed: false
       },
       receptorUrl: this.props.config.receptorUrl
@@ -48,7 +51,8 @@ var Application = React.createClass({
   },
 
   componentDidUpdate() {
-    xray.receptor = Object.assign({}, this.state.receptor);
+    var {receptor, selection, sidebar} = this.state;
+    Object.assign(xray, {receptor, selection, sidebar});
   },
 
   updateReceptorUrl({receptorUrl}) {
@@ -57,12 +61,13 @@ var Application = React.createClass({
   },
 
   render() {
-    var {receptorUrl} = this.state;
-    var $receptor = new Cursor(this.state.receptor, receptor => this.setState({receptor}));
+    var {receptorUrl, receptor, sidebar, selection} = this.state;
+    var $receptor = new Cursor(receptor, receptor => this.setState({receptor}));
+    var $sidebar = new Cursor(sidebar, sidebar => this.setState({sidebar}));
+    var $selection = new Cursor(selection, selection => this.setState({selection}));
     return (
       <div className="xray">
-        <Page {...{$receptor, receptorUrl}} ref="page">
-          <Zones {...{$receptor}}/>
+        <Page {...{$receptor, $sidebar, $selection, receptorUrl}} ref="page">
           <Modal ref="modal"/>
         </Page>
       </div>

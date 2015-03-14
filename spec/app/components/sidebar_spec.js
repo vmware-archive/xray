@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Sidebar', function() {
-  var Cursor, subject, $receptor, desiredLrps, actualLrps, callbackSpy;
+  var Cursor, subject, $receptor, $sidebar, $selection, desiredLrps, actualLrps, callbackSpy;
   beforeEach(function() {
     var Sidebar = require('../../../app/components/sidebar');
     actualLrps = [
@@ -17,10 +17,12 @@ describe('Sidebar', function() {
 
     Cursor = require('../../../app/lib/cursor');
     callbackSpy = jasmine.createSpy('callback');
-    $receptor = new Cursor({desiredLrps, actualLrps, selectedDesiredLrp: null, filter: '', sidebarCollapsed: false}, callbackSpy);
+    $receptor = new Cursor({desiredLrps, actualLrps}, callbackSpy);
+    $selection = new Cursor({selectedDesiredLrp: null}, jasmine.createSpy('callback'));
+    $sidebar = new Cursor({filter: '', sidebarCollapsed: false}, jasmine.createSpy('callback'));
     var colors = ['#fff', '#000'];
     React.withContext({colors}, function() {
-      subject = React.render(<Sidebar {...{$receptor}}/>, root);
+      subject = React.render(<Sidebar {...{$receptor, $selection, $sidebar}}/>, root);
     });
   });
 
@@ -50,18 +52,18 @@ describe('Sidebar', function() {
 
     it('filters the desired lrps based on process guid', function() {
       var processGuidFilter = 'Ama';
-      subject.setProps({$receptor: new Cursor({desiredLrps, actualLrps, filter: processGuidFilter}, jasmine.createSpy('callback'))});
+      subject.setProps({$sidebar: new Cursor({filter: processGuidFilter}, jasmine.createSpy('callback'))});
       expect($('.desired-lrp').map(function() { return $('.process-guid', this).text(); }).toArray()).toEqual(['Amazon']);
     });
 
     it('filters the desired lrps based on the routes hostnames', function() {
       var routeFilter = desiredLrps[0].routes['cf-router'][0].hostnames[0];
-      subject.setProps({$receptor: new Cursor({desiredLrps, actualLrps, filter: routeFilter}, jasmine.createSpy('callback'))});
+      subject.setProps({$sidebar: new Cursor({filter: routeFilter}, jasmine.createSpy('callback'))});
       expect($('.desired-lrp').map(function() { return $('.process-guid', this).text(); }).toArray()).toEqual(['Amazon']);
     });
 
     it('displays help text when there are no filtered results', function() {
-      subject.setProps({$receptor: new Cursor({desiredLrps, actualLrps, filter: 'ZZZZZZZZ!@$'}, jasmine.createSpy('callback'))});
+      subject.setProps({$sidebar: new Cursor({filter: 'ZZZZZZZZ!@$'}, jasmine.createSpy('callback'))});
       expect('.desired-lrp').not.toExist();
       expect('.sidebar').toContainText('No filtered processes found.');
     });

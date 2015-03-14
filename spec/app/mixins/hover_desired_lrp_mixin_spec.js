@@ -9,9 +9,9 @@ describe('HoverDesiredLrpMixin', function() {
       render() { return (<div onClick={this.onClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}/>); }
     });
     var Cursor = require('../../../app/lib/cursor');
-    var $receptor = new Cursor({}, jasmine.createSpy('callback'));
+    var $selection = new Cursor({}, jasmine.createSpy('callback'));
     var desiredLrp = Factory.build('desiredLrp');
-    subject = React.render(<Klass $receptor={$receptor} desiredLrp={desiredLrp}/>, root);
+    subject = React.render(<Klass $selection={$selection} desiredLrp={desiredLrp}/>, root);
   });
 
   afterEach(function() {

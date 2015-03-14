@@ -4,23 +4,23 @@ var types = React.PropTypes;
 var HoverDesiredLrpMixin = {
   propTypes: {
     desiredLrp: types.object.isRequired,
-    $receptor: types.object.isRequired
+    $selection: types.object.isRequired
   },
 
   onMouseEnter() {
-    var {desiredLrp, $receptor} = this.props;
-    $receptor.merge({hoverDesiredLrp: desiredLrp});
+    var {desiredLrp, $selection} = this.props;
+    $selection.merge({hoverDesiredLrp: desiredLrp});
   },
 
   onMouseLeave() {
-    var {$receptor} = this.props;
-    $receptor.merge({hoverDesiredLrp: null});
+    var {$selection} = this.props;
+    $selection.merge({hoverDesiredLrp: null});
   },
 
   onClick(e) {
     e.stopPropagation();
-    var {desiredLrp, $receptor} = this.props;
-    $receptor.merge({selectedDesiredLrp: desiredLrp, sidebarCollapsed: false});
+    var {desiredLrp, $selection} = this.props;
+    $selection.merge({selectedDesiredLrp: desiredLrp, sidebarCollapsed: false});
   }
 };
 

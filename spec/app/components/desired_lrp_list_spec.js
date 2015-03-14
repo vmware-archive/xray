@@ -6,10 +6,12 @@ describe('DesiredLrpList', function() {
     Cursor = require('../../../app/lib/cursor');
     desiredLrps = Factory.buildList('desiredLrp', 3);
 
-    var $receptor = new Cursor({desiredLrps, sidebarCollapsed: false}, jasmine.createSpy('callback'));
+    var $receptor = new Cursor({desiredLrps}, jasmine.createSpy('callback'));
+    var $sidebar = new Cursor({sidebarCollapsed: false}, jasmine.createSpy('callback'));
+    var $selection = new Cursor({}, jasmine.createSpy('callback'));
     var colors = ['#fff', '#000'];
     React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrpList {...{$receptor}}/>, root);
+      subject = React.render(<DesiredLrpList {...{$receptor, $selection, $sidebar}}/>, root);
     });
   });
 
@@ -19,8 +21,8 @@ describe('DesiredLrpList', function() {
 
   describe('when the sidebar is collapsed', function() {
     beforeEach(function() {
-      var $receptor = new Cursor({desiredLrps, sidebarCollapsed: true}, jasmine.createSpy('callback'));
-      subject.setProps({$receptor});
+      var $sidebar = new Cursor({sidebarCollapsed: true}, jasmine.createSpy('callback'));
+      subject.setProps({$sidebar});
     });
 
     it('does not stripe the desired lrp', function() {

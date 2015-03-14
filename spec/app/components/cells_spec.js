@@ -10,8 +10,10 @@ describe('Cells', function() {
     cells = Factory.buildList('cell', 2);
     var colors = ['#fff', '#000'];
     $receptor = new Cursor({}, jasmine.createSpy('callback'));
+    var $selection = new Cursor({}, jasmine.createSpy('callback'));
+    var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     React.withContext({scaling: 'containers', colors}, function() {
-      subject = React.render(<Cells {...{cells, $receptor}}/>, root);
+      subject = React.render(<Cells {...{cells, $receptor, $selection, $sidebar}}/>, root);
     });
   });
 

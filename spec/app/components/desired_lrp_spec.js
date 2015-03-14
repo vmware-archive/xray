@@ -15,10 +15,10 @@ describe('DesiredLrp', function() {
     callbackSpy = jasmine.createSpy('hoverCallback');
 
     Cursor = require('../../../app/lib/cursor');
-    var $receptor = new Cursor({hoverDesiredLrp: null, selectedDesiredLrp: null, sidebarCollapsed: false}, callbackSpy);
+    var $selection = new Cursor({hoverDesiredLrp: null, selectedDesiredLrp: null}, callbackSpy);
     var colors = ['#fff', '#000'];
     React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $receptor, isSelected: false}}/>, root);
+      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $selection, isSelected: false}}/>, root);
     });
   });
 
@@ -27,7 +27,7 @@ describe('DesiredLrp', function() {
   });
 
   it('ignores the receptor cursor for rendering', function() {
-    expect(subject.ignorePureRenderProps).toEqual(['$receptor']);
+    expect(subject.ignorePureRenderProps).toEqual(['$selection']);
   });
 
   describe('routes', function() {

@@ -14,9 +14,11 @@ describe('Zones', function() {
     var colors = ['#fff', '#000'];
 
     var Cursor = require('../../../app/lib/cursor');
+    var $selection = new Cursor({}, jasmine.createSpy('callback'));
+    var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     var $receptor = new Cursor({cells, desiredLrps}, jasmine.createSpy('callback'));
     React.withContext({colors}, function() {
-      subject = React.render(<Zones {...{$receptor}}/>, root);
+      subject = React.render(<Zones {...{$receptor, $selection, $sidebar}}/>, root);
     });
   });
 

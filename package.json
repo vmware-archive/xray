@@ -29,6 +29,7 @@
   "dependencies": {
     "babel": "^4.5.5",
     "babel-core": "4.3.0",
+    "babel-eslint": "^2.0.0",
     "babel-loader": "4.0.0",
     "body-parser": "^1.11.0",
     "correcting-interval": "^2.0.0",

@@ -15,7 +15,7 @@ var Container = React.createClass({
     actualLrp: types.object.isRequired,
     desiredLrp: types.object,
     denominator: types.number.isRequired,
-    $receptor: types.object.isRequired
+    $selection: types.object.isRequired
   },
 
   contextTypes: {
@@ -24,7 +24,7 @@ var Container = React.createClass({
     modal: types.object
   },
 
-  ignorePureRenderProps: ['$receptor'],
+  ignorePureRenderProps: ['$selection'],
 
   render() {
     var {state, instance_guid: instanceGuid, modification_tag: {epoch: key}, process_guid: processGuid} = this.props.actualLrp;

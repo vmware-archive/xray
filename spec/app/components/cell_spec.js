@@ -1,13 +1,13 @@
 require('../spec_helper');
 
 describe('Cell', function() {
-  var Cursor, Cell, subject, cell, actualLrps, desiredLrps, update, $receptor, callbackSpy;
+  var Cursor, Cell, subject, cell, actualLrps, desiredLrps, update, $receptor, $sidebar, $selection, callbackSpy;
   function render(options) {
     var style = {width: '100px'};
     var subject;
     var colors = ['#fff', '#000'];
     React.withContext(Object.assign({colors}, options), function() {
-      var props = {cell, style, actualLrps, $receptor};
+      var props = {cell, style, actualLrps, $receptor, $sidebar, $selection};
       subject = React.render(<Cell {...props}/>, root);
     });
     return subject;
@@ -30,6 +30,8 @@ describe('Cell', function() {
     ];
     callbackSpy = jasmine.createSpy('callback');
     $receptor = new Cursor({desiredLrps}, callbackSpy);
+    $sidebar = new Cursor({}, callbackSpy);
+    $selection = new Cursor({}, callbackSpy);
   });
 
   afterEach(function() {
@@ -77,9 +79,8 @@ describe('Cell', function() {
 
     describe('with a selected lrp', function() {
       beforeEach(function() {
-        var props = subject.props.$receptor.get();
-        $receptor = new Cursor(Object.assign({}, props, {selectedDesiredLrp: desiredLrps[1]}));
-        subject.setProps({$receptor});
+        $selection = new Cursor({selectedDesiredLrp: desiredLrps[1]});
+        subject.setProps({$selection});
       });
 
       it('adds the selected class to the container', function() {
@@ -89,9 +90,8 @@ describe('Cell', function() {
 
     describe('with a hover desired lrp', function() {
       beforeEach(function() {
-        var props = subject.props.$receptor.get();
-        $receptor = new Cursor(Object.assign({}, props, {hoverDesiredLrp: desiredLrps[1]}));
-        subject.setProps({$receptor});
+        $selection = new Cursor({hoverDesiredLrp: desiredLrps[1]});
+        subject.setProps({$selection});
       });
 
       it('adds the hover class to the container', function() {
@@ -101,9 +101,8 @@ describe('Cell', function() {
 
     describe('with a hover actual lrp', function() {
       beforeEach(function() {
-        var props = subject.props.$receptor.get();
-        $receptor = new Cursor(Object.assign({}, props, {hoverActualLrp: actualLrps[1]}));
-        subject.setProps({$receptor});
+        $selection = new Cursor({hoverActualLrp: actualLrps[1]});
+        subject.setProps({$selection});
       });
 
       it('adds the highlight class to the container', function() {
@@ -114,9 +113,8 @@ describe('Cell', function() {
 
     describe('with filtered desired lrps', function() {
       beforeEach(function() {
-        var props = subject.props.$receptor.get();
-        $receptor = new Cursor(Object.assign({}, props, {filter: 'iego'}));
-        subject.setProps({$receptor});
+        $sidebar = new Cursor({filter: 'iego'});
+        subject.setProps({$sidebar});
       });
       it('adds the selected class if the desired lrp passes the filter', function() {
         expect('.container:eq(0)').toHaveClass('selected');
@@ -126,9 +124,8 @@ describe('Cell', function() {
 
       describe('when there is also a selected desiredLrp', function() {
         beforeEach(function() {
-          var props = subject.props.$receptor.get();
-          $receptor = new Cursor(Object.assign({}, props, {selectedDesiredLrp: desiredLrps[2]}));
-          subject.setProps({$receptor});
+          $selection = new Cursor({selectedDesiredLrp: desiredLrps[2]});
+          subject.setProps({$selection});
         });
         it('does not select from the filter', function() {
           expect('.container:eq(0)').not.toHaveClass('selected');
@@ -139,9 +136,8 @@ describe('Cell', function() {
 
       describe('when there is also a hover desiredLrp', function() {
         beforeEach(function() {
-          var props = subject.props.$receptor.get();
-          $receptor = new Cursor(Object.assign({}, props, {hoverDesiredLrp: desiredLrps[2]}));
-          subject.setProps({$receptor});
+          $selection = new Cursor({hoverDesiredLrp: desiredLrps[2]});
+          subject.setProps({$selection});
         });
         it('does not select from the filter', function() {
           expect('.container:eq(0)').not.toHaveClass('selected');

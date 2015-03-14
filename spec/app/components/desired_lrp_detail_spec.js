@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('DesiredLrpDetail', function() {
-  var ActualLrpList, DesiredLrp, Cursor, subject, actualLrps, desiredLrps, $receptor;
+  var ActualLrpList, DesiredLrp, Cursor, subject, actualLrps, desiredLrps, $receptor, $selection;
   beforeEach(function() {
     ActualLrpList = require('../../../app/components/actual_lrp_list');
     spyOn(ActualLrpList.type.prototype, 'render').and.callThrough();
@@ -21,11 +21,12 @@ describe('DesiredLrpDetail', function() {
     ];
 
     Cursor = require('../../../app/lib/cursor');
-    $receptor = new Cursor({desiredLrps, actualLrps, selectedDesiredLrp, filter: ''}, jasmine.createSpy('callback'));
+    $receptor = new Cursor({desiredLrps, actualLrps}, jasmine.createSpy('callback'));
+    $selection = new Cursor({selectedDesiredLrp}, jasmine.createSpy('callback'));
     var colors = ['#fff', '#000'];
 
     React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrpDetail {...{$receptor}}/>, root);
+      subject = React.render(<DesiredLrpDetail {...{$receptor, $selection}}/>, root);
     });
   });
 
@@ -50,9 +51,8 @@ describe('DesiredLrpDetail', function() {
     var deletedLrp;
     beforeEach(function() {
       deletedLrp = Factory.build('desiredLrp', {process_guid: 'Heroku'});
-      var data = $receptor.get();
-      $receptor = new Cursor(Object.assign({}, data, {selectedDesiredLrp: deletedLrp}));
-      subject.setProps({$receptor});
+      $selection = new Cursor({selectedDesiredLrp: deletedLrp});
+      subject.setProps({$selection});
     });
 
     it('renders a header with the old data', function() {

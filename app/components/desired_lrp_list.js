@@ -7,11 +7,13 @@ var types = React.PropTypes;
 
 var DesiredLrpList = React.createClass({
   propTypes: {
-    $receptor: types.object.isRequired
+    $receptor: types.object.isRequired,
+    $selection: types.object.isRequired,
+    $sidebar: types.object.isRequired
   },
 
   renderDesiredLrps(desiredLrps) {
-    var {$receptor} = this.props;
+    var {$receptor, $selection} = this.props;
     var {actualLrps} = $receptor.get();
     actualLrps = actualLrps || [];
 
@@ -19,20 +21,21 @@ var DesiredLrpList = React.createClass({
       return <div className="mam">No filtered processes found.</div>;
     }
 
-    var {hoverDesiredLrp} = $receptor.get();
+    var {hoverDesiredLrp} = $selection.get();
     return desiredLrps.map(function(desiredLrp) {
       var key = desiredLrp.process_guid;
       var className = 'clickable';
       var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
       var isSelected = !!(desiredLrp && hoverDesiredLrp === desiredLrp);
-      var props = {className, desiredLrp, actualLrps: filtered, key, $receptor, isSelected};
+      var props = {className, desiredLrp, actualLrps: filtered, key, $selection, isSelected};
       return <DesiredLrp {...props}/>;
     }, this);
   },
 
   render() {
-    var {$receptor} = this.props;
-    var {filter, desiredLrps} = $receptor.get();
+    var {$receptor, $sidebar} = this.props;
+    var {desiredLrps} = $receptor.get();
+    var {filter} = $sidebar.get();
     desiredLrps = desiredLrps || [];
     if (filter) {
       desiredLrps = filterDesiredLrps(desiredLrps, filter);
@@ -40,7 +43,7 @@ var DesiredLrpList = React.createClass({
 
     return (
       <div className="desired-lrp-list">
-        <SidebarHeader {...{$receptor}}/>
+        <SidebarHeader {...{$sidebar}}/>
         <section className="desired-lrps">
           {this.renderDesiredLrps(desiredLrps)}
         </section>

@@ -13,7 +13,9 @@ var Zones = React.createClass({
   mixins: [ReceptorMixin],
 
   propTypes: {
-    $receptor: types.object
+    $receptor: types.object,
+    $selection: types.object,
+    $sidebar: types.object
   },
 
   childContextTypes: {
@@ -33,7 +35,7 @@ var Zones = React.createClass({
   },
 
   renderZones: function() {
-    var {$receptor} = this.props;
+    var {$receptor, $selection, $sidebar} = this.props;
     var cells = $receptor.get('cells');
     if (!cells) return null;
 
@@ -49,7 +51,7 @@ var Zones = React.createClass({
       return (
         <div className="zone" key={zone}>
           <header><h2>{`Zone ${zone} - ${cells.length} Cells`}</h2></header>
-          <Cells {...{cells, $receptor}}/>
+          <Cells {...{cells, $receptor, $selection, $sidebar}}/>
         </div>
       );
     }, zones);
