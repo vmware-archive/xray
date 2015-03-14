@@ -26,7 +26,7 @@ var types = React.PropTypes;
 
 var Timeago = React.createClass({
   mixins: [PureRenderMixin],
-  
+
   propTypes: {
     dateTime: types.object.isRequired
   },
