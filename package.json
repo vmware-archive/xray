@@ -27,8 +27,8 @@
     "supertest": "^0.15.0"
   },
   "dependencies": {
-    "babel": "^4.5.5",
-    "babel-core": "4.3.0",
+    "babel": "^4.7.12",
+    "babel-core": "^4.7.12",
     "babel-eslint": "^2.0.0",
     "babel-loader": "4.0.0",
     "body-parser": "^1.11.0",
