@@ -1,7 +1,6 @@
 var ActualLrp = require('./actual_lrp');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var React = require('react/addons');
-var sortBy = require('lodash.sortby');
 
 var types = React.PropTypes;
 
@@ -15,7 +14,7 @@ var ActualLrpList = React.createClass({
 
   renderActualLrps() {
     var {$hoverActualLrp} = this.props;
-    return sortBy(this.props.actualLrps, a => a.index).map(function(actualLrp) {
+    return this.props.actualLrps.map(function(actualLrp) {
       return (<ActualLrp {...{actualLrp, $hoverActualLrp, key: actualLrp.index}}/>);
     });
   },

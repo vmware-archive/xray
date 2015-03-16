@@ -1,11 +1,14 @@
 var ReceptorApi = require('../api/receptor_api');
 var CellsApi = require('../api/cells_api');
+var sortedIndex = require('lodash.sortedindex');
+var {actualLrpIndex} = require('../helpers/lrp_helper');
+
 var {diff} = require('../helpers/array_helper');
 var {setCorrectingInterval} = require('correcting-interval');
 const CELL_POLL_INTERVAL = 10000;
 const RECEPTOR_POLL_INTERVAL = 120000;
 
-function applyUpdate(newArr, id, changeCallback) {
+function applyUpdate(newArr, id, changeCallback, options = {}) {
   return {
     $apply: function(oldArr) {
       var {added, removed, changed} = diff(oldArr, newArr, id, changeCallback);
@@ -16,6 +19,14 @@ function applyUpdate(newArr, id, changeCallback) {
         var nextChanged = changed.map(([current, next]) => next);
         /*eslint-enable no-unused-vars*/
         results = results.map(x => currentChanged.includes(x) ? nextChanged[currentChanged.indexOf(x)] : x);
+      }
+
+      if (options.sortBy) {
+        added.forEach(function(obj) {
+          var index = sortedIndex(results, obj, options.sortBy);
+          results.splice(index, 0, obj);
+        });
+        return results;
       }
       return results.concat(added);
     }
@@ -33,8 +44,8 @@ var ReceptorMixin = {
     return ReceptorApi.fetch()
       .then(function({actualLrps, cells, desiredLrps}) {
         $receptor.update({
-          cells: applyUpdate(cells, 'cell_id'),
-          actualLrps: applyUpdate(actualLrps, 'instance_guid', (a, b) => a.since !== b.since),
+          cells: applyUpdate(cells, 'cell_id', null, {sortBy: 'cell_id'}),
+          actualLrps: applyUpdate(actualLrps, 'instance_guid', (a, b) => a.since !== b.since, {sortBy: actualLrpIndex}),
           desiredLrps: applyUpdate(desiredLrps, 'process_guid')
         });
       })

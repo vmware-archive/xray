@@ -1,4 +1,5 @@
 var max = require('lodash.max');
+var {lpad} = require('./string_helper');
 
 function getRoutes(desiredLrp) {
   var routes = desiredLrp.routes;
@@ -20,6 +21,8 @@ module.exports = {
     if (!lrps.length) return null;
     return max(lrps, ({modification_tag: {index}}) => index);
   },
+
+  actualLrpIndex: lrp => lrp.process_guid + lpad(lrp.index, '0', 5),
 
   getRoutes: getRoutes,
 

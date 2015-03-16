@@ -1,9 +1,7 @@
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var Container = require('./container');
-var sortBy = require('lodash.sortby');
 var React = require('react/addons');
 var {findLrp, filterDesiredLrps} = require('../helpers/lrp_helper');
-var {lpad} = require('../helpers/string_helper');
 var {mergeClassNames} = require('../helpers/react_helper');
 
 var types = React.PropTypes;
@@ -63,7 +61,7 @@ var Cell = React.createClass({
     var {cell, actualLrps, style, $selection} = this.props;
     var {scaling} = this.context;
     var denominator = scaling === 'containers' ? 50 : cell.capacity[scaling];
-    var containers = actualLrps && sortBy(actualLrps, lrp => lrp.process_guid + lpad(lrp.index, '0', 5)).map(function(actualLrp) {
+    var containers = actualLrps && actualLrps.map(function(actualLrp) {
         var {desiredLrp, isHighlighted, isHover, isSelected} = this.computeSelection(actualLrp);
         var containerClasses = cx({highlight: isHighlighted, hover: isHover, selected: isSelected});
         var props = {actualLrp, denominator, desiredLrp, $selection, className: containerClasses};

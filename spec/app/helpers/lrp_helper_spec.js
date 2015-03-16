@@ -62,6 +62,11 @@ describe('LrpHelper', function() {
     it('return null if there is no hostname', function() {
       expect(subject.getHostname(Factory.build('desiredLrp', {routes: {}}))).toBeNull();
     });
+  });
 
+  describe('#actualLrpIndex', function() {
+    it('returns in expected string', function() {
+      expect(subject.actualLrpIndex(Factory.build('actualLrp', {process_guid: 'foo', index: 1}))).toEqual('foo00001');
+    });
   });
 });

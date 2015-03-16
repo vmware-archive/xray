@@ -18,9 +18,9 @@ describe('Cell', function() {
     Cell = require('../../../app/components/cell');
     cell = Factory.build('cell', {capacity: {containers: 256, disk_mb: 1000, memory_mb: 100}});
     actualLrps = [
-      Factory.build('actualLrp', {cell_id: cell.cell_id, process_guid: 'runtime', instance_guid: 'three'}),
       Factory.build('actualLrp', {cell_id: cell.cell_id, process_guid: 'diego', instance_guid: 'one'}),
-      Factory.build('actualLrp', {cell_id: cell.cell_id, process_guid: 'google', instance_guid: 'two'})
+      Factory.build('actualLrp', {cell_id: cell.cell_id, process_guid: 'google', instance_guid: 'two'}),
+      Factory.build('actualLrp', {cell_id: cell.cell_id, process_guid: 'runtime', instance_guid: 'three'})
     ];
 
     desiredLrps = [
@@ -106,8 +106,8 @@ describe('Cell', function() {
       });
 
       it('adds the highlight class to the container', function() {
-        expect('.app-container:eq(0)').toHaveClass('highlight');
-        expect('.app-container:eq(1)').not.toHaveClass('highlight');
+        expect('.app-container:eq(0)').not.toHaveClass('highlight');
+        expect('.app-container:eq(1)').toHaveClass('highlight');
       });
     });
 
