@@ -47,9 +47,8 @@ var Cell = React.createClass({
 
   computeSelection(actualLrp) {
     var {$receptor, $selection} = this.props;
-    var {desiredLrps} = $receptor.get();
-    //TODO: desiredLrps could be a hash for O(1) lookup instead of a find
-    var desiredLrp = desiredLrps && desiredLrps.find(desiredLrp => desiredLrp.process_guid === actualLrp.process_guid);
+    var {desiredLrpsByProcessGuid} = $receptor.get();
+    var desiredLrp = desiredLrpsByProcessGuid && desiredLrpsByProcessGuid[actualLrp.process_guid];
     var {isSelected, isHover} = determineSelectedHover({desiredLrp, ...this.props});
 
     var isHighlighted = detectMatch($selection, 'hoverActualLrp', actualLrp);

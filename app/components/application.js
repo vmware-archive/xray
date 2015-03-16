@@ -28,7 +28,8 @@ var Application = React.createClass({
       receptor: {
         cells: [],
         desiredLrps: [],
-        actualLrps: []
+        actualLrps: [],
+        desiredLrpsByProcessGuid: {}
       },
       selection: {
         hoverDesiredLrp: null,

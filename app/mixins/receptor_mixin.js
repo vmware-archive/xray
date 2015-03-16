@@ -8,10 +8,10 @@ var {setCorrectingInterval} = require('correcting-interval');
 const CELL_POLL_INTERVAL = 10000;
 const RECEPTOR_POLL_INTERVAL = 120000;
 
-function applyUpdate(newArr, id, changeCallback, options = {}) {
+function applyUpdate(newArr, id, options = {}) {
   return {
     $apply: function(oldArr) {
-      var {added, removed, changed} = diff(oldArr, newArr, id, changeCallback);
+      var {added, removed, changed} = diff(oldArr, newArr, id, options.change);
       var results = oldArr.filter(x => !removed.includes(x));
       if (changed && changed.length) {
         /*eslint-disable no-unused-vars*/
@@ -33,6 +33,12 @@ function applyUpdate(newArr, id, changeCallback, options = {}) {
   };
 }
 
+function setIndex(newArr, id) {
+  return {
+    $set: newArr.reduce((memo, obj) => (memo[obj[id]] = obj, memo), {})
+  };
+}
+
 var ReceptorMixin = {
   statics: {
     CELL_POLL_INTERVAL: 10000,
@@ -44,9 +50,10 @@ var ReceptorMixin = {
     return ReceptorApi.fetch()
       .then(function({actualLrps, cells, desiredLrps}) {
         $receptor.update({
-          cells: applyUpdate(cells, 'cell_id', null, {sortBy: 'cell_id'}),
-          actualLrps: applyUpdate(actualLrps, 'instance_guid', (a, b) => a.since !== b.since, {sortBy: actualLrpIndex}),
-          desiredLrps: applyUpdate(desiredLrps, 'process_guid')
+          cells: applyUpdate(cells, 'cell_id', {sortBy: 'cell_id'}),
+          actualLrps: applyUpdate(actualLrps, 'instance_guid', {change: (a, b) => a.since !== b.since, sortBy: actualLrpIndex}),
+          desiredLrps: applyUpdate(desiredLrps, 'process_guid'),
+          desiredLrpsByProcessGuid: setIndex(desiredLrps, 'process_guid')
         });
       })
       .catch(reason => console.error('Receptor Promise failed because', reason));

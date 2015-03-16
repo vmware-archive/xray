@@ -8,38 +8,63 @@ var privates = new WeakMap();
 function createResource(cursorName, resourceKey, options = {}) {
   return function({[resourceKey]: resource}) {
     var {$receptor} = this.props;
-    var $cursor = $receptor.refine(cursorName);
-    var oldResource = $cursor.get().find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
+    var oldResource = $receptor.get(cursorName).find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
     if (oldResource) return;
-    if (options.sortBy) {
-      var index = sortedIndex($cursor.get(), resource, options.sortBy);
-      $cursor.splice([index, 0, resource]);
-      return;
-    }
-    $cursor.push(resource);
+
+    $receptor.apply(function(receptor) {
+      if (options.indexBy) {
+        var indexBy = receptor[options.indexBy.name];
+        indexBy[resource[options.indexBy.key]] = resource;
+      }
+
+      if (options.sortBy) {
+        var index = sortedIndex(receptor[cursorName], resource, options.sortBy);
+        receptor[cursorName].splice(index, 0, resource);
+      } else {
+        receptor[cursorName].push(resource);
+      }
+
+      return receptor;
+    });
   };
 }
 
-function removeResource(cursorName, resourceKey) {
+function removeResource(cursorName, resourceKey, options = {}) {
   return function({[resourceKey]: resource}) {
     var {$receptor} = this.props;
-    var $cursor = $receptor.refine(cursorName);
-    var oldResource = $cursor.get().find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
+    var oldResource = $receptor.get(cursorName).find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
     if (!oldResource) return;
-    $cursor.remove(oldResource);
+    $receptor.apply(function(receptor) {
+      if (options.indexBy) {
+        var indexBy = $receptor.get(options.indexBy.name);
+        delete indexBy[resource[options.indexBy.key]];
+      }
+
+      var index = receptor[cursorName].indexOf(oldResource);
+      receptor[cursorName].splice(index, 1);
+      return receptor;
+    });
   };
 }
 
-function changeResource(cursorName, resourceKey) {
+function changeResource(cursorName, resourceKey, options = {}) {
   return function({[resourceKey]: resource}) {
     var {$receptor} = this.props;
-    var $cursor = $receptor.refine(cursorName);
-    var oldResource = $cursor.get().find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
-    if (!oldResource) {
-      $cursor.push(resource);
-      return;
-    }
-    $cursor.refine(oldResource).set(resource);
+    var oldResource = $receptor.get(cursorName).find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
+    $receptor.apply(function(receptor) {
+      if (!oldResource) {
+        if (options.indexBy) {
+          var indexBy = receptor[options.indexBy.name];
+          indexBy[resource[options.indexBy.key]] = resource;
+        }
+
+        receptor[cursorName].push(resource);
+      } else {
+        var index = receptor[cursorName].indexOf(oldResource);
+        receptor[cursorName][index] = resource;
+      }
+      return receptor;
+    });
   };
 }
 /*eslint-enable no-unused-vars*/
@@ -73,10 +98,16 @@ var ReceptorStreamMixin = {
     var {sse} = privates.get(this) || {};
     if (!sse) return;
 
+    var options = {
+      indexBy: {
+        key: 'process_guid',
+        name: 'desiredLrpsByProcessGuid'
+      }
+    };
     sse
-      .on('desired_lrp_created', createResource('desiredLrps', 'desired_lrp').bind(this))
-      .on('desired_lrp_changed', changeResource('desiredLrps', 'desired_lrp_after').bind(this))
-      .on('desired_lrp_removed', removeResource('desiredLrps', 'desired_lrp').bind(this));
+      .on('desired_lrp_created', createResource('desiredLrps', 'desired_lrp', options).bind(this))
+      .on('desired_lrp_changed', changeResource('desiredLrps', 'desired_lrp_after', options).bind(this))
+      .on('desired_lrp_removed', removeResource('desiredLrps', 'desired_lrp', options).bind(this));
   },
 
   streamSSE(receptorUrl) {

@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Cell', function() {
-  var Cursor, Cell, subject, cell, actualLrps, desiredLrps, update, $receptor, $sidebar, $selection, callbackSpy;
+  var Cursor, Cell, subject, cell, actualLrps, desiredLrps, update, $receptor, $sidebar, $selection, callbackSpy, desiredLrpsByProcessGuid;
   function render(options) {
     var style = {width: '100px'};
     var subject;
@@ -28,8 +28,13 @@ describe('Cell', function() {
       Factory.build('desiredLrp', {process_guid: 'diego', disk_mb: 300, memory_mb: 15}),
       Factory.build('desiredLrp', {process_guid: 'google', disk_mb: 200, memory_mb: 10})
     ];
+    desiredLrpsByProcessGuid = {
+      runtime: desiredLrps[0],
+      diego: desiredLrps[1],
+      google: desiredLrps[2]
+    };
     callbackSpy = jasmine.createSpy('callback');
-    $receptor = new Cursor({desiredLrps}, callbackSpy);
+    $receptor = new Cursor({desiredLrps, desiredLrpsByProcessGuid}, callbackSpy);
     $sidebar = new Cursor({}, callbackSpy);
     $selection = new Cursor({}, callbackSpy);
   });
@@ -161,8 +166,11 @@ describe('Cell', function() {
 
     describe('when the desired memory is zero', function() {
       beforeEach(function() {
-        desiredLrps = update(desiredLrps, {2: {$merge: {process_guid: 'google', disk_mb: 200, memory_mb: 0}}});
-        $receptor = new Cursor({desiredLrps}, jasmine.createSpy('callback'));
+        var change = {process_guid: 'google', disk_mb: 200, memory_mb: 0};
+        desiredLrps = update(desiredLrps, {2: {$merge: change}});
+        desiredLrpsByProcessGuid = update(desiredLrpsByProcessGuid, {google: {$merge: change}});
+
+        $receptor = new Cursor({desiredLrps, desiredLrpsByProcessGuid}, jasmine.createSpy('callback'));
         subject.setProps({$receptor});
       });
 

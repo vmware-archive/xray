@@ -17,7 +17,7 @@ describe('Page', function() {
     $selection = new Cursor({}, jasmine.createSpy('callback'));
     $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     callbackSpy = jasmine.createSpy('callback');
-    $receptor = new Cursor({actualLrps, desiredLrps}, callbackSpy);
+    $receptor = new Cursor({actualLrps, desiredLrps, desiredLrpsByProcessGuid: {}}, callbackSpy);
     React.withContext({scaling: 'containers', colors}, function() {
       subject = React.render(<Page {...{$receptor, $sidebar, $selection}}/>, root);
     });

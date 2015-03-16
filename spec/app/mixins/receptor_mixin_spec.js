@@ -11,7 +11,7 @@ describe('ReceptorMixin', function() {
     });
     callbackSpy = jasmine.createSpy('callback');
     var Cursor = require('../../../app/lib/cursor');
-    var $receptor = new Cursor({cells: [], desiredLrps: [], actualLrps: []}, callbackSpy);
+    var $receptor = new Cursor({cells: [], desiredLrps: [], actualLrps: [], desiredLrpsByProcessGuid: {}}, callbackSpy);
     subject = React.render(<Klass {...{$receptor}}/>, root);
   });
 
@@ -26,6 +26,36 @@ describe('ReceptorMixin', function() {
       spyOn(ReceptorApi, 'fetch').and.returnValue(receptorPromise);
     });
 
+    describe('when desired lrps are added', function() {
+      var desiredLrps;
+      beforeEach(function() {
+        subject.updateReceptor();
+        desiredLrps = [
+          Factory.build('desiredLrp', {process_guid: 'one'}),
+          Factory.build('desiredLrp', {process_guid: 'two'}),
+          Factory.build('desiredLrp', {process_guid: 'three'})
+        ];
+        receptorPromise.resolve({
+          cells: [],
+          desiredLrps: desiredLrps,
+          actualLrps: []
+        });
+        expect(callbackSpy).toHaveBeenCalled();
+      });
+
+      it('updates the desired lrps', function() {
+        var desiredLrps = callbackSpy.calls.mostRecent().args[0].desiredLrps;
+        expect(desiredLrps.map(c => c.process_guid)).toEqual(['one', 'two', 'three']);
+      });
+
+      it('updates the desiredLrpsByProcessGuid', function() {
+        var desiredLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].desiredLrpsByProcessGuid;
+        expect(desiredLrpsByProcessGuid.one).toBe(desiredLrps[0]);
+        expect(desiredLrpsByProcessGuid.two).toBe(desiredLrps[1]);
+        expect(desiredLrpsByProcessGuid.three).toBe(desiredLrps[2]);
+      });
+    });
+
     describe('when cells are added', function() {
       beforeEach(function() {
         subject.updateReceptor();
@@ -38,10 +68,10 @@ describe('ReceptorMixin', function() {
           desiredLrps: [],
           actualLrps: []
         });
+        expect(callbackSpy).toHaveBeenCalled();
       });
 
       it('keeps the cells in a sorted order by cell id', function() {
-        expect(callbackSpy).toHaveBeenCalled();
         var cells = callbackSpy.calls.mostRecent().args[0].cells;
         expect(cells.map(c => c.cell_id)).toEqual([1, 2, 3]);
       });
@@ -59,10 +89,10 @@ describe('ReceptorMixin', function() {
             Factory.build('actualLrp', {process_guid: 'zyx', index: 9})
           ]
         });
+        expect(callbackSpy).toHaveBeenCalled();
       });
 
       it('keeps the actual lrps in a sorted order by process guid and index', function() {
-        expect(callbackSpy).toHaveBeenCalled();
         var actualLrps = callbackSpy.calls.mostRecent().args[0].actualLrps;
         expect(actualLrps.map(({process_guid, index}) => ({process_guid, index}))).toEqual([
           {process_guid: 'abc', index: 1},
