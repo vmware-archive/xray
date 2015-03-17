@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var del = require('del');
 var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
+const COPYRIGHT = '/*(c) Copyright 2015 Pivotal Software, Inc. All Rights Reserved.*/\n';
 
 function isProduction() {
   return process.env.NODE_ENV === 'production';
@@ -12,6 +13,7 @@ gulp.task('assets-javascript', function() {
     .pipe(plugins.plumber())
     .pipe(plugins.webpack(require(`../config/webpack/${process.env.NODE_ENV}`)))
     .pipe(plugins.if(isProduction(), plugins.uglify()))
+    .pipe(plugins.header(COPYRIGHT))
     .pipe(gulp.dest('public'));
 });
 
@@ -22,7 +24,8 @@ function sass() {
     .pipe(plugins.sass())
     .pipe(plugins.autoprefixer())
     .pipe(plugins.if(!isProduction(), plugins.sourcemaps.write()))
-    .pipe(plugins.if(isProduction(), plugins.minifyCss()));
+    .pipe(plugins.if(isProduction(), plugins.minifyCss()))
+    .pipe(plugins.header(COPYRIGHT));
 }
 
 gulp.task('assets-stylesheets', function() {
