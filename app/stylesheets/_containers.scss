@@ -6,7 +6,7 @@
   display: block;
   height: $container-size;
   margin: $gutter 1px;
-  width: 2%;
+  min-width: 2%;
   &.flex {
     flex: 1;
   }

@@ -57,4 +57,28 @@ app.post('/receptor_url', function(req, res) {
   result.send({ok: true});
 });
 
+var requireDir = require('require-dir');
+requireDir('../spec/factories');
+var Factory = require('rosie').Factory;
+
+var times = require('lodash.times');
+var flatten = require('lodash.flatten');
+var cells = Factory.buildList('cell', 10);
+
+var desiredLrps = times(10).map(t => Factory.build('desiredLrp', {process_guid: t.toString()}));
+
+var actualLrps = flatten(times(10).map(t => Factory.buildList('actualLrp', 500, {cell_id: cells[t].cell_id, process_guid: desiredLrps[t].process_guid})));
+
+app.get('/api/v1/cells', function(req, res) {
+  res.status(200).type('json').send(cells);
+});
+
+app.get('/api/v1/actual_lrps', function(req, res) {
+  res.status(200).type('json').send(actualLrps);
+});
+
+app.get('/api/v1/desired_lrps', function(req, res) {
+  res.status(200).type('json').send(desiredLrps);
+});
+
 module.exports = app;
