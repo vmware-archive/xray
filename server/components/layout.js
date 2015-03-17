@@ -18,7 +18,7 @@ var Body = React.createClass({
     var configScript = `var xray = {}; xray.config = ${JSON.stringify(config)};`;
     return (
       <body className={className}>
-        <div id="root" dangerouslySetInnerHTML={{__html}}/>
+        <main id="root" dangerouslySetInnerHTML={{__html}}/>
         <script type="text/javascript" dangerouslySetInnerHTML={{__html: configScript}}/>
         {scripts}
       </body>

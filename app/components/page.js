@@ -1,6 +1,5 @@
 var BaseApi = require('../api/base_api');
 var React = require('react/addons');
-var PUI = {Panel: require('../vendor/panels').Panel};
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var ReceptorMixin = require('../mixins/receptor_mixin');
 var ReceptorStreamMixin = require('../mixins/receptor_stream_mixin');
@@ -43,11 +42,11 @@ var Page = React.createClass({
     var sidebarCollapsed = $sidebar.get('sidebarCollapsed');
     return (
       <div className={cx({'page type-neutral-8': true, 'sidebar-collapsed': sidebarCollapsed, 'sidebar-open': !sidebarCollapsed, selection})}>
-        <PUI.Panel className="main-panel man panel-scrollable-layout" scrollable={true}>
+        <article className="main-panel pam">
           <Zones {...{$receptor, $selection, $sidebar}}/>
           {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
-        </PUI.Panel>
-        <PUI.Panel className="sidebar-panel bg-dark-2 man panel-scrollable-layout" padding="pan sidebar-body"><Sidebar {...{$receptor, $selection, $sidebar}}/></PUI.Panel>
+        </article>
+        <aside className="sidebar-panel"><Sidebar {...{$receptor, $selection, $sidebar}}/></aside>
         {this.props.children}
       </div>
     );

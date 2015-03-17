@@ -1,6 +1,7 @@
 @import '_colors';
 @import '_mixins';
 @import '_variables';
+@import '../../vendor/pui-v1.4.0/pui-variables';
 
 html, body, #root, .xray {
   min-height: 100%;
@@ -19,6 +20,7 @@ html, body, #root, .xray {
 
 .page {
   @extend %full;
+  overflow: hidden;
   position: relative;
   .main-panel, .sidebar-panel {
     position: absolute;
@@ -34,6 +36,7 @@ html, body, #root, .xray {
     position: absolute;
     right: 0;
     width: $sidebar-width;
+    background-color: $dark-2;
   }
 }
 

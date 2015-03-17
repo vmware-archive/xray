@@ -44,7 +44,7 @@ beforeEach(function() {
   jasmine.clock().install();
   MockPromises.install(Promise);
   MockEventSource.install();
-  $('body').find('#root').remove().end().append('<div id="root"/>');
+  $('body').find('#root').remove().end().append('<main id="root"/>');
 });
 
 afterEach(function() {
