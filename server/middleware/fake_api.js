@@ -1,5 +1,5 @@
 var requireDir = require('require-dir');
-requireDir('../spec/factories');
+requireDir('../../spec/factories');
 var Factory = require('rosie').Factory;
 
 var times = require('lodash.times');
