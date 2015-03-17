@@ -63,7 +63,7 @@ var Factory = require('rosie').Factory;
 
 var times = require('lodash.times');
 var flatten = require('lodash.flatten');
-var cells = Factory.buildList('cell', 10);
+var cells = Factory.buildList('cell', 10, {zone: 'zone'});
 
 var desiredLrps = times(10).map(t => Factory.build('desiredLrp', {process_guid: t.toString()}));
 
