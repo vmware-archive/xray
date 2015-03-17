@@ -21,7 +21,8 @@ function sass() {
     .pipe(plugins.if(!isProduction(), plugins.sourcemaps.init()))
     .pipe(plugins.sass())
     .pipe(plugins.autoprefixer())
-    .pipe(plugins.if(!isProduction(), plugins.sourcemaps.write()));
+    .pipe(plugins.if(!isProduction(), plugins.sourcemaps.write()))
+    .pipe(plugins.if(isProduction(), plugins.minifyCss()));
 }
 
 gulp.task('assets-stylesheets', function() {
