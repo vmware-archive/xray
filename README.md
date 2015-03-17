@@ -84,4 +84,4 @@ npm test
 
 This assumes you have phantomjs installed in your environment.
 
-
+(c) Copyright 2015 Pivotal Software, Inc. All Rights Reserved.

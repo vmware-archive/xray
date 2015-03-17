@@ -1,3 +1,4 @@
+//(c) Copyright 2015 Pivotal Software, Inc. All Rights Reserved.
 require('babel/polyfill');
 var Cursor = require('../lib/cursor');
 var Layout = require('../../server/components/layout');
