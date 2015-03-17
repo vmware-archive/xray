@@ -2,7 +2,6 @@ var ActualLrpList = require('./actual_lrp_list');
 var DesiredLrp = require('./desired_lrp');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var React = require('react/addons');
-var {findLrp} = require('../helpers/lrp_helper');
 
 var types = React.PropTypes;
 
@@ -16,11 +15,9 @@ var DesiredLrpDetail = React.createClass({
 
   render() {
     var {$receptor, $selection} = this.props;
-    var {actualLrps, desiredLrps} = $receptor.get();
+    var {actualLrps = [], desiredLrpsByProcessGuid = {}} = $receptor.get();
     var {selectedDesiredLrp} = $selection.get();
-    actualLrps = actualLrps || [];
-    desiredLrps = desiredLrps || [];
-    var desiredLrp = selectedDesiredLrp && findLrp(desiredLrps, selectedDesiredLrp);
+    var desiredLrp = selectedDesiredLrp && desiredLrpsByProcessGuid[selectedDesiredLrp.process_guid];
     var isDeleted = false;
     if(!desiredLrp) {
       if(selectedDesiredLrp) {

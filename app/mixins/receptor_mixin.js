@@ -35,7 +35,6 @@ function applyUpdate(newArr, id, options = {}) {
 
 function setIndex(newArr, id) {
   return {
-
     $apply: function(oldIndex) {
       return newArr.reduce((memo, obj) => (memo[obj[id]] = oldIndex[obj[id]] || obj, memo), {});
     }
