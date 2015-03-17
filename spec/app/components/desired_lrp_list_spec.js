@@ -25,8 +25,15 @@ describe('DesiredLrpList', function() {
       subject.setProps({$sidebar});
     });
 
-    it('does not stripe the desired lrp', function() {
-      expect($('.bg-dark-1')).not.toExist();
+    describe('when there are no desired lrps', function() {
+      beforeEach(function() {
+        var $receptor = new Cursor({desiredLrps: []}, jasmine.createSpy('callback'));
+        subject.setProps({$receptor});
+      });
+
+      it('does not render the empty text', function() {
+        expect($(root)).not.toContainText('No filtered processes found.');
+      });
     });
   });
 });

@@ -16,11 +16,11 @@ var DesiredLrpList = React.createClass({
   },
 
   renderDesiredLrps(desiredLrps) {
-    var {$receptor, $selection} = this.props;
+    var {$receptor, $selection, $sidebar} = this.props;
     var {actualLrps} = $receptor.get();
     actualLrps = actualLrps || [];
 
-    if(!desiredLrps.length) {
+    if(!desiredLrps.length && !$sidebar.get('sidebarCollapsed')) {
       return <div className="mam">No filtered processes found.</div>;
     }
 
