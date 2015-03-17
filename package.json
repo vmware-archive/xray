@@ -42,7 +42,7 @@
     "gulp-eslint": "^0.6.0",
     "gulp-if": "^1.2.5",
     "gulp-jasmine": "^2.0.0",
-    "gulp-jasmine-browser": "^0.0.2",
+    "gulp-jasmine-browser": "0.0.3",
     "gulp-load-plugins": "^0.8.0",
     "gulp-loader": "^1.1.2",
     "gulp-plumber": "^0.6.6",
