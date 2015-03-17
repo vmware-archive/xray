@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('ReceptorMixin', function() {
-  var subject, callbackSpy, ReceptorApi;
+  var subject, callbackSpy, ReceptorApi, two;
   beforeEach(function() {
     var ReceptorMixin = require('../../../app/mixins/receptor_mixin');
     ReceptorApi = require('../../../app/api/receptor_api');
@@ -11,7 +11,8 @@ describe('ReceptorMixin', function() {
     });
     callbackSpy = jasmine.createSpy('callback');
     var Cursor = require('../../../app/lib/cursor');
-    var $receptor = new Cursor({cells: [], desiredLrps: [], actualLrps: [], desiredLrpsByProcessGuid: {}}, callbackSpy);
+    two = Factory.build('desiredLrp', {process_guid: 'two'});
+    var $receptor = new Cursor({cells: [], desiredLrps: [two], actualLrps: [], desiredLrpsByProcessGuid: {two}}, callbackSpy);
     subject = React.render(<Klass {...{$receptor}}/>, root);
   });
 
@@ -32,7 +33,7 @@ describe('ReceptorMixin', function() {
         subject.updateReceptor();
         desiredLrps = [
           Factory.build('desiredLrp', {process_guid: 'one'}),
-          Factory.build('desiredLrp', {process_guid: 'two'}),
+          Object.assign({}, two),
           Factory.build('desiredLrp', {process_guid: 'three'})
         ];
         receptorPromise.resolve({
@@ -45,13 +46,13 @@ describe('ReceptorMixin', function() {
 
       it('updates the desired lrps', function() {
         var desiredLrps = callbackSpy.calls.mostRecent().args[0].desiredLrps;
-        expect(desiredLrps.map(c => c.process_guid)).toEqual(['one', 'two', 'three']);
+        expect(desiredLrps.map(c => c.process_guid)).toEqual(['two', 'one', 'three']);
       });
 
       it('updates the desiredLrpsByProcessGuid', function() {
         var desiredLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].desiredLrpsByProcessGuid;
         expect(desiredLrpsByProcessGuid.one).toBe(desiredLrps[0]);
-        expect(desiredLrpsByProcessGuid.two).toBe(desiredLrps[1]);
+        expect(desiredLrpsByProcessGuid.two).toBe(two);
         expect(desiredLrpsByProcessGuid.three).toBe(desiredLrps[2]);
       });
     });
