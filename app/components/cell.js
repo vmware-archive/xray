@@ -36,13 +36,10 @@ var Cell = React.createClass({
   propTypes: {
     actualLrps: types.array,
     cell: types.object.isRequired,
+    scaling: types.string.isRequired,
     $receptor: types.object.isRequired,
     $selection: types.object.isRequired,
     $sidebar: types.object.isRequired
-  },
-
-  contextTypes: {
-    scaling: types.string.isRequired
   },
 
   computeSelection(actualLrp) {
@@ -57,13 +54,12 @@ var Cell = React.createClass({
   },
 
   render() {
-    var {cell, actualLrps, style, $selection} = this.props;
-    var {scaling} = this.context;
+    var {cell, actualLrps, scaling, style, $selection} = this.props;
     var denominator = scaling === 'containers' ? 50 : cell.capacity[scaling];
     var containers = actualLrps && actualLrps.map(function(actualLrp) {
         var {desiredLrp, isHighlighted, isHover, isSelected} = this.computeSelection(actualLrp);
         var containerClasses = cx({highlight: isHighlighted, hover: isHover, selected: isSelected});
-        var props = {actualLrp, denominator, desiredLrp, $selection, className: containerClasses};
+        var props = {actualLrp, denominator, desiredLrp, scaling, $selection, className: containerClasses};
         return (<Container {...props} key={actualLrp.modification_tag.epoch}/>);
       }, this);
 

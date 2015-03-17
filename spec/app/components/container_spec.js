@@ -15,8 +15,9 @@ describe('Container', function() {
     Cursor = require('../../../app/lib/cursor');
     callbackSpy = jasmine.createSpy('callback');
     var $selection = new Cursor({hoverDesiredLrp: null}, callbackSpy);
-    React.withContext({colors: ['#fff', '#000'], scaling: 'containers', modal: modalSpy}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, className: '', $selection}}/>, root);
+    var scaling = 'containers';
+    React.withContext({colors: ['#fff', '#000'], modal: modalSpy}, function() {
+      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, scaling, className: '', $selection}}/>, root);
     });
   });
 

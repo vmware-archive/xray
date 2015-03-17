@@ -2,12 +2,12 @@ require('../spec_helper');
 
 describe('Cell', function() {
   var Cursor, Cell, subject, cell, actualLrps, desiredLrps, update, $receptor, $sidebar, $selection, callbackSpy, desiredLrpsByProcessGuid;
-  function render(options) {
+  function render(cellProps = {}, options = {}) {
     var style = {width: '100px'};
     var subject;
     var colors = ['#fff', '#000'];
     React.withContext(Object.assign({colors}, options), function() {
-      var props = {cell, style, actualLrps, $receptor, $sidebar, $selection};
+      var props = Object.assign({cell, style, actualLrps, $receptor, $sidebar, $selection}, cellProps);
       subject = React.render(<Cell {...props}/>, root);
     });
     return subject;
@@ -212,7 +212,7 @@ describe('Cell', function() {
 
   describe('with no desired lrps', function() {
     beforeEach(function() {
-      subject = render({desiredLrps: null, scaling: 'containers'});
+      subject = render({scaling: 'containers'}, {desiredLrps: null});
     });
     it('renders actual lrps at container scaling', function() {
       expect('.app-container:eq(0)').toHaveCss({width: '2px'});

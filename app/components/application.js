@@ -31,6 +31,7 @@ var Application = React.createClass({
         actualLrps: [],
         desiredLrpsByProcessGuid: {}
       },
+      scaling: 'containers',
       selection: {
         hoverDesiredLrp: null,
         selectedDesiredLrp: null,
@@ -62,13 +63,14 @@ var Application = React.createClass({
   },
 
   render() {
-    var {receptorUrl, receptor, sidebar, selection} = this.state;
+    var {receptorUrl, receptor, sidebar, selection, scaling} = this.state;
     var $receptor = new Cursor(receptor, receptor => this.setState({receptor}));
     var $sidebar = new Cursor(sidebar, sidebar => this.setState({sidebar}));
     var $selection = new Cursor(selection, selection => this.setState({selection}));
+    var $scaling = new Cursor(scaling, scaling => this.setState({scaling}));
     return (
       <div className="xray">
-        <Page {...{$receptor, $sidebar, $selection, receptorUrl}} ref="page">
+        <Page {...{$receptor, $sidebar, $selection, $scaling, receptorUrl}} ref="page">
           <Modal ref="modal"/>
         </Page>
       </div>

@@ -15,12 +15,12 @@ var Container = React.createClass({
     actualLrp: types.object.isRequired,
     desiredLrp: types.object,
     denominator: types.number.isRequired,
+    scaling: types.string.isRequired,
     $selection: types.object.isRequired
   },
 
   contextTypes: {
     colors: types.array.isRequired,
-    scaling: types.string.isRequired,
     modal: types.object
   },
 
@@ -28,8 +28,7 @@ var Container = React.createClass({
 
   render() {
     var {state, instance_guid: instanceGuid, modification_tag: {epoch: key}, process_guid: processGuid} = this.props.actualLrp;
-    var {denominator, desiredLrp, className} = this.props;
-    var {scaling} = this.context;
+    var {denominator, desiredLrp, className, scaling} = this.props;
 
     var flex;
     var undesired;

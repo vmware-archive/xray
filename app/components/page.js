@@ -15,6 +15,7 @@ var Page = React.createClass({
   propTypes: {
     receptorUrl: types.string,
     $receptor: types.object.isRequired,
+    $scaling: types.object.isRequired,
     $selection: types.object.isRequired,
     $sidebar: types.object.isRequired
   },
@@ -37,13 +38,13 @@ var Page = React.createClass({
   },
 
   render() {
-    var {$receptor, $sidebar, $selection} = this.props;
+    var {$receptor, $scaling, $sidebar, $selection} = this.props;
     var selection = !!($selection.get('hoverDesiredLrp') || $selection.get('selectedDesiredLrp')) || $sidebar.get('filter');
     var sidebarCollapsed = $sidebar.get('sidebarCollapsed');
     return (
       <div className={cx({'page type-neutral-8': true, 'sidebar-collapsed': sidebarCollapsed, 'sidebar-open': !sidebarCollapsed, selection})}>
-        <article className="main-panel pam">
-          <Zones {...{$receptor, $selection, $sidebar}}/>
+        <article className="main-panel">
+          <Zones {...{$receptor, $selection, $sidebar, $scaling}}/>
           {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
         </article>
         <aside className="sidebar-panel"><Sidebar {...{$receptor, $selection, $sidebar}}/></aside>

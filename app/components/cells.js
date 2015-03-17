@@ -9,17 +9,18 @@ var Cells = React.createClass({
 
   propTypes: {
     cells: types.array,
+    scaling: types.string.isRequired,
     $receptor: types.object,
     $selection: types.object,
     $sidebar: types.object
   },
 
   render() {
-    var {cells, $receptor, $selection, $sidebar} = this.props;
+    var {cells, scaling, $receptor, $selection, $sidebar} = this.props;
     cells = cells && cells.map(function(cell) {
       var key = cell.cell_id;
       var actualLrps = ($receptor.get('actualLrps') || []).filter(lrp => lrp.cell_id === key);
-      var props = {actualLrps, cell, $receptor, $selection, $sidebar, key};
+      var props = {actualLrps, cell, scaling, $receptor, $selection, $sidebar, key};
       return (<Cell {...props}/>);
     }, this);
 

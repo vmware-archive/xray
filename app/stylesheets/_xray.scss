@@ -29,6 +29,7 @@ html, body, #root, .xray {
     box-sizing: border-box;
   }
   .main-panel {
+    display: flex;
     left: 0;
     right: $sidebar-width;
   }

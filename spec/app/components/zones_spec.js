@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Zones', function() {
-  var subject, cells, Cells;
+  var cells, Cells, scalingCallbackSpy;
   beforeEach(function() {
     var Zones = require('../../../app/components/zones');
     Cells = require('../../../app/components/cells');
@@ -17,8 +17,10 @@ describe('Zones', function() {
     var $selection = new Cursor({}, jasmine.createSpy('callback'));
     var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     var $receptor = new Cursor({cells, desiredLrps}, jasmine.createSpy('callback'));
+    scalingCallbackSpy = jasmine.createSpy('callback');
+    var $scaling = new Cursor('containers', scalingCallbackSpy);
     React.withContext({colors}, function() {
-      subject = React.render(<Zones {...{$receptor, $selection, $sidebar}}/>, root);
+      React.render(<Zones {...{$receptor, $selection, $scaling, $sidebar}}/>, root);
     });
   });
 
@@ -40,16 +42,16 @@ describe('Zones', function() {
   describe('scaling options', function() {
     it('defaults to containers', function() {
       expect('label:contains("containers") :radio').toBeChecked();
-      expect(subject.state.scaling).toEqual('containers');
     });
 
     describe('selecting a new option', function() {
       beforeEach(function() {
+        scalingCallbackSpy.calls.reset();
         $('label:contains("memory") :radio').simulate('change').simulate('click');
       });
 
       it('uses the new scaling', function() {
-        expect(subject.state.scaling).toEqual('memory_mb');
+        expect(scalingCallbackSpy).toHaveBeenCalledWith('memory_mb');
       });
     });
   });

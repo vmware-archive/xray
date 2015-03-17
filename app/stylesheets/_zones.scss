@@ -1,5 +1,8 @@
 @import '_variables';
 
+.zones {
+  flex: 1;
+}
 .zone {
   h2 {
     margin: $gutter $gutter 0;

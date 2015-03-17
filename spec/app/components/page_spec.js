@@ -16,10 +16,11 @@ describe('Page', function() {
 
     $selection = new Cursor({}, jasmine.createSpy('callback'));
     $sidebar = new Cursor({}, jasmine.createSpy('callback'));
+    var $scaling = new Cursor('containers', jasmine.createSpy('callback'));
     callbackSpy = jasmine.createSpy('callback');
     $receptor = new Cursor({actualLrps, desiredLrps, desiredLrpsByProcessGuid: {}}, callbackSpy);
     React.withContext({scaling: 'containers', colors}, function() {
-      subject = React.render(<Page {...{$receptor, $sidebar, $selection}}/>, root);
+      subject = React.render(<Page {...{$receptor, $scaling, $sidebar, $selection}}/>, root);
     });
     subject.setProps({receptorUrl: 'http://example.com'});
   });

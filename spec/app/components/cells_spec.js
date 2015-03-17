@@ -12,8 +12,8 @@ describe('Cells', function() {
     $receptor = new Cursor({}, jasmine.createSpy('callback'));
     var $selection = new Cursor({}, jasmine.createSpy('callback'));
     var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
-    React.withContext({scaling: 'containers', colors}, function() {
-      subject = React.render(<Cells {...{cells, $receptor, $selection, $sidebar}}/>, root);
+    React.withContext({colors}, function() {
+      subject = React.render(<Cells {...{cells, $receptor, scaling: 'containers', $selection, $sidebar}}/>, root);
     });
   });
 

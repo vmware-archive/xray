@@ -15,28 +15,17 @@ var Zones = React.createClass({
 
   propTypes: {
     $receptor: types.object,
+    $scaling: types.object.isRequired,
     $selection: types.object,
     $sidebar: types.object
   },
 
-  childContextTypes: {
-    scaling: types.string.isRequired
-  },
-
-  getChildContext: function() {
-    return {scaling: this.state.scaling};
-  },
-
-  getInitialState() {
-    return {scaling: 'containers'};
-  },
-
   changeScale(scaling) {
-    this.setState({scaling});
+    this.props.$scaling.set(scaling);
   },
 
   renderZones: function() {
-    var {$receptor, $selection, $sidebar} = this.props;
+    var {$receptor, $selection, $scaling, $sidebar} = this.props;
     var cells = $receptor.get('cells');
     if (!cells) return null;
 
@@ -47,21 +36,22 @@ var Zones = React.createClass({
       return zones;
     }, {});
 
+    var scaling = $scaling.get();
     return Object.keys(zones).sort().map(function(zone) {
       var cells = this[zone];
       return (
         <div className="zone" key={zone}>
           <header><h2>{`Zone ${zone} - ${cells.length} Cells`}</h2></header>
-          <Cells {...{cells, $receptor, $selection, $sidebar}}/>
+          <Cells {...{cells, scaling, $receptor, $selection, $sidebar}}/>
         </div>
       );
     }, zones);
   },
 
   render() {
-    var {scaling} = this.state;
+    var scaling = this.props.$scaling.get();
     return (
-      <div className="zones">
+      <div className="zones pam">
         <header className="form-inline">
           <PUI.RadioGroup name="scale_type" onChange={this.changeScale}>
             <span className="type-neutral-10">
