@@ -31,8 +31,9 @@ describe('ReceptorMixin', function() {
       var desiredLrps;
       beforeEach(function() {
         subject.updateReceptor();
+        var routes = {'cf-router': [{hostnames: ['host1', 'host2'], port: 8080}]};
         desiredLrps = [
-          Factory.build('desiredLrp', {process_guid: 'one'}),
+          Factory.build('desiredLrp', {process_guid: 'one', routes: routes, filterString: null}),
           Object.assign({}, two),
           Factory.build('desiredLrp', {process_guid: 'three'})
         ];
@@ -47,6 +48,13 @@ describe('ReceptorMixin', function() {
       it('updates the desired lrps', function() {
         var desiredLrps = callbackSpy.calls.mostRecent().args[0].desiredLrps;
         expect(desiredLrps.map(c => c.process_guid)).toEqual(['two', 'one', 'three']);
+      });
+
+      it('adds the filterString to the desired lrps', function() {
+        var desiredLrp = callbackSpy.calls.mostRecent().args[0].desiredLrps[1];
+        expect(desiredLrp.filterString).toContain('one');
+        expect(desiredLrp.filterString).toContain('host1');
+        expect(desiredLrp.filterString).toContain('host2');
       });
 
       it('updates the desiredLrpsByProcessGuid', function() {

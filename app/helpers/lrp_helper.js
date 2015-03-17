@@ -1,5 +1,6 @@
 var max = require('lodash.max');
 var {lpad} = require('./string_helper');
+var flatten = require('lodash.flatten');
 
 function getRoutes(desiredLrp) {
   var routes = desiredLrp.routes;
@@ -7,11 +8,6 @@ function getRoutes(desiredLrp) {
   var routers = Object.keys(routes);
   if (!routers.length) return [];
   return routes[routers[0]];
-}
-
-function matchesRoutes(desiredLrp, filter) {
-  var routes = getRoutes(desiredLrp);
-  return routes.some(route => route.hostnames.some(hostname => hostname.includes(filter)));
 }
 
 module.exports = {
@@ -24,6 +20,11 @@ module.exports = {
 
   actualLrpIndex: lrp => lrp.process_guid + lpad(lrp.index, '0', 5),
 
+  decorateDesiredLrp(lrp) {
+    var routes = getRoutes(lrp);
+    var hostnames = flatten(routes.map(route => route.hostnames));
+    lrp.filterString = [lrp.process_guid].concat(hostnames).join('|');
+  },
   getRoutes: getRoutes,
 
   getHostname(desiredLrp) {
@@ -33,6 +34,6 @@ module.exports = {
   },
 
   filterDesiredLrps(desiredLrps, filter) {
-    return desiredLrps.filter(desiredLrp => desiredLrp.process_guid.includes(filter) || matchesRoutes(desiredLrp, filter));
+    return desiredLrps.filter(desiredLrp => desiredLrp.filterString.includes(filter));
   }
 };

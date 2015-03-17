@@ -7,4 +7,5 @@ Factory.define('desiredLrp')
   .attr('instances', 4)
   .attr('routes', function() {
     return {'cf-router': Factory.buildList('route', 3)};
-  });
+  })
+  .attr('filterString', ['process_guid'], function(process_guid) { return process_guid; });

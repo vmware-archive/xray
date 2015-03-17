@@ -181,13 +181,14 @@ describe('Page', function() {
         var desiredLrp;
         beforeEach(function() {
           desiredLrp = Factory.build('desiredLrp');
+          delete desiredLrp.filterString;
           MockEventSource.mostRecent().trigger('desired_lrp_created', {
             desired_lrp: desiredLrp
           });
         });
         it('adds the desired lrp to the receptor', function() {
           expect(callbackSpy).toHaveBeenCalled();
-          expect(callbackSpy.calls.mostRecent().args[0].desiredLrps).toContain(desiredLrp);
+          expect(callbackSpy.calls.mostRecent().args[0].desiredLrps).toContain(jasmine.objectContaining(desiredLrp));
         });
       });
 

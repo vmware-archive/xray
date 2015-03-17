@@ -50,15 +50,9 @@ describe('Sidebar', function() {
       }).not.toThrow();
     });
 
-    it('filters the desired lrps based on process guid', function() {
+    it('filters the desired lrps based on the filterString', function() {
       var processGuidFilter = 'Ama';
       subject.setProps({$sidebar: new Cursor({filter: processGuidFilter}, jasmine.createSpy('callback'))});
-      expect($('.desired-lrp').map(function() { return $('.process-guid', this).text(); }).toArray()).toEqual(['Amazon']);
-    });
-
-    it('filters the desired lrps based on the routes hostnames', function() {
-      var routeFilter = desiredLrps[0].routes['cf-router'][0].hostnames[0];
-      subject.setProps({$sidebar: new Cursor({filter: routeFilter}, jasmine.createSpy('callback'))});
       expect($('.desired-lrp').map(function() { return $('.process-guid', this).text(); }).toArray()).toEqual(['Amazon']);
     });
 

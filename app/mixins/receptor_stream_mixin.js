@@ -1,6 +1,6 @@
 var StreamSource = require('../lib/stream_source');
 var sortedIndex = require('lodash.sortedindex');
-var {actualLrpIndex} = require('../helpers/lrp_helper');
+var {actualLrpIndex, decorateDesiredLrp} = require('../helpers/lrp_helper');
 
 var privates = new WeakMap();
 
@@ -11,6 +11,9 @@ function createResource(cursorName, resourceKey, options = {}) {
     var oldResource = $receptor.get(cursorName).find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
     if (oldResource) return;
 
+    if(options.decorate) {
+      options.decorate(resource);
+    }
     $receptor.apply(function(receptor) {
       if (options.indexBy) {
         var indexBy = receptor[options.indexBy.name];
@@ -102,7 +105,8 @@ var ReceptorStreamMixin = {
       indexBy: {
         key: 'process_guid',
         name: 'desiredLrpsByProcessGuid'
-      }
+      },
+      decorate: decorateDesiredLrp
     };
     sse
       .on('desired_lrp_created', createResource('desiredLrps', 'desired_lrp', options).bind(this))

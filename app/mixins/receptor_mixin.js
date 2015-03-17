@@ -1,8 +1,7 @@
 var ReceptorApi = require('../api/receptor_api');
 var CellsApi = require('../api/cells_api');
 var sortedIndex = require('lodash.sortedindex');
-var {actualLrpIndex} = require('../helpers/lrp_helper');
-
+var {actualLrpIndex, decorateDesiredLrp} = require('../helpers/lrp_helper');
 var {diff} = require('../helpers/array_helper');
 var {setCorrectingInterval} = require('correcting-interval');
 const CELL_POLL_INTERVAL = 10000;
@@ -51,6 +50,7 @@ var ReceptorMixin = {
     var {$receptor} = this.props;
     return ReceptorApi.fetch()
       .then(function({actualLrps, cells, desiredLrps}) {
+        desiredLrps.forEach(decorateDesiredLrp);
         $receptor.update({
           cells: applyUpdate(cells, 'cell_id', {sortBy: 'cell_id'}),
           actualLrps: applyUpdate(actualLrps, 'instance_guid', {change: (a, b) => a.since !== b.since, sortBy: actualLrpIndex}),

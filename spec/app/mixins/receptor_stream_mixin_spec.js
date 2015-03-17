@@ -59,7 +59,9 @@ describe('ReceptorStreamMixin', function() {
     describe('when desired_lrp created events are received', function() {
       var newDesiredLrp;
       beforeEach(function() {
-        newDesiredLrp = Factory.build('desiredLrp', {process_guid: 'abc'});
+        var routes = {'cf-router': [{hostnames: ['host1', 'host2'], port: 8080}]};
+        newDesiredLrp = Factory.build('desiredLrp', {process_guid: 'abc', routes});
+        delete newDesiredLrp.filterString;
         MockEventSource.mostRecent().trigger('desired_lrp_created', {
           desired_lrp: newDesiredLrp
         });
@@ -68,12 +70,19 @@ describe('ReceptorStreamMixin', function() {
 
       it('adds the desired lrp to the receptor', function() {
         var desiredLrps = callbackSpy.calls.mostRecent().args[0].desiredLrps;
-        expect(desiredLrps).toContain(newDesiredLrp);
+        expect(desiredLrps).toContain(jasmine.objectContaining(newDesiredLrp));
+      });
+
+      it('adds the filterString to the desiredLrp', function() {
+        var desiredLrp = callbackSpy.calls.mostRecent().args[0].desiredLrps[1];
+        expect(desiredLrp.filterString).toContain('abc');
+        expect(desiredLrp.filterString).toContain('host1');
+        expect(desiredLrp.filterString).toContain('host2');
       });
 
       it('adds the desired lrp to the index', function() {
         var desiredLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].desiredLrpsByProcessGuid;
-        expect(desiredLrpsByProcessGuid.abc).toEqual(newDesiredLrp);
+        expect(desiredLrpsByProcessGuid.abc).toEqual(jasmine.objectContaining(newDesiredLrp));
       });
     });
 
