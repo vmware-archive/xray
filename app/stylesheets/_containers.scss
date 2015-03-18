@@ -28,7 +28,8 @@
   }
   &.undesired {
     background-color: transparent;
-    outline: 3px solid $gray-11;
+    border: 3px solid $gray-11;
+    margin: -3px;
     z-index: 2;
   }
   &.highlight {
