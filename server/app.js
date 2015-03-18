@@ -7,7 +7,6 @@ var React = require('react');
 var Layout = require('./components/layout');
 var app = express();
 var {getCredentials} = require('../app/helpers/url_helper');
-var fakeApi = require('./middleware/fake_api');
 
 const XRAY_USER = process.env.XRAY_USER;
 const XRAY_PASSWORD = process.env.XRAY_PASSWORD;
@@ -58,8 +57,10 @@ app.post('/receptor_url', function(req, res) {
   result.send({ok: true});
 });
 
-app.get('/api/v1/cells', fakeApi.v1.cells.index);
-app.get('/api/v1/actual_lrps', fakeApi.v1.actualLrps.index);
-app.get('/api/v1/desired_lrps', fakeApi.v1.desiredLrps.index);
-
+if(process.env.NODE_ENV === 'development') {
+  var fakeApi = require('./middleware/fake_api');
+  app.get('/api/v1/cells', fakeApi.v1.cells.index);
+  app.get('/api/v1/actual_lrps', fakeApi.v1.actualLrps.index);
+  app.get('/api/v1/desired_lrps', fakeApi.v1.desiredLrps.index);
+}
 module.exports = app;
