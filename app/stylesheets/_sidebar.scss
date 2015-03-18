@@ -103,13 +103,23 @@
   background-color: $accent-2;
 }
 
+.sidebar-hover-thing2 {
+  background: $accent-2;
+}
+
 .filtered .desired-lrp {
   background-color: transparent;
 }
 
-@for $i from 0 through 2000 {
+/* Won't work in chrome if more than 2000 selectors extending the same style */
+@for $i from 0 through $max-apps/2 {
   .show-app-#{$i} .app-details-#{$i} {
     @extend .sidebar-hover-thing;
   }
 }
 
+@for $i from $max-apps/2+1 through $max-apps {
+  .show-app-#{$i} .app-details-#{$i} {
+    @extend .sidebar-hover-thing2;
+  }
+}

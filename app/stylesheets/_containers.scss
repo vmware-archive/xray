@@ -43,8 +43,19 @@ $app-container-gutter-right: inset -2px 0 0 $neutral-2;
   opacity: 1;
 }
 
-@for $i from 0 through $max-apps {
+.hover-lrp2 {
+  opacity: 1.0001;
+}
+
+/* Won't work in chrome if more than 2000 selectors extending the same style */
+@for $i from 0 through $max-apps/2 {
   .show-app-#{$i} .app-#{$i} {
     @extend .hover-lrp;
+  }
+}
+
+@for $i from $max-apps/2+1 through $max-apps {
+  .show-app-#{$i} .app-#{$i} {
+    @extend .hover-lrp2;
   }
 }
