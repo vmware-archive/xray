@@ -1,17 +1,11 @@
 @import '_variables';
 @import '_mixins';
 
+$app-container-shadow-bottom: inset 0 -4px 0 rgba(0,0,0,0.2);
+$app-container-gutter-right: inset -1px 0 0 $neutral-1;
 
 .app-container, .app-container-sidebar {
-  .mask {
-    $mask-height: 3px;
-    background-color: rgba(0,0,0, 0.2);
-    display: block;
-    height: $mask-height;
-    position: relative;
-    top: $container-size - $mask-height;
-    width: 100%;
-  }
+  box-shadow: $app-container-shadow-bottom;
 }
 
 .app-container {
@@ -22,17 +16,16 @@
   min-width: 1px;
   transition-timing-function: ease-out;
   transition-duration: 200ms;
-  border-right: 1px solid $neutral-1;
+  box-shadow: $app-container-gutter-right, $app-container-shadow-bottom;
+
   &.flex {
     flex: 1;
   }
+
   &.undesired {
     background-color: transparent;
     outline: 3px solid $gray-11;
-    z-index: 2;
-  }
-  &.highlight {
-    outline: 4px solid $gray-11;
+    box-shadow: $app-container-shadow-bottom;
     z-index: 2;
   }
 }
