@@ -12,14 +12,15 @@
   border: {
     top: $gutter solid $neutral-1;
     bottom: $gutter solid $neutral-1;
-    right: 5px solid $neutral-1;
+    right: 3px solid $neutral-1;
+    left: 3px solid $neutral-1;
   };
   &.flex {
     flex: 1;
   }
   &.undesired {
     background-color: transparent;
-    outline: 3px solid $gray-11;
+    border-color: $gray-11;
     z-index: 2;
   }
   &.highlight {
