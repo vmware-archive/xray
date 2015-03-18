@@ -1,6 +1,8 @@
 #XRAY
 Peer into the Lattice 
 
+https://magnum.travis-ci.com/pivotal-cf-experimental/xray.svg?token=qqbUN3LT4qYTrsZnjZQ5&branch=master
+
 <pre>
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM   7I$      MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM   NI+I?I$      MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
