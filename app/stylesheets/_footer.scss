@@ -1,18 +1,10 @@
-@import '_variables';
 @import '../../vendor/pui-v1.4.0/pui-variables';
 
-$footer-height: 35px;
-
 .footer {
-  display: flex;
-  align-items: center;
-  height: $footer-height;
-  background-color: $shadow-1;
   .fa-undo, label {
     color: $gray-11;
   }
   .radio-group {
-    flex: 1;
     text-align: center;
     input[type="radio"] {
       margin-right: 10px;

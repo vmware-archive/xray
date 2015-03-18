@@ -54,25 +54,11 @@
   .media-left {
     float: left;
   }
-
-  .desired-lrp  {
-    border-top: 1px solid $neutral-1;
-  }
 }
 
 .desired-lrp-list {
-  .routes {
-    a {
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    td {
-      vertical-align: top;
-      &.port {
-        width: 45px;
-      }
-    }
+  .port {
+    width: 45px;
   }
 }
 
@@ -87,15 +73,17 @@
       text-transform: capitalize;
     }
     .faded {
-      opacity: 0.2;
+      opacity: 0.35;
     }
   }
-  .actual-lrp.claimed {
-    animation-name: almost-fade-in;
-  }
+  .actual-lrp {
+    &.claimed {
+      animation-name: almost-fade-in;
+    }
 
-  .actual-lrp:hover {
-    background-color: $accent-2;
+    &:hover {
+      background-color: $accent-2;
+    }
   }
 }
 

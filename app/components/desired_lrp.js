@@ -15,7 +15,7 @@ function stopPropagation(e) {
 }
 
 function links(array) {
-  return array.map((hostname, i) => <a className="type-accent-4 type-ellipsis-1-line" href={`//${hostname}`} key={i} title={hostname} target="_blank" onClick={stopPropagation}>{hostname}</a>);
+  return array.map((hostname, i) => <a className="type-accent-4 type-ellipsis-1-line link-text" href={`//${hostname}`} key={i} title={hostname} target="_blank" onClick={stopPropagation}>{hostname}</a>);
 }
 
 var Routes = React.createClass({
@@ -32,9 +32,13 @@ var Routes = React.createClass({
       routes = (<div className="type-ellipsis-1-line">{links(routes[0].hostnames)}</div>);
     } else {
       routes = routes.map(function({port, hostnames}, i) {
-        return (<tr key={i}><td className="port prs"><span>{port}:</span></td><td>{links(hostnames)}</td></tr>);
+        return (
+          <tr key={i}>
+            <td className="port prs"><span>{port}:</span></td>
+            <td>{links(hostnames)}</td>
+          </tr>);
       });
-      routes = (<table><tbody>{routes}</tbody></table>);
+      routes = (<table className="txt-t"><tbody>{routes}</tbody></table>);
     }
     return (<div className="routes">{routes}</div>);
   }

@@ -1,6 +1,6 @@
+@import '../../vendor/pui-v1.4.0/pui-variables';
 @import '_mixins';
 @import '_variables';
-@import '../../vendor/pui-v1.4.0/pui-variables';
 
 html, body, #root, .xray {
   min-height: 100%;
@@ -9,12 +9,6 @@ html, body, #root, .xray {
 
 #root {
   background-color: $neutral-1;
-}
-
-.receptor-url-modal {
-  input[type="text"] {
-    @extend %full-width;
-  }
 }
 
 .page {
@@ -41,9 +35,6 @@ html, body, #root, .xray {
   }
 }
 
-$sidebar-animation-duration: 120ms;
-
-$sidebar-collapsed-width: $app-container-size + 7 * 2;
 .main-panel {
   transition: right $sidebar-animation-duration ease-in;
   .sidebar-collapsed & {
@@ -73,15 +64,13 @@ $sidebar-collapsed-width: $app-container-size + 7 * 2;
   }
 }
 
-.clickable {
-  cursor: pointer;
-}
+.footer {
+  align-items: center;
+  background-color: $shadow-1;
+  display: flex;
+  height: $footer-height;
 
-.scrim {
-  @extend %zero;
-  z-index: 1000;
-}
-
-.error {
-  background-color: $error-1;
+  .radio-group {
+    flex: 1;
+  }
 }

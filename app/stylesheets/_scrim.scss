@@ -1,0 +1,6 @@
+@import '_mixins';
+
+.scrim {
+  @extend %zero;
+  z-index: 1000;
+}

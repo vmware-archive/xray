@@ -17,20 +17,30 @@ var DesiredLrpList = React.createClass({
 
   renderDesiredLrps(desiredLrps) {
     var {$receptor, $selection, $sidebar} = this.props;
-    var {actualLrps} = $receptor.get();
-    actualLrps = actualLrps || [];
+    var {actualLrps = []} = $receptor.get();
 
     if(!desiredLrps.length && !$sidebar.get('sidebarCollapsed')) {
       return <div className="mam">No filtered processes found.</div>;
     }
 
-    return desiredLrps.map(function(desiredLrp) {
-      var key = desiredLrp.process_guid;
-      var className = 'clickable';
-      var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
-      var props = {className, desiredLrp, actualLrps: filtered, key, $selection};
-      return <DesiredLrp {...props}/>;
-    }, this);
+    desiredLrps = desiredLrps.map(this.renderDesiredLrp.bind(this, {actualLrps, $selection}));
+    return (
+      <ul className="list-group-inverse pln">
+        {desiredLrps}
+      </ul>
+    );
+  },
+
+  renderDesiredLrp({actualLrps, $selection}, desiredLrp) {
+    var key = desiredLrp.process_guid;
+    var className = 'clickable';
+    var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
+    return (
+      <li>
+        <DesiredLrp {...{className, desiredLrp, actualLrps: filtered, key, $selection}}/>
+      </li>
+    );
+
   },
 
   render() {
