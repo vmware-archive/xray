@@ -7,6 +7,10 @@ html, body, #root, .xray {
   @extend %full-height;
 }
 
+body {
+  color: $neutral-11;
+}
+
 #root {
   background-color: $neutral-1;
 }

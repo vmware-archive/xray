@@ -62,6 +62,12 @@
   }
 }
 
+.desired-lrp {
+  .metadata {
+    color: $gray-4;
+  }
+}
+
 .desired-lrp-detail {
   .actual-lrps {
     cursor: default;

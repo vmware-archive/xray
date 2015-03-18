@@ -15,7 +15,7 @@ function stopPropagation(e) {
 }
 
 function links(array) {
-  return array.map((hostname, i) => <a className="type-accent-4 type-ellipsis-1-line link-text" href={`//${hostname}`} key={i} title={hostname} target="_blank" onClick={stopPropagation}>{hostname}</a>);
+  return array.map((hostname, i) => <a className="link-inverse type-ellipsis-1-line link-text" href={`//${hostname}`} key={i} title={hostname} target="_blank" onClick={stopPropagation}>{hostname}</a>);
 }
 
 var Routes = React.createClass({
@@ -83,7 +83,7 @@ var DesiredLrp = React.createClass({
           <section>
             <div className="process-guid type-ellipsis-1-line">{processGuid}</div>
             {routes && <Routes {...{routes}}/>}
-            <div>
+            <div className="metadata">
               <span>{instances}</span>
               &nbsp;(M: {memory} D: {disk})
             </div>

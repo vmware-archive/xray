@@ -53,7 +53,7 @@ var Page = React.createClass({
     });
 
     var classes = mergeClassNames(
-      'page type-neutral-8',
+      'page',
       cx({
         'sidebar-collapsed': sidebarCollapsed,
         'sidebar-open': !sidebarCollapsed,
