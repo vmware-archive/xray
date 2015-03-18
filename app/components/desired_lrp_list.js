@@ -36,11 +36,10 @@ var DesiredLrpList = React.createClass({
     var className = 'clickable';
     var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
     return (
-      <li>
-        <DesiredLrp {...{className, desiredLrp, actualLrps: filtered, key, $selection}}/>
+      <li key={key}>
+        <DesiredLrp {...{className, desiredLrp, actualLrps: filtered, $selection}}/>
       </li>
     );
-
   },
 
   render() {
