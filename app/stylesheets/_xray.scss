@@ -55,7 +55,7 @@ $sidebar-collapsed-width: $container-size + 7 * 2;
 .sidebar-panel {
   transform: translate3d(0, 0, 0);
   transition: transform $sidebar-animation-duration ease-in;
-  .sidebar-toggle {
+  .sidebar-toggle .fa-angle-double-right {
     transform: rotateZ(0deg);
     transition: transform $sidebar-animation-duration linear;
   }
@@ -68,14 +68,10 @@ $sidebar-collapsed-width: $container-size + 7 * 2;
     .media-body {
       display: none;
     }
-    .sidebar-toggle {
+    .sidebar-toggle .fa-angle-double-right {
       transform: rotateZ(180deg);
     }
   }
-}
-
-.panel-scrollable-layout {
-  max-height: inherit; //Talk to Pivotal UI about this
 }
 
 .clickable {

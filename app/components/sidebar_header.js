@@ -34,7 +34,7 @@ var SidebarHeader = React.createClass({
       <header className="sidebar-header mam">
         <a className="sidebar-toggle mrm txt-c" role="button" onClick={this.toggleSidebar} title="toggle sidebar">
           <span className="sr-only">toggle sidebar</span>
-          <PUI.Icon name="angle-double-right" size="2x"/>
+          <PUI.Icon name="angle-double-right" />
         </a>
         <div className="filter-processes">
           <input className="form-control" type="text" placeholder="Filter processes&hellip;" value={filter} onChange={this.change}/>
