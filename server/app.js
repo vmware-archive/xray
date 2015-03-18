@@ -7,6 +7,7 @@ var React = require('react');
 var Layout = require('./components/layout');
 var app = express();
 var {getCredentials} = require('../app/helpers/url_helper');
+var fakeApi = require('./middleware/fake_api');
 
 const XRAY_USER = process.env.XRAY_USER;
 const XRAY_PASSWORD = process.env.XRAY_PASSWORD;
@@ -56,8 +57,6 @@ app.post('/receptor_url', function(req, res) {
   if (receptorAuthorization) result.cookie('receptor_authorization', receptorAuthorization);
   result.send({ok: true});
 });
-
-var fakeApi = require('./middleware/fake_api');
 
 app.get('/api/v1/cells', fakeApi.v1.cells.index);
 app.get('/api/v1/actual_lrps', fakeApi.v1.actualLrps.index);

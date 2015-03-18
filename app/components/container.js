@@ -58,7 +58,7 @@ var Container = React.createClass({
       }),
       `app-${processGuid}`);
     var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': instanceGuid, onClick: this.onClick, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
-    return (<a {...props}></a>);
+    return (<a {...props}><span className="mask"/></a>);
   }
 });
 

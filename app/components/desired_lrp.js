@@ -66,7 +66,7 @@ var DesiredLrp = React.createClass({
     var {disk_mb: disk, memory_mb: memory, process_guid: processGuid} = desiredLrp;
     var containerColor = pickColor(this.context.colors, getHostname(desiredLrp) || processGuid);
     var imageStyle = {backgroundColor: containerColor};
-    var leftImage = (<a className={cx({'container-sidebar': true})} style={imageStyle} role="button"/>);
+    var leftImage = (<a className={cx({'app-container-sidebar': true})} style={imageStyle} role="button"><span className="mask"/></a>);
     disk = prettyBytes(disk * 1000000);
     memory = prettyBytes(memory * 1000000);
     var instancesRunning = actualLrps.filter(({state}) => state === 'RUNNING').length;

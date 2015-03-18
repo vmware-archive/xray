@@ -1,6 +1,19 @@
 @import '_variables';
 @import '_mixins';
 
+
+.app-container, .app-container-sidebar {
+  .mask {
+    $mask-height: 3px;
+    background-color: rgba(0,0,0, 0.2);
+    display: block;
+    height: $mask-height;
+    position: relative;
+    top: $container-size - $mask-height;
+    width: 100%;
+  }
+}
+
 .app-container {
   box-sizing: content-box;
   display: block;
@@ -9,18 +22,13 @@
   min-width: 1px;
   transition-timing-function: ease-out;
   transition-duration: 200ms;
-  border: {
-    top: $gutter solid $neutral-1;
-    bottom: $gutter solid $neutral-1;
-    right: 3px solid $neutral-1;
-    left: 3px solid $neutral-1;
-  };
+  border-right: 1px solid $neutral-1;
   &.flex {
     flex: 1;
   }
   &.undesired {
     background-color: transparent;
-    border-color: $gray-11;
+    outline: 3px solid $gray-11;
     z-index: 2;
   }
   &.highlight {
@@ -32,7 +40,6 @@
 .claimed {
   animation: fade-in 1s linear infinite alternate;
 }
-
 
 .selection .app-container {
   opacity: .2;
