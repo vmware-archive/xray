@@ -56,6 +56,7 @@ describe('Container', function() {
     describe('when mouse out is triggered on the container', function() {
       beforeEach(function() {
         $('.app-container').simulate('mouseOut');
+        jasmine.clock().tick(1000);
       });
 
       it('unsets the desiredLrp on the receptor', function() {

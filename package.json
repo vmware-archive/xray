@@ -59,6 +59,7 @@
     "lodash.flatten": "^3.0.0",
     "lodash.max": "^3.0.0",
     "lodash.sortedindex": "^3.0.0",
+    "lodash.throttle": "^3.0.1",
     "lodash.times": "^3.0.0",
     "lsof": "^0.1.0",
     "merge-stream": "^0.1.7",

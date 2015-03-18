@@ -1,5 +1,10 @@
 var React = require('react/addons');
 var types = React.PropTypes;
+var throttle = require('lodash.throttle');
+
+var updateHover = throttle(function updateHover($selection, desiredLrp) {
+  $selection.merge({hoverDesiredLrp: desiredLrp});
+}, 200);
 
 var HoverDesiredLrpMixin = {
   propTypes: {
@@ -9,12 +14,12 @@ var HoverDesiredLrpMixin = {
 
   onMouseEnter() {
     var {desiredLrp, $selection} = this.props;
-    $selection.merge({hoverDesiredLrp: desiredLrp});
+    updateHover($selection, desiredLrp);
   },
 
   onMouseLeave() {
     var {$selection} = this.props;
-    $selection.merge({hoverDesiredLrp: null});
+    updateHover($selection, null);
   },
 
   onClick(e) {

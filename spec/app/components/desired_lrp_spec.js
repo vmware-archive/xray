@@ -110,6 +110,7 @@ describe('DesiredLrp', function() {
   describe('when mouse over event is triggered on the desired lrp', function() {
     beforeEach(function() {
       $('.desired-lrp').simulate('mouseOver');
+      jasmine.clock().tick(1000);
     });
 
     it('sets the hoverDesiredLrp on the receptor', function() {
