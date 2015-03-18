@@ -1,4 +1,5 @@
 var BaseApi = require('../api/base_api');
+var Footer = require('./footer');
 var React = require('react/addons');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var ReceptorMixin = require('../mixins/receptor_mixin');
@@ -66,7 +67,8 @@ var Page = React.createClass({
     return (
       <div className={classes}>
         <article className="main-panel">
-          <Zones {...{$receptor, $selection, $sidebar, $scaling}}/>
+          <Zones {...{$receptor, $selection, $sidebar, scaling: $scaling.get()}}/>
+          <Footer {...{$scaling}}/>
           {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
         </article>
         <aside className="sidebar-panel"><Sidebar {...{$receptor, $selection, $sidebar}}/></aside>

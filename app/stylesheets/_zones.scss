@@ -1,8 +1,11 @@
 @import '_variables';
+@import '_mixins';
 
 .zones {
   flex: 1;
+  @extend %scrollable-y;
 }
+
 .zone {
   h2 {
     margin: $gutter $gutter 0;

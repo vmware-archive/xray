@@ -178,7 +178,7 @@ describe('Application', function() {
     describe('clicking the refresh button', function() {
       beforeEach(function() {
         ReceptorApi.fetch.calls.reset();
-        $('.refresh').simulate('click');
+        $('.fa-undo').simulate('click');
       });
 
       it('refreshes the receptor', function() {

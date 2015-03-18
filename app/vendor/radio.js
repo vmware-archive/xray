@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
+var classnames = require('classnames');
 
 var Radio = React.createClass({
   propTypes: {
@@ -13,9 +14,9 @@ var Radio = React.createClass({
   },
 
   render: function() {
-    var {id, checked, defaultChecked, name, value, onChange} = this.props;
+    var {id, checked, className, defaultChecked, name, value, onChange} = this.props;
     return (
-      <div className='radio'>
+      <div className={classnames('radio', className)}>
         <label>
           <input type='radio' {...{id, checked, defaultChecked, name, value, onChange}}>
             {this.props.children}
