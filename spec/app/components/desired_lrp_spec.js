@@ -117,16 +117,6 @@ describe('DesiredLrp', function() {
     });
   });
 
-  describe('when the desiredLrp is selected', function() {
-    beforeEach(function() {
-      subject.setProps({isSelected: true});
-    });
-
-    it('highlights the container', function() {
-      expect('.container-sidebar').toHaveClass('selected');
-    });
-  });
-
   describe('when user clicks it', function() {
     beforeEach(function() {
       $('.desired-lrp').simulate('click');

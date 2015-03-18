@@ -1,6 +1,7 @@
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var PUI = {Icon: require('../vendor/icon').Icon};
 var React = require('react/addons');
+var helper = require('../helpers/lrp_helper');
 
 var types = React.PropTypes;
 
@@ -8,12 +9,17 @@ var SidebarHeader = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
+    $receptor: types.object.isRequired,
+    $selection: types.object.isRequired,
     $sidebar: types.object.isRequired
   },
 
   change(e) {
-    var {$sidebar} = this.props;
-    $sidebar.merge({filter: e.target.value});
+    var {$receptor, $selection, $sidebar} = this.props;
+    var desiredLrps = $receptor.get().desiredLrps;
+    var filter = e.target.value;
+    $sidebar.merge({filter: filter});
+    $selection.merge({filteredLrps: helper.filterDesiredLrps(desiredLrps, filter)});
   },
 
   toggleSidebar() {

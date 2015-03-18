@@ -49,7 +49,10 @@ describe('Cell', function() {
     });
 
     it('renders actual lrps', function() {
-      expect($('.cell .app-container')).toHaveLength(actualLrps.length);
+      expect('.cell .app-container').toHaveLength(actualLrps.length);
+      expect('.cell .app-container:eq(0)').toHaveClass(`app-${actualLrps[0].process_guid}`);
+      expect('.cell .app-container:eq(1)').toHaveClass(`app-${actualLrps[1].process_guid}`);
+      expect('.cell .app-container:eq(2)').toHaveClass(`app-${actualLrps[2].process_guid}`);
     });
 
     it('sorts the actual lrps by process guid and index', function() {
@@ -80,76 +83,6 @@ describe('Cell', function() {
     it('deals with selecting lrps', function() {
       $('.app-container:eq(0)').simulate('click');
       expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedDesiredLrp: desiredLrps[1]}));
-    });
-
-    describe('with a selected lrp', function() {
-      beforeEach(function() {
-        $selection = new Cursor({selectedDesiredLrp: desiredLrps[1]});
-        subject.setProps({$selection});
-      });
-
-      it('adds the selected class to the container', function() {
-        expect('.app-container:eq(0)').toHaveClass('selected');
-      });
-    });
-
-    describe('with a hover desired lrp', function() {
-      beforeEach(function() {
-        $selection = new Cursor({hoverDesiredLrp: desiredLrps[1]});
-        subject.setProps({$selection});
-      });
-
-      it('adds the hover class to the container', function() {
-        expect('.app-container:eq(0)').toHaveClass('hover');
-      });
-    });
-
-    describe('with a hover actual lrp', function() {
-      beforeEach(function() {
-        $selection = new Cursor({hoverActualLrp: actualLrps[1]});
-        subject.setProps({$selection});
-      });
-
-      it('adds the highlight class to the container', function() {
-        expect('.app-container:eq(0)').not.toHaveClass('highlight');
-        expect('.app-container:eq(1)').toHaveClass('highlight');
-      });
-    });
-
-    describe('with filtered desired lrps', function() {
-      beforeEach(function() {
-        $sidebar = new Cursor({filter: 'iego'});
-        subject.setProps({$sidebar});
-      });
-      it('adds the selected class if the desired lrp passes the filter', function() {
-        expect('.app-container:eq(0)').toHaveClass('selected');
-        expect('.app-container:eq(1)').not.toHaveClass('selected');
-        expect('.app-container:eq(2)').not.toHaveClass('selected');
-      });
-
-      describe('when there is also a selected desiredLrp', function() {
-        beforeEach(function() {
-          $selection = new Cursor({selectedDesiredLrp: desiredLrps[2]});
-          subject.setProps({$selection});
-        });
-        it('does not select from the filter', function() {
-          expect('.app-container:eq(0)').not.toHaveClass('selected');
-          expect('.app-container:eq(1)').toHaveClass('selected');
-          expect('.app-container:eq(2)').not.toHaveClass('selected');
-        });
-      });
-
-      describe('when there is also a hover desiredLrp', function() {
-        beforeEach(function() {
-          $selection = new Cursor({hoverDesiredLrp: desiredLrps[2]});
-          subject.setProps({$selection});
-        });
-        it('does not select from the filter', function() {
-          expect('.app-container:eq(0)').not.toHaveClass('selected');
-          expect('.app-container:eq(1)').toHaveClass('hover');
-          expect('.app-container:eq(2)').not.toHaveClass('selected');
-        });
-      });
     });
   });
 
