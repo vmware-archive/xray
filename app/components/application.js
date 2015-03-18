@@ -31,7 +31,7 @@ var Application = React.createClass({
         actualLrps: [],
         desiredLrpsByProcessGuid: {}
       },
-      scaling: 'containers',
+      scaling: 'memory_mb',
       selection: {
         hoverDesiredLrp: null,
         selectedDesiredLrp: null,

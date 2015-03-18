@@ -27,9 +27,8 @@ var Footer = React.createClass({
       <footer className="footer form-inline type-sm">
         <a role="button"><pui.Icon name="undo" className="fa-flip-horizontal mhl" onClick={this.updateReceptor}/></a>
         <pui.RadioGroup name="scale_type" onChange={this.changeScale}>
-          <pui.Radio value="containers" checked={scaling === 'containers'} className="mhl"> containers</pui.Radio>
           <pui.Radio value="memory_mb" checked={scaling === 'memory_mb'} className="mhl">  memory</pui.Radio>
-          <pui.Radio value="disk_mb" checked={scaling === 'disk_mb'} className="mhl">  disk</pui.Radio>
+          <pui.Radio value="containers" checked={scaling === 'containers'} className="mhl"> containers</pui.Radio>
         </pui.RadioGroup>
       </footer>
     );
