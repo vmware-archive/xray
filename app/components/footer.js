@@ -25,7 +25,7 @@ var Footer = React.createClass({
     var scaling = this.props.$scaling.get();
     return (
       <footer className="footer form-inline type-sm">
-        <pui.Icon name="undo" className="fa-flip-horizontal mhl" onClick={this.updateReceptor}/>
+        <a role="button"><pui.Icon name="undo" className="fa-flip-horizontal mhl" onClick={this.updateReceptor}/></a>
         <pui.RadioGroup name="scale_type" onChange={this.changeScale}>
           <pui.Radio value="containers" checked={scaling === 'containers'} className="mhl"> containers</pui.Radio>
           <pui.Radio value="memory_mb" checked={scaling === 'memory_mb'} className="mhl">  memory</pui.Radio>

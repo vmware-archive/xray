@@ -7,13 +7,12 @@ $footer-height: 35px;
   align-items: center;
   height: $footer-height;
   background-color: $footer-color;
-
+  .fa-undo, label {
+    color: $gray-11;
+  }
   .radio-group {
     flex: 1;
     text-align: center;
-    .undo, label {
-      color: $gray-11;
-    }
     input[type="radio"] {
       margin-right: 10px;
     }
