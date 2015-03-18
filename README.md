@@ -1,7 +1,7 @@
 #XRAY
 Peer into the Lattice 
 
-https://magnum.travis-ci.com/pivotal-cf-experimental/xray.svg?token=qqbUN3LT4qYTrsZnjZQ5&branch=master
+[![Build Status](https://magnum.travis-ci.com/pivotal-cf-experimental/xray.svg?token=qqbUN3LT4qYTrsZnjZQ5&branch=master)](https://magnum.travis-ci.com/pivotal-cf-experimental/xray)
 
 <pre>
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM   7I$      MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
