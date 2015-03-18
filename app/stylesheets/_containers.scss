@@ -42,7 +42,7 @@ $app-container-gutter-right: inset -2px 0 0 $neutral-2;
   opacity: 1;
 }
 
-@for $i from 0 through 2000 {
+@for $i from 0 through $max-apps {
   .show-app-#{$i} .app-#{$i} {
     @extend %hover-thing;
   }
