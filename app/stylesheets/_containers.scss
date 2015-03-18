@@ -11,7 +11,7 @@ $app-container-gutter-right: inset -2px 0 0 $neutral-2;
 .app-container {
   box-sizing: content-box;
   display: block;
-  height: $container-size;
+  height: $app-container-size;
   margin: 0;
   min-width: 1px;
   transition-timing-function: ease-out;
@@ -38,12 +38,13 @@ $app-container-gutter-right: inset -2px 0 0 $neutral-2;
   opacity: .2;
 }
 
-%hover-thing {
+/* Ensures the sass generates the rules in the correct order */
+.hover-lrp {
   opacity: 1;
 }
 
 @for $i from 0 through $max-apps {
   .show-app-#{$i} .app-#{$i} {
-    @extend %hover-thing;
+    @extend .hover-lrp;
   }
 }

@@ -2,8 +2,8 @@
 @import '_mixins';
 
 .app-container-sidebar {
-  width: $container-size;
-  height: $container-size;
+  width: $app-container-size;
+  height: $app-container-size;
   display: block;
 }
 
@@ -26,13 +26,13 @@
 .sidebar-header {
   display: flex;
   .sidebar-toggle {
-    color: $white;
-    width: $container-size;
+    color: $neutral-11;
+    width: $app-container-size;
     border: 1px solid $neutral-3;
     border-radius: 3px;
-    height: $container-size + $app-container-shadow-height;
-    width: $container-size;
-    line-height: $container-size + $app-container-shadow-height;
+    height: $app-container-size + $app-container-shadow-height;
+    width: $app-container-size;
+    line-height: $app-container-size + $app-container-shadow-height;
   }
   .filter-processes {
     flex: 1;

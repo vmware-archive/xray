@@ -1,0 +1,9 @@
+@import '_variables';
+
+.cell {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  background-color: $glow-1;
+  margin-top: 8px;
+}
