@@ -45,7 +45,7 @@ describe('Page', function() {
 
     it('adds the selection class to the page', function() {
       expect('.page').toHaveClass('selection');
-      expect('.page').toHaveClass(`show-app-${desiredLrp.process_guid}`);
+      expect('.page').toHaveClass(`show-app-${desiredLrp.processNumber}`);
     });
 
     describe('when clicking on the scrim', function() {
@@ -69,7 +69,7 @@ describe('Page', function() {
 
     it('adds the selection class to the page', function() {
       expect('.page').toHaveClass('selection');
-      expect('.page').toHaveClass(`show-app-${desiredLrp.process_guid}`);
+      expect('.page').toHaveClass(`show-app-${desiredLrp.processNumber}`);
     });
 
     it('does not have a scrim', function() {
@@ -79,7 +79,7 @@ describe('Page', function() {
 
   describe('when a desiredLrp is filtered', function() {
     beforeEach(function() {
-      var desiredLrps = [Factory.build('desiredLrp', {process_guid: 1}), Factory.build('desiredLrp'), {process_guid: 2}];
+      var desiredLrps = [Factory.build('desiredLrp', {processNumber: 1}), Factory.build('desiredLrp'), {processNumber: 2}];
       $selection = new Cursor({filteredLrps: desiredLrps}, jasmine.createSpy('callback'));
       $sidebar = new Cursor({filter: 'foo'}, jasmine.createSpy('callback'));
       subject.setProps({$selection, $sidebar});
@@ -202,8 +202,7 @@ describe('Page', function() {
       describe('when an desired_lrp created event is received', function() {
         var desiredLrp;
         beforeEach(function() {
-          desiredLrp = Factory.build('desiredLrp');
-          delete desiredLrp.filterString;
+          desiredLrp = Factory.build('desiredLrp', {}, {raw: true});
           MockEventSource.mostRecent().trigger('desired_lrp_created', {
             desired_lrp: desiredLrp
           });

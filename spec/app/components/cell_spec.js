@@ -24,9 +24,9 @@ describe('Cell', function() {
     ];
 
     desiredLrps = [
-      Factory.build('desiredLrp', {process_guid: 'runtime', disk_mb: 100, memory_mb: 25}),
-      Factory.build('desiredLrp', {process_guid: 'diego', disk_mb: 300, memory_mb: 15}),
-      Factory.build('desiredLrp', {process_guid: 'google', disk_mb: 200, memory_mb: 10})
+      Factory.build('desiredLrp', {process_guid: 'runtime', disk_mb: 100, memory_mb: 25, processNumber: 3}),
+      Factory.build('desiredLrp', {process_guid: 'diego', disk_mb: 300, memory_mb: 15, processNumber: 1}),
+      Factory.build('desiredLrp', {process_guid: 'google', disk_mb: 200, memory_mb: 10, processNumber: 2})
     ];
     desiredLrpsByProcessGuid = {
       runtime: desiredLrps[0],
@@ -50,9 +50,9 @@ describe('Cell', function() {
 
     it('renders actual lrps', function() {
       expect('.cell .app-container').toHaveLength(actualLrps.length);
-      expect('.cell .app-container:eq(0)').toHaveClass(`app-${actualLrps[0].process_guid}`);
-      expect('.cell .app-container:eq(1)').toHaveClass(`app-${actualLrps[1].process_guid}`);
-      expect('.cell .app-container:eq(2)').toHaveClass(`app-${actualLrps[2].process_guid}`);
+      expect('.cell .app-container:eq(0)').toHaveClass('app-1');
+      expect('.cell .app-container:eq(1)').toHaveClass('app-2');
+      expect('.cell .app-container:eq(2)').toHaveClass('app-3');
     });
 
     it('sorts the actual lrps by process guid and index', function() {

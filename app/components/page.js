@@ -46,10 +46,10 @@ var Page = React.createClass({
 
     var highlightDesiredLrp = [$selection.get().selectedDesiredLrp || $selection.get().hoverDesiredLrp]
       .filter(Boolean)
-      .map(desiredLrp => `show-app-${desiredLrp.process_guid}`);
+      .map(desiredLrp => `show-app-${desiredLrp.processNumber}`);
 
     var filteredLrps = ($selection.get('filteredLrps') || []).map(function(item){
-      return `show-app-${item.process_guid}`;
+      return `show-app-${item.processNumber}`;
     });
 
     var classes = mergeClassNames(
@@ -68,7 +68,7 @@ var Page = React.createClass({
       <div className={classes}>
         <article className="main-panel">
           <Zones {...{$receptor, $selection, $sidebar, scaling: $scaling.get()}}/>
-          <Footer {...{$scaling}}/>
+          <Footer {...{$receptor, $scaling}}/>
           {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
         </article>
         <aside className="sidebar-panel"><Sidebar {...{$receptor, $selection, $sidebar}}/></aside>

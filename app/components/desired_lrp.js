@@ -60,7 +60,7 @@ var DesiredLrp = React.createClass({
     className = mergeClassNames(
       className,
       'desired-lrp',
-      `app-details-${desiredLrp.process_guid}`
+      `app-details-${desiredLrp.processNumber}`
     );
     var routes = getRoutes(desiredLrp);
     var {disk_mb: disk, memory_mb: memory, process_guid: processGuid} = desiredLrp;

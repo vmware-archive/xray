@@ -106,7 +106,7 @@ var ReceptorStreamMixin = {
         key: 'process_guid',
         name: 'desiredLrpsByProcessGuid'
       },
-      decorate: decorateDesiredLrp
+      decorate: decorateDesiredLrp.bind(this)
     };
     sse
       .on('desired_lrp_created', createResource('desiredLrps', 'desired_lrp', options).bind(this))

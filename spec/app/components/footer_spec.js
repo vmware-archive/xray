@@ -6,8 +6,9 @@ describe('Footer', function() {
     var Cursor = require('../../../app/lib/cursor');
     callbackSpy = jasmine.createSpy('callback');
     var $scaling = new Cursor('containers', callbackSpy);
+    var $receptor = new Cursor({}, jasmine.createSpy('callback'));
     var Footer = require('../../../app/components/footer');
-    React.render(<Footer {...{$scaling}}/>, root);
+    React.render(<Footer {...{$scaling, $receptor}}/>, root);
   });
   describe('scaling options', function() {
     it('defaults to containers', function() {

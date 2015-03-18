@@ -7,6 +7,9 @@ var {setCorrectingInterval} = require('correcting-interval');
 const CELL_POLL_INTERVAL = 10000;
 const RECEPTOR_POLL_INTERVAL = 120000;
 
+var React = require('react/addons');
+var types = React.PropTypes;
+
 function applyUpdate(newArr, id, options = {}) {
   return {
     $apply: function(oldArr) {
@@ -46,11 +49,16 @@ var ReceptorMixin = {
     RECEPTOR_POLL_INTERVAL: 120000
   },
 
+  propTypes: {
+    $receptor: types.object.isRequired
+  },
+
   updateReceptor() {
     var {$receptor} = this.props;
+    var self = this;
     return ReceptorApi.fetch()
       .then(function({actualLrps, cells, desiredLrps}) {
-        desiredLrps.forEach(decorateDesiredLrp);
+        desiredLrps.forEach(decorateDesiredLrp.bind(self));
         $receptor.update({
           cells: applyUpdate(cells, 'cell_id', {sortBy: 'cell_id'}),
           actualLrps: applyUpdate(actualLrps, 'instance_guid', {change: (a, b) => a.since !== b.since, sortBy: actualLrpIndex}),

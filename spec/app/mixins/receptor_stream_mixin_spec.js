@@ -60,8 +60,7 @@ describe('ReceptorStreamMixin', function() {
       var newDesiredLrp;
       beforeEach(function() {
         var routes = {'cf-router': [{hostnames: ['host1', 'host2'], port: 8080}]};
-        newDesiredLrp = Factory.build('desiredLrp', {process_guid: 'abc', routes});
-        delete newDesiredLrp.filterString;
+        newDesiredLrp = Factory.build('desiredLrp', {process_guid: 'abc', routes}, {raw: true});
         MockEventSource.mostRecent().trigger('desired_lrp_created', {
           desired_lrp: newDesiredLrp
         });
