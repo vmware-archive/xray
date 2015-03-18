@@ -57,4 +57,10 @@ app.post('/receptor_url', function(req, res) {
   result.send({ok: true});
 });
 
+var fakeApi = require('./middleware/fake_api');
+
+app.get('/api/v1/cells', fakeApi.v1.cells.index);
+app.get('/api/v1/actual_lrps', fakeApi.v1.actualLrps.index);
+app.get('/api/v1/desired_lrps', fakeApi.v1.desiredLrps.index);
+
 module.exports = app;

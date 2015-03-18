@@ -31,9 +31,10 @@ describe('Page', function() {
 
   describe('when there is a selected lrp', function() {
     var selectedDesiredLrpCallbackSpy;
+    var desiredLrp;
     beforeEach(function() {
       selectedDesiredLrpCallbackSpy = jasmine.createSpy('callback');
-      var desiredLrp = Factory.build('desiredLrp');
+      desiredLrp = Factory.build('desiredLrp');
       $selection = new Cursor({selectedDesiredLrp: desiredLrp, hoverDesiredLrp: desiredLrp}, selectedDesiredLrpCallbackSpy);
       subject.setProps({$selection});
     });
@@ -44,6 +45,7 @@ describe('Page', function() {
 
     it('adds the selection class to the page', function() {
       expect('.page').toHaveClass('selection');
+      expect('.page').toHaveClass(`show-app-${desiredLrp.process_guid}`);
     });
 
     describe('when clicking on the scrim', function() {
@@ -57,17 +59,36 @@ describe('Page', function() {
   });
 
   describe('when a desiredLrp is hovered', function() {
+    var desiredLrp;
+
     beforeEach(function() {
-      $selection = new Cursor({hoverDesiredLrp: Factory.build('desiredLrp')}, jasmine.createSpy('callback'));
+      desiredLrp = Factory.build('desiredLrp');
+      $selection = new Cursor({hoverDesiredLrp: desiredLrp}, jasmine.createSpy('callback'));
       subject.setProps({$selection});
     });
 
     it('adds the selection class to the page', function() {
       expect('.page').toHaveClass('selection');
+      expect('.page').toHaveClass(`show-app-${desiredLrp.process_guid}`);
     });
 
     it('does not have a scrim', function() {
       expect('.scrim').not.toExist();
+    });
+  });
+
+  describe('when a desiredLrp is filtered', function() {
+    beforeEach(function() {
+      var desiredLrps = [Factory.build('desiredLrp', {process_guid: 1}), Factory.build('desiredLrp'), {process_guid: 2}];
+      $selection = new Cursor({filteredLrps: desiredLrps}, jasmine.createSpy('callback'));
+      $sidebar = new Cursor({filter: 'foo'}, jasmine.createSpy('callback'));
+      subject.setProps({$selection, $sidebar});
+    });
+
+    it('adds the selection class to the page', function() {
+      expect('.page').toHaveClass('filtered');
+      expect('.page').toHaveClass('show-app-1');
+      expect('.page').toHaveClass('show-app-2');
     });
   });
 

@@ -68,12 +68,6 @@
   }
 }
 
-.sidebar-open {
-  .desired-lrp {
-    @extend %zebra-stripes;
-  }
-}
-
 .desired-lrp-detail {
   .actual-lrps {
     cursor: default;
@@ -97,6 +91,17 @@
   }
 }
 
-.actual-lrp {
-  @extend %zebra-stripes-reverse;
+.sidebar-hover-thing {
+  background-color: $accent-2;
 }
+
+.filtered .desired-lrp {
+  background-color: transparent;
+}
+
+@for $i from 0 through 2000 {
+  .show-app-#{$i} .app-details-#{$i} {
+    @extend .sidebar-hover-thing;
+  }
+}
+

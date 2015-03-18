@@ -2,32 +2,47 @@
 @import '_mixins';
 
 .app-container {
-  box-sizing: border-box;
+  box-sizing: content-box;
   display: block;
   height: $container-size;
-  margin: $gutter 1px;
-  width: 2%;
+  margin: 0;
+  min-width: 1px;
+  transition-timing-function: ease-out;
+  transition-duration: 200ms;
+  border: {
+    top: $gutter solid $neutral-1;
+    bottom: $gutter solid $neutral-1;
+    right: 5px solid $neutral-1;
+  };
   &.flex {
     flex: 1;
   }
   &.undesired {
     background-color: transparent;
-    position: relative;
-    .mask {
-      @extend %zero;
-      @extend %full;
-      border: 3px solid $white;
-    }
-  }
-  .selection & {
-    @extend %selected;
+    outline: 3px solid $gray-11;
+    z-index: 2;
   }
   &.highlight {
-    outline: 4px solid $white;
+    outline: 4px solid $gray-11;
     z-index: 2;
   }
 }
 
 .claimed {
   animation: fade-in 1s linear infinite alternate;
+}
+
+
+.selection .app-container {
+  opacity: .2;
+}
+
+%hover-thing {
+  opacity: 1;
+}
+
+@for $i from 0 through 2000 {
+  .show-app-#{$i} .app-#{$i} {
+    @extend %hover-thing;
+  }
 }

@@ -46,7 +46,6 @@ var DesiredLrp = React.createClass({
   propTypes: {
     desiredLrp: types.object.isRequired,
     actualLrps: types.array.isRequired,
-    isSelected: types.bool,
     $selection: types.object.isRequired
   },
 
@@ -56,26 +55,27 @@ var DesiredLrp = React.createClass({
 
   ignorePureRenderProps: ['$selection'],
 
-  getDefaultProps() {
-    return {isSelected: false};
-  },
-
   render() {
-    var {actualLrps, desiredLrp, className, isSelected} = this.props;
-    className = mergeClassNames(className, 'desired-lrp');
+    var {actualLrps, desiredLrp, className} = this.props;
+    className = mergeClassNames(
+      className,
+      'desired-lrp',
+      `app-details-${desiredLrp.process_guid}`
+    );
     var routes = getRoutes(desiredLrp);
     var {disk_mb: disk, memory_mb: memory, process_guid: processGuid} = desiredLrp;
     var containerColor = pickColor(this.context.colors, getHostname(desiredLrp) || processGuid);
     var imageStyle = {backgroundColor: containerColor};
-    var leftImage = (<a className={cx({'container-sidebar': true, selected: isSelected})} style={imageStyle} role="button"/>);
+    var leftImage = (<a className={cx({'container-sidebar': true})} style={imageStyle} role="button"/>);
     disk = prettyBytes(disk * 1000000);
     memory = prettyBytes(memory * 1000000);
     var instancesRunning = actualLrps.filter(({state}) => state === 'RUNNING').length;
     var instancesError = instancesRunning < desiredLrp.instances;
     var instances = `${instancesRunning}/${desiredLrp.instances}`;
+
     return (
       <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>
-        <PUI.Media leftImage={leftImage} key={processGuid} className={cx({'man pam': true, 'bg-accent-2': isSelected, 'error': instancesError && !isSelected})}>
+        <PUI.Media leftImage={leftImage} key={processGuid} className={cx({'man pam': true, 'error': instancesError})}>
           <section>
             <div className="process-guid type-ellipsis-1-line">{processGuid}</div>
             {routes && <Routes {...{routes}}/>}

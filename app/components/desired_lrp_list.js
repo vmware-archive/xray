@@ -24,19 +24,17 @@ var DesiredLrpList = React.createClass({
       return <div className="mam">No filtered processes found.</div>;
     }
 
-    var {hoverDesiredLrp} = $selection.get();
     return desiredLrps.map(function(desiredLrp) {
       var key = desiredLrp.process_guid;
       var className = 'clickable';
       var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
-      var isSelected = !!(desiredLrp && hoverDesiredLrp === desiredLrp);
-      var props = {className, desiredLrp, actualLrps: filtered, key, $selection, isSelected};
+      var props = {className, desiredLrp, actualLrps: filtered, key, $selection};
       return <DesiredLrp {...props}/>;
     }, this);
   },
 
   render() {
-    var {$receptor, $sidebar} = this.props;
+    var {$receptor, $selection, $sidebar} = this.props;
     var {desiredLrps} = $receptor.get();
     var {filter} = $sidebar.get();
     desiredLrps = desiredLrps || [];
@@ -46,7 +44,7 @@ var DesiredLrpList = React.createClass({
 
     return (
       <div className="desired-lrp-list">
-        <SidebarHeader {...{$sidebar}}/>
+        <SidebarHeader {...{$receptor, $selection, $sidebar}}/>
         <section className="desired-lrps">
           {this.renderDesiredLrps(desiredLrps)}
         </section>

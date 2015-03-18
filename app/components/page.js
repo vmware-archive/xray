@@ -5,6 +5,7 @@ var ReceptorMixin = require('../mixins/receptor_mixin');
 var ReceptorStreamMixin = require('../mixins/receptor_stream_mixin');
 var Zones = require('./zones');
 var Sidebar = require('./sidebar');
+var {mergeClassNames} = require('../helpers/react_helper');
 
 var cx = React.addons.classSet;
 var types = React.PropTypes;
@@ -41,8 +42,29 @@ var Page = React.createClass({
     var {$receptor, $scaling, $sidebar, $selection} = this.props;
     var selection = !!($selection.get('hoverDesiredLrp') || $selection.get('selectedDesiredLrp')) || $sidebar.get('filter');
     var sidebarCollapsed = $sidebar.get('sidebarCollapsed');
+
+    var highlightDesiredLrp = [$selection.get().selectedDesiredLrp || $selection.get().hoverDesiredLrp]
+      .filter(Boolean)
+      .map(desiredLrp => `show-app-${desiredLrp.process_guid}`);
+
+    var filteredLrps = ($selection.get('filteredLrps') || []).map(function(item){
+      return `show-app-${item.process_guid}`;
+    });
+
+    var classes = mergeClassNames(
+      'page type-neutral-8',
+      cx({
+        'sidebar-collapsed': sidebarCollapsed,
+        'sidebar-open': !sidebarCollapsed,
+        'filtered': $sidebar.get('filter'),
+        selection
+      }),
+      ...filteredLrps,
+      ...highlightDesiredLrp
+    );
+
     return (
-      <div className={cx({'page type-neutral-8': true, 'sidebar-collapsed': sidebarCollapsed, 'sidebar-open': !sidebarCollapsed, selection})}>
+      <div className={classes}>
         <article className="main-panel">
           <Zones {...{$receptor, $selection, $sidebar, $scaling}}/>
           {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
