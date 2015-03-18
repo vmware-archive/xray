@@ -9,7 +9,7 @@ html, body, #root, .xray {
 }
 
 #root {
-  background-color: $black;
+  background-color: $neutral-1;
 }
 
 .receptor-url-modal {
@@ -38,7 +38,7 @@ html, body, #root, .xray {
     position: absolute;
     right: 0;
     width: $sidebar-width;
-    background-color: $dark-2;
+    background-color: $shadow-1;
   }
 }
 
@@ -88,5 +88,5 @@ $sidebar-collapsed-width: $container-size + 7 * 2;
 }
 
 .error {
-  background-color: $error-1 !important;
+  background-color: $error-1;
 }

@@ -6,7 +6,7 @@ $footer-height: 35px;
   display: flex;
   align-items: center;
   height: $footer-height;
-  background-color: $footer-color;
+  background-color: $shadow-1;
   .fa-undo, label {
     color: $gray-11;
   }

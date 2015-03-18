@@ -2,7 +2,7 @@
 @import '_mixins';
 
 $app-container-shadow-bottom: inset 0 -4px 0 rgba(0,0,0,0.2);
-$app-container-gutter-right: inset -1px 0 0 $neutral-1;
+$app-container-gutter-right: inset -2px 0 0 $neutral-2;
 
 .app-container, .app-container-sidebar {
   box-shadow: $app-container-shadow-bottom;

@@ -3,6 +3,7 @@
 
 .zones {
   flex: 1;
+  padding: 0 8px;
   @extend %scrollable-y;
 }
 
@@ -10,5 +11,8 @@
   h2 {
     margin: $gutter $gutter 0;
     padding: 0;
+  }
+  & + .zone {
+    margin-top: 23px;
   }
 }
