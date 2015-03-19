@@ -18,7 +18,7 @@ describe('DesiredLrp', function() {
     var $selection = new Cursor({hoverDesiredLrp: null, selectedDesiredLrp: null}, callbackSpy);
     var colors = ['#fff', '#000'];
     React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $selection, isSelected: false}}/>, root);
+      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $selection, isSelected: false, sidebarCollapsed: true}}/>, root);
     });
   });
 
@@ -28,6 +28,47 @@ describe('DesiredLrp', function() {
 
   it('ignores the receptor cursor for rendering', function() {
     expect(subject.ignorePureRenderProps).toEqual(['$selection']);
+  });
+
+  it('renders a container', function() {
+    expect('.app-container-sidebar').toExist();
+  });
+
+  describe('when hovering over the container', function() {
+    beforeEach(function() {
+      $('.app-container-sidebar').simulate('mouseOver');
+    });
+
+    it('renders a tooltip with the desired lrp information', function() {
+      expect('.tooltip').toExist();
+      expect('.tooltip').toContainText(desiredLrp.process_guid);
+    });
+
+    describe('when not hovering over the container', function() {
+      beforeEach(function() {
+        $('.app-container-sidebar').simulate('mouseOut');
+      });
+
+      it('does not render a tooltip', function() {
+        expect('.tooltip').not.toExist();
+      });
+    });
+  });
+
+  describe('when the sidebar is not collasped', function() {
+    beforeEach(function() {
+      subject.setProps({sidebarCollapsed: false});
+    });
+
+    describe('when hovering over the container', function() {
+      beforeEach(function() {
+        $('.app-container-sidebar').simulate('mouseOver');
+      });
+
+      it('does not render a tooltip', function() {
+        expect('.tooltip').not.toExist();
+      });
+    });
   });
 
   describe('routes', function() {

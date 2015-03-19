@@ -65,10 +65,18 @@
   }
 }
 
-.desired-lrp {
-  .metadata {
-    color: $gray-4;
+.tooltip {
+  $tooltip-color: #1c1c1c;
+  > .tooltip-arrow {
+    border-left-color: $tooltip-color !important;
   }
+  > .tooltip-inner {
+    background-color: $tooltip-color;
+  }
+}
+
+.desired-lrp-info .metadata {
+  color: $gray-4;
 }
 
 .desired-lrp-detail {
