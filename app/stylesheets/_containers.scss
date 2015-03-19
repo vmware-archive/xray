@@ -28,6 +28,12 @@ $app-container-gutter-right: inset -2px 0 0 $neutral-2;
     box-shadow: $app-container-shadow-bottom;
     z-index: 2;
   }
+
+  &.highlight {
+    outline: 3px solid $gray-11;
+    z-index: 2;
+    box-shadow: none;
+  }
 }
 
 .claimed {
