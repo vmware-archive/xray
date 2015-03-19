@@ -42,7 +42,7 @@ describe('SidebarHeader', function() {
     $('.sidebar-header :text').val('foo').simulate('change');
     selectionCallbackSpy.calls.reset();
     $('.sidebar-header :text').val('').simulate('change');
-    expect(selectionCallbackSpy).toHaveBeenCalledWith({filteredLrps: null});
+    expect(selectionCallbackSpy).toHaveBeenCalledWith({filteredLrps: {}});
   });
 
   describe('when clicking on the sidebar toggle', function() {

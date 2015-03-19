@@ -1,3 +1,4 @@
+var classnames = require('classnames');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var prettyBytes = require('pretty-bytes');
@@ -5,7 +6,6 @@ var PUI = {Media: require('../vendor/media').Media};
 var React = require('react/addons');
 var {pickColor} = require('../helpers/application_helper');
 var {getRoutes, getHostname} = require('../helpers/lrp_helper');
-var {mergeClassNames} = require('../helpers/react_helper');
 var OverlayTrigger = require('react-bootstrap/lib/OverlayTrigger');
 var Tooltip = require('react-bootstrap/lib/Tooltip');
 
@@ -115,11 +115,7 @@ var DesiredLrp = React.createClass({
 
   render() {
     var {actualLrps, desiredLrp, className, sidebarCollapsed} = this.props;
-    className = mergeClassNames(
-      className,
-      'desired-lrp',
-      `app-details-${desiredLrp.processNumber}`
-    );
+    className = classnames(className, 'desired-lrp');
 
     var {process_guid: processGuid} = desiredLrp;
     var instancesRunning = actualLrps.filter(({state}) => state === 'RUNNING').length;

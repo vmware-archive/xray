@@ -86,7 +86,6 @@ describe('ReceptorMixin', function() {
       it('retains decorations on the desired lrps', function() {
         var desiredLrp = callbackSpy.calls.mostRecent().args[0].desiredLrps[0];
         expect(desiredLrp.filterString).toContain('two');
-        expect(desiredLrp.processNumber).toBeGreaterThan(0);
       });
 
       it('updates the desiredLrpsByProcessGuid', function() {

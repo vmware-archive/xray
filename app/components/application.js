@@ -36,7 +36,7 @@ var Application = React.createClass({
         hoverDesiredLrp: null,
         selectedDesiredLrp: null,
         hoverActualLrp: null,
-        filteredLrps: null
+        filteredLrps: {}
       },
       sidebar: {
         filter: '',

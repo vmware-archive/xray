@@ -10,8 +10,6 @@ function getRoutes(desiredLrp) {
   return routes[routers[0]];
 }
 
-var lrpCounter = 0;
-
 module.exports = {
   findLrp(lrps, {modification_tag: {epoch}}) {
     //TODO: desiredLrps could be a hash for O(1) lookup instead of a find
@@ -23,11 +21,9 @@ module.exports = {
   actualLrpIndex: lrp => lrp.process_guid + lpad(lrp.index, '0', 5),
 
   decorateDesiredLrp(lrp) {
-    var lrpLookup = this.props.$receptor.get('desiredLrpsByProcessGuid');
     var routes = getRoutes(lrp);
     var hostnames = flatten(routes.map(route => route.hostnames));
     lrp.filterString = [lrp.process_guid, ...hostnames].join('|');
-    lrp.processNumber = Object(lrpLookup[lrp.process_guid]).processNumber || ++lrpCounter;
   },
   getRoutes: getRoutes,
 
@@ -38,6 +34,8 @@ module.exports = {
   },
 
   filterDesiredLrps(desiredLrps, filter) {
-    return desiredLrps.filter(desiredLrp => desiredLrp.filterString.includes(filter));
+    return desiredLrps
+      .filter(desiredLrp => desiredLrp.filterString.includes(filter))
+      .reduce((memo, lrp) => Object.assign(memo, {[lrp.process_guid]: lrp}), {});
   }
 };

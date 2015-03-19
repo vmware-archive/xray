@@ -10,10 +10,8 @@ Factory.define('desiredLrp')
     return {'cf-router': Factory.buildList('route', 3)};
   })
   .attr('filterString', ['process_guid'], function(process_guid) { return process_guid; })
-  .sequence('processNumber')
   .after(function(desiredLrp, options) {
     if(options.raw) {
       delete desiredLrp.filterString;
-      delete desiredLrp.processNumber;
     }
   });

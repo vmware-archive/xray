@@ -44,22 +44,31 @@ describe('Sidebar', function() {
   });
 
   describe('when filtering', function() {
-    it('filters even when a desired lrp has no routes', function() {
-      expect(function() {
-        subject.setProps({$receptor: new Cursor({desiredLrps: [Factory.build('desiredLrp', {routes: null})], actualLrps, filter: 'filter'}, jasmine.createSpy('callback'))});
-      }).not.toThrow();
+    describe('when there are filtered lrps', function() {
+      beforeEach(function() {
+        var filteredLrps = {Amazon: desiredLrps[0]};
+        var $selection = new Cursor({filteredLrps}, jasmine.createSpy('callback'));
+        var $sidebar = new Cursor({filter: 'mazon'}, jasmine.createSpy('callback'));
+        subject.setProps({$selection, $sidebar});
+      });
+
+      it('renders the filtered lrps', function() {
+        expect($('.desired-lrp:eq(0)')).toContainText('Amazon');
+        expect($('.desired-lrp')).toHaveLength(1);
+      });
     });
 
-    it('filters the desired lrps based on the filterString', function() {
-      var processGuidFilter = 'Ama';
-      subject.setProps({$sidebar: new Cursor({filter: processGuidFilter}, jasmine.createSpy('callback'))});
-      expect($('.desired-lrp').map(function() { return $('.process-guid', this).text(); }).toArray()).toEqual(['Amazon']);
-    });
-
-    it('displays help text when there are no filtered results', function() {
-      subject.setProps({$sidebar: new Cursor({filter: 'ZZZZZZZZ!@$'}, jasmine.createSpy('callback'))});
-      expect('.desired-lrp').not.toExist();
-      expect('.sidebar').toContainText('No filtered processes found.');
+    describe('when there are no filtred lrps', function() {
+      beforeEach(function() {
+        var filteredLrps = {};
+        var $selection = new Cursor({filteredLrps}, jasmine.createSpy('callback'));
+        var $sidebar = new Cursor({filter: 'zzz'}, jasmine.createSpy('callback'));
+        subject.setProps({$selection, $sidebar});
+      });
+      it('displays help text when there are no filtered results', function() {
+        expect('.desired-lrp').not.toExist();
+        expect('.sidebar').toContainText('No filtered processes found.');
+      });
     });
   });
 });

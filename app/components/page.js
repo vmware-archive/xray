@@ -44,14 +44,6 @@ var Page = React.createClass({
     var selection = !!($selection.get('hoverDesiredLrp') || $selection.get('selectedDesiredLrp')) || $sidebar.get('filter');
     var sidebarCollapsed = $sidebar.get('sidebarCollapsed');
 
-    var highlightDesiredLrp = [$selection.get().selectedDesiredLrp || $selection.get().hoverDesiredLrp]
-      .filter(Boolean)
-      .map(desiredLrp => `show-app-${desiredLrp.processNumber}`);
-
-    var filteredLrps = ($selection.get('filteredLrps') || []).map(function(item){
-      return `show-app-${item.processNumber}`;
-    });
-
     var classes = mergeClassNames(
       'page',
       cx({
@@ -59,9 +51,7 @@ var Page = React.createClass({
         'sidebar-open': !sidebarCollapsed,
         'filtered': $sidebar.get('filter'),
         selection
-      }),
-      ...filteredLrps,
-      ...highlightDesiredLrp
+      })
     );
 
     return (

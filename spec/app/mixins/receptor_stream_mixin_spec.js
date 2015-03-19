@@ -110,7 +110,6 @@ describe('ReceptorStreamMixin', function() {
         beforeEach(function() {
           changedDesiredLrp = Object.assign({foo: 'bar'}, desiredLrp);
           delete changedDesiredLrp.filterString;
-          delete changedDesiredLrp.processNumber;
           MockEventSource.mostRecent().trigger('desired_lrp_changed', {
             desired_lrp_after: changedDesiredLrp
           });
@@ -130,7 +129,6 @@ describe('ReceptorStreamMixin', function() {
         it('still has decorations', function() {
           var desiredLrp = callbackSpy.calls.mostRecent().args[0].desiredLrps[0];
           expect(desiredLrp.filterString).toContain(changedDesiredLrp.process_guid);
-          expect(desiredLrp.processNumber).toBeGreaterThan(0);
         });
       });
 

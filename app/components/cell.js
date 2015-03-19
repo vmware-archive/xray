@@ -1,7 +1,7 @@
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var Container = require('./container');
 var React = require('react/addons');
-var {mergeClassNames} = require('../helpers/react_helper');
+var classnames = require('classnames');
 
 var types = React.PropTypes;
 
@@ -23,17 +23,29 @@ var Cell = React.createClass({
     return desiredLrpsByProcessGuid && desiredLrpsByProcessGuid[actualLrp.process_guid];
   },
 
+  getSelectionClasses({actualLrp, desiredLrp}) {
+    var {$selection} = this.props;
+    var {selectedDesiredLrp, hoverDesiredLrp, hoverActualLrp, filteredLrps} = $selection.get();
+    var isFiltered = !selectedDesiredLrp && !hoverDesiredLrp && filteredLrps && !!filteredLrps[actualLrp.process_guid];
+    return {
+      selected: isFiltered || selectedDesiredLrp === desiredLrp,
+      hover: hoverDesiredLrp === desiredLrp,
+      highlight: hoverActualLrp === actualLrp
+    };
+  },
+
   render() {
     var {cell, actualLrps, scaling, style, $selection} = this.props;
     var denominator = scaling === 'containers' ? 50 : cell.capacity[scaling];
     var containers = actualLrps && actualLrps.map(function(actualLrp) {
       var desiredLrp = this.getDesiredLrp(actualLrp);
-      var props = {actualLrp, denominator, desiredLrp, scaling, $selection};
+      var className = classnames(this.getSelectionClasses({actualLrp, desiredLrp}));
+      var props = {actualLrp, denominator, desiredLrp, scaling, $selection, className};
       return (<Container {...props} key={actualLrp.modification_tag.epoch}/>);
     }, this);
 
     return (
-      <li className={mergeClassNames('cell', this.props.className)} style={style}>
+      <li className={classnames('cell', this.props.className)} style={style}>
         {containers}
       </li>
     );

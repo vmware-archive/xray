@@ -21,8 +21,7 @@ var SidebarHeader = React.createClass({
     var filter = e.target.value;
     $sidebar.merge({filter: filter});
     var filteredLrps = filter.length ?
-      helper.filterDesiredLrps(desiredLrps, filter) :
-      null;
+      helper.filterDesiredLrps(desiredLrps, filter) : {};
     $selection.merge({filteredLrps});
   },
 

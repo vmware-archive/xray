@@ -33,13 +33,11 @@ var Container = React.createClass({
     var flex;
     var undesired;
     var backgroundColor;
-    var processNumber;
     var width;
 
     if (!desiredLrp) {
       undesired = true;
       backgroundColor = null;
-      processNumber = -1;
     } else {
       if (scaling !== 'containers') {
         var numerator = desiredLrp[scaling];
@@ -48,7 +46,6 @@ var Container = React.createClass({
         flex = numerator === 0;
       }
       backgroundColor = pickColor(this.context.colors, getHostname(desiredLrp) || processGuid);
-      processNumber = desiredLrp.processNumber;
     }
 
     var style = {width, backgroundColor};
@@ -59,8 +56,7 @@ var Container = React.createClass({
         claimed: state === 'CLAIMED',
         flex,
         undesired
-      }),
-      `app-${processNumber}`);
+      }));
     var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': instanceGuid, onClick: this.onClick, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
     return (<a {...props}/>);
   }

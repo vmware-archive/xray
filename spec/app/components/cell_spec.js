@@ -24,9 +24,9 @@ describe('Cell', function() {
     ];
 
     desiredLrps = [
-      Factory.build('desiredLrp', {process_guid: 'runtime', disk_mb: 100, memory_mb: 25, processNumber: 3}),
-      Factory.build('desiredLrp', {process_guid: 'diego', disk_mb: 300, memory_mb: 15, processNumber: 1}),
-      Factory.build('desiredLrp', {process_guid: 'google', disk_mb: 200, memory_mb: 10, processNumber: 2})
+      Factory.build('desiredLrp', {process_guid: 'runtime', disk_mb: 100, memory_mb: 25}),
+      Factory.build('desiredLrp', {process_guid: 'diego', disk_mb: 300, memory_mb: 15}),
+      Factory.build('desiredLrp', {process_guid: 'google', disk_mb: 200, memory_mb: 10})
     ];
     desiredLrpsByProcessGuid = {
       runtime: desiredLrps[0],
@@ -50,13 +50,82 @@ describe('Cell', function() {
 
     it('renders actual lrps', function() {
       expect('.cell .app-container').toHaveLength(actualLrps.length);
-      expect('.cell .app-container:eq(0)').toHaveClass('app-1');
-      expect('.cell .app-container:eq(1)').toHaveClass('app-2');
-      expect('.cell .app-container:eq(2)').toHaveClass('app-3');
     });
 
     it('sorts the actual lrps by process guid and index', function() {
       expect($('.app-container').map(function() { return $(this).data('instance-guid'); }).toArray()).toEqual(['one', 'two', 'three']);
+    });
+
+    describe('with a selected lrp', function() {
+      beforeEach(function() {
+        $selection = new Cursor({selectedDesiredLrp: desiredLrps[1]});
+        subject.setProps({$selection});
+      });
+
+      it('adds the selected class to the container', function() {
+        expect('.app-container:eq(0)').toHaveClass('selected');
+      });
+    });
+
+    describe('with a hover desired lrp', function() {
+      beforeEach(function() {
+        $selection = new Cursor({hoverDesiredLrp: desiredLrps[1]});
+        subject.setProps({$selection});
+      });
+
+      it('adds the hover class to the container', function() {
+        expect('.app-container:eq(0)').toHaveClass('hover');
+      });
+    });
+
+    describe('with a hover actual lrp', function() {
+      beforeEach(function() {
+        $selection = new Cursor({hoverActualLrp: actualLrps[1]});
+        subject.setProps({$selection});
+      });
+
+      it('adds the highlight class to the container', function() {
+        expect('.app-container:eq(0)').not.toHaveClass('highlight');
+        expect('.app-container:eq(1)').toHaveClass('highlight');
+      });
+    });
+
+    describe('with filtered desired lrps', function() {
+      var filteredLrps;
+      beforeEach(function() {
+        filteredLrps = {diego: desiredLrps[1]};
+        $selection = new Cursor({filteredLrps});
+        subject.setProps({$selection});
+      });
+      it('adds the selected class if the desired lrp passes the filter', function() {
+        expect('.app-container:eq(0)').toHaveClass('selected');
+        expect('.app-container:eq(1)').not.toHaveClass('selected');
+        expect('.app-container:eq(2)').not.toHaveClass('selected');
+      });
+
+      describe('when there is also a selected desiredLrp', function() {
+        beforeEach(function() {
+          $selection = new Cursor({selectedDesiredLrp: desiredLrps[2], filteredLrps});
+          subject.setProps({$selection});
+        });
+        it('does not select from the filter', function() {
+          expect('.app-container:eq(0)').not.toHaveClass('selected');
+          expect('.app-container:eq(1)').toHaveClass('selected');
+          expect('.app-container:eq(2)').not.toHaveClass('selected');
+        });
+      });
+
+      describe('when there is also a hover desiredLrp', function() {
+        beforeEach(function() {
+          $selection = new Cursor({hoverDesiredLrp: desiredLrps[2], filteredLrps});
+          subject.setProps({$selection});
+        });
+        it('does not select from the filter', function() {
+          expect('.app-container:eq(0)').not.toHaveClass('selected');
+          expect('.app-container:eq(1)').toHaveClass('hover');
+          expect('.app-container:eq(2)').not.toHaveClass('selected');
+        });
+      });
     });
 
     describe('when an actualLrp does not have a desiredLrp', function() {

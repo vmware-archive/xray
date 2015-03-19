@@ -45,7 +45,6 @@ describe('Page', function() {
 
     it('adds the selection class to the page', function() {
       expect('.page').toHaveClass('selection');
-      expect('.page').toHaveClass(`show-app-${desiredLrp.processNumber}`);
     });
 
     describe('when clicking on the scrim', function() {
@@ -69,7 +68,6 @@ describe('Page', function() {
 
     it('adds the selection class to the page', function() {
       expect('.page').toHaveClass('selection');
-      expect('.page').toHaveClass(`show-app-${desiredLrp.processNumber}`);
     });
 
     it('does not have a scrim', function() {
@@ -79,16 +77,14 @@ describe('Page', function() {
 
   describe('when a desiredLrp is filtered', function() {
     beforeEach(function() {
-      var desiredLrps = [Factory.build('desiredLrp', {processNumber: 1}), Factory.build('desiredLrp'), {processNumber: 2}];
+      var desiredLrps = [Factory.build('desiredLrp'), Factory.build('desiredLrp')];
       $selection = new Cursor({filteredLrps: desiredLrps}, jasmine.createSpy('callback'));
       $sidebar = new Cursor({filter: 'foo'}, jasmine.createSpy('callback'));
       subject.setProps({$selection, $sidebar});
     });
 
     it('adds the selection class to the page', function() {
-      expect('.page').toHaveClass('filtered');
-      expect('.page').toHaveClass('show-app-1');
-      expect('.page').toHaveClass('show-app-2');
+      expect('.page').toHaveClass('selection');
     });
   });
 

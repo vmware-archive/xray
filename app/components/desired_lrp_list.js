@@ -2,7 +2,7 @@ var DesiredLrp = require('./desired_lrp');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var React = require('react/addons');
 var SidebarHeader = require('./sidebar_header');
-var {filterDesiredLrps} = require('../helpers/lrp_helper');
+var classnames = require('classnames');
 
 var types = React.PropTypes;
 
@@ -34,7 +34,7 @@ var DesiredLrpList = React.createClass({
 
   renderDesiredLrp({actualLrps, sidebarCollapsed, $selection}, desiredLrp) {
     var key = desiredLrp.process_guid;
-    var className = 'clickable';
+    var className = classnames('clickable', {hover: $selection.get('hoverDesiredLrp') === desiredLrp});
     var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
     return (
       <li key={key}>
@@ -48,10 +48,10 @@ var DesiredLrpList = React.createClass({
     var {desiredLrps} = $receptor.get();
     var {filter} = $sidebar.get();
     desiredLrps = desiredLrps || [];
-    if (filter) {
-      desiredLrps = filterDesiredLrps(desiredLrps, filter);
+    if(filter) {
+      var {filteredLrps} = $selection.get();
+      desiredLrps = Object.keys(filteredLrps).map(key => filteredLrps[key]);
     }
-
     return (
       <div className="desired-lrp-list">
         <SidebarHeader {...{$receptor, $selection, $sidebar}}/>

@@ -19,6 +19,19 @@ describe('DesiredLrpList', function() {
     React.unmountComponentAtNode(root);
   });
 
+  describe('when a desired lrp is hovered', function() {
+    beforeEach(function() {
+      var $selection = new Cursor({hoverDesiredLrp: desiredLrps[1]}, jasmine.createSpy('callback'));
+      subject.setProps({$selection});
+    });
+
+    it('highlights the desired lrp', function() {
+      expect('.desired-lrp:eq(0)').not.toHaveClass('hover');
+      expect('.desired-lrp:eq(1)').toHaveClass('hover');
+      expect('.desired-lrp:eq(2)').not.toHaveClass('hover');
+    });
+  });
+
   describe('when the sidebar is collapsed', function() {
     beforeEach(function() {
       var $sidebar = new Cursor({sidebarCollapsed: true}, jasmine.createSpy('callback'));
