@@ -69,16 +69,21 @@
 }
 
 .desired-lrp {
+  transition: opacity 200ms ease-in;
+
+  .selection & {
+    opacity: 0.2;
+  }
+  &.hover {
+    opacity: 1.0
+  }
+
   .filtered & {
     background-color: transparent;
   }
 
   .routes a {
     display: block
-  }
-
-  &.hover {
-    background-color: $accent-2;
   }
 }
 
