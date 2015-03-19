@@ -1,3 +1,4 @@
+var Filter = require('./filter');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var PUI = {Icon: require('../vendor/icon').Icon};
 var React = require('react/addons');
@@ -14,7 +15,7 @@ var SidebarHeader = React.createClass({
     $sidebar: types.object.isRequired
   },
 
-  change(e) {
+  filter(e) {
     var {$receptor, $selection, $sidebar} = this.props;
     var desiredLrps = $receptor.get().desiredLrps;
     var filter = e.target.value;
@@ -35,13 +36,11 @@ var SidebarHeader = React.createClass({
     var filter = $sidebar.get('filter');
     return (
       <header className="sidebar-header mam">
-        <a className="sidebar-toggle mrm txt-c" role="button" onClick={this.toggleSidebar} title="toggle sidebar">
+        <a className="form-control sidebar-toggle mrm txt-c" role="button" onClick={this.toggleSidebar} title="toggle sidebar">
           <span className="sr-only">toggle sidebar</span>
           <PUI.Icon name="angle-double-right" />
         </a>
-        <div className="filter-processes">
-          <input className="form-control" type="text" placeholder="Filter processes&hellip;" value={filter} onChange={this.change}/>
-        </div>
+        <Filter className="filter-processes" placeholder="Filter &hellip;" value={filter} onFilter={this.filter}/>
       </header>
     );
   }

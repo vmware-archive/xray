@@ -10,6 +10,11 @@ describe('Footer', function() {
     var Footer = require('../../../app/components/footer');
     React.render(<Footer {...{$scaling, $receptor}}/>, root);
   });
+
+  afterEach(function() {
+    React.unmountComponentAtNode(root);
+  });
+
   describe('scaling options', function() {
     it('defaults to containers', function() {
       expect('label:contains("containers") :radio').toBeChecked();
