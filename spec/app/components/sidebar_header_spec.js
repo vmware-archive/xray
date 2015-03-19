@@ -36,6 +36,15 @@ describe('SidebarHeader', function() {
     expect(selectionCallbackSpy).toHaveBeenCalledWith({filteredLrps});
   });
 
+  it('sets the search results to null when the user removes the filter text', function() {
+    var filteredLrps = [];
+    lrpHelper.filterDesiredLrps.and.returnValue(filteredLrps);
+    $('.sidebar-header :text').val('foo').simulate('change');
+    selectionCallbackSpy.calls.reset();
+    $('.sidebar-header :text').val('').simulate('change');
+    expect(selectionCallbackSpy).toHaveBeenCalledWith({filteredLrps: null});
+  });
+
   describe('when clicking on the sidebar toggle', function() {
     beforeEach(function() {
       $('.sidebar-toggle').simulate('click');

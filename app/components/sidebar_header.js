@@ -19,7 +19,10 @@ var SidebarHeader = React.createClass({
     var desiredLrps = $receptor.get().desiredLrps;
     var filter = e.target.value;
     $sidebar.merge({filter: filter});
-    $selection.merge({filteredLrps: helper.filterDesiredLrps(desiredLrps, filter)});
+    var filteredLrps = filter.length ?
+      helper.filterDesiredLrps(desiredLrps, filter) :
+      null;
+    $selection.merge({filteredLrps});
   },
 
   toggleSidebar() {
