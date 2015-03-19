@@ -83,9 +83,19 @@
 }
 
 .desired-lrp-detail {
+  .desired-lrp-info {
+    font-size: 14px;
+    line-height: 1.2
+  }
+
   .actual-lrps {
     cursor: default;
-    font-size: 18px;
+    font-size: 16px;
+
+    .table > tbody > tr > td {
+      border-color: $gray-2;
+    }
+
     .index, .since {
       width: 15%;
     }

@@ -46,7 +46,7 @@ var ActualLrp = React.createClass({
       <tr className={className} key={index} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
         <td className="phm index txt-c">{index}</td>
         {this.renderLrpState({state, cellId, placementError})}
-        <td className="phm since txt-r"><Timeago dateTime={new Date(since / 1000000)}/></td>
+        <td className="phm since txt-l"><Timeago dateTime={new Date(since / 1000000)}/></td>
       </tr>
     );
   }
