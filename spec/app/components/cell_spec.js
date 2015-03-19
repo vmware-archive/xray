@@ -148,9 +148,9 @@ describe('Cell', function() {
       subject = render({scaling: 'containers'}, {desiredLrps: null});
     });
     it('renders actual lrps at container scaling', function() {
-      expect('.app-container:eq(0)').toHaveCss({width: '2px'});
-      expect('.app-container:eq(1)').toHaveCss({width: '2px'});
-      expect('.app-container:eq(2)').toHaveCss({width: '2px'});
+      expect('.app-container:eq(0)').not.toHaveAttr('style', /width/);
+      expect('.app-container:eq(1)').not.toHaveAttr('style', /width/);
+      expect('.app-container:eq(2)').not.toHaveAttr('style', /width/);
     });
   });
 });

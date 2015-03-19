@@ -32,9 +32,9 @@ var Container = React.createClass({
 
     var flex;
     var undesired;
-    var percentWidth = 1.0 / 50.0;
     var backgroundColor;
     var processNumber;
+    var width;
 
     if (!desiredLrp) {
       undesired = true;
@@ -43,14 +43,15 @@ var Container = React.createClass({
     } else {
       if (scaling !== 'containers') {
         var numerator = desiredLrp[scaling];
-        percentWidth = numerator / denominator;
+        var percentWidth = numerator / denominator;
+        width = `${percentWidth * 100}%`;
         flex = numerator === 0;
       }
       backgroundColor = pickColor(this.context.colors, getHostname(desiredLrp) || processGuid);
       processNumber = desiredLrp.processNumber;
     }
 
-    var style = {width: `${percentWidth * 100}%`, backgroundColor: backgroundColor};
+    var style = {width, backgroundColor};
     className = mergeClassNames(
       className,
       cx({
