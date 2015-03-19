@@ -65,13 +65,13 @@
   }
 }
 
-.tooltip {
-  $tooltip-color: #1c1c1c;
-  > .tooltip-arrow {
-    border-left-color: $tooltip-color !important;
+.desired-lrp {
+  .filtered & {
+    background-color: transparent;
   }
-  > .tooltip-inner {
-    background-color: $tooltip-color;
+
+  .routes a {
+    display: block
   }
 }
 
@@ -110,10 +110,6 @@
 
 .sidebar-hover-thing2 {
   background: $accent-2;
-}
-
-.filtered .desired-lrp {
-  background-color: transparent;
 }
 
 /* Won't work in chrome if more than 2000 selectors extending the same style */
