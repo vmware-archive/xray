@@ -63,8 +63,17 @@
   .port {
     width: 45px;
   }
-  .list-group-inverse > li {
-    display: block;
+  .list-group-inverse {
+    display: flex;
+    flex-direction: column;
+
+    > li {
+      display: block;
+      order: 2;
+      &.error {
+        order: 1;
+      }
+    }
   }
 }
 

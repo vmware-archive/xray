@@ -104,7 +104,12 @@ var DesiredLrp = React.createClass({
     desiredLrp: types.object.isRequired,
     actualLrps: types.array.isRequired,
     sidebarCollapsed: types.bool,
+    tag: types.string,
     $selection: types.object.isRequired
+  },
+
+  getDefaultProps() {
+    return {tag: 'div'};
   },
 
   contextTypes: {
@@ -114,19 +119,20 @@ var DesiredLrp = React.createClass({
   ignorePureRenderProps: ['$selection'],
 
   render() {
-    var {actualLrps, desiredLrp, className, sidebarCollapsed} = this.props;
-    className = classnames(className, 'desired-lrp');
+    var {actualLrps, desiredLrp, className, sidebarCollapsed, tag: Tag} = this.props;
 
     var {process_guid: processGuid} = desiredLrp;
     var instancesRunning = actualLrps.filter(({state}) => state === 'RUNNING').length;
     var instancesError = instancesRunning < desiredLrp.instances;
     var desiredLrpInfo = (<DesiredLrpInfo {...{actualLrps, desiredLrp}}/>);
+
+    className = classnames(className, 'desired-lrp', {error: instancesError});
     return (
-      <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>
-        <PUI.Media leftImage={<Container {...{desiredLrp, tooltip: sidebarCollapsed && desiredLrpInfo}}/>} key={processGuid} className={cx({'man': true, pal: !sidebarCollapsed, pam: sidebarCollapsed, 'error': instancesError})}>
+      <Tag onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>
+        <PUI.Media leftImage={<Container {...{desiredLrp, tooltip: sidebarCollapsed && desiredLrpInfo}}/>} key={processGuid} className={cx({'man': true, pal: !sidebarCollapsed, pam: sidebarCollapsed})}>
           {desiredLrpInfo}
         </PUI.Media>
-      </div>
+      </Tag>
     );
   }
 });

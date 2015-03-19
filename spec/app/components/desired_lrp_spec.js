@@ -132,7 +132,7 @@ describe('DesiredLrp', function() {
 
   describe('when not all of the actualLrps are running', function() {
     it('marks the lrp with an error', function() {
-      expect($('.desired-lrp .error')).toExist();
+      expect($('.desired-lrp')).toHaveClass('error');
     });
   });
 

@@ -37,17 +37,14 @@ var DesiredLrpList = React.createClass({
     var className = classnames('clickable', {hover: $selection.get('hoverDesiredLrp') === desiredLrp});
     var filtered = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
     return (
-      <li key={key}>
-        <DesiredLrp {...{className, desiredLrp, actualLrps: filtered, sidebarCollapsed, $selection}}/>
-      </li>
+      <DesiredLrp {...{className, desiredLrp, actualLrps: filtered, sidebarCollapsed, $selection, key, tag: 'li'}}/>
     );
   },
 
   render() {
     var {$receptor, $selection, $sidebar} = this.props;
-    var {desiredLrps} = $receptor.get();
+    var {desiredLrps = []} = $receptor.get();
     var {filter} = $sidebar.get();
-    desiredLrps = desiredLrps || [];
     if(filter) {
       var {filteredLrps} = $selection.get();
       desiredLrps = Object.keys(filteredLrps).map(key => filteredLrps[key]);
