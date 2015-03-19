@@ -37,9 +37,7 @@ function applyUpdate(newArr, id, options = {}) {
 
 function setIndex(newArr, id) {
   return {
-    $apply: function(oldIndex) {
-      return newArr.reduce((memo, obj) => (memo[obj[id]] = oldIndex[obj[id]] || obj, memo), {});
-    }
+    $set: newArr.reduce((memo, obj) => (memo[obj[id]] = obj, memo), {})
   };
 }
 
@@ -56,14 +54,20 @@ var ReceptorMixin = {
   updateReceptor() {
     var {$receptor} = this.props;
     var self = this;
+
     return ReceptorApi.fetch()
       .then(function({actualLrps, cells, desiredLrps}) {
         desiredLrps.forEach(decorateDesiredLrp.bind(self));
+
+        var change = (a, b) => a.modification_tag.index < b.modification_tag.index;
+        var updateDesiredLrps = applyUpdate(desiredLrps, 'process_guid', {change}).$apply;
+        var newDesiredLrps = updateDesiredLrps($receptor.get('desiredLrps'));
+
         $receptor.update({
           cells: applyUpdate(cells, 'cell_id', {sortBy: 'cell_id'}),
-          actualLrps: applyUpdate(actualLrps, 'instance_guid', {change: (a, b) => a.since !== b.since, sortBy: actualLrpIndex}),
-          desiredLrps: applyUpdate(desiredLrps, 'process_guid'),
-          desiredLrpsByProcessGuid: setIndex(desiredLrps, 'process_guid')
+          actualLrps: applyUpdate(actualLrps, 'instance_guid', {change, sortBy: actualLrpIndex}),
+          desiredLrps: {$set: newDesiredLrps},
+          desiredLrpsByProcessGuid: setIndex(newDesiredLrps, 'process_guid')
         });
       })
       .catch(reason => console.error('Receptor Promise failed because', reason));

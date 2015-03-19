@@ -105,23 +105,54 @@ describe('ReceptorStreamMixin', function() {
     });
 
     describe('when desired lrp change events is received', function() {
-      var newDesiredLrp;
-      beforeEach(function() {
-        newDesiredLrp = Factory.build('desiredLrp');
-        MockEventSource.mostRecent().trigger('desired_lrp_changed', {
-          desired_lrp_after: newDesiredLrp
+      describe('when the desiredLrp does exist', function() {
+        var changedDesiredLrp;
+        beforeEach(function() {
+          changedDesiredLrp = Object.assign({foo: 'bar'}, desiredLrp);
+          delete changedDesiredLrp.filterString;
+          delete changedDesiredLrp.processNumber;
+          MockEventSource.mostRecent().trigger('desired_lrp_changed', {
+            desired_lrp_after: changedDesiredLrp
+          });
+          expect(callbackSpy).toHaveBeenCalled();
         });
-        expect(callbackSpy).toHaveBeenCalled();
+
+        it('updates the desiredLrp on the receptor', function() {
+          var desiredLrps = callbackSpy.calls.mostRecent().args[0].desiredLrps;
+          expect(desiredLrps).toContain(jasmine.objectContaining(changedDesiredLrp));
+        });
+
+        it('updates the desiredLrp on the index', function() {
+          var desiredLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].desiredLrpsByProcessGuid;
+          expect(desiredLrpsByProcessGuid[changedDesiredLrp.process_guid]).toEqual(jasmine.objectContaining(changedDesiredLrp));
+        });
+
+        it('still has decorations', function() {
+          var desiredLrp = callbackSpy.calls.mostRecent().args[0].desiredLrps[0];
+          expect(desiredLrp.filterString).toContain(changedDesiredLrp.process_guid);
+          expect(desiredLrp.processNumber).toBeGreaterThan(0);
+        });
       });
 
-      it('adds the desired lrp to the receptor', function() {
-        var desiredLrps = callbackSpy.calls.mostRecent().args[0].desiredLrps;
-        expect(desiredLrps).toContain(newDesiredLrp);
-      });
+      describe('when the desiredLrp does not exist yet', function() {
+        var newDesiredLrp;
+        beforeEach(function() {
+          newDesiredLrp = Factory.build('desiredLrp', {}, {raw: true});
+          MockEventSource.mostRecent().trigger('desired_lrp_changed', {
+            desired_lrp_after: newDesiredLrp
+          });
+          expect(callbackSpy).toHaveBeenCalled();
+        });
 
-      it('adds the desired lrp to the index', function() {
-        var desiredLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].desiredLrpsByProcessGuid;
-        expect(desiredLrpsByProcessGuid[newDesiredLrp.process_guid]).toEqual(newDesiredLrp);
+        it('adds the desired lrp to the receptor', function() {
+          var desiredLrps = callbackSpy.calls.mostRecent().args[0].desiredLrps;
+          expect(desiredLrps).toContain(jasmine.objectContaining(newDesiredLrp));
+        });
+
+        it('adds the desired lrp to the index', function() {
+          var desiredLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].desiredLrpsByProcessGuid;
+          expect(desiredLrpsByProcessGuid[newDesiredLrp.process_guid]).toEqual(jasmine.objectContaining(newDesiredLrp));
+        });
       });
     });
   });

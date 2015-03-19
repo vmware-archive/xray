@@ -54,18 +54,23 @@ function changeResource(cursorName, resourceKey, options = {}) {
   return function({[resourceKey]: resource}) {
     var {$receptor} = this.props;
     var oldResource = $receptor.get(cursorName).find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
+
+    if(options.decorate) {
+      options.decorate(resource);
+    }
     $receptor.apply(function(receptor) {
       if (!oldResource) {
-        if (options.indexBy) {
-          var indexBy = receptor[options.indexBy.name];
-          indexBy[resource[options.indexBy.key]] = resource;
-        }
-
         receptor[cursorName].push(resource);
       } else {
         var index = receptor[cursorName].indexOf(oldResource);
         receptor[cursorName][index] = resource;
       }
+
+      if (options.indexBy) {
+        var indexBy = receptor[options.indexBy.name];
+        indexBy[resource[options.indexBy.key]] = resource;
+      }
+
       return receptor;
     });
   };

@@ -11,7 +11,7 @@ describe('ReceptorMixin', function() {
     });
     callbackSpy = jasmine.createSpy('callback');
     var Cursor = require('../../../app/lib/cursor');
-    two = Factory.build('desiredLrp', {process_guid: 'two'});
+    two = Factory.build('desiredLrp', {process_guid: 'two', modification_tag: {epoch: 'epoch', index: 0}}, {raw: true});
     var $receptor = new Cursor({cells: [], desiredLrps: [two], actualLrps: [], desiredLrpsByProcessGuid: {two}}, callbackSpy);
     subject = React.render(<Klass {...{$receptor}}/>, root);
   });
@@ -62,6 +62,36 @@ describe('ReceptorMixin', function() {
         expect(desiredLrpsByProcessGuid.one).toBe(desiredLrps[0]);
         expect(desiredLrpsByProcessGuid.two).toBe(two);
         expect(desiredLrpsByProcessGuid.three).toBe(desiredLrps[2]);
+      });
+    });
+
+    describe('when desired lrps are changed', function() {
+      var changedLrp;
+      beforeEach(function() {
+        subject.updateReceptor();
+        changedLrp = Object.assign({}, two, {instances: 55, modification_tag: {epoch: 'epoch', index: 1}});
+        receptorPromise.resolve({
+          cells: [],
+          desiredLrps: [changedLrp],
+          actualLrps: []
+        });
+        expect(callbackSpy).toHaveBeenCalled();
+      });
+
+      it('updates the desired lrps', function() {
+        var desiredLrp = callbackSpy.calls.mostRecent().args[0].desiredLrps[0];
+        expect(desiredLrp).toEqual(jasmine.objectContaining(changedLrp));
+      });
+
+      it('retains decorations on the desired lrps', function() {
+        var desiredLrp = callbackSpy.calls.mostRecent().args[0].desiredLrps[0];
+        expect(desiredLrp.filterString).toContain('two');
+        expect(desiredLrp.processNumber).toBeGreaterThan(0);
+      });
+
+      it('updates the desiredLrpsByProcessGuid', function() {
+        var desiredLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].desiredLrpsByProcessGuid;
+        expect(desiredLrpsByProcessGuid.two).toEqual(jasmine.objectContaining(changedLrp));
       });
     });
 

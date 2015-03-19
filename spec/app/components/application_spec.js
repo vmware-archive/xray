@@ -77,10 +77,10 @@ describe('Application', function() {
         ];
 
         oldActualLrps = [
-          Factory.build('actualLrp', {cell_id: 'immutable', since: 1, instance_guid: '1'}),
-          Factory.build('actualLrp', {cell_id: 'mutable', since: 1, instance_guid: '2'}),
-          Factory.build('actualLrp', {cell_id: 'mutable', since: 1, instance_guid: '3'}),
-          Factory.build('actualLrp', {cell_id: 'mutable', since: 1, instance_guid: '-1'})
+          Factory.build('actualLrp', {cell_id: 'immutable', instance_guid: '1', modification_tag: {epoch: '1', index: 0}}),
+          Factory.build('actualLrp', {cell_id: 'mutable', instance_guid: '2', modification_tag: {epoch: '2', index: 0}}),
+          Factory.build('actualLrp', {cell_id: 'mutable', instance_guid: '3', modification_tag: {epoch: '3', index: 0}}),
+          Factory.build('actualLrp', {cell_id: 'mutable', instance_guid: '-1', modification_tag: {epoch: '-1', index: 0}})
         ];
 
         oldDesiredLrps = [
@@ -123,7 +123,7 @@ describe('Application', function() {
           newActualLrps = [
             Object.assign({}, oldActualLrps[0]),
             Object.assign({}, oldActualLrps[1]),
-            Object.assign({}, oldActualLrps[2], {since: 10}),
+            Object.assign({}, oldActualLrps[2], {modification_tag: {epoch: '3', index: 10}}),
             Factory.build('actualLrp', {cell_id: 'mutable', since: 1, instance_guid: '4'}),
             Factory.build('actualLrp', {cell_id: 'new', since: 1, instance_guid: '5'})
           ];
