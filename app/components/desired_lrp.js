@@ -2,7 +2,7 @@ var classnames = require('classnames');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var prettyBytes = require('pretty-bytes');
-var PUI = {Media: require('../vendor/media').Media};
+var ui = {Media: require('../vendor/media').Media, Icon: require('../vendor/icon').Icon};
 var React = require('react/addons');
 var {pickColor} = require('../helpers/application_helper');
 var {getRoutes, getHostname} = require('../helpers/lrp_helper');
@@ -49,6 +49,7 @@ var Routes = React.createClass({
 var Container = React.createClass({
   propTypes: {
     desiredLrp: types.object.isRequired,
+    instancesError: types.bool.isRequired,
     tooltip: types.oneOfType([types.object, types.bool])
   },
 
@@ -57,17 +58,23 @@ var Container = React.createClass({
   },
 
   render() {
-    var {desiredLrp, tooltip} = this.props;
+    var {desiredLrp, tooltip, instancesError} = this.props;
     var {process_guid: processGuid} = desiredLrp;
     var containerColor = pickColor(this.context.colors, getHostname(desiredLrp) || processGuid);
     var imageStyle = {backgroundColor: containerColor};
 
+    var container = (
+      <a className={cx({'app-container-sidebar': true})} style={imageStyle} role="button">
+        {instancesError && <ui.Icon name="exclamation-circle"/>}
+      </a>
+      );
+
     if (!tooltip) {
-      return (<a className={cx({'app-container-sidebar': true})} style={imageStyle} role="button"/>);
+      return container;
     }
     return (
       <OverlayTrigger placement="left" overlay={<Tooltip>{tooltip}</Tooltip>}>
-        <a className={cx({'app-container-sidebar': true})} style={imageStyle} role="button"/>
+        {container}
       </OverlayTrigger>
     );
   }
@@ -129,9 +136,9 @@ var DesiredLrp = React.createClass({
     className = classnames(className, 'desired-lrp', {error: instancesError});
     return (
       <Tag onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>
-        <PUI.Media leftImage={<Container {...{desiredLrp, tooltip: sidebarCollapsed && desiredLrpInfo}}/>} key={processGuid} className="man">
+        <ui.Media leftImage={<Container {...{instancesError, desiredLrp, tooltip: sidebarCollapsed && desiredLrpInfo}}/>} key={processGuid} className="man">
           {desiredLrpInfo}
-        </PUI.Media>
+        </ui.Media>
       </Tag>
     );
   }

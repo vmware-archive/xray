@@ -46,6 +46,7 @@
 .desired-lrp-list, .desired-lrp-detail {
   display: flex;
   flex-direction: column;
+
   .media, .media-body {
     overflow: hidden;
   }
@@ -54,10 +55,16 @@
   }
   .media-body {
     width: auto;
+    margin: $desired-lrp-gutter $desired-lrp-gutter $desired-lrp-gutter 0;
   }
+
+  .error .media-left {
+    margin-top: $desired-lrp-gutter - $error-gutter;
+  }
+
   .media-left {
     float: left;
-    padding-right: $desired-lrp-gutter;
+    padding: $desired-lrp-gutter - $error-gutter;
   }
 }
 
@@ -79,7 +86,7 @@
   }
 
   .error {
-    a, .metadata {
+    .metadata, .routes a {
       @extend .error;
     }
   }
@@ -87,7 +94,6 @@
 
 .desired-lrp {
   transition: opacity 200ms ease-in;
-  padding: 15px;
 
   .selection & {
     opacity: 0.2;
@@ -104,19 +110,17 @@
     display: block
   }
 
-  &.error {
-    $error-gutter: 3px;
-    padding: {
-      top: $desired-lrp-gutter - $error-gutter;
-      left: $desired-lrp-gutter - $error-gutter;
-    }
-    .process-guid {
-      margin-top: $error-gutter;
-    }
-    .app-container-sidebar {
-      box-sizing: content-box;
-      border: $error-gutter solid $red-3;
-    }
+  .app-container-sidebar {
+    outline: $error-gutter solid transparent;
+    box-sizing: content-box;
+    margin: $error-gutter;
+    line-height: $app-container-size;
+    text-align: center;
+    color: $gray-11;
+  }
+
+  &.error .app-container-sidebar {
+    outline-color: $red-3;
   }
 }
 

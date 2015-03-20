@@ -132,7 +132,11 @@ describe('DesiredLrp', function() {
 
   describe('when not all of the actualLrps are running', function() {
     it('marks the lrp with an error', function() {
-      expect($('.desired-lrp')).toHaveClass('error');
+      expect('.desired-lrp').toHaveClass('error');
+    });
+
+    it('adds a error icon to the container', function() {
+      expect('.desired-lrp .app-container-sidebar .fa-exclamation-circle').toExist();
     });
   });
 
