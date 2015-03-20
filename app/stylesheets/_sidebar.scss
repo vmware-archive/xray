@@ -107,6 +107,10 @@
 }
 
 .desired-lrp-detail {
+  .desired-lrp {
+    opacity: 1;
+  }
+
   .desired-lrp-info {
     font-size: 14px;
     line-height: 1.2
@@ -130,13 +134,22 @@
       opacity: 0.35;
     }
   }
+
+  &:hover {
+    .actual-lrp {
+      opacity: 0.2;
+    }
+  }
   .actual-lrp {
     &.claimed {
       animation-name: almost-fade-in;
     }
+    border: 2px solid $shadow-3;
 
     &:hover {
-      background-color: $accent-2;
+      border-color: $gray-11;
+      outline: 2px solid $gray-11;
+      opacity: 1;
     }
   }
 }
