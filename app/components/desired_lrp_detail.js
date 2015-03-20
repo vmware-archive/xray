@@ -10,11 +10,12 @@ var DesiredLrpDetail = React.createClass({
 
   propTypes: {
     $receptor: types.object.isRequired,
-    $selection: types.object.isRequired
+    $selection: types.object.isRequired,
+    $sidebar: types.object.isRequired
   },
 
   render() {
-    var {$receptor, $selection} = this.props;
+    var {$receptor, $selection, $sidebar} = this.props;
     var {actualLrps = [], desiredLrpsByProcessGuid = {}} = $receptor.get();
     var {selectedDesiredLrp} = $selection.get();
     var desiredLrp = selectedDesiredLrp && desiredLrpsByProcessGuid[selectedDesiredLrp.process_guid];
@@ -29,12 +30,14 @@ var DesiredLrpDetail = React.createClass({
     }
 
     actualLrps = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
-    var props = {actualLrps, desiredLrp, $selection};
+    var $hoverActualLrp = $selection.refine('hoverActualLrp');
+    var $hoverSidebarActualLrp = $sidebar.refine('hoverActualLrp');
+
     return (
       <div className="desired-lrp-detail">
-        <DesiredLrp {...props}/>
+        <DesiredLrp {...{actualLrps, desiredLrp, $selection}}/>
         {isDeleted && <span className="pal">This process has been deleted. Information in this panel is out of date.</span>}
-        <ActualLrpList {...{actualLrps, $hoverActualLrp: $selection.refine('hoverActualLrp')}}/>
+        <ActualLrpList {...{actualLrps, $hoverActualLrp, $hoverSidebarActualLrp}}/>
       </div>
     );
   }

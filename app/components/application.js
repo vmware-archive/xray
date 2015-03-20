@@ -40,7 +40,8 @@ var Application = React.createClass({
       },
       sidebar: {
         filter: '',
-        sidebarCollapsed: false
+        sidebarCollapsed: false,
+        hoverActualLrp: null
       },
       receptorUrl: this.props.config.receptorUrl
     };

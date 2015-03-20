@@ -23,10 +23,11 @@ describe('DesiredLrpDetail', function() {
     Cursor = require('../../../app/lib/cursor');
     $receptor = new Cursor({desiredLrps, actualLrps}, jasmine.createSpy('callback'));
     $selection = new Cursor({selectedDesiredLrp}, jasmine.createSpy('callback'));
+    var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     var colors = ['#fff', '#000'];
 
     React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrpDetail {...{$receptor, $selection}}/>, root);
+      subject = React.render(<DesiredLrpDetail {...{$receptor, $selection, $sidebar}}/>, root);
     });
   });
 

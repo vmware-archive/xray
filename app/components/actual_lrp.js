@@ -2,6 +2,7 @@ var PureRenderMixin = require('../mixins/pure_render_mixin');
 var HoverActualLrpMixin = require('../mixins/hover_actual_lrp_mixin');
 var React = require('react/addons');
 var Timeago = require('./timeago');
+var classnames = require('classnames');
 
 var cx = React.addons.classSet;
 var types = React.PropTypes;
@@ -11,10 +12,11 @@ var ActualLrp = React.createClass({
 
   propTypes: {
     actualLrp: types.object.isRequired,
-    $hoverActualLrp: types.object.isRequired
+    $hoverActualLrp: types.object.isRequired,
+    $hoverSidebarActualLrp: types.object.isRequired
   },
 
-  ignorePureRenderProps: ['$hoverActualLrp'],
+  ignorePureRenderProps: ['$hoverActualLrp', '$hoverSidebarActualLrp'],
 
   renderLrpState({state, cellId, placementError}) {
     state = state && state.toLowerCase();
@@ -30,20 +32,23 @@ var ActualLrp = React.createClass({
   },
 
   render() {
-    var {actualLrp} = this.props;
+    var {actualLrp, className} = this.props;
     var {cell_id: cellId, index, since, state, placement_error: placementError} = actualLrp;
     var claimed = state === 'CLAIMED';
     var faded = state === 'UNCLAIMED' && !placementError;
     var crashed = state === 'CRASHED' || placementError;
 
-    var className = cx({
-      'actual-lrp': true,
-      'error': crashed,
-      faded, claimed
-    });
+    var classes = classnames(
+      className,
+      cx({
+        'actual-lrp': true,
+        'error': crashed,
+        faded, claimed
+      })
+    );
 
     return (
-      <tr className={className} key={index} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+      <tr className={classes} key={index} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
         <td className="phm index txt-c">{index}</td>
         {this.renderLrpState({state, cellId, placementError})}
         <td className="phm since txt-l"><Timeago dateTime={new Date(since / 1000000)}/></td>

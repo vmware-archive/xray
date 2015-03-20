@@ -93,7 +93,7 @@
 }
 
 .desired-lrp {
-  transition: opacity 200ms ease-in;
+  @extend %fade;
 
   .selection & {
     opacity: 0.2;
@@ -155,23 +155,26 @@
     .faded {
       opacity: 0.35;
     }
-  }
 
-  &:hover {
-    .actual-lrp {
-      opacity: 0.2;
-    }
-  }
-  .actual-lrp {
-    &.claimed {
-      animation-name: almost-fade-in;
-    }
-    border: 2px solid $shadow-3;
+    .table {
+      &:hover .actual-lrp {
+        opacity: 0.2;
+      }
 
-    &:hover {
-      border-color: $gray-11;
-      outline: 2px solid $gray-11;
-      opacity: 1;
+      .actual-lrp {
+        @extend %fade;
+
+        &.claimed {
+          animation-name: almost-fade-in;
+        }
+        border: 2px solid $shadow-3;
+
+        &.hover {
+          border-color: $gray-11;
+          outline: 2px solid $gray-11;
+          opacity: 1;
+        }
+      }
     }
   }
 }

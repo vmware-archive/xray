@@ -6,6 +6,10 @@
   height: 100%
 }
 
+%fade {
+  transition: opacity 200ms ease-in;
+}
+
 %full {
   @extend %full-width;
   @extend %full-height;

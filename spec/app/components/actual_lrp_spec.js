@@ -8,8 +8,9 @@ describe('ActualLrp', function() {
     actualLrp = Factory.build('actualLrp');
     hoverSpy = jasmine.createSpy('hoverCallback');
     var $hoverActualLrp = new Cursor({hoverActualLrp: null}, hoverSpy).refine('hoverActualLrp');
+    var $hoverSidebarActualLrp = new Cursor({hoverSidebarActualLrp: null}, jasmine.createSpy('callback')).refine('hoverActualLrp');
     var table = $('<table/>').appendTo(root)[0];
-    subject = React.render(<ActualLrp {...{position: 0, actualLrp, $hoverActualLrp}}/>, table);
+    subject = React.render(<ActualLrp {...{position: 0, actualLrp, $hoverActualLrp, $hoverSidebarActualLrp}}/>, table);
   });
 
   afterEach(function() {
@@ -38,10 +39,6 @@ describe('ActualLrp', function() {
     });
   });
 
-  it('ignores the hover actual lrp cursor for rendering', function() {
-    expect(subject.ignorePureRenderProps).toEqual(['$hoverActualLrp']);
-  });
-
   describe('when the mouse over event is triggered on the component', function() {
     beforeEach(function() {
       $(subject.getDOMNode()).simulate('mouseOver');
@@ -63,6 +60,6 @@ describe('ActualLrp', function() {
   });
 
   it('ignores the hover lrp cursor for rendering', function() {
-    expect(subject.ignorePureRenderProps).toEqual(['$hoverActualLrp']);
+    expect(subject.ignorePureRenderProps).toEqual(['$hoverActualLrp', '$hoverSidebarActualLrp']);
   });
 });
