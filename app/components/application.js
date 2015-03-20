@@ -15,12 +15,14 @@ var Application = React.createClass({
   },
 
   childContextTypes: {
+    allowModifications: types.bool,
     colors: types.array.isRequired,
     modal: types.object
   },
 
   getChildContext: function() {
-    return {colors: this.props.config.colors, modal: this.refs.modal};
+    var {allowModifications, colors} = this.props.config;
+    return {allowModifications, colors, modal: this.refs.modal};
   },
 
   getInitialState() {

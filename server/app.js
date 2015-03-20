@@ -27,10 +27,11 @@ function getReceptorCredentials(receptorUrl) {
 
 app.get('/', function(req, res) {
   var receptorUrl = req.query.receptor || process.env.RECEPTOR_URL;
+  var allowModifications = process.env.ALLOW_MODIFICATIONS;
   var scripts = ['application.js'];
   var stylesheets = ['pivotal-ui.min.css', 'application.css'];
   var colors = JSON.parse(fs.readFileSync('config/colors.json'));
-  var config = {receptorUrl, colors};
+  var config = {receptorUrl, colors, allowModifications};
   var props = {entry: Application, scripts, stylesheets, config, className: 'bg-neutral-1'};
   var html = React.renderToStaticMarkup(<Layout {...props}/>);
 
