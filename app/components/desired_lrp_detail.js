@@ -29,11 +29,11 @@ var DesiredLrpDetail = React.createClass({
     }
 
     actualLrps = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
-    var props = {actualLrps, desiredLrp, $selection, className: 'pas'};
+    var props = {actualLrps, desiredLrp, $selection};
     return (
       <div className="desired-lrp-detail">
         <DesiredLrp {...props}/>
-        {isDeleted && <span className="pam">This process has been deleted. Information in this panel is out of date.</span>}
+        {isDeleted && <span className="pal">This process has been deleted. Information in this panel is out of date.</span>}
         <ActualLrpList {...{actualLrps, $hoverActualLrp: $selection.refine('hoverActualLrp')}}/>
       </div>
     );

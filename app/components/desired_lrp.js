@@ -129,7 +129,7 @@ var DesiredLrp = React.createClass({
     className = classnames(className, 'desired-lrp', {error: instancesError});
     return (
       <Tag onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>
-        <PUI.Media leftImage={<Container {...{desiredLrp, tooltip: sidebarCollapsed && desiredLrpInfo}}/>} key={processGuid} className={cx({'man': true, pal: !sidebarCollapsed, pam: sidebarCollapsed})}>
+        <PUI.Media leftImage={<Container {...{desiredLrp, tooltip: sidebarCollapsed && desiredLrpInfo}}/>} key={processGuid} className="man">
           {desiredLrpInfo}
         </PUI.Media>
       </Tag>

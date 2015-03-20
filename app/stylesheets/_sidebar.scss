@@ -39,6 +39,7 @@
     border: 1px solid $neutral-3;
     border-radius: 3px;
     width: $app-container-size;
+    margin: 0 $desired-lrp-gutter 0 $desired-lrp-gutter - 7;
   }
 }
 
@@ -56,6 +57,7 @@
   }
   .media-left {
     float: left;
+    padding-right: $desired-lrp-gutter;
   }
 }
 
@@ -85,6 +87,7 @@
 
 .desired-lrp {
   transition: opacity 200ms ease-in;
+  padding: 15px;
 
   .selection & {
     opacity: 0.2;

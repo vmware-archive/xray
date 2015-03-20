@@ -1,10 +1,11 @@
 $gutter: 5px;
 $app-container-size: 36px;
 $sidebar-width: 400px;
+$desired-lrp-gutter: 15px;
 
 $app-container-shadow-height: 4px;
 
 $sidebar-animation-duration: 120ms;
-$sidebar-collapsed-width: $app-container-size + 7 * 2;
+$sidebar-collapsed-width: $app-container-size + $desired-lrp-gutter * 2;
 
 $footer-height: 35px;
