@@ -45,9 +45,9 @@ var DesiredLrpList = React.createClass({
     var {$receptor, $selection, $sidebar} = this.props;
     var {desiredLrps = []} = $receptor.get();
     var {filter} = $sidebar.get();
-    if(filter) {
+    if (filter) {
       var {filteredLrps} = $selection.get();
-      desiredLrps = Object.keys(filteredLrps).map(key => filteredLrps[key]);
+      desiredLrps = desiredLrps.filter(({process_guid: processGuid}) => processGuid in filteredLrps);
     }
     return (
       <div className="desired-lrp-list">
