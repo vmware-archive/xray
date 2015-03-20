@@ -1,5 +1,5 @@
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'eval',
   entry: {
     application: `./app/components/application.js`
   },
