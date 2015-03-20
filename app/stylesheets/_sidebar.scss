@@ -103,6 +103,21 @@
   .routes a {
     display: block
   }
+
+  &.error {
+    $error-gutter: 3px;
+    padding: {
+      top: $desired-lrp-gutter - $error-gutter;
+      left: $desired-lrp-gutter - $error-gutter;
+    }
+    .process-guid {
+      margin-top: $error-gutter;
+    }
+    .app-container-sidebar {
+      box-sizing: content-box;
+      border: $error-gutter solid $red-3;
+    }
+  }
 }
 
 .desired-lrp-info .metadata {
