@@ -9,7 +9,7 @@ describe('Cells', function() {
     spyOn(Cell.type.prototype, 'render').and.callThrough();
     cells = Factory.buildList('cell', 2);
     var colors = ['#fff', '#000'];
-    $receptor = new Cursor({}, jasmine.createSpy('callback'));
+    $receptor = new Cursor({actualLrpsByCellId: {}}, jasmine.createSpy('callback'));
     var $selection = new Cursor({}, jasmine.createSpy('callback'));
     var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     React.withContext({colors}, function() {
@@ -32,7 +32,10 @@ describe('Cells', function() {
         Factory.build('actualLrp', {cell_id: cells[0].cell_id}),
         Factory.build('actualLrp', {cell_id: cells[0].cell_id})
       ];
-      $receptor = new Cursor({actualLrps}, jasmine.createSpy('callback'));
+      var actualLrpsByCellId = {
+        [cells[0].cell_id]: actualLrps
+      };
+      $receptor = new Cursor({actualLrps, actualLrpsByCellId}, jasmine.createSpy('callback'));
       subject.setProps({$receptor});
     });
 

@@ -16,7 +16,7 @@ describe('Zones', function() {
     var Cursor = require('../../../app/lib/cursor');
     var $selection = new Cursor({}, jasmine.createSpy('callback'));
     var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
-    var $receptor = new Cursor({cells, desiredLrps}, jasmine.createSpy('callback'));
+    var $receptor = new Cursor({cells, desiredLrps, actualLrpsByCellId: {}}, jasmine.createSpy('callback'));
     var scaling = 'containers';
     React.withContext({colors}, function() {
       React.render(<Zones {...{$receptor, $selection, scaling, $sidebar}}/>, root);

@@ -88,7 +88,7 @@ describe('Application', function() {
           Factory.build('desiredLrp', {process_guid: 'undesirable'})
         ];
 
-        subject.setState({receptor: {cells: oldCells, actualLrps: oldActualLrps, desiredLrps: oldDesiredLrps, desiredLrpsByProcessGuid: {}}});
+        subject.setState({receptor: {cells: oldCells, actualLrps: oldActualLrps, desiredLrps: oldDesiredLrps, desiredLrpsByProcessGuid: {}, actualLrpsByProcessGuid: {}, actualLrpsByCellId: {}}});
         newReceptorPromise = new Deferred();
         ReceptorApi.fetch.and.returnValue(newReceptorPromise);
         oldState = Object.assign({}, subject.state);

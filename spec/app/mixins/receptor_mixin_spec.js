@@ -12,8 +12,15 @@ describe('ReceptorMixin', function() {
     callbackSpy = jasmine.createSpy('callback');
     var Cursor = require('../../../app/lib/cursor');
     desiredLrp = Factory.build('desiredLrp', {process_guid: 'two', modification_tag: {epoch: 'epoch', index: 0}}, {raw: true});
-    actualLrp = Factory.build('actualLrp', {process_guid: 'two', modification_tag: {epoch: 'epoch', index: 0}});
-    var $receptor = new Cursor({cells: [], desiredLrps: [desiredLrp], actualLrps: [actualLrp], desiredLrpsByProcessGuid: {two: desiredLrp}, actualLrpsByProcessGuid: {two: actualLrp}}, callbackSpy);
+    actualLrp = Factory.build('actualLrp', {cell_id: 'foo', process_guid: 'two', modification_tag: {epoch: 'epoch', index: 0}});
+    var $receptor = new Cursor({
+      cells: [],
+      desiredLrps: [desiredLrp],
+      actualLrps: [actualLrp],
+      desiredLrpsByProcessGuid: {two: desiredLrp},
+      actualLrpsByProcessGuid: {two: [actualLrp]},
+      actualLrpsByCellId: {foo: [actualLrp]}},
+      callbackSpy);
     subject = React.render(<Klass {...{$receptor}}/>, root);
   });
 
@@ -73,14 +80,14 @@ describe('ReceptorMixin', function() {
       });
     });
 
-    describe('when desired lrps are changed', function() {
+    describe('when lrps are changed', function() {
       var changedDesiredLrp, changedActualLrp, newActualLrp1, newActualLrp2;
       beforeEach(function() {
         subject.updateReceptor();
         changedDesiredLrp = Object.assign({}, desiredLrp, {instances: 55, modification_tag: {epoch: 'epoch', index: 1}});
         changedActualLrp = Object.assign({}, actualLrp, {modification_tag: {epoch: 'epoch', index: 1}});
-        newActualLrp1 = Factory.build('actualLrp', {process_guid: 'one'});
-        newActualLrp2 = Factory.build('actualLrp', {process_guid: 'two'});
+        newActualLrp1 = Factory.build('actualLrp', {cell_id: 'foo', process_guid: 'one'});
+        newActualLrp2 = Factory.build('actualLrp', {cell_id: 'bar', process_guid: 'two'});
         receptorPromise.resolve({
           cells: [],
           desiredLrps: [changedDesiredLrp],
@@ -109,6 +116,14 @@ describe('ReceptorMixin', function() {
         expect(actualLrpsByProcessGuid).toEqual({
           one: [newActualLrp1],
           two: [changedActualLrp, newActualLrp2]
+        });
+      });
+
+      it('updates the actualLrpsByCellId', function() {
+        var actualLrpsByCellId = callbackSpy.calls.mostRecent().args[0].actualLrpsByCellId;
+        expect(actualLrpsByCellId).toEqual({
+          foo: [newActualLrp1, changedActualLrp],
+          bar: [newActualLrp2]
         });
       });
     });

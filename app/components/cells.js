@@ -19,7 +19,7 @@ var Cells = React.createClass({
     var {cells, scaling, $receptor, $selection, $sidebar} = this.props;
     cells = cells && cells.map(function(cell) {
       var key = cell.cell_id;
-      var actualLrps = ($receptor.get('actualLrps') || []).filter(lrp => lrp.cell_id === key);
+      var actualLrps = $receptor.get('actualLrpsByCellId', key) || [];
       var props = {actualLrps, cell, scaling, $receptor, $selection, $sidebar, key};
       return (<Cell {...props}/>);
     }, this);

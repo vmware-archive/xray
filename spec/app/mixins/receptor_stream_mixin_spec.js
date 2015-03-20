@@ -14,8 +14,8 @@ describe('ReceptorStreamMixin', function() {
     });
     callbackSpy = jasmine.createSpy('callback');
     var Cursor = require('../../../app/lib/cursor');
-    actualLrp = Factory.build('actualLrp', {process_guid: 'xyz', index: 1, modification_tag: {epoch: 1, index: 1}});
-    actualLrp2 = Factory.build('actualLrp', {process_guid: 'xyz', index: 2});
+    actualLrp = Factory.build('actualLrp', {cell_id: 'android17', process_guid: 'xyz', index: 1, modification_tag: {epoch: 1, index: 1}});
+    actualLrp2 = Factory.build('actualLrp', {cell_id: 'android17', process_guid: 'xyz', index: 2});
     desiredLrp = Factory.build('desiredLrp', {process_guid: 'xyz'});
     var desiredLrpsByProcessGuid = {
       xyz: desiredLrp
@@ -23,7 +23,16 @@ describe('ReceptorStreamMixin', function() {
     var actualLrpsByProcessGuid = {
       xyz: [actualLrp, actualLrp2]
     };
-    var $receptor = new Cursor({cells: [], desiredLrps: [desiredLrp], actualLrps: [actualLrp], desiredLrpsByProcessGuid, actualLrpsByProcessGuid}, callbackSpy);
+    var actualLrpsByCellId = {
+      android17: [actualLrp, actualLrp2]
+    };
+    var $receptor = new Cursor({
+      cells: [],
+      desiredLrps: [desiredLrp],
+      actualLrps: [actualLrp],
+      desiredLrpsByProcessGuid,
+      actualLrpsByProcessGuid,
+      actualLrpsByCellId}, callbackSpy);
     subject = React.render(<Klass {...{$receptor}}/>, root);
     subject.createSSE(receptorUrl);
   });
@@ -40,7 +49,7 @@ describe('ReceptorStreamMixin', function() {
     describe('when actual_lrp created events are received', function() {
       var newActualLrp;
       beforeEach(function() {
-        newActualLrp = Factory.build('actualLrp', {process_guid: 'abc', index: 1});
+        newActualLrp = Factory.build('actualLrp', {cell_id: 'android18', process_guid: 'abc', index: 1});
         MockEventSource.mostRecent().trigger('actual_lrp_created', {
           actual_lrp: newActualLrp
         });
@@ -55,11 +64,19 @@ describe('ReceptorStreamMixin', function() {
         ]);
       });
 
-      it('adds the actual lrp to the index', function() {
-        var actualLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].actualLrpsByProcessGuid;
+      it('adds the actual lrp to the process_guid index', function() {
+        var {actualLrpsByProcessGuid} = callbackSpy.calls.mostRecent().args[0];
         expect(actualLrpsByProcessGuid).toEqual({
           abc: [newActualLrp],
           xyz: [actualLrp, actualLrp2]
+        });
+      });
+
+      it('adds the actual lrp to the cell id index', function() {
+        var {actualLrpsByCellId} = callbackSpy.calls.mostRecent().args[0];
+        expect(actualLrpsByCellId).toEqual({
+          android17: [actualLrp, actualLrp2],
+          android18: [newActualLrp]
         });
       });
     });
@@ -77,16 +94,21 @@ describe('ReceptorStreamMixin', function() {
         expect(actualLrps).not.toContain(actualLrp);
       });
 
-      it('removes the desired lrp from the index', function() {
-        var actualLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].actualLrpsByProcessGuid;
+      it('removes the actual lrp from the process guid index', function() {
+        var {actualLrpsByProcessGuid} = callbackSpy.calls.mostRecent().args[0];
         expect(actualLrpsByProcessGuid).toEqual({xyz: [actualLrp2]});
+      });
+
+      it('removes the desired lrp from the cell id index', function() {
+        var {actualLrpsByCellId} = callbackSpy.calls.mostRecent().args[0];
+        expect(actualLrpsByCellId).toEqual({android17: [actualLrp2]});
       });
     });
 
     describe('when an actual_lrp change event is received', function() {
       var changedActualLrp;
       beforeEach(function() {
-        changedActualLrp = Factory.build('actualLrp', {process_guid: 'xyz', index: 1, modification_tag: {epoch: 1, index: 2}});
+        changedActualLrp = Factory.build('actualLrp', {cell_id: 'android17', process_guid: 'xyz', index: 1, modification_tag: {epoch: 1, index: 2}});
         MockEventSource.mostRecent().trigger('actual_lrp_changed', {
           actual_lrp_before: actualLrp,
           actual_lrp_after: changedActualLrp
@@ -99,9 +121,14 @@ describe('ReceptorStreamMixin', function() {
         expect(actualLrps).toEqual([changedActualLrp]);
       });
 
-      it('changes the desired lrp in the index', function() {
+      it('changes the actual lrp from the process guid index', function() {
         var actualLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].actualLrpsByProcessGuid;
         expect(actualLrpsByProcessGuid).toEqual({xyz: [changedActualLrp, actualLrp2]});
+      });
+
+      it('changes the actual lrp from the cell id index', function() {
+        var {actualLrpsByCellId} = callbackSpy.calls.mostRecent().args[0];
+        expect(actualLrpsByCellId).toEqual({android17: [changedActualLrp, actualLrp2]});
       });
     });
   });

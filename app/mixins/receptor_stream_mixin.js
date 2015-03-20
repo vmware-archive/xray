@@ -15,16 +15,16 @@ function createResource(cursorName, resourceKey, options = {}) {
       options.decorate(resource);
     }
     $receptor.apply(function(receptor) {
-      if (options.indexBy) {
-        var indexBy = receptor[options.indexBy.name];
-        var indexKey = resource[options.indexBy.key];
-        if (options.indexBy.array) {
+      (options.indexBy || []).forEach(function(config) {
+        var indexBy = receptor[config.name];
+        var indexKey = resource[config.key];
+        if (config.array) {
           indexBy[indexKey] = indexBy[indexKey] || [];
           indexBy[indexKey].push(resource);
         } else {
           indexBy[indexKey] = resource;
         }
-      }
+      });
 
       if (options.sortBy) {
         var index = sortedIndex(receptor[cursorName], resource, options.sortBy);
@@ -44,16 +44,16 @@ function removeResource(cursorName, resourceKey, options = {}) {
     var oldResource = $receptor.get(cursorName).find(({modification_tag: {epoch}}) => epoch === resource.modification_tag.epoch);
     if (!oldResource) return;
     $receptor.apply(function(receptor) {
-      if (options.indexBy) {
-        var indexBy = $receptor.get(options.indexBy.name);
-        var indexKey = resource[options.indexBy.key];
-        if (options.indexBy.array) {
+      (options.indexBy || []).forEach(function(config) {
+        var indexBy = $receptor.get(config.name);
+        var indexKey = resource[config.key];
+        if (config.array) {
           var lookupIndex = indexBy[indexKey].indexOf(oldResource);
           lookupIndex !== -1 && indexBy[indexKey].splice(lookupIndex, 1);
         } else {
           delete indexBy[indexKey];
         }
-      }
+      });
 
       var index = receptor[cursorName].indexOf(oldResource);
       index !== -1 && receptor[cursorName].splice(index, 1);
@@ -78,10 +78,10 @@ function changeResource(cursorName, resourceKey, options = {}) {
         receptor[cursorName][index] = resource;
       }
 
-      if (options.indexBy) {
-        var indexBy = receptor[options.indexBy.name];
-        var indexKey = resource[options.indexBy.key];
-        if (options.indexBy.array) {
+      (options.indexBy || []).forEach(function(config) {
+        var indexBy = receptor[config.name];
+        var indexKey = resource[config.key];
+        if (config.array) {
           if (oldResource) {
             indexBy[indexKey].splice(indexBy[indexKey].indexOf(oldResource), 1, resource);
           } else {
@@ -90,7 +90,7 @@ function changeResource(cursorName, resourceKey, options = {}) {
         } else {
           indexBy[indexKey] = resource;
         }
-      }
+      });
 
       return receptor;
     });
@@ -118,11 +118,10 @@ var ReceptorStreamMixin = {
     if (!sse) return;
 
     var options = {
-      indexBy: {
-        key: 'process_guid',
-        name: 'actualLrpsByProcessGuid',
-        array: true
-      }
+      indexBy: [
+        {key: 'process_guid', name: 'actualLrpsByProcessGuid', array: true},
+        {key: 'cell_id', name: 'actualLrpsByCellId', array: true}
+      ]
     };
 
     sse
@@ -136,10 +135,10 @@ var ReceptorStreamMixin = {
     if (!sse) return;
 
     var options = {
-      indexBy: {
+      indexBy: [{
         key: 'process_guid',
         name: 'desiredLrpsByProcessGuid'
-      },
+      }],
       decorate: decorateDesiredLrp.bind(this)
     };
     sse

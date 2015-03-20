@@ -78,7 +78,8 @@ var ReceptorMixin = {
           actualLrps: {$set: newActualLrps},
           desiredLrps: {$set: newDesiredLrps},
           desiredLrpsByProcessGuid: setIndex(newDesiredLrps, 'process_guid'),
-          actualLrpsByProcessGuid: setIndexArray(newActualLrps, 'process_guid')
+          actualLrpsByProcessGuid: setIndexArray(newActualLrps, 'process_guid'),
+          actualLrpsByCellId: setIndexArray(newActualLrps, 'cell_id')
         });
       })
       .catch(reason => console.error('Receptor Promise failed because', reason));

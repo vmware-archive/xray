@@ -30,6 +30,7 @@ var Application = React.createClass({
         desiredLrps: [],
         actualLrps: [],
         actualLrpsByProcessGuid: {},
+        actualLrpsByCellId: {},
         desiredLrpsByProcessGuid: {}
       },
       scaling: 'memory_mb',

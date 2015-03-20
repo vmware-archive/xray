@@ -7,8 +7,8 @@ describe('Page', function() {
     Cursor = require('../../../app/lib/cursor');
     var Page = require('../../../app/components/page');
     actualLrps = [
-      Factory.build('actualLrp', {process_guid: 'one'}),
-      Factory.build('actualLrp', {instance_guid: null, process_guid: 'two', modification_tag: {epoch: 2, index: 1}})
+      Factory.build('actualLrp', {cell_id: 'android16', process_guid: 'one'}),
+      Factory.build('actualLrp', {cell_id: 'android17', instance_guid: null, process_guid: 'two', modification_tag: {epoch: 2, index: 1}})
     ];
     desiredLrps = Factory.buildList('desiredLrp', 2);
 
@@ -19,7 +19,8 @@ describe('Page', function() {
     var $scaling = new Cursor('containers', jasmine.createSpy('callback'));
     callbackSpy = jasmine.createSpy('callback');
     var actualLrpsByProcessGuid = {one: [actualLrps[0]], two: [actualLrps[1]]};
-    $receptor = new Cursor({actualLrps, desiredLrps, desiredLrpsByProcessGuid: {}, actualLrpsByProcessGuid}, callbackSpy);
+    var actualLrpsByCellId = {android16: [actualLrps[0]], android17: [actualLrps[1]]};
+    $receptor = new Cursor({actualLrps, desiredLrps, desiredLrpsByProcessGuid: {}, actualLrpsByProcessGuid, actualLrpsByCellId}, callbackSpy);
     React.withContext({scaling: 'containers', colors}, function() {
       subject = React.render(<Page {...{$receptor, $scaling, $sidebar, $selection}}/>, root);
     });
