@@ -16,7 +16,7 @@ var DesiredLrpDetail = React.createClass({
 
   render() {
     var {$receptor, $selection, $sidebar} = this.props;
-    var {actualLrps = [], desiredLrpsByProcessGuid = {}} = $receptor.get();
+    var {actualLrpsByProcessGuid = {}, desiredLrpsByProcessGuid = {}} = $receptor.get();
     var {selectedDesiredLrp} = $selection.get();
     var desiredLrp = selectedDesiredLrp && desiredLrpsByProcessGuid[selectedDesiredLrp.process_guid];
     var isDeleted = false;
@@ -29,10 +29,9 @@ var DesiredLrpDetail = React.createClass({
       }
     }
 
-    actualLrps = actualLrps.filter(({process_guid}) => process_guid === desiredLrp.process_guid);
+    var actualLrps = actualLrpsByProcessGuid[desiredLrp.process_guid] || [];
     var $hoverActualLrp = $selection.refine('hoverActualLrp');
     var $hoverSidebarActualLrp = $sidebar.refine('hoverActualLrp');
-
     return (
       <div className="desired-lrp-detail">
         <DesiredLrp {...{actualLrps, desiredLrp, $selection}}/>

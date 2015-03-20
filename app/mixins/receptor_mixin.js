@@ -4,6 +4,7 @@ var sortedIndex = require('lodash.sortedindex');
 var {actualLrpIndex, decorateDesiredLrp} = require('../helpers/lrp_helper');
 var {diff} = require('../helpers/array_helper');
 var {setCorrectingInterval} = require('correcting-interval');
+var groupBy = require('lodash.groupby');
 const CELL_POLL_INTERVAL = 10000;
 const RECEPTOR_POLL_INTERVAL = 120000;
 
@@ -41,6 +42,12 @@ function setIndex(newArr, id) {
   };
 }
 
+function setIndexArray(newArr, id) {
+  return {
+    $set: groupBy(newArr, id)
+  };
+}
+
 var ReceptorMixin = {
   statics: {
     CELL_POLL_INTERVAL: 10000,
@@ -63,11 +70,15 @@ var ReceptorMixin = {
         var updateDesiredLrps = applyUpdate(desiredLrps, 'process_guid', {change}).$apply;
         var newDesiredLrps = updateDesiredLrps($receptor.get('desiredLrps'));
 
+        var newActualLrps = applyUpdate(actualLrps, 'instance_guid', {change, sortBy: actualLrpIndex})
+          .$apply($receptor.get('actualLrps'));
+
         $receptor.update({
           cells: applyUpdate(cells, 'cell_id', {sortBy: 'cell_id'}),
-          actualLrps: applyUpdate(actualLrps, 'instance_guid', {change, sortBy: actualLrpIndex}),
+          actualLrps: {$set: newActualLrps},
           desiredLrps: {$set: newDesiredLrps},
-          desiredLrpsByProcessGuid: setIndex(newDesiredLrps, 'process_guid')
+          desiredLrpsByProcessGuid: setIndex(newDesiredLrps, 'process_guid'),
+          actualLrpsByProcessGuid: setIndexArray(newActualLrps, 'process_guid')
         });
       })
       .catch(reason => console.error('Receptor Promise failed because', reason));

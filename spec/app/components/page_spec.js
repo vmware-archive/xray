@@ -7,8 +7,8 @@ describe('Page', function() {
     Cursor = require('../../../app/lib/cursor');
     var Page = require('../../../app/components/page');
     actualLrps = [
-      Factory.build('actualLrp'),
-      Factory.build('actualLrp', {instance_guid: null})
+      Factory.build('actualLrp', {process_guid: 'one'}),
+      Factory.build('actualLrp', {instance_guid: null, process_guid: 'two', modification_tag: {epoch: 2, index: 1}})
     ];
     desiredLrps = Factory.buildList('desiredLrp', 2);
 
@@ -18,7 +18,8 @@ describe('Page', function() {
     $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     var $scaling = new Cursor('containers', jasmine.createSpy('callback'));
     callbackSpy = jasmine.createSpy('callback');
-    $receptor = new Cursor({actualLrps, desiredLrps, desiredLrpsByProcessGuid: {}}, callbackSpy);
+    var actualLrpsByProcessGuid = {one: [actualLrps[0]], two: [actualLrps[1]]};
+    $receptor = new Cursor({actualLrps, desiredLrps, desiredLrpsByProcessGuid: {}, actualLrpsByProcessGuid}, callbackSpy);
     React.withContext({scaling: 'containers', colors}, function() {
       subject = React.render(<Page {...{$receptor, $scaling, $sidebar, $selection}}/>, root);
     });
@@ -105,7 +106,7 @@ describe('Page', function() {
         beforeEach(function() {
           MockEventSource.mostRecent().trigger('actual_lrp_changed', {
             actual_lrp_before: actualLrps[1],
-            actual_lrp_after: Object.assign({}, actualLrps[1], {state: 'CLAIMED', instance_guid: '123'})
+            actual_lrp_after: Object.assign({}, actualLrps[1], {state: 'CLAIMED', instance_guid: '123', modification_tag: {epoch: 2, index: 2}})
           });
         });
         it('updates the receptor with the new lrp', function() {

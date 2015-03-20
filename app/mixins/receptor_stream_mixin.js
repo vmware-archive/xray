@@ -17,7 +17,13 @@ function createResource(cursorName, resourceKey, options = {}) {
     $receptor.apply(function(receptor) {
       if (options.indexBy) {
         var indexBy = receptor[options.indexBy.name];
-        indexBy[resource[options.indexBy.key]] = resource;
+        var indexKey = resource[options.indexBy.key];
+        if (options.indexBy.array) {
+          indexBy[indexKey] = indexBy[indexKey] || [];
+          indexBy[indexKey].push(resource);
+        } else {
+          indexBy[indexKey] = resource;
+        }
       }
 
       if (options.sortBy) {
@@ -40,11 +46,17 @@ function removeResource(cursorName, resourceKey, options = {}) {
     $receptor.apply(function(receptor) {
       if (options.indexBy) {
         var indexBy = $receptor.get(options.indexBy.name);
-        delete indexBy[resource[options.indexBy.key]];
+        var indexKey = resource[options.indexBy.key];
+        if (options.indexBy.array) {
+          var lookupIndex = indexBy[indexKey].indexOf(oldResource);
+          lookupIndex !== -1 && indexBy[indexKey].splice(lookupIndex, 1);
+        } else {
+          delete indexBy[indexKey];
+        }
       }
 
       var index = receptor[cursorName].indexOf(oldResource);
-      receptor[cursorName].splice(index, 1);
+      index !== -1 && receptor[cursorName].splice(index, 1);
       return receptor;
     });
   };
@@ -68,7 +80,16 @@ function changeResource(cursorName, resourceKey, options = {}) {
 
       if (options.indexBy) {
         var indexBy = receptor[options.indexBy.name];
-        indexBy[resource[options.indexBy.key]] = resource;
+        var indexKey = resource[options.indexBy.key];
+        if (options.indexBy.array) {
+          if (oldResource) {
+            indexBy[indexKey].splice(indexBy[indexKey].indexOf(oldResource), 1, resource);
+          } else {
+            (indexBy[indexKey] || (indexBy[indexKey] = [])).push(resource);
+          }
+        } else {
+          indexBy[indexKey] = resource;
+        }
       }
 
       return receptor;
@@ -96,10 +117,18 @@ var ReceptorStreamMixin = {
     var {sse} = privates.get(this) || {};
     if (!sse) return;
 
+    var options = {
+      indexBy: {
+        key: 'process_guid',
+        name: 'actualLrpsByProcessGuid',
+        array: true
+      }
+    };
+
     sse
-      .on('actual_lrp_created', createResource('actualLrps', 'actual_lrp', {sortBy: actualLrpIndex}).bind(this))
-      .on('actual_lrp_changed', changeResource('actualLrps', 'actual_lrp_after').bind(this))
-      .on('actual_lrp_removed', removeResource('actualLrps', 'actual_lrp').bind(this));
+      .on('actual_lrp_created', createResource('actualLrps', 'actual_lrp', Object.assign({sortBy: actualLrpIndex}, options)).bind(this))
+      .on('actual_lrp_changed', changeResource('actualLrps', 'actual_lrp_after', options).bind(this))
+      .on('actual_lrp_removed', removeResource('actualLrps', 'actual_lrp', options).bind(this));
   },
 
   streamDesiredLrps() {

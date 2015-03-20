@@ -2,7 +2,7 @@ require('../spec_helper');
 
 describe('ReceptorStreamMixin', function() {
   const receptorUrl = 'http://example.com';
-  var subject, callbackSpy, desiredLrp;
+  var subject, callbackSpy, desiredLrp, actualLrp, actualLrp2;
 
   beforeEach(function() {
     var ReceptorStreamMixin = require('../../../app/mixins/receptor_stream_mixin');
@@ -14,12 +14,16 @@ describe('ReceptorStreamMixin', function() {
     });
     callbackSpy = jasmine.createSpy('callback');
     var Cursor = require('../../../app/lib/cursor');
-    var actualLrp = Factory.build('actualLrp', {process_guid: 'xyz', index: 1});
+    actualLrp = Factory.build('actualLrp', {process_guid: 'xyz', index: 1, modification_tag: {epoch: 1, index: 1}});
+    actualLrp2 = Factory.build('actualLrp', {process_guid: 'xyz', index: 2});
     desiredLrp = Factory.build('desiredLrp', {process_guid: 'xyz'});
     var desiredLrpsByProcessGuid = {
       xyz: desiredLrp
     };
-    var $receptor = new Cursor({cells: [], desiredLrps: [desiredLrp], actualLrps: [actualLrp], desiredLrpsByProcessGuid}, callbackSpy);
+    var actualLrpsByProcessGuid = {
+      xyz: [actualLrp, actualLrp2]
+    };
+    var $receptor = new Cursor({cells: [], desiredLrps: [desiredLrp], actualLrps: [actualLrp], desiredLrpsByProcessGuid, actualLrpsByProcessGuid}, callbackSpy);
     subject = React.render(<Klass {...{$receptor}}/>, root);
     subject.createSSE(receptorUrl);
   });
@@ -32,12 +36,13 @@ describe('ReceptorStreamMixin', function() {
     beforeEach(function() {
       subject.streamActualLrps();
     });
+
     describe('when actual_lrp created events are received', function() {
-      var actualLrp;
+      var newActualLrp;
       beforeEach(function() {
-        actualLrp = Factory.build('actualLrp', {process_guid: 'abc', index: 1});
+        newActualLrp = Factory.build('actualLrp', {process_guid: 'abc', index: 1});
         MockEventSource.mostRecent().trigger('actual_lrp_created', {
-          actual_lrp: actualLrp
+          actual_lrp: newActualLrp
         });
       });
 
@@ -48,6 +53,55 @@ describe('ReceptorStreamMixin', function() {
           {process_guid: 'abc', index: 1},
           {process_guid: 'xyz', index: 1}
         ]);
+      });
+
+      it('adds the actual lrp to the index', function() {
+        var actualLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].actualLrpsByProcessGuid;
+        expect(actualLrpsByProcessGuid).toEqual({
+          abc: [newActualLrp],
+          xyz: [actualLrp, actualLrp2]
+        });
+      });
+    });
+
+    describe('when actual lrp removed events are received', function() {
+      beforeEach(function() {
+        MockEventSource.mostRecent().trigger('actual_lrp_removed', {
+          actual_lrp: actualLrp
+        });
+        expect(callbackSpy).toHaveBeenCalled();
+      });
+
+      it('removes the desired lrp from the receptor', function() {
+        var actualLrps = callbackSpy.calls.mostRecent().args[0].actualLrps;
+        expect(actualLrps).not.toContain(actualLrp);
+      });
+
+      it('removes the desired lrp from the index', function() {
+        var actualLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].actualLrpsByProcessGuid;
+        expect(actualLrpsByProcessGuid).toEqual({xyz: [actualLrp2]});
+      });
+    });
+
+    describe('when an actual_lrp change event is received', function() {
+      var changedActualLrp;
+      beforeEach(function() {
+        changedActualLrp = Factory.build('actualLrp', {process_guid: 'xyz', index: 1, modification_tag: {epoch: 1, index: 2}});
+        MockEventSource.mostRecent().trigger('actual_lrp_changed', {
+          actual_lrp_before: actualLrp,
+          actual_lrp_after: changedActualLrp
+        });
+      });
+
+      it('changes the actual lrp to the receptor', function() {
+        expect(callbackSpy).toHaveBeenCalled();
+        var actualLrps = callbackSpy.calls.mostRecent().args[0].actualLrps;
+        expect(actualLrps).toEqual([changedActualLrp]);
+      });
+
+      it('changes the desired lrp in the index', function() {
+        var actualLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].actualLrpsByProcessGuid;
+        expect(actualLrpsByProcessGuid).toEqual({xyz: [changedActualLrp, actualLrp2]});
       });
     });
   });

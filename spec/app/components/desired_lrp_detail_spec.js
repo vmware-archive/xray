@@ -21,7 +21,11 @@ describe('DesiredLrpDetail', function() {
     ];
 
     Cursor = require('../../../app/lib/cursor');
-    $receptor = new Cursor({desiredLrps, actualLrps}, jasmine.createSpy('callback'));
+    var actualLrpsByProcessGuid = {
+      Amazon: [actualLrps[0]],
+      Diego: [actualLrps[1], actualLrps[2], actualLrps[3]]
+    };
+    $receptor = new Cursor({desiredLrps, actualLrps, actualLrpsByProcessGuid}, jasmine.createSpy('callback'));
     $selection = new Cursor({selectedDesiredLrp}, jasmine.createSpy('callback'));
     var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     var colors = ['#fff', '#000'];

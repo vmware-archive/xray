@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('ReceptorMixin', function() {
-  var subject, callbackSpy, ReceptorApi, two;
+  var subject, callbackSpy, ReceptorApi, desiredLrp, actualLrp;
   beforeEach(function() {
     var ReceptorMixin = require('../../../app/mixins/receptor_mixin');
     ReceptorApi = require('../../../app/api/receptor_api');
@@ -11,8 +11,9 @@ describe('ReceptorMixin', function() {
     });
     callbackSpy = jasmine.createSpy('callback');
     var Cursor = require('../../../app/lib/cursor');
-    two = Factory.build('desiredLrp', {process_guid: 'two', modification_tag: {epoch: 'epoch', index: 0}}, {raw: true});
-    var $receptor = new Cursor({cells: [], desiredLrps: [two], actualLrps: [], desiredLrpsByProcessGuid: {two}}, callbackSpy);
+    desiredLrp = Factory.build('desiredLrp', {process_guid: 'two', modification_tag: {epoch: 'epoch', index: 0}}, {raw: true});
+    actualLrp = Factory.build('actualLrp', {process_guid: 'two', modification_tag: {epoch: 'epoch', index: 0}});
+    var $receptor = new Cursor({cells: [], desiredLrps: [desiredLrp], actualLrps: [actualLrp], desiredLrpsByProcessGuid: {two: desiredLrp}, actualLrpsByProcessGuid: {two: actualLrp}}, callbackSpy);
     subject = React.render(<Klass {...{$receptor}}/>, root);
   });
 
@@ -34,7 +35,7 @@ describe('ReceptorMixin', function() {
         var routes = {'cf-router': [{hostnames: ['host1', 'host2'], port: 8080}]};
         desiredLrps = [
           Factory.build('desiredLrp', {process_guid: 'one', routes: routes, filterString: null}),
-          Object.assign({}, two),
+          Object.assign({}, desiredLrp),
           Factory.build('desiredLrp', {process_guid: 'three'})
         ];
         receptorPromise.resolve({
@@ -60,27 +61,37 @@ describe('ReceptorMixin', function() {
       it('updates the desiredLrpsByProcessGuid', function() {
         var desiredLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].desiredLrpsByProcessGuid;
         expect(desiredLrpsByProcessGuid.one).toBe(desiredLrps[0]);
-        expect(desiredLrpsByProcessGuid.two).toBe(two);
+        expect(desiredLrpsByProcessGuid.two).toBe(desiredLrp);
+        expect(desiredLrpsByProcessGuid.three).toBe(desiredLrps[2]);
+      });
+
+      it('updates the actualLrpsByProcessGuid', function() {
+        var desiredLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].desiredLrpsByProcessGuid;
+        expect(desiredLrpsByProcessGuid.one).toBe(desiredLrps[0]);
+        expect(desiredLrpsByProcessGuid.two).toBe(desiredLrp);
         expect(desiredLrpsByProcessGuid.three).toBe(desiredLrps[2]);
       });
     });
 
     describe('when desired lrps are changed', function() {
-      var changedLrp;
+      var changedDesiredLrp, changedActualLrp, newActualLrp1, newActualLrp2;
       beforeEach(function() {
         subject.updateReceptor();
-        changedLrp = Object.assign({}, two, {instances: 55, modification_tag: {epoch: 'epoch', index: 1}});
+        changedDesiredLrp = Object.assign({}, desiredLrp, {instances: 55, modification_tag: {epoch: 'epoch', index: 1}});
+        changedActualLrp = Object.assign({}, actualLrp, {modification_tag: {epoch: 'epoch', index: 1}});
+        newActualLrp1 = Factory.build('actualLrp', {process_guid: 'one'});
+        newActualLrp2 = Factory.build('actualLrp', {process_guid: 'two'});
         receptorPromise.resolve({
           cells: [],
-          desiredLrps: [changedLrp],
-          actualLrps: []
+          desiredLrps: [changedDesiredLrp],
+          actualLrps: [changedActualLrp, newActualLrp1, newActualLrp2]
         });
         expect(callbackSpy).toHaveBeenCalled();
       });
 
       it('updates the desired lrps', function() {
         var desiredLrp = callbackSpy.calls.mostRecent().args[0].desiredLrps[0];
-        expect(desiredLrp).toEqual(jasmine.objectContaining(changedLrp));
+        expect(desiredLrp).toEqual(jasmine.objectContaining(changedDesiredLrp));
       });
 
       it('retains decorations on the desired lrps', function() {
@@ -90,7 +101,15 @@ describe('ReceptorMixin', function() {
 
       it('updates the desiredLrpsByProcessGuid', function() {
         var desiredLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].desiredLrpsByProcessGuid;
-        expect(desiredLrpsByProcessGuid.two).toEqual(jasmine.objectContaining(changedLrp));
+        expect(desiredLrpsByProcessGuid.two).toEqual(jasmine.objectContaining(changedDesiredLrp));
+      });
+
+      it('updates the actualLrpsByProcessGuid', function() {
+        var actualLrpsByProcessGuid = callbackSpy.calls.mostRecent().args[0].actualLrpsByProcessGuid;
+        expect(actualLrpsByProcessGuid).toEqual({
+          one: [newActualLrp1],
+          two: [changedActualLrp, newActualLrp2]
+        });
       });
     });
 

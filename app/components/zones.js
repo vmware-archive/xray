@@ -1,6 +1,7 @@
 var Cells = require('./cells');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var React = require('react/addons');
+var groupBy = require('lodash.groupby');
 
 var types = React.PropTypes;
 
@@ -19,22 +20,16 @@ var Zones = React.createClass({
     var cells = $receptor.get('cells');
     if (!cells) return null;
 
-    var zones = cells.reduce(function(zones, cell){
-      var zone = zones[cell.zone] || [];
-      zone.push(cell);
-      zones[cell.zone] = zone;
-      return zones;
-    }, {});
-
+    var zones = groupBy(cells, 'zone');
     return Object.keys(zones).sort().map(function(zone) {
-      var cells = this[zone];
+      var cells = zones[zone];
       return (
         <div className="zone" key={zone}>
           <header><h3 className="em-high">{`Zone ${zone} - ${cells.length} Cells`}</h3></header>
           <Cells {...{cells, scaling, $receptor, $selection, $sidebar}}/>
         </div>
       );
-    }, zones);
+    });
   },
 
   render() {
