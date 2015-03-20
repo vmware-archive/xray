@@ -75,6 +75,12 @@
       }
     }
   }
+
+  .error {
+    a, .metadata {
+      @extend .error;
+    }
+  }
 }
 
 .desired-lrp {
