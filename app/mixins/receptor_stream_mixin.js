@@ -83,7 +83,17 @@ function changeResource(cursorName, resourceKey, options = {}) {
         var indexKey = resource[config.key];
         if (config.array) {
           if (oldResource) {
-            indexBy[indexKey].splice(indexBy[indexKey].indexOf(oldResource), 1, resource);
+            var position;
+            if (indexBy[indexKey] && (position = indexBy[indexKey].indexOf(oldResource)) !== -1) {
+              indexBy[indexKey].splice(position, 1, resource);
+            } else {
+              var oldKey = oldResource[config.key];
+              if (indexBy[oldKey]) {
+                position = indexBy[oldKey].indexOf(oldResource);
+                position !== -1 && indexBy[oldKey].splice(position, 1);
+              }
+              (indexBy[indexKey] || (indexBy[indexKey] = [])).push(resource);
+            }
           } else {
             (indexBy[indexKey] || (indexBy[indexKey] = [])).push(resource);
           }
