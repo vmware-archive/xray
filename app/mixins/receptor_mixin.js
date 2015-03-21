@@ -59,40 +59,32 @@ var ReceptorMixin = {
     $receptor: types.object.isRequired
   },
 
-  updateReceptor() {
+  async updateReceptor() {
+    var {actualLrps, cells, desiredLrps} = await ReceptorApi.fetch();
     var {$receptor} = this.props;
-    var self = this;
+    desiredLrps.forEach(decorateDesiredLrp.bind(this));
 
-    return ReceptorApi.fetch()
-      .then(function({actualLrps, cells, desiredLrps}) {
-        desiredLrps.forEach(decorateDesiredLrp.bind(self));
+    var change = (a, b) => a.modification_tag.index < b.modification_tag.index;
+    var updateDesiredLrps = applyUpdate(desiredLrps, 'process_guid', {change}).$apply;
+    var newDesiredLrps = updateDesiredLrps($receptor.get('desiredLrps'));
 
-        var change = (a, b) => a.modification_tag.index < b.modification_tag.index;
-        var updateDesiredLrps = applyUpdate(desiredLrps, 'process_guid', {change}).$apply;
-        var newDesiredLrps = updateDesiredLrps($receptor.get('desiredLrps'));
+    var newActualLrps = applyUpdate(actualLrps, 'instance_guid', {change, sortBy: actualLrpIndex})
+      .$apply($receptor.get('actualLrps'));
 
-        var newActualLrps = applyUpdate(actualLrps, 'instance_guid', {change, sortBy: actualLrpIndex})
-          .$apply($receptor.get('actualLrps'));
-
-        $receptor.update({
-          cells: applyUpdate(cells, 'cell_id', {sortBy: 'cell_id'}),
-          actualLrps: {$set: newActualLrps},
-          desiredLrps: {$set: newDesiredLrps},
-          desiredLrpsByProcessGuid: setIndex(newDesiredLrps, 'process_guid'),
-          actualLrpsByProcessGuid: setIndexArray(newActualLrps, 'process_guid'),
-          actualLrpsByCellId: setIndexArray(newActualLrps, 'cell_id')
-        });
-      })
-      .catch(reason => console.error('Receptor Promise failed because', reason));
+    $receptor.update({
+      cells: applyUpdate(cells, 'cell_id', {sortBy: 'cell_id'}),
+      actualLrps: {$set: newActualLrps},
+      desiredLrps: {$set: newDesiredLrps},
+      desiredLrpsByProcessGuid: setIndex(newDesiredLrps, 'process_guid'),
+      actualLrpsByProcessGuid: setIndexArray(newActualLrps, 'process_guid'),
+      actualLrpsByCellId: setIndexArray(newActualLrps, 'cell_id')
+    });
   },
 
-  updateCells() {
+  async updateCells() {
+    var {cells} = await CellsApi.fetch();
     var {$receptor} = this.props;
-    return CellsApi.fetch()
-      .then(function({cells}) {
-        $receptor.refine('cells').update(applyUpdate(cells, 'cell_id'));
-      })
-      .catch(reason => console.error('Cells Promise failed because', reason));
+    $receptor.refine('cells').update(applyUpdate(cells, 'cell_id'));
   },
 
   pollReceptor() {

@@ -63,9 +63,9 @@ var Application = React.createClass({
     Object.assign(xray, {receptor, selection, sidebar});
   },
 
-  updateReceptorUrl({receptorUrl}) {
-    ReceptorUrlApi.create({receptorUrl})
-                  .then(() => this.setState({receptorUrl}));
+  async updateReceptorUrl({receptorUrl}) {
+    await ReceptorUrlApi.create({receptorUrl});
+    this.setState({receptorUrl});
   },
 
   render() {
