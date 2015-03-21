@@ -48,8 +48,16 @@ function removeResource(cursorName, resourceKey, options = {}) {
         var indexBy = $receptor.get(config.name);
         var indexKey = resource[config.key];
         if (config.array) {
-          var lookupIndex = indexBy[indexKey].indexOf(oldResource);
-          lookupIndex !== -1 && indexBy[indexKey].splice(lookupIndex, 1);
+          var position;
+          if (indexBy[indexKey] && (position = indexBy[indexKey].indexOf(oldResource)) !== -1) {
+            indexBy[indexKey].splice(position, 1);
+          } else {
+            var oldKey = oldResource[config.key];
+            if (indexBy[oldKey]) {
+              position = indexBy[oldKey].indexOf(oldResource);
+              position !== -1 && indexBy[oldKey].splice(position, 1);
+            }
+          }
         } else {
           delete indexBy[indexKey];
         }

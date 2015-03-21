@@ -82,26 +82,47 @@ describe('ReceptorStreamMixin', function() {
     });
 
     describe('when actual lrp removed events are received', function() {
-      beforeEach(function() {
-        MockEventSource.mostRecent().trigger('actual_lrp_removed', {
-          actual_lrp: actualLrp
+      describe('when the index for the changed lrp exists', function() {
+        beforeEach(function() {
+          MockEventSource.mostRecent().trigger('actual_lrp_removed', {
+            actual_lrp: actualLrp
+          });
+          expect(callbackSpy).toHaveBeenCalled();
         });
-        expect(callbackSpy).toHaveBeenCalled();
+
+        it('removes the desired lrp from the receptor', function() {
+          var actualLrps = callbackSpy.calls.mostRecent().args[0].actualLrps;
+          expect(actualLrps).not.toContain(actualLrp);
+        });
+
+        it('removes the actual lrp from the process guid index', function() {
+          var {actualLrpsByProcessGuid} = callbackSpy.calls.mostRecent().args[0];
+          expect(actualLrpsByProcessGuid).toEqual({xyz: [actualLrp2]});
+        });
+
+        it('removes the desired lrp from the cell id index', function() {
+          var {actualLrpsByCellId} = callbackSpy.calls.mostRecent().args[0];
+          expect(actualLrpsByCellId).toEqual({android17: [actualLrp2]});
+        });
       });
 
-      it('removes the desired lrp from the receptor', function() {
-        var actualLrps = callbackSpy.calls.mostRecent().args[0].actualLrps;
-        expect(actualLrps).not.toContain(actualLrp);
-      });
+      describe('when the index for the changed lrp does not exist', function() {
+        it('does not throw an exception', function() {
+          var $receptor = new Cursor({
+            cells: [],
+            desiredLrps: [],
+            actualLrps: [actualLrp],
+            desiredLrpsByProcessGuid: {},
+            actualLrpsByProcessGuid: {},
+            actualLrpsByCellId: {}}, callbackSpy);
+          subject.setProps({$receptor});
 
-      it('removes the actual lrp from the process guid index', function() {
-        var {actualLrpsByProcessGuid} = callbackSpy.calls.mostRecent().args[0];
-        expect(actualLrpsByProcessGuid).toEqual({xyz: [actualLrp2]});
-      });
-
-      it('removes the desired lrp from the cell id index', function() {
-        var {actualLrpsByCellId} = callbackSpy.calls.mostRecent().args[0];
-        expect(actualLrpsByCellId).toEqual({android17: [actualLrp2]});
+          expect(function() {
+            MockEventSource.mostRecent().trigger('actual_lrp_removed', {
+              actual_lrp: actualLrp
+            });
+          }).not.toThrow();
+        });
       });
     });
 
