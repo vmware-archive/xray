@@ -123,6 +123,26 @@ describe('ReceptorStreamMixin', function() {
             });
           }).not.toThrow();
         });
+
+        it('removes the old actual lrp from its old index', function() {
+          var $receptor = new Cursor({
+            cells: [],
+            desiredLrps: [],
+            actualLrps: [actualLrp],
+            desiredLrpsByProcessGuid: {},
+            actualLrpsByProcessGuid: {},
+            actualLrpsByCellId: {[actualLrp.cell_id]: [actualLrp]}}, callbackSpy);
+          subject.setProps({$receptor});
+
+          MockEventSource.mostRecent().trigger('actual_lrp_removed', {
+            actual_lrp: Object.assign({}, actualLrp, {cell_id: 'new_cell_id'})
+          });
+          expect(callbackSpy).toHaveBeenCalled();
+          var {actualLrpsByCellId} = callbackSpy.calls.mostRecent().args[0];
+          expect(actualLrpsByCellId).toEqual({
+            android17: []
+          });
+        });
       });
     });
 
@@ -174,6 +194,29 @@ describe('ReceptorStreamMixin', function() {
               actual_lrp_after: changedActualLrp
             });
           }).not.toThrow();
+        });
+
+        it('removes the old actual lrp from its old index', function() {
+          var $receptor = new Cursor({
+            cells: [],
+            desiredLrps: [],
+            actualLrps: [changedActualLrp],
+            desiredLrpsByProcessGuid: {},
+            actualLrpsByProcessGuid: {},
+            actualLrpsByCellId: {[changedActualLrp.cell_id]: [changedActualLrp]}}, callbackSpy);
+          subject.setProps({$receptor});
+
+          var actualLrpAfter = Object.assign({}, changedActualLrp, {cell_id: 'new_cell_id'});
+          MockEventSource.mostRecent().trigger('actual_lrp_changed', {
+            actual_lrp_before: actualLrp,
+            actual_lrp_after: actualLrpAfter
+          });
+          expect(callbackSpy).toHaveBeenCalled();
+          var {actualLrpsByCellId} = callbackSpy.calls.mostRecent().args[0];
+          expect(actualLrpsByCellId).toEqual({
+            android17: [],
+            new_cell_id: [actualLrpAfter]
+          });
         });
       });
     });
