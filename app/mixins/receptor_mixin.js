@@ -1,3 +1,6 @@
+const CELL_POLL_INTERVAL = 10000;
+const RECEPTOR_POLL_INTERVAL = 30000;
+
 var ReceptorApi = require('../api/receptor_api');
 var CellsApi = require('../api/cells_api');
 var sortedIndex = require('lodash.sortedindex');
@@ -5,8 +8,6 @@ var {actualLrpIndex, decorateDesiredLrp} = require('../helpers/lrp_helper');
 var {diff} = require('../helpers/array_helper');
 var {setCorrectingInterval} = require('correcting-interval');
 var groupBy = require('lodash.groupby');
-const CELL_POLL_INTERVAL = 10000;
-const RECEPTOR_POLL_INTERVAL = 120000;
 
 var React = require('react/addons');
 var types = React.PropTypes;
@@ -50,8 +51,8 @@ function setIndexArray(newArr, id) {
 
 var ReceptorMixin = {
   statics: {
-    CELL_POLL_INTERVAL: 10000,
-    RECEPTOR_POLL_INTERVAL: 120000
+    CELL_POLL_INTERVAL,
+    RECEPTOR_POLL_INTERVAL
   },
 
   propTypes: {
