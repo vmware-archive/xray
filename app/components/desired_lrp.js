@@ -2,15 +2,12 @@ var classnames = require('classnames');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var prettyBytes = require('pretty-bytes');
-var ui = {Media: require('../vendor/media').Media, Icon: require('../vendor/icon').Icon};
 var React = require('react/addons');
-var {pickColor} = require('../helpers/application_helper');
-var {getRoutes, getHostname} = require('../helpers/lrp_helper');
-var OverlayTrigger = require('react-bootstrap/lib/OverlayTrigger');
-var Tooltip = require('react-bootstrap/lib/Tooltip');
+var SidebarContainer = require('./sidebar_container');
+var ui = {Media: require('../vendor/media').Media};
+var {getRoutes} = require('../helpers/lrp_helper');
 
 var types = React.PropTypes;
-var cx = React.addons.classSet;
 
 function stopPropagation(e) {
   e.stopPropagation();
@@ -43,40 +40,6 @@ var Routes = React.createClass({
       routes = (<table className="txt-t"><tbody>{routes}</tbody></table>);
     }
     return (<div className="routes">{routes}</div>);
-  }
-});
-
-var Container = React.createClass({
-  propTypes: {
-    desiredLrp: types.object.isRequired,
-    instancesError: types.bool.isRequired,
-    tooltip: types.oneOfType([types.object, types.bool])
-  },
-
-  contextTypes: {
-    colors: types.array.isRequired
-  },
-
-  render() {
-    var {desiredLrp, tooltip, instancesError} = this.props;
-    var {process_guid: processGuid} = desiredLrp;
-    var containerColor = pickColor(this.context.colors, getHostname(desiredLrp) || processGuid);
-    var imageStyle = {backgroundColor: containerColor};
-
-    var container = (
-      <a className={cx({'app-container-sidebar': true})} style={imageStyle} role="button">
-        {instancesError && <ui.Icon name="exclamation-circle"/>}
-      </a>
-      );
-
-    if (!tooltip) {
-      return container;
-    }
-    return (
-      <OverlayTrigger placement="left" overlay={<Tooltip>{tooltip}</Tooltip>}>
-        {container}
-      </OverlayTrigger>
-    );
   }
 });
 
@@ -129,14 +92,14 @@ var DesiredLrp = React.createClass({
     var {actualLrps, desiredLrp, className, sidebarCollapsed, tag: Tag} = this.props;
 
     var {process_guid: processGuid} = desiredLrp;
+    var claimed = actualLrps.some(({state}) => state === 'CLAIMED');
     var instancesRunning = actualLrps.filter(({state}) => state === 'RUNNING').length;
     var instancesError = instancesRunning < desiredLrp.instances;
     var desiredLrpInfo = (<DesiredLrpInfo {...{actualLrps, desiredLrp}}/>);
-
     className = classnames(className, 'desired-lrp', {error: instancesError});
     return (
       <Tag onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>
-        <ui.Media leftImage={<Container {...{instancesError, desiredLrp, tooltip: sidebarCollapsed && desiredLrpInfo}}/>} key={processGuid} className="man">
+        <ui.Media leftImage={<SidebarContainer {...{instancesError, desiredLrp, claimed, tooltip: sidebarCollapsed && desiredLrpInfo}}/>} key={processGuid} className="man">
           {desiredLrpInfo}
         </ui.Media>
       </Tag>

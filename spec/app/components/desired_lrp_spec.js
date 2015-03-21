@@ -152,6 +152,17 @@ describe('DesiredLrp', function() {
     });
   });
 
+  describe('when there are actual lrps in the claimed state', function() {
+    beforeEach(function() {
+      actualLrps = React.addons.update(actualLrps, {2: {$merge: {state: 'CLAIMED'}}});
+      subject.setProps({actualLrps});
+    });
+
+    it('adds the claimed class to the container', function() {
+      expect('.app-container-sidebar.claimed').toExist();
+    });
+  });
+
   describe('when mouse over event is triggered on the desired lrp', function() {
     beforeEach(function() {
       $('.desired-lrp').simulate('mouseOver');
