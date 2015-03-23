@@ -17,22 +17,6 @@ var BaseApi = {
         }
       );
     });
-  },
-
-  put(route, data = {}) {
-    var {user, password, url} = getCredentials(this.baseUrl);
-    return new Promise(function(resolve, reject) {
-      request.put(`${url}/v1/${route}`)
-        .auth(user, password)
-        .withCredentials()
-        .accept('json')
-        .send(data)
-        .end(function(err, res) {
-          if (err) return reject(err);
-          resolve(res.body);
-        }
-      );
-    });
   }
 };
 

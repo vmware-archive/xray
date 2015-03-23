@@ -42,18 +42,4 @@ describe('DesiredLrpsApi', function() {
       });
     });
   });
-
-  describe('#scale', function() {
-    var desiredLrp;
-    beforeEach(function() {
-      desiredLrp = Factory.build('desiredLrp', {process_guid: 'abc', instances: 4});
-      subject.scale(desiredLrp, 8);
-    });
-
-    it('puts to desiredLrp', function() {
-      var request = jasmine.Ajax.requests.filter(`${RECEPTOR_URL}/v1/desired_lrps/abc`)[0];
-      expect(request).toBeDefined();
-      expect(JSON.parse(request.params)).toEqual({instances: 8});
-    });
-  });
 });

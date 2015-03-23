@@ -44,16 +44,4 @@ describe('BaseApi', function() {
       });
     });
   });
-
-  describe('#put', function() {
-    it('sends a put to the correct url with the right data', function() {
-      var data = {name: 'Tom'};
-      subject.put('foo', data);
-      var request = jasmine.Ajax.requests.mostRecent();
-      expect(request).toBeDefined();
-      expect(request.method).toEqual('PUT');
-      expect(request.url).toEqual(`${subject.baseUrl}/v1/foo`);
-      expect(JSON.parse(request.params)).toEqual(data);
-    });
-  });
 });

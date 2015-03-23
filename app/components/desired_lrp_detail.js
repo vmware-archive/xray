@@ -1,6 +1,5 @@
 var ActualLrpList = require('./actual_lrp_list');
 var DesiredLrp = require('./desired_lrp');
-var DesiredLrpScale = require('./desired_lrp_scale');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var React = require('react/addons');
 
@@ -36,7 +35,6 @@ var DesiredLrpDetail = React.createClass({
     return (
       <div className="desired-lrp-detail">
         <DesiredLrp {...{actualLrps, desiredLrp, $selection}}/>
-        <DesiredLrpScale desiredLrp={desiredLrp}/>
         {isDeleted && <span className="pal">This process has been deleted. Information in this panel is out of date.</span>}
         <ActualLrpList {...{actualLrps, $hoverActualLrp, $hoverSidebarActualLrp}}/>
       </div>
