@@ -15,13 +15,8 @@ var DesiredLrpDetail = React.createClass({
     $sidebar: types.object.isRequired
   },
 
-  contextTypes: {
-    allowModifications: types.bool
-  },
-
   render() {
     var {$receptor, $selection, $sidebar} = this.props;
-    var {allowModifications} = this.context;
     var {actualLrpsByProcessGuid = {}, desiredLrpsByProcessGuid = {}} = $receptor.get();
     var {selectedDesiredLrp} = $selection.get();
     var desiredLrp = selectedDesiredLrp && desiredLrpsByProcessGuid[selectedDesiredLrp.process_guid];
@@ -41,7 +36,7 @@ var DesiredLrpDetail = React.createClass({
     return (
       <div className="desired-lrp-detail">
         <DesiredLrp {...{actualLrps, desiredLrp, $selection}}/>
-        {allowModifications && <DesiredLrpScale desiredLrp={desiredLrp}/>}
+        <DesiredLrpScale desiredLrp={desiredLrp}/>
         {isDeleted && <span className="pal">This process has been deleted. Information in this panel is out of date.</span>}
         <ActualLrpList {...{actualLrps, $hoverActualLrp, $hoverSidebarActualLrp}}/>
       </div>
