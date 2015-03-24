@@ -1,3 +1,4 @@
 ---
 applications:
   - name: xray
+    buildpack: nodejs_buildpack

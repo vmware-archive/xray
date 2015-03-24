@@ -45,8 +45,8 @@ gulp.task('clean-assets-stylesheets', function(callback) {
 
 gulp.task('clean-assets', ['clean-assets-javascript', 'clean-assets-stylesheets']);
 
-gulp.task('assets', function() {
-  runSequence('clean-assets', ['assets-javascript', 'assets-stylesheets']);
+gulp.task('assets', function(callback) {
+  runSequence('clean-assets', ['assets-javascript', 'assets-stylesheets'], callback);
 });
 
 module.exports = {
