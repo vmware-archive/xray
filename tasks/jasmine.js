@@ -15,7 +15,7 @@ gulp.task('spec-server', function() {
 });
 
 function testAssets(options = {}) {
-  var config = Object.assign({}, require('../config/webpack/test'), options);
+  var config = Object.assign(require('../config/webpack/config')('test'), options);
   var javascript = gulp.src('spec/app/**/*_spec.js')
     .pipe(plugins.webpack(config));
   return mergeStream(javascript, sass(), gulp.src('spec/support/jasmine.css'));

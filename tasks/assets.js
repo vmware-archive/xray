@@ -11,8 +11,7 @@ function isProduction() {
 gulp.task('assets-javascript', function() {
   return gulp.src('app/components/application.js')
     .pipe(plugins.plumber())
-    .pipe(plugins.webpack(require(`../config/webpack/${process.env.NODE_ENV}`)))
-    .pipe(plugins.if(isProduction(), plugins.uglify()))
+    .pipe(plugins.webpack(require('../config/webpack/config')(process.env.NODE_ENV)))
     .pipe(plugins.header(COPYRIGHT))
     .pipe(gulp.dest('public'));
 });
