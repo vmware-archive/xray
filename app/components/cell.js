@@ -11,6 +11,7 @@ var Cell = React.createClass({
   propTypes: {
     actualLrps: types.array,
     cell: types.object.isRequired,
+    className: types.string,
     scaling: types.string.isRequired,
     $receptor: types.object.isRequired,
     $selection: types.object.isRequired,

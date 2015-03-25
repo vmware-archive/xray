@@ -19,7 +19,7 @@ describe('PureRenderMixin', function() {
       render: renderSpy
     });
     React.withContext({}, function() {
-      subject = React.render(<Klass one={wrapper.one} two={wrapper.two} ignore='me'/>, root);
+      subject = React.render(<Klass one={wrapper.one} two={wrapper.two} ignore="me"/>, root);
       return subject;
     });
   });

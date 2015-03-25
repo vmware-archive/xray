@@ -1,9 +1,14 @@
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var PUI = Object.assign({}, require('../vendor/modals'), require('../vendor/buttons'));
 var React = require('react/addons');
+var types = React.PropTypes;
 
 var ReceptorUrlModal = React.createClass({
   mixins: [PureRenderMixin],
+
+  propTypes: {
+    onSubmit: types.func
+  },
 
   getInitialState() {
     return {receptorUrl: ''};

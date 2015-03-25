@@ -22,7 +22,7 @@ var ActualLrp = React.createClass({
     state = state && state.toLowerCase();
     if(placementError) {
       return (
-        <td className="phm" colSpan='2'><span className="state">{state}: </span>{placementError}</td>
+        <td className="phm" colSpan="2"><span className="state">{state}: </span>{placementError}</td>
       );
     }
     return [
