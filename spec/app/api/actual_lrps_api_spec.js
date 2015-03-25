@@ -25,7 +25,7 @@ describe('ActualLrpsApi', function() {
       beforeEach(function() {
         actualLrps = Factory.buildList('actualLrp', 3);
         lrpsRequest.respondWith({
-          stats: 200,
+          status: 200,
           responseText: JSON.stringify(actualLrps)
         });
         MockPromises.executeForResolvedPromises();
