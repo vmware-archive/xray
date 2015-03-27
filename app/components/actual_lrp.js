@@ -4,7 +4,6 @@ var React = require('react/addons');
 var Timeago = require('./timeago');
 var classnames = require('classnames');
 
-var cx = React.addons.classSet;
 var types = React.PropTypes;
 
 var ActualLrp = React.createClass({
@@ -40,11 +39,11 @@ var ActualLrp = React.createClass({
 
     var classes = classnames(
       className,
-      cx({
+      {
         'actual-lrp': true,
         'error': crashed,
         faded, claimed
-      })
+      }
     );
 
     return (

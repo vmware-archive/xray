@@ -6,9 +6,8 @@ var ReceptorMixin = require('../mixins/receptor_mixin');
 var ReceptorStreamMixin = require('../mixins/receptor_stream_mixin');
 var Zones = require('./zones');
 var Sidebar = require('./sidebar');
-var {mergeClassNames} = require('../helpers/react_helper');
+var classnames = require('classnames');
 
-var cx = React.addons.classSet;
 var types = React.PropTypes;
 
 var Page = React.createClass({
@@ -44,14 +43,14 @@ var Page = React.createClass({
     var selection = !!($selection.get('hoverDesiredLrp') || $selection.get('selectedDesiredLrp')) || $sidebar.get('filter');
     var sidebarCollapsed = $sidebar.get('sidebarCollapsed');
 
-    var classes = mergeClassNames(
+    var classes = classnames(
       'page',
-      cx({
+      {
         'sidebar-collapsed': sidebarCollapsed,
         'sidebar-open': !sidebarCollapsed,
         'filtered': $sidebar.get('filter'),
         selection
-      })
+      }
     );
 
     return (

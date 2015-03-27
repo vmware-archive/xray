@@ -2,11 +2,10 @@ var PureRenderMixin = require('../mixins/pure_render_mixin');
 var {getHostname} = require('../helpers/lrp_helper');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var {pickColor} = require('../helpers/application_helper');
-var {mergeClassNames} = require('../helpers/react_helper');
+var classnames = require('classnames');
 var React = require('react/addons');
 
 var types = React.PropTypes;
-var cx = React.addons.classSet;
 
 var Container = React.createClass({
   mixins: [PureRenderMixin, HoverDesiredLrpMixin],
@@ -49,14 +48,14 @@ var Container = React.createClass({
     }
 
     var style = {width, backgroundColor};
-    className = mergeClassNames(
+    className = classnames(
       className,
-      cx({
+      {
         'app-container': true,
         claimed: state === 'CLAIMED',
         flex,
         undesired
-      }));
+      });
     var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': instanceGuid, onClick: this.onClick, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
     return (<a {...props}/>);
   }
