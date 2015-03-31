@@ -9,10 +9,22 @@ fi
 echo $1
 if [[ "$1" =~ .*spec\.js ]]; then
     #in a spec file
-    file_to_open_part1=${1/spec\//\/}
+    if [ -d "app" ]; then
+        # source files are in app/, spec files are in spec/app/
+        file_to_open_part1=${1/spec\//\/}
+    else
+       # source files are in src/, spec files are in spec/
+       file_to_open_part1=${1/spec\//src\//}
+    fi
     file_to_open=${file_to_open_part1/_spec\.js/\.js}
 else
-    file_to_open_part1=${1/app\//spec\/app\/}
+    if [ -d "app" ]; then
+        # source files are in app/, spec files are in spec/app/
+        file_to_open_part1=${1/app\//spec\/app\/}
+    else
+       # source files are in src/, spec files are in spec/
+        file_to_open_part1=${1/src\//spec\//}
+    fi
     file_to_open=${file_to_open_part1/\.js/_spec\.js}
 fi
 
