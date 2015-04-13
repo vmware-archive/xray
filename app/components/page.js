@@ -70,6 +70,7 @@ var Page = React.createClass({
           <aside className="sidebar-panel"><Sidebar {...{$receptor, $selection, $sidebar}}/></aside>
         </section>
         <footer className="main-footer">
+          <Canvas src={require('../canvas/brand')} width={74} height={17}/>
           <p>&copy; 2015 Pivotal Software Inc. All rights reserved.</p>
           <InlineList>
             <ListItem>Terms of Service</ListItem>

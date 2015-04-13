@@ -72,16 +72,22 @@ body {
   display: flex;
   align-items: center;
   color: $gray-4;
+  canvas {
+    display: block;
+  }
 
   %font-size {
     font-size: 12px;
   }
 
+  canvas {
+    margin: -3px 10px 0;
+  }
+
   p, .list-inline {
     @extend %font-size;
     margin: 0;
-    display: inline-block;
-    vertical-align: middle;
+    line-height: 1;
   }
 
   .list-inline {
