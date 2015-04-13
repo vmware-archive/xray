@@ -81,6 +81,7 @@
     "pui-react-radio": "0.0.1",
     "pui-react-radio-group": "0.0.1",
     "pui-react-tooltip": "0.0.3",
+    "pui-react-lists": "0.0.2",
     "react": "^0.12.2",
     "react-bootstrap": "^0.17.0",
     "react-fa": "^3.1.0",

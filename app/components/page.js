@@ -1,4 +1,5 @@
 var BaseApi = require('../api/base_api');
+var Canvas = require('./canvas');
 var Footer = require('./footer');
 var React = require('react/addons');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
@@ -7,6 +8,7 @@ var ReceptorStreamMixin = require('../mixins/receptor_stream_mixin');
 var Zones = require('./zones');
 var Sidebar = require('./sidebar');
 var classnames = require('classnames');
+var {InlineList, ListItem} = require('pui-react-lists');
 
 var types = React.PropTypes;
 
@@ -55,12 +57,25 @@ var Page = React.createClass({
 
     return (
       <div className={classes}>
-        <article className="main-panel">
-          <Zones {...{$receptor, $selection, $sidebar, scaling: $scaling.get()}}/>
-          <Footer {...{$receptor, $scaling}}/>
-          {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
-        </article>
-        <aside className="sidebar-panel"><Sidebar {...{$receptor, $selection, $sidebar}}/></aside>
+        <header className="main-header">
+          <Canvas src={require('../canvas/logo')} width={50} height={50}/>
+          <h1>Pivotal <strong>X-Ray</strong></h1>
+        </header>
+        <section className="main-content">
+          <article className="main-panel">
+            <Zones {...{$receptor, $selection, $sidebar, scaling: $scaling.get()}}/>
+            <Footer {...{$receptor, $scaling}}/>
+            {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
+          </article>
+          <aside className="sidebar-panel"><Sidebar {...{$receptor, $selection, $sidebar}}/></aside>
+        </section>
+        <footer className="main-footer">
+          <p>&copy; 2015 Pivotal Software Inc. All rights reserved.</p>
+          <InlineList>
+            <ListItem>Terms of Service</ListItem>
+            <ListItem>Privacy Policy</ListItem>
+          </InlineList>
+        </footer>
         {this.props.children}
       </div>
     );

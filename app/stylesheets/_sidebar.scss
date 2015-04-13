@@ -7,11 +7,12 @@
   display: block;
 }
 
-.sidebar, .panel-body, .desired-lrp-list, .desired-lrp-detail {
+.desired-lrp-list, .desired-lrp-detail {
   @extend %full-height;
 }
 
 .sidebar {
+  @extend %zero;
   table {
     @extend %full-width;
     table-layout: fixed;

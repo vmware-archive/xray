@@ -18,31 +18,87 @@ body {
 .page {
   @extend %full;
   overflow: hidden;
-  position: relative;
-  .main-panel, .sidebar-panel {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    box-sizing: border-box;
-  }
-  .main-panel {
+  display: flex;
+  flex-direction: column;
+
+  .main-content {
+    flex: 1;
     display: flex;
-    left: 0;
-    right: $sidebar-width;
+    @extend %full;
+  }
+
+  .main-panel {
+    flex: 1;
+    display: flex;
+    margin-right: 0;
     flex-direction: column;
   }
   .sidebar-panel {
-    position: absolute;
-    right: 0;
+    position: relative;
     width: $sidebar-width;
     background-color: $shadow-1;
   }
 }
 
+.main-header, .main-footer {
+  background-color: #24363f;
+}
+
+.main-header {
+  padding: 15px 10px;
+  h1, canvas {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  canvas {
+    margin-right: 10px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 300;
+  }
+
+  strong {
+    display: block;
+  }
+}
+
+.main-footer {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  color: $gray-4;
+
+  %font-size {
+    font-size: 12px;
+  }
+
+  p, .list-inline {
+    @extend %font-size;
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .list-inline {
+    > li {
+      @extend %font-size;
+      & + li:before {
+        content: '·';
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
 .main-panel {
-  transition: right $sidebar-animation-duration ease-in;
+  transition: margin-right $sidebar-animation-duration ease-in;
   .sidebar-collapsed & {
-    right: $sidebar-collapsed-width;
+    margin-right: $sidebar-collapsed-width - $sidebar-width;
   }
 }
 
