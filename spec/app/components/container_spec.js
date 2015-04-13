@@ -86,7 +86,7 @@ describe('Container', function() {
     });
   });
 
-  it('ignores the receptor cursor for rendering', function() {
-    expect(subject.ignorePureRenderProps).toEqual(['$selection']);
+  it('ignores the expected cursors for rendering', function() {
+    expect(subject.ignorePureRenderProps).toEqual(['$selection', '$sidebar']);
   });
 });

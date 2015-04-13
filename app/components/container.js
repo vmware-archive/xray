@@ -15,7 +15,8 @@ var Container = React.createClass({
     desiredLrp: types.object,
     denominator: types.number.isRequired,
     scaling: types.string.isRequired,
-    $selection: types.object.isRequired
+    $selection: types.object.isRequired,
+    $sidebar: types.object.isRequired
   },
 
   contextTypes: {
@@ -23,7 +24,7 @@ var Container = React.createClass({
     modal: types.object
   },
 
-  ignorePureRenderProps: ['$selection'],
+  ignorePureRenderProps: ['$selection', '$sidebar'],
 
   render() {
     var {state, instance_guid: instanceGuid, modification_tag: {epoch: key}, process_guid: processGuid} = this.props.actualLrp;
