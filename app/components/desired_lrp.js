@@ -21,7 +21,8 @@ var Routes = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    routes: types.array.isRequired
+    routes: types.array.isRequired,
+    $sidebar: types.object.isRequired
   },
 
   render() {
@@ -44,8 +45,12 @@ var Routes = React.createClass({
 });
 
 var DesiredLrpInfo = React.createClass({
+  propTypes: {
+    $sidebar: types.object.isRequired
+  },
+
   render() {
-    var {actualLrps, desiredLrp} = this.props;
+    var {actualLrps, desiredLrp, $sidebar} = this.props;
 
     var routes = getRoutes(desiredLrp);
     var {disk_mb: disk, memory_mb: memory, process_guid: processGuid} = desiredLrp;
@@ -57,7 +62,7 @@ var DesiredLrpInfo = React.createClass({
     return (
       <section className="desired-lrp-info">
         <div className="process-guid type-ellipsis-1-line">{processGuid}</div>
-        {routes && <Routes {...{routes}}/>}
+        {routes && <Routes {...{routes, $sidebar}}/>}
         <div className="metadata">
           <span>{instances}</span>
           &nbsp;(M: {memory} D: {disk})
@@ -75,7 +80,8 @@ var DesiredLrp = React.createClass({
     actualLrps: types.array.isRequired,
     sidebarCollapsed: types.bool,
     tag: types.string,
-    $selection: types.object.isRequired
+    $selection: types.object.isRequired,
+    $sidebar: types.object.isRequired
   },
 
   getDefaultProps() {
@@ -89,13 +95,13 @@ var DesiredLrp = React.createClass({
   ignorePureRenderProps: ['$selection'],
 
   render() {
-    var {actualLrps, desiredLrp, className, sidebarCollapsed, tag: Tag} = this.props;
+    var {actualLrps, desiredLrp, className, sidebarCollapsed, tag: Tag, $sidebar} = this.props;
 
     var {process_guid: processGuid} = desiredLrp;
     var claimed = actualLrps.some(({state}) => state === 'CLAIMED');
     var instancesRunning = actualLrps.filter(({state}) => state === 'RUNNING').length;
     var instancesError = instancesRunning < desiredLrp.instances;
-    var desiredLrpInfo = (<DesiredLrpInfo {...{actualLrps, desiredLrp}}/>);
+    var desiredLrpInfo = (<DesiredLrpInfo {...{$sidebar, actualLrps, desiredLrp}}/>);
     className = classnames(className, 'desired-lrp', {error: instancesError});
     return (
       <Tag onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>

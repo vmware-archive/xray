@@ -13,7 +13,8 @@ var removeHover = throttle(function updateHover($selection) {
 var HoverDesiredLrpMixin = {
   propTypes: {
     desiredLrp: types.object.isRequired,
-    $selection: types.object.isRequired
+    $selection: types.object.isRequired,
+    $sidebar: types.object.isRequired
   },
 
   onMouseEnter() {
@@ -28,8 +29,9 @@ var HoverDesiredLrpMixin = {
 
   onClick(e) {
     e.stopPropagation();
-    var {desiredLrp, $selection} = this.props;
-    $selection.merge({selectedDesiredLrp: desiredLrp, sidebarCollapsed: false});
+    var {desiredLrp, $selection, $sidebar} = this.props;
+    $selection.merge({selectedDesiredLrp: desiredLrp});
+    $sidebar.merge({sidebarCollapsed: false});
   }
 };
 

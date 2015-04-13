@@ -24,7 +24,7 @@ var DesiredLrpList = React.createClass({
       return <div className="mam">No filtered processes found.</div>;
     }
 
-    desiredLrps = desiredLrps.map(this.renderDesiredLrp.bind(this, {actualLrpsByProcessGuid, sidebarCollapsed, $selection}));
+    desiredLrps = desiredLrps.map(this.renderDesiredLrp.bind(this, {actualLrpsByProcessGuid, sidebarCollapsed, $selection, $sidebar}));
     return (
       <ul className="list-group-inverse pln">
         {desiredLrps}
@@ -32,12 +32,12 @@ var DesiredLrpList = React.createClass({
     );
   },
 
-  renderDesiredLrp({actualLrpsByProcessGuid, sidebarCollapsed, $selection}, desiredLrp) {
+  renderDesiredLrp({actualLrpsByProcessGuid, sidebarCollapsed, $selection, $sidebar}, desiredLrp) {
     var key = desiredLrp.process_guid;
     var className = classnames('clickable', {hover: $selection.get('hoverDesiredLrp') === desiredLrp});
     var filtered = actualLrpsByProcessGuid[desiredLrp.process_guid] || [];
     return (
-      <DesiredLrp {...{className, desiredLrp, actualLrps: filtered, sidebarCollapsed, $selection, key, tag: 'li'}}/>
+      <DesiredLrp {...{className, desiredLrp, actualLrps: filtered, sidebarCollapsed, $selection, $sidebar, key, tag: 'li'}}/>
     );
   },
 

@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Container', function() {
-  var Cursor, subject, modalSpy, update, callbackSpy, desiredLrp;
+  var Cursor, subject, modalSpy, update, selectionCallbackSpy, desiredLrp;
   beforeEach(function() {
     update = React.addons.update;
     var Container = require('../../../app/components/container');
@@ -13,11 +13,12 @@ describe('Container', function() {
     modalSpy = jasmine.createSpyObj('modal', ['open']);
 
     Cursor = require('../../../app/lib/cursor');
-    callbackSpy = jasmine.createSpy('callback');
-    var $selection = new Cursor({hoverDesiredLrp: null}, callbackSpy);
+    selectionCallbackSpy = jasmine.createSpy('callback');
+    var $selection = new Cursor({hoverDesiredLrp: null}, selectionCallbackSpy);
+    var $sidebar = new Cursor({sidebarCollapsed: false}, jasmine.createSpy('callback'));
     var scaling = 'containers';
     React.withContext({colors: ['#fff', '#000'], modal: modalSpy}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, scaling, className: '', $selection}}/>, root);
+      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, scaling, className: '', $selection, $sidebar}}/>, root);
     });
   });
 
@@ -50,7 +51,7 @@ describe('Container', function() {
     });
 
     it('sets the selected desiredLrp', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: desiredLrp}));
+      expect(selectionCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: desiredLrp}));
     });
 
     describe('when mouse out is triggered on the container', function() {
@@ -60,7 +61,7 @@ describe('Container', function() {
       });
 
       it('unsets the desiredLrp on the receptor', function() {
-        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: null}));
+        expect(selectionCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: null}));
       });
     });
   });

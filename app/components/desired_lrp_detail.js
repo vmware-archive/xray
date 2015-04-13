@@ -34,7 +34,7 @@ var DesiredLrpDetail = React.createClass({
     var $hoverSidebarActualLrp = $sidebar.refine('hoverActualLrp');
     return (
       <div className="desired-lrp-detail">
-        <DesiredLrp {...{actualLrps, desiredLrp, $selection}}/>
+        <DesiredLrp {...{actualLrps, desiredLrp, $selection, $sidebar}}/>
         {isDeleted && <span className="pal">This process has been deleted. Information in this panel is out of date.</span>}
         <ActualLrpList {...{actualLrps, $hoverActualLrp, $hoverSidebarActualLrp}}/>
       </div>

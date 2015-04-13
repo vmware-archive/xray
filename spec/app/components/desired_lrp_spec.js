@@ -2,7 +2,7 @@ require('../spec_helper');
 var update = React.addons.update;
 
 describe('DesiredLrp', function() {
-  var Cursor, subject, desiredLrp, actualLrps, callbackSpy;
+  var Cursor, subject, desiredLrp, actualLrps, selectionCallbackSpy, sidebarCallbackSpy;
   beforeEach(function() {
     var DesiredLrp = require('../../../app/components/desired_lrp');
 
@@ -12,13 +12,15 @@ describe('DesiredLrp', function() {
       Factory.build('actualLrp', {process_guid: 'Diego', state: 'CLAIMED'})
     ];
     desiredLrp = Factory.build('desiredLrp', {process_guid: 'Diego', instances: 3});
-    callbackSpy = jasmine.createSpy('hoverCallback');
+    selectionCallbackSpy = jasmine.createSpy('selection');
+    sidebarCallbackSpy = jasmine.createSpy('sidebar');
 
     Cursor = require('../../../app/lib/cursor');
-    var $selection = new Cursor({hoverDesiredLrp: null, selectedDesiredLrp: null}, callbackSpy);
+    var $selection = new Cursor({hoverDesiredLrp: null, selectedDesiredLrp: null}, selectionCallbackSpy);
+    var $sidebar = new Cursor({sidebarCollapsed: false}, sidebarCallbackSpy);
     var colors = ['#fff', '#000'];
     React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $selection, isSelected: false, sidebarCollapsed: true}}/>, root);
+      subject = React.render(<DesiredLrp {...{desiredLrp, actualLrps, containerColor: 'blue', $selection, $sidebar, isSelected: false, sidebarCollapsed: true}}/>, root);
     });
   });
 
@@ -119,6 +121,7 @@ describe('DesiredLrp', function() {
       });
     });
   });
+
   describe('when everything is running smoothly', function() {
     beforeEach(function() {
       actualLrps = React.addons.update(actualLrps, {2: {$merge: {state: 'RUNNING'}}});
@@ -170,7 +173,7 @@ describe('DesiredLrp', function() {
     });
 
     it('sets the hoverDesiredLrp on the receptor', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: desiredLrp}));
+      expect(selectionCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: desiredLrp}));
     });
   });
 
@@ -180,11 +183,11 @@ describe('DesiredLrp', function() {
     });
 
     it('selects the lrp', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedDesiredLrp: desiredLrp}));
+      expect(selectionCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({selectedDesiredLrp: desiredLrp}));
     });
 
     it('opens the sidebar', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sidebarCollapsed: false}));
+      expect(sidebarCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sidebarCollapsed: false}));
     });
   });
 });

@@ -36,12 +36,12 @@ var Cell = React.createClass({
   },
 
   render() {
-    var {cell, actualLrps, scaling, style, $selection} = this.props;
+    var {cell, actualLrps, scaling, style, $selection, $sidebar} = this.props;
     var denominator = scaling === 'containers' ? 50 : cell.capacity[scaling];
     var containers = actualLrps && actualLrps.map(function(actualLrp) {
       var desiredLrp = this.getDesiredLrp(actualLrp);
       var className = classnames(this.getSelectionClasses({actualLrp, desiredLrp}));
-      var props = {actualLrp, denominator, desiredLrp, scaling, $selection, className};
+      var props = {actualLrp, denominator, desiredLrp, scaling, $selection, $sidebar, className};
       return (<Container {...props} key={actualLrp.modification_tag.epoch}/>);
     }, this);
 
