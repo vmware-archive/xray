@@ -1,10 +1,10 @@
 var classnames = require('classnames');
-var PureRenderMixin = require('../mixins/pure_render_mixin');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
+var Media = require('pui-react-media').Media;
 var prettyBytes = require('pretty-bytes');
+var PureRenderMixin = require('../mixins/pure_render_mixin');
 var React = require('react/addons');
 var SidebarContainer = require('./sidebar_container');
-var ui = {Media: require('../vendor/media').Media};
 var {getRoutes} = require('../helpers/lrp_helper');
 
 var types = React.PropTypes;
@@ -105,9 +105,9 @@ var DesiredLrp = React.createClass({
     className = classnames(className, 'desired-lrp', {error: instancesError});
     return (
       <Tag onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} onClick={this.onClick} className={className}>
-        <ui.Media leftImage={<SidebarContainer {...{instancesError, desiredLrp, claimed, tooltip: sidebarCollapsed && desiredLrpInfo}}/>} key={processGuid} className="man">
+        <Media leftImage={<SidebarContainer {...{instancesError, desiredLrp, claimed, tooltip: sidebarCollapsed && desiredLrpInfo}}/>} key={processGuid} className="man">
           {desiredLrpInfo}
-        </ui.Media>
+        </Media>
       </Tag>
     );
   }

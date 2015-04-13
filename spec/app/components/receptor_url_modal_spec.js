@@ -4,7 +4,7 @@ describe('ReceptorUrlModal', function() {
   var Modal, submitSpy;
 
   beforeEach(function() {
-    Modal = require('../../../app/vendor/modals').Modal;
+    Modal = require('pui-react-modals').Modal;
     jasmineReact.spyOnClass(Modal, 'open').and.callThrough();
     jasmineReact.spyOnClass(Modal, 'close');
     var ReceptorUrlModal = require('../../../app/components/receptor_url_modal');

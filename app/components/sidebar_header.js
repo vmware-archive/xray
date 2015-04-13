@@ -1,6 +1,6 @@
 var Filter = require('./filter');
+var Icon = require('pui-react-iconography').Icon;
 var PureRenderMixin = require('../mixins/pure_render_mixin');
-var PUI = {Icon: require('../vendor/icon').Icon};
 var React = require('react/addons');
 var helper = require('../helpers/lrp_helper');
 
@@ -37,7 +37,7 @@ var SidebarHeader = React.createClass({
       <header className="sidebar-header mam">
         <a className="form-control sidebar-toggle txt-c" role="button" onClick={this.toggleSidebar} title="toggle sidebar">
           <span className="sr-only">toggle sidebar</span>
-          <PUI.Icon name="angle-double-right" />
+          <Icon name="angle-double-right" />
         </a>
         <Filter className="filter-processes" placeholder="Filter &hellip;" value={filter} onFilter={this.filter}/>
       </header>

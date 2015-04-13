@@ -1,5 +1,9 @@
+var HighlightButton = require('pui-react-buttons').HighlightButton;
+var LowlightButton = require('pui-react-buttons').LowlightButton;
+var Modal = require('pui-react-modals').Modal;
+var ModalBody = require('pui-react-modals').ModalBody;
+var ModalFooter = require('pui-react-modals').ModalFooter;
 var PureRenderMixin = require('../mixins/pure_render_mixin');
-var PUI = Object.assign({}, require('../vendor/modals'), require('../vendor/buttons'));
 var React = require('react/addons');
 var types = React.PropTypes;
 
@@ -36,15 +40,15 @@ var ReceptorUrlModal = React.createClass({
   render() {
     return (
       <form className="receptor-url-modal" onSubmit={this.submit}>
-        <PUI.Modal title="Please Enter A Receptor Url" ref="modal">
-          <PUI.ModalBody>
+        <Modal title="Please Enter A Receptor Url" ref="modal">
+          <ModalBody>
             <input type="text" onChange={this.change} autoFocus/>
-          </PUI.ModalBody>
-          <PUI.ModalFooter>
-            <PUI.LowlightButton onClick={this.closeModal}>Close</PUI.LowlightButton>
-            <PUI.HighlightButton type="submit">Submit</PUI.HighlightButton>
-          </PUI.ModalFooter>
-        </PUI.Modal>
+          </ModalBody>
+          <ModalFooter>
+            <LowlightButton onClick={this.closeModal}>Close</LowlightButton>
+            <HighlightButton type="submit">Submit</HighlightButton>
+          </ModalFooter>
+        </Modal>
       </form>
     );
   }

@@ -1,8 +1,8 @@
 var classnames = require('classnames');
+var Icon = require('pui-react-iconography').Icon;
 var React = require('react/addons');
-var Tooltip = require('react-bootstrap/lib/Tooltip');
-var ui = {Icon: require('../vendor/icon').Icon};
-var OverlayTrigger = require('react-bootstrap/lib/OverlayTrigger');
+var OverlayTrigger = require('pui-react-overlay-trigger').OverlayTrigger;
+var Tooltip = require('pui-react-tooltip').Tooltip;
 var {getHostname} = require('../helpers/lrp_helper');
 var {pickColor} = require('../helpers/application_helper');
 
@@ -28,7 +28,7 @@ var SidebarContainer = React.createClass({
 
     var container = (
       <a className={classnames({'app-container-sidebar': true, claimed})} style={imageStyle} role="button">
-        {instancesError && <ui.Icon name="exclamation-circle"/>}
+        {instancesError && <Icon name="exclamation-circle"/>}
       </a>
     );
 

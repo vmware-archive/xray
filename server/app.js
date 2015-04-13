@@ -16,7 +16,6 @@ if (XRAY_USER && XRAY_PASSWORD) {
 
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../public'));
-app.use(express.static(__dirname + '/../vendor/pui-v1.4.0'));
 
 function getReceptorCredentials(receptorUrl) {
   if (!receptorUrl) return null;
@@ -28,7 +27,7 @@ function getReceptorCredentials(receptorUrl) {
 app.get('/', function(req, res) {
   var receptorUrl = req.query.receptor || process.env.RECEPTOR_URL;
   var scripts = ['application.js'];
-  var stylesheets = ['pivotal-ui.min.css', 'application.css'];
+  var stylesheets = ['pui.css', 'application.css'];
   var colors = JSON.parse(fs.readFileSync('config/colors.json'));
   var config = {receptorUrl, colors};
   var props = {entry: Application, scripts, stylesheets, config, className: 'bg-neutral-1'};
