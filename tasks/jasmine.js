@@ -11,7 +11,7 @@ gulp.task('spec', function(callback) {
 gulp.task('spec-server', function() {
   return gulp.src('spec/server/**/*_spec.js')
     .pipe(plugins.plumber())
-    .pipe(plugins.jasmine());
+    .pipe(plugins.jasmine({includeStackTrace: true}));
 });
 
 function testAssets(options = {}) {
