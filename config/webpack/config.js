@@ -1,7 +1,14 @@
+var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+var commonsChunkPlugin = new CommonsChunkPlugin({
+  name: 'common',
+  filename: 'common.js'
+});
+
 module.exports = function(env = null) {
   return Object.assign({}, {
     entry: {
-      application: `./app/components/application.js`
+      application: './app/components/application.js',
+      setup: './app/components/setup.js'
     },
     module: {
       loaders: [
@@ -12,6 +19,7 @@ module.exports = function(env = null) {
       filename: '[name].js',
       chunkFilename: '[id].js',
       pathinfo: true
-    }
+    },
+    plugins: [commonsChunkPlugin]
   }, env && require(`./${env}`));
 };

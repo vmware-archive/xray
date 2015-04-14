@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var {show} = require('./middleware/component');
 var Application = require('../app/components/application');
+var Setup = require('../app/components/setup');
 var receptorAuthorization = require('./middleware/receptor_authorization');
 
 var app = express();
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../public'));
 
 app.get('/', receptorAuthorization, show(Application, 'application'));
+app.get('/setup', receptorAuthorization, show(Setup, 'setup'));
 
 app.post('/receptor_url', receptorAuthorization, function(req, res) {
   var {receptor_url: receptorUrl} = req.body;

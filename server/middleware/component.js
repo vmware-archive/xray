@@ -4,7 +4,7 @@ const colors = require('../../config/colors.json');
 
 function show(entry, entryName) {
   function renderComponent(req, res) {
-    var scripts = [`${entryName}.js`];
+    var scripts = ['common.js', `${entryName}.js`];
     var stylesheets = ['pui.css', 'application.css'];
     var config = {receptorUrl: req.receptorUrl, colors};
     var props = {entry, config, scripts, stylesheets};

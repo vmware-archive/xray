@@ -42,6 +42,23 @@ describe('app', function() {
     });
   });
 
+  describe('GET /setup', function() {
+    it('renders the layout and setup', async function(done) {
+      var Layout = require('../../server/components/layout');
+      var Setup = require('../../app/components/setup');
+      spyOn(Layout.type.prototype, 'render').and.callThrough();
+      spyOn(Setup.type.prototype, 'render').and.callThrough();
+      var res = await request(subject)
+        .get('/setup')
+        .expect('Content-Type', /html/);
+      expect(res.status).toEqual(200);
+      expect(Layout.type.prototype.render).toHaveBeenCalled();
+      expect(Setup.type.prototype.render).toHaveBeenCalled();
+      expect(res.headers['set-cookie']).toBeUndefined();
+      done();
+    });
+  });
+
   describe('POST /receptor_url', function() {
     describe('when a receptor url is provided', function() {
       describe('when there are credentials', function() {
