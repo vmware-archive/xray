@@ -4,9 +4,9 @@
 
 .main-content.setup {
   $setup-gutter: 70px;
-  padding: 0 $setup-gutter;
+  @extend %scrollable;
   align-items: center;
-  @extend %scrollable-y;
+  padding: 0 $setup-gutter;
   background-color: #162229;
   color: $gray-7;
 
