@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Container', function() {
-  var Cursor, subject, modalSpy, update, selectionCallbackSpy, desiredLrp;
+  var Cursor, subject, update, selectionCallbackSpy, desiredLrp;
   beforeEach(function() {
     update = React.addons.update;
     var Container = require('../../../app/components/container');
@@ -10,14 +10,12 @@ describe('Container', function() {
     desiredLrp = Factory.build('desiredLrp');
     var denominator = 50;
 
-    modalSpy = jasmine.createSpyObj('modal', ['open']);
-
     Cursor = require('../../../app/lib/cursor');
     selectionCallbackSpy = jasmine.createSpy('callback');
     var $selection = new Cursor({hoverDesiredLrp: null}, selectionCallbackSpy);
     var $sidebar = new Cursor({sidebarCollapsed: false}, jasmine.createSpy('callback'));
     var scaling = 'containers';
-    React.withContext({colors: ['#fff', '#000'], modal: modalSpy}, function() {
+    React.withContext({colors: ['#fff', '#000']}, function() {
       subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, scaling, className: '', $selection, $sidebar}}/>, root);
     });
   });

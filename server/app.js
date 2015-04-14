@@ -1,5 +1,6 @@
 var basicAuth = require('node-basicauth');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var express = require('express');
 var {show} = require('./middleware/component');
 var Application = require('../app/components/application');
@@ -14,13 +15,26 @@ if (XRAY_USER && XRAY_PASSWORD) {
   app.use(basicAuth({[XRAY_USER]: XRAY_PASSWORD}));
 }
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../public'));
 
-app.get('/', receptorAuthorization, show(Application, 'application'));
-app.get('/setup', receptorAuthorization, show(Setup, 'setup'));
+function redirectToSetup(req, res, next) {
+  var receptorUrl = req.query && req.query.receptor || process.env.RECEPTOR_URL;
+  var {accept_tos: acceptTos} = req.cookies;
+  if (receptorUrl && acceptTos) return next();
+  res.redirect('/setup');
+}
 
-app.post('/receptor_url', receptorAuthorization, function(req, res) {
+function acceptTos(req, res, next) {
+  req.acceptTos = req.cookies.accept_tos === 'true';
+  return next();
+}
+
+app.get('/', redirectToSetup, receptorAuthorization, show(Application, 'application'));
+app.get('/setup', receptorAuthorization, acceptTos, show(Setup, 'setup'));
+
+app.post('/setup', receptorAuthorization, function(req, res) {
   var {receptor_url: receptorUrl} = req.body;
   if (!receptorUrl) {
     res
@@ -30,7 +44,7 @@ app.post('/receptor_url', receptorAuthorization, function(req, res) {
       .send({error: 'receptor_url is required'});
     return;
   }
-
+  res.cookie('accept_tos', true);
   res.status(200).type('json').send({ok: true});
 });
 

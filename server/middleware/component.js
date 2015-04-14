@@ -6,7 +6,7 @@ function show(entry, entryName) {
   function renderComponent(req, res) {
     var scripts = ['common.js', `${entryName}.js`];
     var stylesheets = ['pui.css', 'application.css'];
-    var config = {receptorUrl: req.receptorUrl, colors};
+    var config = {receptorUrl: req.receptorUrl, acceptTos: req.acceptTos, colors};
     var props = {entry, config, scripts, stylesheets};
     var html = React.renderToStaticMarkup(<Layout {...props}/>);
 

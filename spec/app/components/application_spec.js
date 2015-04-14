@@ -2,7 +2,7 @@ require('../spec_helper');
 
 describe('Application', function() {
   const RECEPTOR_URL = 'http://example.com';
-  var Application, Cells, subject, request;
+  var Application, Cells, subject;
   beforeEach(function() {
     Cells = require('../../../app/components/cells');
     spyOn(Cells.type.prototype, 'render').and.callThrough();
@@ -183,55 +183,6 @@ describe('Application', function() {
 
       it('refreshes the receptor', function() {
         expect(ReceptorApi.fetch).toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe('when no receptor url is provided in configuration', function() {
-    var Modal;
-    beforeEach(function() {
-      Modal = require('../../../app/components/modal');
-      jasmineReact.spyOnClass(Modal, 'open').and.callThrough();
-      var props = {config: {colors: ['#fff', '#000']}};
-      subject = React.render(<Application {...props}/>, root);
-      request = jasmine.Ajax.requests.mostRecent();
-    });
-
-    it('launches a modal asking for the url', function() {
-      var {type} = require('../../../app/components/receptor_url_modal');
-      expect(Modal.type.prototype.open).toHaveBeenCalledWith(jasmine.objectContaining({type}));
-    });
-
-    describe('when the user submits a receptor url', function() {
-      const NEW_RECEPTOR_URL = 'http://foo.com';
-      beforeEach(function() {
-        $('.receptor-url-modal :text').val(NEW_RECEPTOR_URL).simulate('change');
-        $('form.receptor-url-modal').simulate('submit');
-        request = jasmine.Ajax.requests.mostRecent();
-      });
-
-      it('sends the receptor url to the server (cookie requested)', function() {
-        expect('receptor_url').toHaveBeenRequested();
-        expect(JSON.parse(request.params)).toEqual({receptor_url: NEW_RECEPTOR_URL});
-      });
-
-      describe('after the cookie thing', function() {
-        beforeEach(function() {
-          request.respondWith({
-            status: 200,
-            responseText: ''
-          });
-          MockPromises.executeForResolvedPromises();
-        });
-
-        it('makes ajax requests for the cells', function() {
-          expect(`${NEW_RECEPTOR_URL}/v1/cells`).toHaveBeenRequested();
-          expect(`${NEW_RECEPTOR_URL}/v1/actual_lrps`).toHaveBeenRequested();
-        });
-
-        it('makes ajax requests for the desired lrps', function() {
-          expect(`${NEW_RECEPTOR_URL}/v1/desired_lrps`).toHaveBeenRequested();
-        });
       });
     });
   });

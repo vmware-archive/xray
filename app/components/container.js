@@ -20,8 +20,7 @@ var Container = React.createClass({
   },
 
   contextTypes: {
-    colors: types.array.isRequired,
-    modal: types.object
+    colors: types.array.isRequired
   },
 
   ignorePureRenderProps: ['$selection', '$sidebar'],

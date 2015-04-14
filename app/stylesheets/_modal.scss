@@ -1,7 +1,0 @@
-@import '_mixins';
-
-.receptor-url-modal {
-  input[type="text"] {
-    @extend %full-width;
-  }
-}

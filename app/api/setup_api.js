@@ -1,9 +1,9 @@
 var request = require('superagent');
 
-var ReceptorUrlApi = {
+var SetupApi = {
   create({receptorUrl}) {
     return new Promise(function(resolve, reject) {
-      request.post('/receptor_url')
+      request.post('/setup')
         .accept('json')
         .send({receptor_url: receptorUrl})
         .end(function(err, res) {
@@ -15,4 +15,4 @@ var ReceptorUrlApi = {
   }
 };
 
-module.exports = ReceptorUrlApi;
+module.exports = SetupApi;

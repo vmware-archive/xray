@@ -14,7 +14,6 @@ global.MockEventSource = require('../support/mock_event_source');
 global.jasmineReact = require('jasmine-react-helpers');
 global.Deferred = require('../support/deferred');
 
-global.xray = global.xray || {};
 global.OldPromise = global.Promise;
 global.Promise = require('es6-promise').Promise;
 
@@ -23,7 +22,7 @@ $.fn.simulate = function(eventName, ...args) {
     throw new Error(`jQuery Simulate has an empty selection for '${this.selector}'`);
   }
   $.each(this, function() {
-    if (['mouseOver', 'mouseOut'].includes(eventName)) {
+    if (['click', 'mouseOver', 'mouseOut'].includes(eventName)) {
       React.addons.TestUtils.SimulateNative[eventName](this, ...args);
     } else {
       React.addons.TestUtils.Simulate[eventName](this, ...args);
@@ -35,6 +34,8 @@ $.fn.simulate = function(eventName, ...args) {
 require('jasmine-ajax');
 
 beforeEach(function() {
+  var mockLocation = jasmine.createSpyObj('location', ['assign', 'reload', 'replace']);
+  global.xray = {location: mockLocation};
   spyOn(React.addons.CSSTransitionGroup.type.prototype, 'render').and.callFake(function() { return (<div>{this.props.children}</div>); });
 
   var Layout = require('../../server/components/layout');

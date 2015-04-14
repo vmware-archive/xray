@@ -15,7 +15,9 @@ var Body = React.createClass({
     });
     var entryFactory = React.createFactory(entry);
     var __html = React.renderToString(entryFactory({config}));
-    var configScript = `var xray = {}; xray.config = ${JSON.stringify(config)};`;
+    /*eslint-disable comma-spacing*/
+    var configScript = `var xray = {config: ${JSON.stringify(config)}, location: location};`;
+    /*eslint-enable comma-spacing*/
     return (
       <body className={className}>
         <main id="root" dangerouslySetInnerHTML={{__html}}/>

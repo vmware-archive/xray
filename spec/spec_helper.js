@@ -18,6 +18,23 @@ beforeEach(function() {
           return {pass};
         }
       };
+    },
+
+    toHaveBeenRequestedWith() {
+      return {
+        compare(actual, options) {
+          var requests = jasmine.Ajax.requests.filter(new RegExp(actual));
+          var pass = requests.some(request => {
+            return Object.keys(options).every(k => {
+              return JSON.stringify(typeof request[k] === 'function' ? request[k]() : request[k]) === JSON.stringify(options[k]);
+            });
+          });
+          var message = pass ?
+            `Expected ${actual} not to have been requested with ${JSON.stringify(options)}` :
+            `Expected ${actual} to have been requested with ${JSON.stringify(options)}`;
+          return {pass, message};
+        }
+      };
     }
   });
 });

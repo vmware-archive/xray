@@ -1,11 +1,9 @@
 require('babel/polyfill');
 var Cursor = require('../lib/cursor');
 var Layout = require('../../server/components/layout');
-var Modal = require('./modal');
 var Page = require('./page');
 var React = require('react/addons');
-var ReceptorUrlApi = require('../api/receptor_url_api');
-var ReceptorUrlModal = require('./receptor_url_modal');
+var SetupApi = require('../api/setup_api');
 
 var types = React.PropTypes;
 
@@ -15,12 +13,11 @@ var Application = React.createClass({
   },
 
   childContextTypes: {
-    colors: types.array.isRequired,
-    modal: types.object
+    colors: types.array.isRequired
   },
 
   getChildContext: function() {
-    return {colors: this.props.config.colors, modal: this.refs.modal};
+    return {colors: this.props.config.colors};
   },
 
   getInitialState() {
@@ -49,20 +46,13 @@ var Application = React.createClass({
     };
   },
 
-  componentDidMount() {
-    var {modal} = this.refs;
-    if (!this.state.receptorUrl) {
-      modal.open(<ReceptorUrlModal onSubmit={this.updateReceptorUrl}/>);
-    }
-  },
-
   componentDidUpdate() {
     var {receptor, selection, sidebar} = this.state;
     Object.assign(xray, {receptor, selection, sidebar});
   },
 
   async updateReceptorUrl({receptorUrl}) {
-    await ReceptorUrlApi.create({receptorUrl});
+    await SetupApi.create({receptorUrl});
     this.setState({receptorUrl});
   },
 
@@ -74,9 +64,7 @@ var Application = React.createClass({
     var $scaling = new Cursor(scaling, scaling => this.setState({scaling}));
     return (
       <div className="xray">
-        <Page {...{$receptor, $sidebar, $selection, $scaling, receptorUrl}} ref="page">
-          <Modal ref="modal"/>
-        </Page>
+        <Page {...{$receptor, $sidebar, $selection, $scaling, receptorUrl}} ref="page"/>
       </div>
     );
   }

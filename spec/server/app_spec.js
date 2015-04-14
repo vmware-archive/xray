@@ -8,68 +8,107 @@ describe('app', function() {
   });
 
   describe('GET /', function() {
-    it('renders the layout and application', async function(done) {
-      var Layout = require('../../server/components/layout');
-      var Application = require('../../app/components/application');
-      spyOn(Layout.type.prototype, 'render').and.callThrough();
-      spyOn(Application.type.prototype, 'render').and.callThrough();
-      var res = await request(subject)
-        .get('/')
-        .expect('Content-Type', /html/);
-      expect(res.status).toEqual(200);
-      expect(Layout.type.prototype.render).toHaveBeenCalled();
-      expect(Application.type.prototype.render).toHaveBeenCalled();
-      expect(res.headers['set-cookie']).toBeUndefined();
-      done();
+    describe('when a receptor url is not provided as a query param', function() {
+      it('redirects to /setup', async function(done) {
+        var res = await request(subject).get('/');
+        expect(res.status).toEqual(302);
+        expect(res.headers.location).toEqual('/setup');
+        done();
+      });
     });
 
-    describe('when a receptor url is provided as a query param', function() {
+    describe('when the receptor url is provided', function() {
       const RECEPTOR_URL = 'http://user:password@example.com';
-      it('renders the application the receptor url in from the query param', async function(done) {
-        var Application = require('../../app/components/application');
-        spyOn(Application.type.prototype, 'render').and.callThrough();
 
-        var res = await request(subject)
-          .get(`/?receptor=${RECEPTOR_URL}`)
-          .expect('Content-Type', /html/);
-        expect(res.status).toEqual(200);
-        expect(Application.type.prototype.render).toHaveBeenCalled();
-        var application = Application.type.prototype.render.calls.mostRecent().object;
-        expect(application.props.config).toEqual(jasmine.objectContaining({receptorUrl: RECEPTOR_URL}));
-        expect(res.headers['set-cookie']).toEqual(['receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D; Path=/']);
-        done();
+      describe('when the ToS are not accepted', function() {
+        var res;
+        beforeEach(async function(done) {
+          res = await request(subject).get(`/?receptor=${RECEPTOR_URL}`);
+          done();
+        });
+        it('renders the application the receptor url in from the query param', function() {
+          expect(res.status).toEqual(302);
+          expect(res.headers.location).toEqual('/setup');
+        });
+      });
+
+      describe('when the ToS are accepted', function() {
+        it('renders the application the receptor url in from the query param', async function(done) {
+          var Application = require('../../app/components/application');
+          spyOn(Application.type.prototype, 'render').and.callThrough();
+
+          var res = await request(subject)
+            .get(`/?receptor=${RECEPTOR_URL}`)
+            .set('cookie', 'accept_tos=true')
+            .expect('Content-Type', /html/);
+          expect(res.status).toEqual(200);
+          expect(Application.type.prototype.render).toHaveBeenCalled();
+          var application = Application.type.prototype.render.calls.mostRecent().object;
+          expect(application.props.config).toEqual(jasmine.objectContaining({receptorUrl: RECEPTOR_URL}));
+          expect(res.headers['set-cookie']).toEqual(['receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D; Path=/']);
+          done();
+        });
       });
     });
   });
 
   describe('GET /setup', function() {
-    it('renders the layout and setup', async function(done) {
-      var Layout = require('../../server/components/layout');
-      var Setup = require('../../app/components/setup');
+    var Layout, Setup;
+    beforeEach(function() {
+      Layout = require('../../server/components/layout');
+      Setup = require('../../app/components/setup');
       spyOn(Layout.type.prototype, 'render').and.callThrough();
       spyOn(Setup.type.prototype, 'render').and.callThrough();
-      var res = await request(subject)
-        .get('/setup')
-        .expect('Content-Type', /html/);
-      expect(res.status).toEqual(200);
-      expect(Layout.type.prototype.render).toHaveBeenCalled();
-      expect(Setup.type.prototype.render).toHaveBeenCalled();
-      expect(res.headers['set-cookie']).toBeUndefined();
-      done();
+    });
+
+    describe('when the terms of service have not been accepted', function() {
+      it('renders the layout and setup', async function(done) {
+        var res = await request(subject)
+          .get('/setup')
+          .expect('Content-Type', /html/);
+        expect(res.status).toEqual(200);
+        expect(Layout.type.prototype.render).toHaveBeenCalled();
+        expect(Setup.type.prototype.render).toHaveBeenCalled();
+        var config = Layout.type.prototype.render.calls.mostRecent().object.props.config;
+        expect(config.acceptTos).toBe(false);
+        done();
+      });
+    });
+
+    describe('when the terms of service have been accepted', function() {
+      it('renders the layout and setup with the ToS', async function(done) {
+        var res = await request(subject)
+          .get('/setup')
+          .set('cookie', 'accept_tos=true')
+          .expect('Content-Type', /html/);
+        expect(res.status).toEqual(200);
+        expect(Layout.type.prototype.render).toHaveBeenCalled();
+        var config = Layout.type.prototype.render.calls.mostRecent().object.props.config;
+        expect(config.acceptTos).toBe(true);
+        done();
+      });
     });
   });
 
-  describe('POST /receptor_url', function() {
+  describe('POST /setup', function() {
     describe('when a receptor url is provided', function() {
       describe('when there are credentials', function() {
         const RECEPTOR_URL = 'http://user:password@example.com';
-        it('returns the cookie with the receptor authorization', async function(done) {
-          var res = await request(subject)
-            .post('/receptor_url')
+        var res;
+        beforeEach(async function(done) {
+          res = await request(subject)
+            .post('/setup')
             .send({receptor_url: RECEPTOR_URL});
           expect(res.status).toEqual(200);
-          expect(res.headers['set-cookie']).toEqual(['receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D; Path=/']);
           done();
+        });
+
+        it('sets the receptor authorization in the cookie', function() {
+          expect(res.headers['set-cookie'][0]).toContain('receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D');
+        });
+
+        it('sets the accept tos in the cookie', function() {
+          expect(res.headers['set-cookie'][1]).toContain('accept_tos=true');
         });
       });
 
@@ -77,10 +116,10 @@ describe('app', function() {
         const RECEPTOR_URL = 'http://example.com';
         it('does not returns the cookie', async function(done) {
           var res = await request(subject)
-            .post('/receptor_url')
+            .post('/setup')
             .send({receptor_url: RECEPTOR_URL});
           expect(res.status).toEqual(200);
-          expect(res.headers['set-cookie']).toBeUndefined();
+          expect(res.headers['set-cookie'][0]).not.toContain('receptor_authorization');
           done();
         });
       });
@@ -90,7 +129,7 @@ describe('app', function() {
       it('is not successful', async function(done) {
         try {
           var res = await request(subject)
-            .post('/receptor_url');
+            .post('/setup');
         } catch(err) {
           expect(res.status).toEqual(422);
           expect(err).toBeDefined();
