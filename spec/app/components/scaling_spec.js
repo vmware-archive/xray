@@ -1,14 +1,14 @@
 require('../spec_helper');
 
-describe('Footer', function() {
+describe('Scaling', function() {
   var callbackSpy;
   beforeEach(function() {
     var Cursor = require('../../../app/lib/cursor');
     callbackSpy = jasmine.createSpy('callback');
     var $scaling = new Cursor('containers', callbackSpy);
     var $receptor = new Cursor({}, jasmine.createSpy('callback'));
-    var Footer = require('../../../app/components/footer');
-    React.render(<Footer {...{$scaling, $receptor}}/>, root);
+    var Scaling = require('../../../app/components/scaling');
+    React.render(<Scaling {...{$scaling, $receptor}}/>, root);
   });
 
   afterEach(function() {
