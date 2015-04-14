@@ -3,22 +3,30 @@
 @import '_variables';
 
 .main-content.setup {
-  $setup-gutter: 70px;
   @extend %scrollable;
   align-items: center;
-  padding: 0 $setup-gutter;
   background-color: #162229;
-  color: $gray-7;
 
-  article, aside {
-    flex: 1;
+  &, label {
+    color: $gray-7;
   }
 
-  aside {
-    margin-right: $setup-gutter / 2;
+  $setup-gutter: 70px;
+  padding: 0 $setup-gutter;
+  > * {
+    flex: 1;
+    & + * {
+      margin-left: $setup-gutter;
+    }
   }
 
   article {
-    margin-left: $setup-gutter / 2;
+    .form-group:nth-child(2) {
+      display: flex;
+      input {
+        flex: 1;
+        margin-right: 15px;
+      }
+    }
   }
 }
