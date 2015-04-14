@@ -1,0 +1,24 @@
+@import '../../vendor/pui-v1.4.0/pui-variables';
+@import '_mixins';
+@import '_variables';
+
+.main-content.setup {
+  $setup-gutter: 70px;
+  padding: 0 $setup-gutter;
+  align-items: center;
+  @extend %scrollable-y;
+  background-color: #162229;
+  color: $gray-7;
+
+  article, aside {
+    flex: 1;
+  }
+
+  aside {
+    margin-right: $setup-gutter / 2;
+  }
+
+  article {
+    margin-left: $setup-gutter / 2;
+  }
+}

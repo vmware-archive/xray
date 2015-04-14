@@ -20,28 +20,29 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
 
-  .main-content {
-    flex: 1;
-    display: flex;
-    @extend %full;
-  }
+.main-content {
+  flex: 1;
+  display: flex;
+  @extend %full;
+}
 
-  .main-panel {
-    flex: 1;
-    display: flex;
-    margin-right: 0;
-    flex-direction: column;
-  }
-  .sidebar-panel {
-    position: relative;
-    width: $sidebar-width;
-    background-color: $shadow-1;
-  }
+.main-panel {
+  flex: 1;
+  display: flex;
+  margin-right: 0;
+  flex-direction: column;
+}
+
+.sidebar-panel {
+  position: relative;
+  width: $sidebar-width;
+  background-color: $shadow-1;
 }
 
 .main-header, .main-footer {
-  background-color: #24363f;
+  background-color: $dark-1;
 }
 
 .main-header {
