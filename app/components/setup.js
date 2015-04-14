@@ -2,6 +2,7 @@ require('babel/polyfill');
 var Header = require('./header');
 var Footer = require('./footer');
 var Layout = require('../../server/components/layout');
+var {HighlightButton} = require('pui-react-buttons');
 var React = require('react/addons');
 
 var Setup = React.createClass({
@@ -22,8 +23,8 @@ var Setup = React.createClass({
                   <label><h2 className="em-low">What's Your Lattice Receptor URL?</h2></label>
                 </div>
                 <div className="form-group">
-                  <input className="form-control" name="receptorUrl" placeholder="http://receptor.example.com"/>
-                  <button type="submit" className="btn btn-highlight">Submit</button>
+                  <input autoFocus className="form-control" name="receptorUrl" placeholder="http://receptor.example.com"/>
+                  <HighlightButton type="submit" className="btn btn-highlight">Submit</HighlightButton>
                 </div>
                 <div className="form-group">
                   <label className="checkbox-inline">

@@ -47,6 +47,11 @@ gulp.task('assets-stylesheets', function() {
   return sass().pipe(gulp.dest('public'));
 });
 
+gulp.task('assets-images', function() {
+  gulp.src('app/images/**')
+    .pipe(gulp.dest('public/images'));
+});
+
 gulp.task('watch-assets', function() {
   gulp.watch('app/stylesheets/**/*.scss', ['assets-stylesheets']);
 });
@@ -59,14 +64,18 @@ gulp.task('clean-assets-stylesheets', function(callback) {
   del(['public/application.css'], callback);
 });
 
+gulp.task('clean-assets-images', function(callback) {
+  del(['public/images'], callback);
+});
+
 gulp.task('clean-assets-fonts', function() {
   fs.removeSync('public/fonts');
 });
 
-gulp.task('clean-assets', ['clean-assets-javascript', 'clean-assets-stylesheets', 'clean-assets-fonts']);
+gulp.task('clean-assets', ['clean-assets-javascript', 'clean-assets-stylesheets', 'clean-assets-fonts', 'clean-assets-images']);
 
 gulp.task('assets', function(callback) {
-  runSequence('clean-assets', ['assets-javascript', 'assets-stylesheets', 'assets-pui-stylesheets', 'assets-fonts'], callback);
+  runSequence('clean-assets', ['assets-javascript', 'assets-stylesheets', 'assets-pui-stylesheets', 'assets-fonts', 'assets-images'], callback);
 });
 
 module.exports = {

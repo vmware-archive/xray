@@ -4,8 +4,9 @@
 
 .main-content.setup {
   @extend %scrollable;
+  position: relative;
   align-items: center;
-  background-color: #162229;
+  background: url(/images/waffle.png) center / cover no-repeat, #162229;
 
   &, label {
     color: $gray-7;
@@ -20,13 +21,15 @@
     }
   }
 
-  article {
-    .form-group:nth-child(2) {
-      display: flex;
-      input {
-        flex: 1;
-        margin-right: 15px;
-      }
+  aside, article {
+    z-index: 1;
+  }
+
+  .form-group:nth-child(2) {
+    display: flex;
+    input {
+      flex: 1;
+      margin-right: 15px;
     }
   }
 }

@@ -12,7 +12,10 @@ module.exports = function(env = null) {
     },
     module: {
       loaders: [
-        {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader?optional[]=es7.objectRestSpread&optional[]=regenerator'}
+        {test: /\.js$/, exclude: [/node_modules/, /app\/canvas\/[^\/]+\.js$/], loader: 'babel-loader?optional[]=es7.objectRestSpread&optional[]=regenerator'}
+      ],
+      noParse: [
+        /app\/canvas\/[^\/]+\.js$/
       ]
     },
     output: {

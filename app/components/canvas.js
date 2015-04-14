@@ -3,8 +3,8 @@ var types = React.PropTypes;
 
 var Canvas = React.createClass({
   propTypes: {
-    height: types.number.isRequired,
     src: types.func.isRequired,
+    height: types.number.isRequired,
     width: types.number.isRequired
   },
 
@@ -15,8 +15,8 @@ var Canvas = React.createClass({
   },
 
   render() {
-    var {height, width} = this.props;
-    return <canvas {...{width, height}} ref="canvas"/>;
+    var {height, width, className} = this.props;
+    return <canvas {...{width, height, className}} ref="canvas"/>;
   }
 });
 

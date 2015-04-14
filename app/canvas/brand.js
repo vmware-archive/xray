@@ -1,3 +1,4 @@
+/*eslint-disable */
 module.exports = function(ctx) {
   ctx.strokeStyle = 'rgba(0,0,0,0)';
   ctx.lineCap = 'butt';
@@ -191,3 +192,4 @@ module.exports = function(ctx) {
   ctx.fill();
   ctx.stroke();
 };
+/*eslint-enable */
