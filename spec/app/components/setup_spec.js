@@ -40,26 +40,44 @@ describe('Setup', function() {
   });
 
   describe('when the form is submitted', function() {
-    const receptorUrl = 'http://example.com';
-    beforeEach(function() {
-      $(':text').val(receptorUrl).simulate('change');
-      $('form').simulate('submit');
-    });
-
-    it('makes an ajax request', function() {
-      expect('/setup').toHaveBeenRequestedWith({method: 'POST', data: {receptor_url: receptorUrl}});
-    });
-
-    describe('when the ajax request is succcessful', function() {
+    describe('when the terms of service are accepted', function() {
       beforeEach(function() {
-        jasmine.Ajax.requests.mostRecent().respondWith({
-          status: 200
-        });
-        MockPromises.executeForResolvedPromises();
+        $(':checkbox').prop('checked', true).simulate('change');
       });
 
-      it('replaces the location with the root and receptor url as a query string', function() {
-        expect(xray.location.replace).toHaveBeenCalledWith(`/?receptor=${receptorUrl}`);
+      describe('when there is no receptor url', function() {
+        beforeEach(function() {
+          $('form').simulate('submit');
+        });
+
+        it('displays an error', function() {
+          expect('.has-error').toExist();
+        });
+      });
+
+      describe('when there is a receptor url', function() {
+        const receptorUrl = 'http://example.com';
+        beforeEach(function() {
+          $(':text').val(receptorUrl).simulate('change');
+          $('form').simulate('submit');
+        });
+
+        it('makes an ajax request', function() {
+          expect('/setup').toHaveBeenRequestedWith({method: 'POST', data: {receptor_url: receptorUrl}});
+        });
+
+        describe('when the ajax request is succcessful', function() {
+          beforeEach(function() {
+            jasmine.Ajax.requests.mostRecent().respondWith({
+              status: 200
+            });
+            MockPromises.executeForResolvedPromises();
+          });
+
+          it('replaces the location with the root and receptor url as a query string', function() {
+            expect(xray.location.replace).toHaveBeenCalledWith(`/?receptor=${receptorUrl}`);
+          });
+        });
       });
     });
   });
