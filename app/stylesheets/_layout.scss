@@ -81,16 +81,11 @@ body {
     display: block;
   }
 
-  %font-size {
-    font-size: 12px;
-  }
-
   canvas {
     margin: -3px 10px 0;
   }
 
   p, .list-inline {
-    @extend %font-size;
     margin: 0;
     line-height: 1;
   }
@@ -99,7 +94,6 @@ body {
     margin-left: 10px;
 
     > li {
-      @extend %font-size;
       & + li:before {
         content: '·';
         margin-right: 10px;
