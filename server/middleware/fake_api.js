@@ -1,7 +1,6 @@
 var requireDir = require('require-dir');
 requireDir('../../spec/factories');
 var Factory = require('rosie').Factory;
-var faker = require('faker');
 
 var times = require('lodash.times');
 var flatten = require('lodash.flatten');
@@ -37,7 +36,7 @@ function fakeApi({cellCount, desiredLrpsCount}) {
   );
   var desiredLrps = times(desiredLrpsCount).map(
       t => Factory.build('desiredLrp', {
-        process_guid: faker.company.catchPhraseNoun() + t,
+        process_guid: `process_guid_${t}`,
         instances: instanceCount(),
         memory_mb: memory_mb()
       })
