@@ -9,14 +9,21 @@ var Canvas = React.createClass({
   },
 
   componentDidMount() {
-    var {src} = this.props;
+    var {src, width, height} = this.props;
     var {canvas} = this.refs;
-    src(canvas.getDOMNode().getContext('2d'));
+    var canvasNode = canvas.getDOMNode();
+    var {pixelRatio = 1} = window;
+    canvasNode.width = width * pixelRatio;
+    canvasNode.height = height * pixelRatio;
+    var ctx = canvasNode.getContext('2d');
+    ctx.scale(pixelRatio, pixelRatio);
+    src(ctx);
   },
 
   render() {
     var {height, width, className} = this.props;
-    return <canvas {...{width, height, className}} ref="canvas"/>;
+    var style = {width: `${width}px`, height: `${height}px`};
+    return <canvas {...{width, height, className, style, ref: 'canvas'}}/>;
   }
 });
 
