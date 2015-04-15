@@ -30,17 +30,16 @@ function sass() {
     .pipe(plugins.header(COPYRIGHT));
 }
 
-gulp.task('assets-pui-stylesheets', function() {
-  drFrankenstyle(function(css) {
-    fs.writeFileSync(path.resolve('public', 'pui.css'), css);
-  });
+gulp.task('assets-pui-stylesheets', function(callback) {
+  drFrankenstyle(css => fs.writeFile(path.resolve('public', 'pui.css'), css, callback));
 });
 
-gulp.task('assets-fonts', function() {
+gulp.task('assets-fonts', function(callback) {
   var faDir = path.resolve('node_modules', 'font-awesome', 'fonts');
   fs.copySync(faDir, path.resolve('public', 'fonts'));
   var puiDir = path.resolve('vendor', 'pui-v1.4.0', 'fonts');
   fs.copySync(puiDir, path.resolve('public', 'fonts'));
+  callback();
 });
 
 gulp.task('assets-stylesheets', function() {
@@ -48,7 +47,7 @@ gulp.task('assets-stylesheets', function() {
 });
 
 gulp.task('assets-images', function() {
-  gulp.src('app/images/**')
+  return gulp.src('app/images/**')
     .pipe(gulp.dest('public/images'));
 });
 
@@ -68,8 +67,9 @@ gulp.task('clean-assets-images', function(callback) {
   del(['public/images'], callback);
 });
 
-gulp.task('clean-assets-fonts', function() {
+gulp.task('clean-assets-fonts', function(callback) {
   fs.removeSync('public/fonts');
+  callback();
 });
 
 gulp.task('clean-assets', ['clean-assets-javascript', 'clean-assets-stylesheets', 'clean-assets-fonts', 'clean-assets-images']);

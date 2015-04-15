@@ -72,6 +72,7 @@
     "node-basicauth": "0.0.9",
     "pretty-bytes": "^1.0.4",
     "pui-css-ellipsis": "0.0.1",
+    "pui-css-links": "0.0.4",
     "pui-css-typography": "0.0.4",
     "pui-css-whitespace": "0.0.1",
     "pui-react-buttons": "0.0.3",
