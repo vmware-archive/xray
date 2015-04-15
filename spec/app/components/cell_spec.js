@@ -136,10 +136,8 @@ describe('Cell', function() {
       });
 
       it('gives it a special color', function() {
-        expect('.app-container:eq(1)').not.toHaveClass(['flex', 'undesired']);
         expect('.app-container:eq(0)').not.toHaveClass('flex');
         expect('.app-container:eq(0)').toHaveClass('undesired');
-        expect('.app-container:eq(0)').toHaveCss({'background-color': 'rgba(0, 0, 0, 0)'});
         expect('.app-container:eq(1)').not.toHaveClass(['flex', 'undesired']);
       });
 
@@ -191,10 +189,8 @@ describe('Cell', function() {
       });
 
       it('gives it a special color', function() {
-        expect('.app-container:eq(1)').not.toHaveClass(['flex', 'undesired']);
         expect('.app-container:eq(0)').not.toHaveClass('flex');
         expect('.app-container:eq(0)').toHaveClass('undesired');
-        expect('.app-container:eq(0)').toHaveCss({'background-color': 'rgba(0, 0, 0, 0)'});
         expect('.app-container:eq(1)').not.toHaveClass(['flex', 'undesired']);
       });
     });

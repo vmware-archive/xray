@@ -4,6 +4,9 @@ var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var {pickColor} = require('../helpers/application_helper');
 var classnames = require('classnames');
 var React = require('react/addons');
+var {OverlayTrigger} = require('pui-react-overlay-trigger');
+var {Tooltip} = require('pui-react-tooltip');
+var DesiredLrpInfo = require('./desired_lrp_info');
 
 var types = React.PropTypes;
 
@@ -26,8 +29,8 @@ var Container = React.createClass({
   ignorePureRenderProps: ['$selection', '$sidebar'],
 
   render() {
-    var {state, instance_guid: instanceGuid, modification_tag: {epoch: key}, process_guid: processGuid} = this.props.actualLrp;
-    var {denominator, desiredLrp, className, scaling} = this.props;
+    var {denominator, desiredLrp, className, scaling, actualLrp} = this.props;
+    var {state, instance_guid: instanceGuid, modification_tag: {epoch: key}, process_guid: processGuid} = actualLrp;
 
     var flex;
     var undesired;
@@ -57,7 +60,11 @@ var Container = React.createClass({
         undesired
       });
     var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': instanceGuid, onClick: this.onClick, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
-    return (<a {...props}/>);
+    return (
+      <OverlayTrigger placement="right" overlay={<Tooltip><DesiredLrpInfo {...{actualLrps: [actualLrp], desiredLrp}}/></Tooltip>}>
+        <a {...props}/>
+      </OverlayTrigger>
+    );
   }
 });
 

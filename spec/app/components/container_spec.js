@@ -28,6 +28,10 @@ describe('Container', function() {
     expect('.app-container').toExist();
   });
 
+  it('does not render a tooltip', function() {
+    expect('.tooltip').not.toExist();
+  });
+
   it('does not add the claimed class to the container', function() {
     expect(subject.props.actualLrp.state).toEqual('RUNNING');
     expect('.app-container').not.toHaveClass('claimed');
@@ -61,6 +65,15 @@ describe('Container', function() {
       it('unsets the desiredLrp on the receptor', function() {
         expect(selectionCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({hoverDesiredLrp: null}));
       });
+
+      it('does not render a tooltip', function() {
+        expect('.tooltip').not.toExist();
+      });
+    });
+
+    it('renders a tooltip with the desired lrp information', function() {
+      expect('.tooltip').toExist();
+      expect('.tooltip').toContainText(desiredLrp.process_guid);
     });
   });
 
