@@ -51,10 +51,14 @@ app.post('/setup', receptorAuthorization, function(req, res) {
   res.status(200).type('json').send({ok: true});
 });
 
+var fakeApi = require('./middleware/fake_api');
+app.get('/demo/v1/cells', fakeApi.demo.cells.index);
+app.get('/demo/v1/actual_lrps', fakeApi.demo.actualLrps.index);
+app.get('/demo/v1/desired_lrps', fakeApi.demo.desiredLrps.index);
+
 if(process.env.NODE_ENV === 'development') {
-  var fakeApi = require('./middleware/fake_api');
-  app.get('/api/v1/cells', fakeApi.v1.cells.index);
-  app.get('/api/v1/actual_lrps', fakeApi.v1.actualLrps.index);
-  app.get('/api/v1/desired_lrps', fakeApi.v1.desiredLrps.index);
+  app.get('/perf/v1/cells', fakeApi.perf.cells.index);
+  app.get('/perf/v1/actual_lrps', fakeApi.perf.actualLrps.index);
+  app.get('/perf/v1/desired_lrps', fakeApi.perf.desiredLrps.index);
 }
 module.exports = app;
