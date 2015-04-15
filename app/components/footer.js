@@ -10,8 +10,8 @@ var Footer = React.createClass({
         <Canvas src={require('../canvas/brand')} width={74} height={17}/>
         <p>&copy; 2015 Pivotal Software Inc. All rights reserved.</p>
         <InlineList>
-          <ListItem>Terms of Service</ListItem>
-          <ListItem>Privacy Policy</ListItem>
+          <ListItem><a href="http://pivotal.io/terms-of-use">Terms of Service</a></ListItem>
+          <ListItem><a href="http://pivotal.io/privacy-policy">Privacy Policy</a></ListItem>
         </InlineList>
       </footer>
     );
