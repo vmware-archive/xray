@@ -20,7 +20,10 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../public'));
 
 function redirectToSetup(req, res, next) {
-  var receptorUrl = req.query && req.query.receptor || process.env.RECEPTOR_URL;
+  var receptorUrl = req.query && req.query.receptor ||
+                    req.cookies && req.cookies.receptor_url ||
+                    process.env.RECEPTOR_URL;
+
   var {accept_tos: acceptTos} = req.cookies;
   if (receptorUrl && acceptTos) return next();
   res.redirect('/setup');
@@ -31,7 +34,7 @@ function acceptTos(req, res, next) {
   return next();
 }
 
-app.get('/', redirectToSetup, receptorAuthorization, show(Application, 'application'));
+app.get('/', receptorAuthorization, redirectToSetup, show(Application, 'application'));
 app.get('/setup', receptorAuthorization, acceptTos, show(Setup, 'setup'));
 
 app.post('/setup', receptorAuthorization, function(req, res) {

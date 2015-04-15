@@ -13,10 +13,8 @@ var Setup = React.createClass({
   },
 
   getInitialState() {
-    return {
-      receptorUrl: '',
-      acceptTos: this.props.config.acceptTos
-    };
+    var {acceptTos, receptorUrl} = this.props.config;
+    return {receptorUrl, acceptTos};
   },
 
   async submit(e) {

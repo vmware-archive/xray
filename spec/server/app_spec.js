@@ -17,7 +17,7 @@ describe('app', function() {
       });
     });
 
-    describe('when the receptor url is provided', function() {
+    describe('when the receptor url is provided as a query param', function() {
       const RECEPTOR_URL = 'http://user:password@example.com';
 
       describe('when the ToS are not accepted', function() {
@@ -26,6 +26,7 @@ describe('app', function() {
           res = await request(subject).get(`/?receptor=${RECEPTOR_URL}`);
           done();
         });
+
         it('renders the application the receptor url in from the query param', function() {
           expect(res.status).toEqual(302);
           expect(res.headers.location).toEqual('/setup');
@@ -33,21 +34,59 @@ describe('app', function() {
       });
 
       describe('when the ToS are accepted', function() {
-        it('renders the application the receptor url in from the query param', async function(done) {
-          var Application = require('../../app/components/application');
+        var Application, res;
+        beforeEach(async function(done) {
+          Application = require('../../app/components/application');
           spyOn(Application.type.prototype, 'render').and.callThrough();
-
-          var res = await request(subject)
+          res = await request(subject)
             .get(`/?receptor=${RECEPTOR_URL}`)
             .set('cookie', 'accept_tos=true')
             .expect('Content-Type', /html/);
           expect(res.status).toEqual(200);
+          done();
+        });
+
+        it('sets the receptor url in the cookie', function() {
+          expect(res.headers['set-cookie'][0]).toContain(`receptor_url=${encodeURIComponent(RECEPTOR_URL)}`);
+        });
+
+        it('renders the receptor authorization in the cookie', function() {
+          expect(res.headers['set-cookie'][1]).toContain('receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D');
+        });
+
+        it('renders the application with the receptor url in the config', function() {
           expect(Application.type.prototype.render).toHaveBeenCalled();
           var application = Application.type.prototype.render.calls.mostRecent().object;
           expect(application.props.config).toEqual(jasmine.objectContaining({receptorUrl: RECEPTOR_URL}));
-          expect(res.headers['set-cookie']).toEqual(['receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D; Path=/']);
-          done();
         });
+      });
+    });
+    describe('when the receptor url is provided as a cookie and ToS are accepted', function() {
+      const RECEPTOR_URL = 'http://user:password@example.com';
+      var Application, res;
+      beforeEach(async function(done) {
+        Application = require('../../app/components/application');
+        spyOn(Application.type.prototype, 'render').and.callThrough();
+        res = await request(subject)
+          .get(`/`)
+          .set('cookie', `accept_tos=true;receptor_url=${RECEPTOR_URL}`)
+          .expect('Content-Type', /html/);
+        expect(res.status).toEqual(200);
+        done();
+      });
+
+      it('sets the receptor url in the cookie', function() {
+        expect(res.headers['set-cookie'][0]).toContain(`receptor_url=${encodeURIComponent(RECEPTOR_URL)}`);
+      });
+
+      it('renders the receptor authorization in the cookie', function() {
+        expect(res.headers['set-cookie'][1]).toContain('receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D');
+      });
+
+      it('renders the application with the receptor url in the config', function() {
+        expect(Application.type.prototype.render).toHaveBeenCalled();
+        var application = Application.type.prototype.render.calls.mostRecent().object;
+        expect(application.props.config).toEqual(jasmine.objectContaining({receptorUrl: RECEPTOR_URL}));
       });
     });
   });
@@ -103,12 +142,16 @@ describe('app', function() {
           done();
         });
 
+        it('sets the receptor url in the cookie', function() {
+          expect(res.headers['set-cookie'][0]).toContain(`receptor_url=${encodeURIComponent(RECEPTOR_URL)}`);
+        });
+
         it('sets the receptor authorization in the cookie', function() {
-          expect(res.headers['set-cookie'][0]).toContain('receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D');
+          expect(res.headers['set-cookie'][1]).toContain('receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D');
         });
 
         it('sets the accept tos in the cookie', function() {
-          expect(res.headers['set-cookie'][1]).toContain('accept_tos=true');
+          expect(res.headers['set-cookie'][2]).toContain('accept_tos=true');
         });
       });
 
@@ -119,7 +162,7 @@ describe('app', function() {
             .post('/setup')
             .send({receptor_url: RECEPTOR_URL});
           expect(res.status).toEqual(200);
-          expect(res.headers['set-cookie'][0]).not.toContain('receptor_authorization');
+          expect(res.headers['set-cookie'][1]).not.toContain('receptor_authorization');
           done();
         });
       });

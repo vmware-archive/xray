@@ -27,6 +27,18 @@ describe('Setup', function() {
     });
   });
 
+  describe('when there is a receptor url', function() {
+    const RECEPTOR_URL = 'receptor.example.com';
+    beforeEach(function() {
+      React.unmountComponentAtNode(root);
+      React.render(<Setup config={{receptorUrl: RECEPTOR_URL}}/>, root);
+    });
+
+    it('pre-fills the receptor input', function() {
+      expect('form :text').toHaveValue(RECEPTOR_URL);
+    });
+  });
+
   describe('when the form is submitted', function() {
     const receptorUrl = 'http://example.com';
     beforeEach(function() {
