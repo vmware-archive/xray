@@ -3,11 +3,12 @@ var Canvas = require('./canvas');
 
 var Header = React.createClass({
   render() {
-    var {className} = this.props;
+    var {className, children} = this.props;
     return (
       <header className={className}>
-        <Canvas src={require('../canvas/logo')} width={50} height={50}/>
+        <div className="logo"><Canvas src={require('../canvas/logo')} width={50} height={50}/></div>
         <h1>Pivotal <strong>X-Ray</strong></h1>
+        {children}
       </header>
     );
   }

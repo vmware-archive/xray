@@ -6,6 +6,7 @@ var React = require('react/addons');
 var PureRenderMixin = require('../mixins/pure_render_mixin');
 var ReceptorMixin = require('../mixins/receptor_mixin');
 var ReceptorStreamMixin = require('../mixins/receptor_stream_mixin');
+var ReceptorUrl = require('./receptor_url');
 var Zones = require('./zones');
 var Sidebar = require('./sidebar');
 var classnames = require('classnames');
@@ -16,7 +17,7 @@ var Page = React.createClass({
   mixins: [PureRenderMixin, ReceptorMixin, ReceptorStreamMixin],
 
   propTypes: {
-    receptorUrl: types.string,
+    receptorUrl: types.string.isRequired,
     $receptor: types.object.isRequired,
     $scaling: types.object.isRequired,
     $selection: types.object.isRequired,
@@ -41,7 +42,7 @@ var Page = React.createClass({
   },
 
   render() {
-    var {$receptor, $scaling, $sidebar, $selection} = this.props;
+    var {receptorUrl, $receptor, $scaling, $sidebar, $selection} = this.props;
     var selection = !!($selection.get('hoverDesiredLrp') || $selection.get('selectedDesiredLrp')) || $sidebar.get('filter');
     var sidebarCollapsed = $sidebar.get('sidebarCollapsed');
 
@@ -57,7 +58,9 @@ var Page = React.createClass({
 
     return (
       <div className={classes}>
-        <Header className="main-header"/>
+        <Header className="main-header">
+          <ReceptorUrl receptorUrl={receptorUrl}/>
+        </Header>
         <section className="main-content">
           <article className="main-panel">
             <Zones {...{$receptor, $selection, $sidebar, scaling: $scaling.get()}}/>

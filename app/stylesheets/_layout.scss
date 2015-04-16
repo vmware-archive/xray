@@ -50,25 +50,70 @@ body {
 }
 
 .main-header {
-  padding: 15px 10px;
-  h1, canvas {
-    display: inline-block;
-    vertical-align: middle;
+  display: flex;
+  align-items: center;
+
+  .logo, h1, .receptor-url {
+    padding: $whitespace-m 0 $whitespace-m $whitespace-l;
   }
 
-  canvas {
-    margin-right: 10px;
+  canvas, strong {
+    display: block;
   }
 
   h1 {
+    flex: 1;
     margin: 0;
     font-size: 18px;
     line-height: 1;
     font-weight: 300;
   }
 
-  strong {
-    display: block;
+  .receptor-url {
+    cursor: pointer;
+    width: $sidebar-width;
+    padding: $desired-lrp-gutter 0;
+    background-color: $shadow-2;
+
+    &, .form-group, label {
+      display: flex;
+    }
+    .form-group, label, input {
+      flex: 1;
+      flex-basis: 100%;
+    }
+    label {
+      cursor: pointer;
+      flex-wrap: wrap;
+      .active-label, .inactive-label, input {
+        padding: 0 $desired-lrp-gutter;
+      }
+    }
+
+    label .active-label {
+      color: $link-color;
+      display: none;
+    }
+
+    label .inactive-label {
+      text-transform: uppercase;
+    }
+
+    &:hover label {
+      .active-label {
+        display: block;
+      }
+      .inactive-label {
+        display: none;
+      }
+    }
+
+    input {
+      height: auto;
+      border: none;
+      box-shadow: none;
+      outline: none;
+    }
   }
 }
 
