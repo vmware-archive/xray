@@ -77,6 +77,7 @@
     "lodash.times": "^3.0.0",
     "node-basicauth": "0.0.9",
     "pretty-bytes": "^1.0.4",
+    "pui-css-dividers": "0.0.2",
     "pui-css-ellipsis": "0.0.1",
     "pui-css-links": "0.0.4",
     "pui-css-typography": "0.0.4",
