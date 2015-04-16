@@ -6,7 +6,7 @@
   $setup-gutter: 70px;
 
   @extend %scrollable;
-  align-items: baseline;
+  align-items: center;
   background: url(/images/waffle.png) center / cover no-repeat, #162229;
   padding: 0 $setup-gutter;
   position: relative;
@@ -20,16 +20,7 @@
   }
 
   aside, article {
-    flex: 1;
-    margin-top: 30vh;
-  }
-
-  aside {
-    margin-right: $setup-gutter / 2;
-  }
-
-  article {
-    margin-left: $setup-gutter / 2;
+    padding: 0 20px;
   }
 
   .receptor-url {
