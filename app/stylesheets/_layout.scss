@@ -2,6 +2,10 @@
 @import '_mixins';
 @import '_variables';
 
+@-ms-viewport{
+  width: device-width;
+}
+
 html, body, #root, .xray {
   min-height: 100%;
   @extend %full-height;
@@ -128,16 +132,6 @@ body {
     .sidebar-toggle .fa-angle-double-right {
       transform: rotateZ(180deg);
     }
-  }
-}
-
-.tooltip {
-  $tooltip-color: #1c1c1c;
-  > .tooltip-arrow {
-    border-left-color: $tooltip-color !important;
-  }
-  > .tooltip-inner {
-    background-color: $tooltip-color;
   }
 }
 

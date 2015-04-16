@@ -3,17 +3,11 @@
 @import '_variables';
 
 .main-content.setup {
-  $setup-gutter: 70px;
   @extend %scrollable;
-  padding: 0 $setup-gutter;
+  padding: 0 70px;
   position: relative;
   align-items: center;
   background-color: #162229;
-
-  aside, article {
-    flex: 1;
-    z-index: 1;
-  }
 
   .receptor-url {
     display: flex;

@@ -19,6 +19,7 @@ if (XRAY_USER && XRAY_PASSWORD) {
 
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(favicon(`${__dirname}/../app/images/favicon.ico`));
 app.use(gzipStatic(`${__dirname}/../public`, {maxAge: process.env.NODE_ENV === 'production' && 604800000}));
 
@@ -28,7 +29,7 @@ function redirectToSetup(req, res, next) {
                     process.env.RECEPTOR_URL;
 
   if (receptorUrl) return next();
-  res.redirect('/setup');
+  res.redirect(303, '/setup');
 }
 
 app.get('/', receptorAuthorization, redirectToSetup, show(Application, 'application'));
@@ -39,12 +40,11 @@ app.post('/setup', receptorAuthorization, function(req, res) {
   if (!receptorUrl) {
     res
       .status(422)
-      .type('json')
       .clearCookie('receptor_authorization')
-      .send({error: 'receptor_url is required'});
+      .send('');
     return;
   }
-  res.status(200).type('json').send({ok: true});
+  res.redirect(303, `/?receptor=${receptorUrl}`);
 });
 
 var fakeApi = require('./middleware/fake_api');

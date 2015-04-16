@@ -53,7 +53,10 @@ var Layout = React.createClass({
 
     return (
       <html>
-        <head>{stylesheets}</head>
+        <head>
+          <meta name="viewport" content="width=device-width"/>
+          {stylesheets}
+        </head>
         <Body {...this.props}/>
       </html>
     );

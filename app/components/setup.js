@@ -7,7 +7,6 @@ var {Row} = require('pui-react-grids');
 var {Col} = require('pui-react-grids');
 var {HighlightButton} = require('pui-react-buttons');
 var React = require('react/addons');
-var SetupApi = require('../api/setup_api');
 
 var types = React.PropTypes;
 
@@ -21,12 +20,8 @@ var Setup = React.createClass({
     return {receptorUrl};
   },
 
-  async submit(e) {
-    e.preventDefault();
-    if (!this.refs.receptorUrl.validate()) return;
-    var {receptorUrl} = this.state;
-    await SetupApi.create({receptorUrl});
-    xray.location.replace(`/?receptor=${receptorUrl}`);
+  submit(e) {
+    if (!this.refs.receptorUrl.validate()) e.preventDefault();
   },
 
   change({target}) {
@@ -47,26 +42,22 @@ var Setup = React.createClass({
             </div>
             <div className="container">
               <Row>
-                <Col md={12}>
-                  <aside>
-                    <h1 className="title em-low">Explore the Lattice</h1>
-                    <h2 className="em-low"><span className="em-high">X-Ray</span> is an easy to use dashboard for visualizing Lattice clusters. Point X-Ray at your Lattice deployment to view the distribution and status of your containers</h2>
-                    <p className="em-low">X-ray needs a working Lattice environment. <a className="link-text link-inverse" href="http://lattice.cf">Read More</a></p>
-                  </aside>
+                <Col md={11}>
+                  <h1 className="title em-low">Explore the Lattice</h1>
+                  <h2 className="em-low"><span className="em-high">X-Ray</span> is an easy to use dashboard for visualizing Lattice clusters. Point X-Ray at your Lattice deployment to view the distribution and status of your containers</h2>
+                  <p className="em-low">X-ray needs a working Lattice environment. <a className="link-text link-inverse" href="http://lattice.cf">Read More</a></p>
                 </Col>
-                <hr className="divider-1 hidden-md hidden-lg" />
-                <Col md={12}>
-                  <article>
-                    <form action="/setup" method="POST" role="form" onSubmit={this.submit}>
-                      <div className="form-group">
-                        <h2 className="em-low">What's Your Lattice Receptor URL?</h2>
-                      </div>
-                      <FormGroup className="receptor-url" onValidate={this.validateReceptorUrl} ref="receptorUrl">
-                        <input autoFocus className="form-control input-lg" name="receptorUrl" placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
-                        <HighlightButton type="submit" large>Submit</HighlightButton>
-                      </FormGroup>
-                    </form>
-                  </article>
+                <Col md={11} mdOffset={2}>
+                  <hr className="divider-1 hidden-md hidden-lg" />
+                  <form action="/setup" method="POST" role="form" onSubmit={this.submit}>
+                    <div className="form-group">
+                      <h2 className="em-low">What's Your Lattice Receptor URL?</h2>
+                    </div>
+                    <FormGroup className="receptor-url" onValidate={this.validateReceptorUrl} ref="receptorUrl">
+                      <input autoFocus className="form-control input-lg" name="receptorUrl" placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
+                      <HighlightButton type="submit" large>Submit</HighlightButton>
+                    </FormGroup>
+                  </form>
                 </Col>
               </Row>
             </div>
