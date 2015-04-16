@@ -52,7 +52,9 @@ function images() {
     .pipe(plugins.rename({dirname: 'images'}));
 }
 
-gulp.task('assets-stylesheets', puiStylesheets);
+gulp.task('assets-stylesheets', function() {
+  return sass().pipe(gulp.dest('public'));
+});
 
 gulp.task('watch-assets', function() {
   gulp.watch('app/stylesheets/**/*.scss', ['assets-stylesheets']);
