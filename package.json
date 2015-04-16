@@ -97,6 +97,7 @@
     "require-dir": "^0.3.0",
     "rosie": "^0.4.0",
     "run-sequence": "^1.0.2",
+    "serve-favicon": "^2.2.0",
     "superagent": "^0.21.0",
     "timeago": "git://github.com/rdy/node-timeago.git#75cb5efe9006217988b1c1809c74c71b2ba0d69d"
   }

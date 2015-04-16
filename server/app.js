@@ -3,6 +3,7 @@ var basicAuth = require('node-basicauth');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var express = require('express');
+var favicon = require('serve-favicon');
 var gzipStatic = require('connect-gzip-static');
 var Setup = require('../app/components/setup');
 var receptorAuthorization = require('./middleware/receptor_authorization');
@@ -18,7 +19,8 @@ if (XRAY_USER && XRAY_PASSWORD) {
 
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(gzipStatic(__dirname + '/../public', {maxAge: process.env.NODE_ENV === 'production' && 604800000}));
+app.use(favicon(`${__dirname}/../app/images/favicon.ico`));
+app.use(gzipStatic(`${__dirname}/../public`, {maxAge: process.env.NODE_ENV === 'production' && 604800000}));
 
 function redirectToSetup(req, res, next) {
   var receptorUrl = req.query && req.query.receptor ||
