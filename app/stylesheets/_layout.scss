@@ -135,16 +135,6 @@ body {
   }
 }
 
-.tooltip {
-  $tooltip-color: #1c1c1c;
-  > .tooltip-arrow {
-    border-left-color: $tooltip-color !important;
-  }
-  > .tooltip-inner {
-    background-color: $tooltip-color;
-  }
-}
-
 .footer {
   align-items: center;
   background-color: $shadow-1;
