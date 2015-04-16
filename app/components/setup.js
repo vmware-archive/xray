@@ -45,7 +45,7 @@ var Setup = React.createClass({
                 <Col md={11}>
                   <h1 className="title em-low">Explore the Lattice</h1>
                   <h2 className="em-low"><span className="em-high">X-Ray</span> is an easy to use dashboard for visualizing Lattice clusters. Point X-Ray at your Lattice deployment to view the distribution and status of your containers</h2>
-                  <p className="em-low">X-ray needs a working Lattice environment. <a className="link-text link-inverse" href="http://lattice.cf">Read More</a></p>
+                  <p className="em-low">X-Ray needs a working Lattice environment. <a className="link-text link-inverse" href="http://lattice.cf">Read More</a></p>
                 </Col>
                 <Col md={11} mdOffset={2}>
                   <hr className="divider-1 hidden-md hidden-lg" />
