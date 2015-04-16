@@ -34,7 +34,7 @@ var DesiredLrpList = React.createClass({
 
   renderDesiredLrp({actualLrpsByProcessGuid, sidebarCollapsed, $selection, $sidebar}, desiredLrp) {
     var key = desiredLrp.process_guid;
-    var className = classnames('clickable', {hover: $selection.get('hoverDesiredLrp') === desiredLrp});
+    var className = classnames('clickable', {hover: $sidebar.get('filter') || $selection.get('hoverDesiredLrp') === desiredLrp});
     var filtered = actualLrpsByProcessGuid[desiredLrp.process_guid] || [];
     return (
       <DesiredLrp {...{className, desiredLrp, actualLrps: filtered, sidebarCollapsed, $selection, $sidebar, key, tag: 'li'}}/>
