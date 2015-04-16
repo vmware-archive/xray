@@ -59,10 +59,10 @@ var Container = React.createClass({
         flex,
         undesired
       });
-    var props = {className, role: 'button', title: processGuid, style, key, 'data-instance-guid': instanceGuid, onClick: this.onClick, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
+    var props = {className, role: 'button', style, key, 'data-instance-guid': instanceGuid, onClick: this.onClick, onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave};
     return (
       <OverlayTrigger placement="right" overlay={<Tooltip><DesiredLrpInfo {...{actualLrps: [actualLrp], desiredLrp}}/></Tooltip>}>
-        <a {...props}/>
+        <a {...props}><span className="sr-only">{processGuid}</span></a>
       </OverlayTrigger>
     );
   }

@@ -54,7 +54,7 @@ var Setup = React.createClass({
                       <h2 className="em-low">What's Your Lattice Receptor URL?</h2>
                     </div>
                     <FormGroup className="receptor-url" onValidate={this.validateReceptorUrl} ref="receptorUrl">
-                      <input autoFocus className="form-control input-lg" name="receptorUrl" placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
+                      <input autoFocus className="form-control input-lg" name="receptor_url" placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
                       <HighlightButton type="submit" large>Submit</HighlightButton>
                     </FormGroup>
                   </form>
