@@ -19,17 +19,20 @@ body {
   background-color: $neutral-1;
 }
 
-.page {
-  @extend %full;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
+// fancy full width layout
+@media(min-width: $screen-sm-min) {
+  .page {
+    @extend %full;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
 
-.main-content {
-  flex: 1;
-  display: flex;
-  @extend %full;
+  .main-content {
+    flex: 1;
+    display: flex;
+    @extend %full;
+  }
 }
 
 .main-panel {
@@ -50,14 +53,10 @@ body {
 }
 
 .main-header {
-  padding: 15px 10px;
-  h1, canvas {
-    display: inline-block;
-    vertical-align: middle;
-  }
+  padding: 15px;
 
   canvas {
-    margin-right: 10px;
+    vertical-align: top;
   }
 
   h1 {
@@ -73,9 +72,7 @@ body {
 }
 
 .main-footer {
-  height: 50px;
-  display: flex;
-  align-items: center;
+  padding: 15px;
 
   &, .list-inline a {
     color: $gray-4;
@@ -83,10 +80,6 @@ body {
 
   canvas {
     display: block;
-  }
-
-  canvas {
-    margin: -3px 10px 0;
   }
 
   p, .list-inline {

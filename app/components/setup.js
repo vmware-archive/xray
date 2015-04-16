@@ -1,10 +1,9 @@
 require('babel/polyfill');
+var {Col, Row} = require('pui-react-grids');
 var Header = require('./header');
 var Footer = require('./footer');
 var FormGroup = require('./form_group');
 var Layout = require('../../server/components/layout');
-var {Row} = require('pui-react-grids');
-var {Col} = require('pui-react-grids');
 var {HighlightButton} = require('pui-react-buttons');
 var React = require('react/addons');
 
@@ -36,26 +35,30 @@ var Setup = React.createClass({
       <div className="xray">
         <div className="page">
           <Header className="main-header"/>
-          <section className="main-content setup">
-            <div className="bg-isometric">
-              <div className="isometric"></div>
-            </div>
+          <section className="main-content setup bg-isometric">
             <div className="container">
               <Row>
-                <Col md={11}>
+                <Col md={10} mdOffset={1}>
                   <h1 className="title em-low">Explore the Lattice</h1>
                   <h2 className="em-low"><span className="em-high">X-Ray</span> is an easy to use dashboard for visualizing Lattice clusters. Point X-Ray at your Lattice deployment to view the distribution and status of your containers</h2>
                   <p className="em-low">X-Ray needs a working Lattice environment. <a className="link-text link-inverse" href="http://lattice.cf">Read More</a></p>
                 </Col>
-                <Col md={11} mdOffset={2}>
+                <Col md={10} mdOffset={2}>
                   <hr className="divider-1 hidden-md hidden-lg" />
                   <form action="/setup" method="POST" role="form" onSubmit={this.submit}>
                     <div className="form-group">
-                      <h2 className="em-low">What's Your Lattice Receptor URL?</h2>
+                      <label htmlFor="receptor_url" className="h2 em-low type-neutral-11">What's Your Lattice Receptor URL?</label>
                     </div>
                     <FormGroup className="receptor-url" onValidate={this.validateReceptorUrl} ref="receptorUrl">
-                      <input autoFocus className="form-control input-lg" name="receptor_url" placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
-                      <HighlightButton type="submit" large>Submit</HighlightButton>
+                      <Row>
+                        <Col sm={17}>
+                          <input autoFocus id="receptor_url" className="form-control input-lg" name="receptor_url" placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
+                        </Col>
+                        <Col sm={7}>
+                          <div className="hidden-sm hidden-md hidden-lg"><br/></div>
+                          <HighlightButton type="submit" large>Submit</HighlightButton>
+                        </Col>
+                      </Row>
                     </FormGroup>
                   </form>
                 </Col>

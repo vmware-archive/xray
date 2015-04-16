@@ -1,0 +1,10 @@
+
+.bg-isometric {
+  background:
+  linear-gradient(to bottom, $isometric-bg 1%, $isometric-bg 45%, rgba(23, 35, 42, 0) 100%),
+  radial-gradient(ellipse at bottom, rgba(23, 35, 42, 0) 0%, $isometric-bg 85%),
+  repeating-linear-gradient(150deg, $isometric-grid-color, $isometric-grid-color 1px, transparent 2px, transparent 80px) 0 0,
+  repeating-linear-gradient(30deg, $isometric-grid-color, $isometric-grid-color 1px, transparent 2px, transparent 80px) 0 0;
+  background-size:100%, 100%,160px 93px,160px 93px;
+  background-color: $isometric-bg;
+}
