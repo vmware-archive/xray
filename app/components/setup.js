@@ -42,9 +42,9 @@ var Setup = React.createClass({
         <div className="page">
           <Header className="main-header"/>
           <section className="main-content setup">
-            <div className="bg-isometric"></div>
-            <div className="r-gradient"></div>
-            <div className="l-gradient"></div>
+            <div className="bg-isometric">
+              <div className="isometric"></div>
+            </div>
             <aside>
               <h1 className="title em-low">Explore the Lattice</h1>
               <h2 className="em-low"><span className="em-high">X-Ray</span> is an easy to use dashboard for visualizing Lattice clusters. Point X-Ray at your Lattice deployment to view the distribution and status of your containers</h2>
