@@ -4,23 +4,15 @@
 
 .main-content.setup {
   $setup-gutter: 70px;
-
   @extend %scrollable;
-  align-items: center;
-  background: url(/images/waffle.png) center / cover no-repeat, #162229;
   padding: 0 $setup-gutter;
   position: relative;
-
-  .control-label {
-    color: $gray-7;
-  }
-
-  .has-error .control-label {
-    color: $error-3;
-  }
+  align-items: center;
+  background-color: #162229;
 
   aside, article {
-    padding: 0 20px;
+    flex: 1;
+    z-index: 1;
   }
 
   .receptor-url {
@@ -29,5 +21,36 @@
       flex: 1;
       margin-right: 15px;
     }
+  }
+
+  .bg-isometric, .bg-isometric:after, .isometric {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .bg-isometric {
+    &:after {
+      content: '';
+      display: block;
+      background: radial-gradient(ellipse at bottom,  rgba(23,35,42,0) 0%,rgba(23,35,42,1) 85%),
+                  linear-gradient(to bottom, rgba(23,35,42,1) 1%,rgba(23,35,42,1) 45%,rgba(23,35,42,0) 100%);;
+    }
+  }
+
+  .isometric {
+    background-color: transparent;
+    background-image: linear-gradient(HSLA(210, 2%, 43%, 1) 1%, transparent 1%, transparent 99%, HSLA(210, 2%, 43%, 1) 99%),
+                      linear-gradient(90deg, HSLA(210, 2%, 43%, 1) 1%, transparent 1%, transparent 99%, HSLA(210, 2%, 43%, 1) 99%);
+    background-size: 100px 100px;
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+    transform: rotateX(45deg) rotateZ(45deg) skewX(-5deg) skewY(-5deg);
   }
 }

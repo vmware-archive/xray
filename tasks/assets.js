@@ -14,9 +14,10 @@ function isProduction() {
 }
 
 function javascript(options = {}) {
+  var webpackConfig = Object.assign({}, require('../config/webpack/config')(process.env.NODE_ENV), options);
   return gulp.src(['app/components/application.js', 'app/components/setup.js'])
     .pipe(plugins.plumber())
-    .pipe(plugins.webpack(Object.assign({}, require('../config/webpack/config')(process.env.NODE_ENV), options)))
+    .pipe(plugins.webpack(webpackConfig))
     .pipe(plugins.header(COPYRIGHT))
     .pipe(through2.obj(function(file, encoding, callback) {
       callback(null, Object.assign(file, {path: path.basename(file.path)}));
@@ -57,11 +58,11 @@ gulp.task('watch-assets', function() {
   gulp.watch('app/stylesheets/**/*.scss', ['assets-stylesheets']);
 });
 
-gulp.task('clean-assets', callback => del(['public/*'], callback));
+gulp.task('clean-assets', callback => del(['public/*', '!public/.gitkeep'], callback));
 
 gulp.task('assets-all', function() {
   var stream = mergeStream(
-    javascript({watch: false}),
+    javascript({watch: !isProduction()}),
     sass(),
     fonts(),
     puiStylesheets(),

@@ -17,13 +17,13 @@ var Setup = React.createClass({
   },
 
   getInitialState() {
-    var {acceptTos, receptorUrl} = this.props.config;
-    return {receptorUrl, acceptTos};
+    var {receptorUrl} = this.props.config;
+    return {receptorUrl};
   },
 
   async submit(e) {
     e.preventDefault();
-    if (!this.refs.receptorUrl.validate() || !this.refs.ToS.validate()) return;
+    if (!this.refs.receptorUrl.validate()) return;
     var {receptorUrl} = this.state;
     await SetupApi.create({receptorUrl});
     xray.location.replace(`/?receptor=${receptorUrl}`);
@@ -35,15 +35,16 @@ var Setup = React.createClass({
 
   validateReceptorUrl: input => input.value.length,
 
-  validateTos: input => input.checked,
-
   render() {
-    var {acceptTos, receptorUrl} = this.state;
+    var {receptorUrl} = this.state;
     return (
       <div className="xray">
         <div className="page">
           <Header className="main-header"/>
           <section className="main-content setup">
+            <div className="bg-isometric">
+              <div className="isometric"></div>
+            </div>
             <div className="container">
               <Row>
                 <Col md={12}>
@@ -63,12 +64,6 @@ var Setup = React.createClass({
                       <FormGroup className="receptor-url" onValidate={this.validateReceptorUrl} ref="receptorUrl">
                         <input autoFocus className="form-control input-lg" name="receptorUrl" placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
                         <HighlightButton type="submit" large>Submit</HighlightButton>
-                      </FormGroup>
-                      <FormGroup helpBlock="You must accept the terms of service to continue!" onValidate={this.validateTos} ref="ToS">
-                        <label className="checkbox-inline control-label">
-                          <input type="checkbox" name="acceptTos" checked={acceptTos} onChange={this.change}/>
-                          Do you accept our Terms of Service?
-                        </label>
                       </FormGroup>
                     </form>
                   </article>

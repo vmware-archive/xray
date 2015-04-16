@@ -1,10 +1,9 @@
-/*eslint-disable */
 module.exports = function(ctx) {
   ctx.strokeStyle = 'rgba(0, 0, 0, 0)';
   ctx.lineCap = 'butt';
   ctx.lineJoin = 'miter';
   ctx.miterLimit = 4;
-  ctx.fillStyle = '#03786e';
+  ctx.fillStyle = '#0F776F';
   ctx.beginPath();
   ctx.moveTo(0, 0);
   ctx.lineTo(50, 0);
@@ -40,4 +39,3 @@ module.exports = function(ctx) {
   ctx.fill();
   ctx.stroke();
 };
-/*eslint-enable */

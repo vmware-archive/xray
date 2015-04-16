@@ -16,17 +16,6 @@ describe('Setup', function() {
     expect('form').toExist();
   });
 
-  describe('when acceptTos is true', function() {
-    beforeEach(function() {
-      React.unmountComponentAtNode(root);
-      React.render(<Setup config={{acceptTos: true}}/>, root);
-    });
-
-    it('pre-checks the accept tos checkbox', function() {
-      expect('form :checkbox').toBeChecked();
-    });
-  });
-
   describe('when there is a receptor url', function() {
     const RECEPTOR_URL = 'receptor.example.com';
     beforeEach(function() {
@@ -40,43 +29,37 @@ describe('Setup', function() {
   });
 
   describe('when the form is submitted', function() {
-    describe('when the terms of service are accepted', function() {
+    describe('when there is no receptor url', function() {
       beforeEach(function() {
-        $(':checkbox').prop('checked', true).simulate('change');
+        $('form').simulate('submit');
       });
 
-      describe('when there is no receptor url', function() {
-        beforeEach(function() {
-          $('form').simulate('submit');
-        });
+      it('displays an error', function() {
+        expect('.has-error').toExist();
+      });
+    });
 
-        it('displays an error', function() {
-          expect('.has-error').toExist();
-        });
+    describe('when there is a receptor url', function() {
+      const receptorUrl = 'http://example.com';
+      beforeEach(function() {
+        $(':text').val(receptorUrl).simulate('change');
+        $('form').simulate('submit');
       });
 
-      describe('when there is a receptor url', function() {
-        const receptorUrl = 'http://example.com';
+      it('makes an ajax request', function() {
+        expect('/setup').toHaveBeenRequestedWith({method: 'POST', data: {receptor_url: receptorUrl}});
+      });
+
+      describe('when the ajax request is succcessful', function() {
         beforeEach(function() {
-          $(':text').val(receptorUrl).simulate('change');
-          $('form').simulate('submit');
+          jasmine.Ajax.requests.mostRecent().respondWith({
+            status: 200
+          });
+          MockPromises.executeForResolvedPromises();
         });
 
-        it('makes an ajax request', function() {
-          expect('/setup').toHaveBeenRequestedWith({method: 'POST', data: {receptor_url: receptorUrl}});
-        });
-
-        describe('when the ajax request is succcessful', function() {
-          beforeEach(function() {
-            jasmine.Ajax.requests.mostRecent().respondWith({
-              status: 200
-            });
-            MockPromises.executeForResolvedPromises();
-          });
-
-          it('replaces the location with the root and receptor url as a query string', function() {
-            expect(xray.location.replace).toHaveBeenCalledWith(`/?receptor=${receptorUrl}`);
-          });
+        it('replaces the location with the root and receptor url as a query string', function() {
+          expect(xray.location.replace).toHaveBeenCalledWith(`/?receptor=${receptorUrl}`);
         });
       });
     });
