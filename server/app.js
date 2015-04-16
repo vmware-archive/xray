@@ -27,18 +27,12 @@ function redirectToSetup(req, res, next) {
                     req.cookies && req.cookies.receptor_url ||
                     process.env.RECEPTOR_URL;
 
-  var {accept_tos: acceptTos} = req.cookies;
-  if (receptorUrl && acceptTos) return next();
+  if (receptorUrl) return next();
   res.redirect('/setup');
 }
 
-function acceptTos(req, res, next) {
-  req.acceptTos = req.cookies.accept_tos === 'true';
-  return next();
-}
-
 app.get('/', receptorAuthorization, redirectToSetup, show(Application, 'application'));
-app.get('/setup', receptorAuthorization, acceptTos, show(Setup, 'setup'));
+app.get('/setup', receptorAuthorization, show(Setup, 'setup'));
 
 app.post('/setup', receptorAuthorization, function(req, res) {
   var {receptor_url: receptorUrl} = req.body;
@@ -50,7 +44,6 @@ app.post('/setup', receptorAuthorization, function(req, res) {
       .send({error: 'receptor_url is required'});
     return;
   }
-  res.cookie('accept_tos', true);
   res.status(200).type('json').send({ok: true});
 });
 

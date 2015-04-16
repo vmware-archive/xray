@@ -10,15 +10,7 @@
   background: url(/images/waffle.png) center / cover no-repeat, #162229;
   padding: 0 $setup-gutter;
   position: relative;
-
-  .control-label {
-    color: $gray-7;
-  }
-
-  .has-error .control-label {
-    color: $error-3;
-  }
-
+  
   aside, article {
     flex: 1;
     margin-top: 30vh;
