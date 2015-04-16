@@ -57,7 +57,7 @@ gulp.task('watch-assets', function() {
   gulp.watch('app/stylesheets/**/*.scss', ['assets-stylesheets']);
 });
 
-gulp.task('clean-assets', callback => del(['public/*'], callback));
+gulp.task('clean-assets', callback => del(['public/*', '!public/.gitkeep'], callback));
 
 gulp.task('assets-all', function() {
   var stream = mergeStream(
