@@ -1,7 +1,8 @@
 require('../spec_helper');
 
 describe('Setup', function() {
-  var Setup;
+  var Setup, preventDefaultSpy;
+  const RECEPTOR_URL = 'receptor.example.com';
 
   beforeEach(function() {
     Setup = require('../../../app/components/setup');
@@ -17,7 +18,6 @@ describe('Setup', function() {
   });
 
   describe('when there is a receptor url', function() {
-    const RECEPTOR_URL = 'receptor.example.com';
     beforeEach(function() {
       React.unmountComponentAtNode(root);
       React.render(<Setup config={{receptorUrl: RECEPTOR_URL}}/>, root);
@@ -28,40 +28,36 @@ describe('Setup', function() {
     });
   });
 
-  describe('when the form is submitted', function() {
-    describe('when there is no receptor url', function() {
-      beforeEach(function() {
-        $('form').simulate('submit');
-      });
+  it('posts the right data to setup when the form is submitted', function() {
+    expect('form').toHaveAttr('method', 'POST');
+    expect('form').toHaveAttr('action', '/setup');
+    expect(':text').toHaveAttr('name', 'receptor_url');
+  });
 
-      it('displays an error', function() {
-        expect('.has-error').toExist();
-      });
+  describe('when the form is submitted with valid data', function() {
+    beforeEach(function() {
+      preventDefaultSpy = jasmine.createSpy('preventDefault');
+      $(':text').val(RECEPTOR_URL).simulate('change');
+      $('form').simulate('submit', {preventDefault: preventDefaultSpy});
     });
 
-    describe('when there is a receptor url', function() {
-      const receptorUrl = 'http://example.com';
-      beforeEach(function() {
-        $(':text').val(receptorUrl).simulate('change');
-        $('form').simulate('submit');
-      });
+    it('allows the form to post to the server', function() {
+      expect(preventDefaultSpy).not.toHaveBeenCalled();
+    });
+  });
 
-      it('makes an ajax request', function() {
-        expect('/setup').toHaveBeenRequestedWith({method: 'POST', data: {receptor_url: receptorUrl}});
-      });
+  describe('when the form is submitted with no receptor url', function() {
+    beforeEach(function() {
+      preventDefaultSpy = jasmine.createSpy('preventDefault');
+      $('form').simulate('submit', {preventDefault: preventDefaultSpy});
+    });
 
-      describe('when the ajax request is succcessful', function() {
-        beforeEach(function() {
-          jasmine.Ajax.requests.mostRecent().respondWith({
-            status: 200
-          });
-          MockPromises.executeForResolvedPromises();
-        });
+    it('displays an error', function() {
+      expect('.has-error').toExist();
+    });
 
-        it('replaces the location with the root and receptor url as a query string', function() {
-          expect(xray.location.replace).toHaveBeenCalledWith(`/?receptor=${receptorUrl}`);
-        });
-      });
+    it('does not submit the form', function() {
+      expect(preventDefaultSpy).toHaveBeenCalled();
     });
   });
 });

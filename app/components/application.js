@@ -3,7 +3,6 @@ var Cursor = require('../lib/cursor');
 var Layout = require('../../server/components/layout');
 var Page = require('./page');
 var React = require('react/addons');
-var SetupApi = require('../api/setup_api');
 
 var types = React.PropTypes;
 
@@ -49,11 +48,6 @@ var Application = React.createClass({
   componentDidUpdate() {
     var {receptor, selection, sidebar} = this.state;
     Object.assign(xray, {receptor, selection, sidebar});
-  },
-
-  async updateReceptorUrl({receptorUrl}) {
-    await SetupApi.create({receptorUrl});
-    this.setState({receptorUrl});
   },
 
   render() {
