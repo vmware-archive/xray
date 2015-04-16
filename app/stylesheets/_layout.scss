@@ -2,6 +2,10 @@
 @import '_mixins';
 @import '_variables';
 
+@-ms-viewport{
+  width: device-width;
+}
+
 html, body, #root, .xray {
   min-height: 100%;
   @extend %full-height;
