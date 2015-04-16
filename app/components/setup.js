@@ -53,8 +53,8 @@ var Setup = React.createClass({
                   <h2 className="em-low">What's Your Lattice Receptor URL?</h2>
                 </div>
                 <FormGroup className="receptor-url" onValidate={this.validateReceptorUrl} ref="receptorUrl">
-                  <input autoFocus className="form-control" name="receptorUrl" placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
-                  <HighlightButton type="submit" className="btn btn-highlight">Submit</HighlightButton>
+                  <input autoFocus className="form-control input-lg" name="receptorUrl" placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
+                  <HighlightButton type="submit" large>Submit</HighlightButton>
                 </FormGroup>
                 <FormGroup helpBlock="You must accept the terms of service to continue!" onValidate={this.validateTos} ref="ToS">
                   <label className="checkbox-inline control-label">
