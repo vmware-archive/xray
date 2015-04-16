@@ -5,7 +5,6 @@
 .main-content.setup {
   $setup-gutter: 70px;
   @extend %scrollable;
-
   padding: 0 $setup-gutter;
   position: relative;
   align-items: center;
@@ -70,5 +69,4 @@
     bottom: -100%;
     transform: rotateX(45deg) rotateZ(45deg) skewX(-5deg) skewY(-5deg);
   }
-
 }
