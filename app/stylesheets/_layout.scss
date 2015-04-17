@@ -52,8 +52,17 @@ body {
   background-color: $dark-1;
 }
 
-.main-header {
+.left-header {
   padding: 15px;
+}
+
+.main-header {
+
+  .logo {
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
 
   canvas {
     vertical-align: top;
@@ -64,10 +73,54 @@ body {
     font-size: 18px;
     line-height: 1;
     font-weight: 300;
+
+    strong {
+      display: block;
+    }
   }
 
-  strong {
-    display: block;
+  .receptor-url {
+    cursor: pointer;
+    width: 175px;
+    background-color: $shadow-2;
+
+    @media(min-width: $screen-md-min) {
+      width: $sidebar-width;
+    }
+
+    label {
+      cursor: pointer;
+      display: block;
+
+      .active-label, .inactive-label, input {
+        padding: 0 $desired-lrp-gutter;
+      }
+    }
+
+    label .active-label {
+      color: $link-color;
+      display: none;
+    }
+
+    label .inactive-label {
+      text-transform: uppercase;
+    }
+
+    &:hover label {
+      .active-label {
+        display: block;
+      }
+      .inactive-label {
+        display: none;
+      }
+    }
+
+    input {
+      height: auto;
+      border: none;
+      box-shadow: none;
+      outline: none;
+    }
   }
 }
 

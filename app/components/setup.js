@@ -24,7 +24,7 @@ var Setup = React.createClass({
   },
 
   change({target}) {
-    this.setState({[target.name]: target.type === 'checkbox' ? target.checked : target.value});
+    this.setState({receptorUrl: target.value});
   },
 
   validateReceptorUrl: input => input.value.length,

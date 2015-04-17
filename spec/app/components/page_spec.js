@@ -21,10 +21,10 @@ describe('Page', function() {
     var actualLrpsByProcessGuid = {one: [actualLrps[0]], two: [actualLrps[1]]};
     var actualLrpsByCellId = {android16: [actualLrps[0]], android17: [actualLrps[1]]};
     $receptor = new Cursor({actualLrps, desiredLrps, desiredLrpsByProcessGuid: {}, actualLrpsByProcessGuid, actualLrpsByCellId}, callbackSpy);
+    var receptorUrl = 'http://examples.com';
     React.withContext({scaling: 'containers', colors}, function() {
-      subject = React.render(<Page {...{$receptor, $scaling, $sidebar, $selection}}/>, root);
+      subject = React.render(<Page {...{receptorUrl, $receptor, $scaling, $sidebar, $selection}}/>, root);
     });
-    subject.setProps({receptorUrl: 'http://example.com'});
   });
 
   afterEach(function() {
