@@ -44,8 +44,11 @@ body {
 
 .sidebar-panel {
   position: relative;
-  width: $sidebar-width;
   background-color: $shadow-1;
+
+  @media(min-width: $screen-md-min){
+    width: $sidebar-width;
+  }
 }
 
 .main-header, .main-footer {
