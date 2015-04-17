@@ -82,6 +82,7 @@ body {
 .main-header {
   display: flex;
   align-content: center;
+  align-items: center;
   padding: 0 0 0 15px;
   border-bottom: 1px solid rgba(255,255,255,.1);
   h1, canvas {
@@ -95,18 +96,19 @@ body {
 
   h1 {
     margin: 0;
-    font-size: 18px;
+    font-size: 21px;
     line-height: 1;
-    font-weight: 300;
   }
 
   .logo-type {
-    display: inline-block;
     align-self: center;
+    font-size: 21px;
+    font-weight: 400;
   }
 
   .logo-mark {
     align-self: center;
+    margin-right: 10px;
   }
 
   .logo {
