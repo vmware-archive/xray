@@ -1,28 +1,21 @@
-@import '../../vendor/pui-v1.4.0/pui-variables';
-@import '_mixins';
-@import '_variables';
-
 @-ms-viewport{
   width: device-width;
 }
 
 html, body, #root, .xray {
   min-height: 100%;
-  @extend %full-height;
+  @include full-height;
 }
 
 body {
   color: $neutral-11;
-}
-
-#root {
   background-color: $neutral-1;
 }
 
 // fancy full width layout
 @media(min-width: $screen-sm-min) {
   .page {
-    @extend %full;
+    @include full;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -31,7 +24,7 @@ body {
   .main-content {
     flex: 1;
     display: flex;
-    @extend %full;
+    @include full;
   }
 }
 
@@ -162,35 +155,41 @@ body {
   }
 }
 
-.sidebar-panel {
-  transform: translate3d(0, 0, 0);
-  transition: transform $sidebar-animation-duration ease-in;
-  .sidebar-toggle .fa-angle-double-right {
-    transform: rotateZ(0deg);
-    transition: transform $sidebar-animation-duration linear;
-  }
-  .media-body, .sidebar-header {
-    opacity: 1;
-    transition: opacity $sidebar-animation-duration linear;
-  }
-  .sidebar-collapsed & {
-    transform: translate3d($sidebar-width - $sidebar-collapsed-width, 0, 0);
-    .media-body {
-      display: none;
-    }
+@media(min-width: $screen-md-min) {
+  .sidebar-panel {
+    transform: translate3d(0, 0, 0);
+    transition: transform $sidebar-animation-duration ease-in;
     .sidebar-toggle .fa-angle-double-right {
-      transform: rotateZ(180deg);
+      transform: rotateZ(0deg);
+      transition: transform $sidebar-animation-duration linear;
+    }
+    .media-body, .sidebar-header {
+      opacity: 1;
+      transition: opacity $sidebar-animation-duration linear;
+    }
+    .sidebar-collapsed & {
+      transform: translate3d($sidebar-width - $sidebar-collapsed-width, 0, 0);
+      .media-body {
+        display: none;
+      }
+      .sidebar-toggle .fa-angle-double-right {
+        transform: rotateZ(180deg);
+      }
     }
   }
 }
 
-.footer {
-  align-items: center;
-  background-color: $shadow-1;
-  display: flex;
-  height: $footer-height;
 
-  .radio-group {
-    flex: 1;
+
+.footer {
+  background-color: $shadow-1;
+
+  @media(min-width: $screen-md-min) {
+    align-items: center;
+    display: flex;
+    height: $footer-height;
+    .radio-group {
+      flex: 1;
+    }
   }
 }

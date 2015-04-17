@@ -1,11 +1,6 @@
-@import '../../vendor/pui-v1.4.0/pui-variables';
-@import '_mixins';
-@import '_variables';
-@import '_backgrounds';
-
 @media(min-width: $screen-md-min) {
   .main-content.setup {
-    @extend %scrollable;
+    @include scrollable;
   }
 }
 

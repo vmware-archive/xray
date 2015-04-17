@@ -23,9 +23,9 @@ var Scaling = React.createClass({
     return (
       <footer className="footer form-inline type-sm">
         <a role="button"><Icon name="undo" className="fa-flip-horizontal mhl" onClick={this.updateReceptor}/></a>
-        <RadioGroup name="scale_type" onChange={this.changeScale}>
-          <Radio value="memory_mb" checked={scaling === 'memory_mb'} className="mhl">  memory</Radio>
-          <Radio value="containers" checked={scaling === 'containers'} className="mhl"> containers</Radio>
+        <RadioGroup className="form-group" name="scale_type" onChange={this.changeScale}>
+          <Radio value="memory_mb" checked={scaling === 'memory_mb'}>  memory</Radio>
+          <Radio value="containers" checked={scaling === 'containers'}> containers</Radio>
         </RadioGroup>
       </footer>
     );

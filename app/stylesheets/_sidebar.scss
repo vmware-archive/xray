@@ -1,6 +1,3 @@
-@import '_variables';
-@import '_mixins';
-
 .app-container-sidebar {
   width: $app-container-size;
   height: $app-container-size;
@@ -8,20 +5,22 @@
 }
 
 .desired-lrp-list, .desired-lrp-detail {
-  @extend %full-height;
+  @include full-height;
 }
 
-.sidebar {
-  @extend %zero;
-  table {
-    @extend %full-width;
-    table-layout: fixed;
+@media(min-width: $screen-md-min) {
+  .sidebar {
+    @include zero;
+    table {
+      @include full-width;
+      table-layout: fixed;
+    }
   }
-}
 
-.desired-lrps, .actual-lrps {
-  @extend %scrollable-y;
-  flex: 1;
+  .desired-lrps, .actual-lrps {
+    @include scrollable-y;
+    flex: 1;
+  }
 }
 
 .sidebar-header {
@@ -94,7 +93,7 @@
 }
 
 .desired-lrp {
-  @extend %fade;
+  @include fade;
 
   .selection & {
     opacity: 0.2;
@@ -163,7 +162,7 @@
       }
 
       .actual-lrp {
-        @extend %fade;
+        @include fade;
 
         &.claimed {
           animation-name: almost-fade-in;

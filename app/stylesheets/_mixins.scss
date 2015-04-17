@@ -1,35 +1,35 @@
-%full-width {
+@mixin full-width {
   width: 100%
 }
 
-%full-height {
+@mixin full-height {
   height: 100%
 }
 
-%fade {
+@mixin fade {
   transition: opacity 200ms ease-in;
 }
 
-%full {
-  @extend %full-width;
-  @extend %full-height;
+@mixin full {
+  @include full-width;
+  @include full-height;
 }
 
-%scrollable {
+@mixin scrollable {
   overflow: auto;
 }
 
-%scrollable-x {
+@mixin scrollable-x {
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-%scrollable-y {
+@mixin scrollable-y {
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-%zero {
+@mixin zero {
   position: absolute;
   top: 0;
   left: 0;
