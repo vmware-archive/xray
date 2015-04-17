@@ -51,12 +51,12 @@ var DesiredLrpInfo = React.createClass({
 
     return (
       <section className="desired-lrp-info">
-        <div className="process-guid type-ellipsis-1-line">{processGuid}</div>
+        <p className="process-guid type-ellipsis-1-line mvn">{processGuid}</p>
         {routes && <Routes {...{routes}}/>}
-        <div className="metadata">
+        <p className="metadata mvn">
           <span>{instances}</span>
           &nbsp;(M: {memory} D: {disk})
-        </div>
+        </p>
       </section>
     );
   }

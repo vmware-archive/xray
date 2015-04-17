@@ -60,11 +60,11 @@ var Page = React.createClass({
         <Header className="main-header"/>
         <section className="main-content">
           <article className="main-panel">
-            <Zones {...{$receptor, $selection, $sidebar, scaling: $scaling.get()}}/>
             <Scaling {...{$receptor, $scaling}}/>
+            <Zones {...{$receptor, $selection, $sidebar, scaling: $scaling.get()}}/>
             {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
           </article>
-          <aside className="sidebar-panel"><Sidebar {...{$receptor, $selection, $sidebar}}/></aside>
+          <aside className="sidebar-panel type-sm"><Sidebar {...{$receptor, $selection, $sidebar}}/></aside>
         </section>
         <Footer className="main-footer"/>
         {this.props.children}

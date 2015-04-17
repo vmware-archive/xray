@@ -26,7 +26,7 @@ var DesiredLrpList = React.createClass({
 
     desiredLrps = desiredLrps.map(this.renderDesiredLrp.bind(this, {actualLrpsByProcessGuid, sidebarCollapsed, $selection, $sidebar}));
     return (
-      <ul className="list-group-inverse pln">
+      <ul className="list-group-inverse pln type-sm">
         {desiredLrps}
       </ul>
     );

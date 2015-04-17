@@ -21,11 +21,15 @@ var Scaling = React.createClass({
   render() {
     var scaling = this.props.$scaling.get();
     return (
-      <footer className="footer form-inline type-sm">
-        <a role="button"><Icon name="undo" className="fa-flip-horizontal mhl" onClick={this.updateReceptor}/></a>
+      <footer className="footer form-inline type-sm memory-container-toggle">
+        <a role="button" className="refresh"><Icon name="undo" className="fa-flip-horizontal mhl" onClick={this.updateReceptor}/></a>
         <RadioGroup name="scale_type" onChange={this.changeScale}>
-          <Radio value="memory_mb" checked={scaling === 'memory_mb'} className="mhl">  memory</Radio>
-          <Radio value="containers" checked={scaling === 'containers'} className="mhl"> containers</Radio>
+          <Radio value="memory_mb" checked={scaling === 'memory_mb'} className="mhl">
+            <span>Memory</span>
+          </Radio>
+          <Radio value="containers" checked={scaling === 'containers'} className="mhl">
+            <span>Containers</span>
+          </Radio>
         </RadioGroup>
       </footer>
     );

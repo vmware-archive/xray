@@ -34,10 +34,10 @@ var SidebarHeader = React.createClass({
     var {$sidebar} = this.props;
     var filter = $sidebar.get('filter');
     return (
-      <header className="sidebar-header mam">
-        <a className="form-control sidebar-toggle txt-c" role="button" onClick={this.toggleSidebar} title="toggle sidebar">
+      <header className="sidebar-header">
+        <a className="sidebar-toggle txt-c" role="button" onClick={this.toggleSidebar} title="toggle sidebar">
           <span className="sr-only">toggle sidebar</span>
-          <Icon name="angle-double-right" />
+          <Icon name="angle-right" />
         </a>
         <Filter className="filter-processes" placeholder="Filter &hellip;" value={filter} onFilter={this.filter}/>
       </header>

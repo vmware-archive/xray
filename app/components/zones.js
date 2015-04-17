@@ -25,7 +25,7 @@ var Zones = React.createClass({
       var cells = zones[zone];
       return (
         <div className="zone" key={zone}>
-          <header><h3 className="em-high">{`Zone ${zone} - ${cells.length} Cells`}</h3></header>
+          <header><h3 className="em-high em-alt h6 type-neutral-4">{`Zone ${zone} - ${cells.length} Cells`}</h3></header>
           <Cells {...{cells, scaling, $receptor, $selection, $sidebar}}/>
         </div>
       );

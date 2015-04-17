@@ -26,9 +26,13 @@
 
 .sidebar-header {
   display: flex;
+  position: relative;
 
   .filter-processes {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .form-control {
@@ -37,10 +41,15 @@
 
   .sidebar-toggle {
     color: $neutral-11;
-    border: 1px solid $neutral-3;
-    border-radius: 3px;
-    width: $app-container-size;
-    margin: 0 $desired-lrp-gutter 0 $desired-lrp-gutter - 7;
+    border: none;
+    border-right: 1px solid $glow-1;
+    background-color: $shadow-2;
+    height: 54px;
+    width: 54px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
   }
 }
 
