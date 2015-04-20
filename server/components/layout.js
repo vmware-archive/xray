@@ -17,21 +17,12 @@ var Body = React.createClass({
     var __html = React.renderToString(entryFactory({config}));
     /*eslint-disable comma-spacing*/
     var configScript = `var xray = {config: ${JSON.stringify(config)}, location: location};`;
-    var gaScript = `(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-22181585-32', 'auto');
-    ga('send', 'pageview');`;
-
     /*eslint-enable comma-spacing*/
     return (
       <body className={className}>
         <main id="root" dangerouslySetInnerHTML={{__html}}/>
         <script type="text/javascript" dangerouslySetInnerHTML={{__html: configScript}}/>
         {scripts}
-        <script type="text/javascript" dangerouslySetInnerHTML={{__html: gaScript}}/>
       </body>
     );
   }

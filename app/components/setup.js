@@ -1,15 +1,18 @@
 require('babel/polyfill');
 var {Col, Row} = require('pui-react-grids');
-var Header = require('./header');
 var Footer = require('./footer');
 var FormGroup = require('./form_group');
-var Layout = require('../../server/components/layout');
+var googleAnalyticsMixin = require('../mixins/google_analytics_mixin');
+var Header = require('./header');
 var {HighlightButton} = require('pui-react-buttons');
+var Layout = require('../../server/components/layout');
 var React = require('react/addons');
 
 var types = React.PropTypes;
 
 var Setup = React.createClass({
+  mixins: [googleAnalyticsMixin],
+
   propTypes: {
     config: types.object.isRequired
   },

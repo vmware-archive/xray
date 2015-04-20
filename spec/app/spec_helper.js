@@ -36,6 +36,8 @@ require('jasmine-ajax');
 beforeEach(function() {
   var mockLocation = jasmine.createSpyObj('location', ['assign', 'reload', 'replace']);
   global.xray = {location: mockLocation};
+
+  spyOn(require('../../app/vendor/google_analytics'), 'init');
   spyOn(React.addons.CSSTransitionGroup.type.prototype, 'render').and.callFake(function() { return (<div>{this.props.children}</div>); });
 
   var Layout = require('../../server/components/layout');

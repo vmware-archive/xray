@@ -1,5 +1,6 @@
 require('babel/polyfill');
 var Cursor = require('../lib/cursor');
+var googleAnalyticsMixin = require('../mixins/google_analytics_mixin');
 var Layout = require('../../server/components/layout');
 var Page = require('./page');
 var React = require('react/addons');
@@ -7,6 +8,8 @@ var React = require('react/addons');
 var types = React.PropTypes;
 
 var Application = React.createClass({
+  mixins: [googleAnalyticsMixin],
+
   propTypes: {
     config: types.object.isRequired
   },
