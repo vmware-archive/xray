@@ -4,6 +4,7 @@ var types = React.PropTypes;
 
 var Body = React.createClass({
   propTypes: {
+    config: types.object.isRequired,
     entry: types.func.isRequired,
     scripts: types.array.isRequired
   },

@@ -39,6 +39,11 @@ var Routes = React.createClass({
 });
 
 var DesiredLrpInfo = React.createClass({
+  propTypes: {
+    actualLrps: types.array.isRequired,
+    desiredLrp: types.object.isRequired
+  },
+
   render() {
     var {actualLrps, desiredLrp} = this.props;
 
