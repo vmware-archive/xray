@@ -7,8 +7,8 @@ var Header = React.createClass({
     var {className, children} = this.props;
     return (
       <header className={className}>
-        <Flag leftImage={<Canvas src={require('../canvas/logo')} className="logo" width={50} height={50}/>} rightImage={children} >
-          <h1>Pivotal <strong>X-Ray</strong></h1>
+        <Flag leftImage={<Canvas src={require('../canvas/logo')} className="logo" width={40} height={40}/>} rightImage={children} >
+          <h1>X-Ray</h1>
         </Flag>
       </header>
     );

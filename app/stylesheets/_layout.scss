@@ -9,7 +9,7 @@ html, body, #root, .xray {
 
 body {
   color: $neutral-11;
-  background-color: $neutral-1;
+  background-color: $isometric-bg;
 }
 
 // fancy full width layout
@@ -37,7 +37,7 @@ body {
 
 .sidebar-panel {
   position: relative;
-  background-color: $shadow-1;
+  background-color: $shadow-2;
 
   @media(min-width: $screen-md-min){
     width: $sidebar-width;
@@ -68,11 +68,7 @@ body {
     margin: 0;
     font-size: 18px;
     line-height: 1;
-    font-weight: 300;
-
-    strong {
-      display: block;
-    }
+    font-weight: 400;
   }
 
   .receptor-url {
@@ -182,7 +178,7 @@ body {
 
 
 .footer {
-  background-color: $shadow-1;
+  background-color: $shadow-2;
 
   @media(min-width: $screen-md-min) {
     align-items: center;
