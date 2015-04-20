@@ -1,5 +1,5 @@
 require('babel/register')({
-  optional: ['es7.objectRestSpread', 'regenerator'],
+  stage: 1,
   ignore: /node_modules|app\/canvas\/[^\/]+\.js$/
 });
 var app = require('./app');
