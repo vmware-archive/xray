@@ -1,5 +1,5 @@
 var React = require('react/addons');
-var Canvas = require('./canvas');
+var Logo = require('../svg/logo');
 var {Flag} = require('pui-react-media');
 
 var Header = React.createClass({
@@ -7,7 +7,7 @@ var Header = React.createClass({
     var {className, children} = this.props;
     return (
       <header className={className}>
-        <Flag leftImage={<Canvas src={require('../canvas/logo')} className="logo" width={40} height={40}/>} rightImage={children} >
+        <Flag leftImage={<Logo className="logo"/>} rightImage={children}>
           <h1>X-Ray</h1>
         </Flag>
       </header>
