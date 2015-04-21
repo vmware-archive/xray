@@ -13,7 +13,7 @@ describe('ReceptorStreamMixin', function() {
       }
     });
     callbackSpy = jasmine.createSpy('callback');
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     actualLrp = Factory.build('actualLrp', {cell_id: 'android17', process_guid: 'xyz', index: 1, modification_tag: {epoch: 1, index: 1}});
     actualLrp2 = Factory.build('actualLrp', {cell_id: 'android17', process_guid: 'xyz', index: 2});
     desiredLrp = Factory.build('desiredLrp', {process_guid: 'xyz'});

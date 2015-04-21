@@ -3,7 +3,7 @@ describe('DesiredLrpList', function() {
   var Cursor, subject, desiredLrps;
   beforeEach(function() {
     var DesiredLrpList = require('../../../app/components/desired_lrp_list');
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     desiredLrps = Factory.buildList('desiredLrp', 3);
 
     var $receptor = new Cursor({desiredLrps}, jasmine.createSpy('callback'));

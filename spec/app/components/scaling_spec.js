@@ -3,7 +3,7 @@ require('../spec_helper');
 describe('Scaling', function() {
   var callbackSpy;
   beforeEach(function() {
-    var Cursor = require('../../../app/lib/cursor');
+    var Cursor = require('pui-cursor');
     callbackSpy = jasmine.createSpy('callback');
     var $scaling = new Cursor('containers', callbackSpy);
     var $receptor = new Cursor({}, jasmine.createSpy('callback'));

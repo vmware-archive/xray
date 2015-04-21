@@ -10,7 +10,7 @@ describe('Container', function() {
     desiredLrp = Factory.build('desiredLrp');
     var denominator = 50;
 
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     selectionCallbackSpy = jasmine.createSpy('callback');
     var $selection = new Cursor({hoverDesiredLrp: null}, selectionCallbackSpy);
     var $sidebar = new Cursor({sidebarCollapsed: false}, jasmine.createSpy('callback'));

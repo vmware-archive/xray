@@ -1,5 +1,5 @@
 require('babel/polyfill');
-var Cursor = require('../lib/cursor');
+var Cursor = require('pui-cursor');
 var googleAnalyticsMixin = require('../mixins/google_analytics_mixin');
 var Layout = require('../../server/components/layout');
 var Page = require('./page');

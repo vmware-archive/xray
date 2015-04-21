@@ -13,7 +13,7 @@ describe('Zones', function() {
     Object.assign(cells[2], {zone: 'A', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[2].process_guid})});
     var colors = ['#fff', '#000'];
 
-    var Cursor = require('../../../app/lib/cursor');
+    var Cursor = require('pui-cursor');
     var $selection = new Cursor({}, jasmine.createSpy('callback'));
     var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     var $receptor = new Cursor({cells, desiredLrps, actualLrpsByCellId: {}}, jasmine.createSpy('callback'));

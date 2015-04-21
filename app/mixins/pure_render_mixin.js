@@ -1,4 +1,4 @@
-var Cursor = require('../lib/cursor');
+var Cursor = require('pui-cursor');
 
 function isNotEqual(next, current, ignore) {
   return function(p) {

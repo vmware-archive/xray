@@ -4,7 +4,7 @@ describe('ActualLrp', function() {
   var actualLrp, subject, hoverSpy;
   beforeEach(function() {
     var ActualLrp = require('../../../app/components/actual_lrp');
-    var Cursor = require('../../../app/lib/cursor');
+    var Cursor = require('pui-cursor');
     actualLrp = Factory.build('actualLrp');
     hoverSpy = jasmine.createSpy('hoverCallback');
     var $hoverActualLrp = new Cursor({hoverActualLrp: null}, hoverSpy).refine('hoverActualLrp');

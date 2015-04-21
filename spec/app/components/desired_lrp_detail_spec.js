@@ -20,7 +20,7 @@ describe('DesiredLrpDetail', function() {
       Factory.build('desiredLrp', {process_guid: 'Diego', instances: 3})
     ];
 
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     var actualLrpsByProcessGuid = {
       Amazon: [actualLrps[0]],
       Diego: [actualLrps[1], actualLrps[2], actualLrps[3]]

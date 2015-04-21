@@ -15,7 +15,7 @@ describe('DesiredLrp', function() {
     selectionCallbackSpy = jasmine.createSpy('selection');
     sidebarCallbackSpy = jasmine.createSpy('sidebar');
 
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     var $selection = new Cursor({hoverDesiredLrp: null, selectedDesiredLrp: null}, selectionCallbackSpy);
     var $sidebar = new Cursor({sidebarCollapsed: false}, sidebarCallbackSpy);
     var colors = ['#fff', '#000'];

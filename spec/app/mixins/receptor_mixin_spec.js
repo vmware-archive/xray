@@ -10,7 +10,7 @@ describe('ReceptorMixin', function() {
       render() { return null; }
     });
     callbackSpy = jasmine.createSpy('callback');
-    var Cursor = require('../../../app/lib/cursor');
+    var Cursor = require('pui-cursor');
     desiredLrp = Factory.build('desiredLrp', {process_guid: 'two', modification_tag: {epoch: 'epoch', index: 0}}, {raw: true});
     actualLrp = Factory.build('actualLrp', {cell_id: 'foo', process_guid: 'two', modification_tag: {epoch: 'epoch', index: 0}});
     var $receptor = new Cursor({

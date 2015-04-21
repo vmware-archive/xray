@@ -7,7 +7,7 @@ describe('PureRenderMixin', function() {
     renderSpy = jasmine.createSpy('render').and.returnValue(null);
     nested = { foo: 'bar'};
     one = {name: 'one', nested: nested};
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     two = new Cursor(data, jasmine.createSpy('callback'));
     three = {name: 'three'};
     wrapper = {one: one, two: two, three: three};

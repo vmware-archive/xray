@@ -3,7 +3,7 @@ require('../spec_helper');
 describe('Cells', function() {
   var Cell, subject, cells, $receptor, Cursor;
   beforeEach(function() {
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     var Cells = require('../../../app/components/cells');
     Cell = require('../../../app/components/cell');
     spyOn(Cell.type.prototype, 'render').and.callThrough();

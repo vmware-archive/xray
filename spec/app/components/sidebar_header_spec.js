@@ -7,7 +7,7 @@ describe('SidebarHeader', function() {
     spyOn(lrpHelper, 'filterDesiredLrps');
 
     var SidebarHeader = require('../../../app/components/sidebar_header');
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
 
     desiredLrps = [];
     var $receptor = new Cursor({desiredLrps});

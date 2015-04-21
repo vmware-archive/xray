@@ -8,7 +8,7 @@ describe('HoverDesiredLrpMixin', function() {
       mixins: [HoverDesiredLrpMixin],
       render() { return (<div onClick={this.onClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}/>); }
     });
-    var Cursor = require('../../../app/lib/cursor');
+    var Cursor = require('pui-cursor');
     desiredLrp = Factory.build('desiredLrp');
     selectionCallbackSpy = jasmine.createSpy('selection');
     var $selection = new Cursor({filteredLrps: {[desiredLrp.process_guid]: desiredLrp}}, selectionCallbackSpy);

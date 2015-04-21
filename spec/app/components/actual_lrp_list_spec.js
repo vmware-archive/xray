@@ -4,7 +4,7 @@ describe('ActualLrpList', function() {
   var subject, actualLrps, Cursor, hoverSidebarCallback;
   beforeEach(function() {
     var ActualLrpList = require('../../../app/components/actual_lrp_list');
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     actualLrps = [
       Factory.build('actualLrp', {index: 0}),
       Factory.build('actualLrp', {index: 1, state: 'UNCLAIMED'}),

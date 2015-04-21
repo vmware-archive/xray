@@ -4,7 +4,7 @@ describe('Page', function() {
   var subject, $receptor, $sidebar, $selection, Cursor, actualLrps, desiredLrps, callbackSpy;
 
   beforeEach(function() {
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     var Page = require('../../../app/components/page');
     actualLrps = [
       Factory.build('actualLrp', {cell_id: 'android16', process_guid: 'one'}),

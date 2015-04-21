@@ -13,7 +13,7 @@ describe('Cell', function() {
     return subject;
   }
   beforeEach(function() {
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     update = React.addons.update;
     Cell = require('../../../app/components/cell');
     cell = Factory.build('cell', {capacity: {containers: 256, disk_mb: 1000, memory_mb: 100}});

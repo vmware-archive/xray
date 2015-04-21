@@ -15,7 +15,7 @@ describe('Sidebar', function() {
       Factory.build('desiredLrp', {process_guid: 'Diego', instances: 3})
     ];
 
-    Cursor = require('../../../app/lib/cursor');
+    Cursor = require('pui-cursor');
     callbackSpy = jasmine.createSpy('callback');
     var actualLrpsByProcessGuid = {
       Amazon: [actualLrps[0]],
