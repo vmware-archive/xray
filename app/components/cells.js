@@ -1,6 +1,6 @@
 var React = require('react/addons');
 var Cell = require('./cell');
-var PureRenderMixin = require('../mixins/pure_render_mixin');
+var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 
 var types = React.PropTypes;
 

@@ -1,6 +1,6 @@
 var DesiredLrpDetail = require('./desired_lrp_detail');
 var DesiredLrpList = require('./desired_lrp_list');
-var PureRenderMixin = require('../mixins/pure_render_mixin');
+var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var React = require('react/addons');
 
 var types = React.PropTypes;

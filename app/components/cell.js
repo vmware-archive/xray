@@ -1,4 +1,4 @@
-var PureRenderMixin = require('../mixins/pure_render_mixin');
+var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var Container = require('./container');
 var React = require('react/addons');
 var classnames = require('classnames');

@@ -1,5 +1,5 @@
 var Icon = require('pui-react-iconography').Icon;
-var PureRenderMixin = require('../mixins/pure_render_mixin');
+var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var Radio = require('pui-react-radio').Radio;
 var RadioGroup = require('pui-react-radio-group').RadioGroup;
 var React = require('react/addons');

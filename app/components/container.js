@@ -1,4 +1,4 @@
-var PureRenderMixin = require('../mixins/pure_render_mixin');
+var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var {getHostname} = require('../helpers/lrp_helper');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var {pickColor} = require('../helpers/application_helper');
