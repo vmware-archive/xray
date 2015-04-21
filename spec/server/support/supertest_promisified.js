@@ -4,8 +4,8 @@ var supertest = require('supertest');
 function then(onFulfilled, onRejected) {
   return new Promise(function(resolve, reject) {
     this.end(function(error, response) {
-      if (error) return reject(error);
-      resolve(response);
+      if (response) return resolve(response);
+      reject(error);
     });
   }.bind(this)).then(onFulfilled, onRejected);
 }

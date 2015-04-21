@@ -53,7 +53,7 @@
     "merge-stream": "^0.1.7",
     "methods": "^1.1.1",
     "mock-promises": "^0.3.0",
-    "supertest": "^0.15.0",
+    "supertest": "git://github.com/visionmedia/supertest.git#4707d9d277e5173dc35d7fd0d359600dd3d8c1a3",
     "through2": "^0.6.5",
     "vinyl": "^0.4.6",
     "webpack": "^1.7.3"
@@ -97,7 +97,7 @@
     "rosie": "^0.4.0",
     "run-sequence": "^1.0.2",
     "serve-favicon": "^2.2.0",
-    "superagent": "^0.21.0",
+    "superagent": "^1.2.0",
     "timeago": "git://github.com/rdy/node-timeago.git#75cb5efe9006217988b1c1809c74c71b2ba0d69d"
   }
 }

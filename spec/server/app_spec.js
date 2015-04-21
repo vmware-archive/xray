@@ -10,9 +10,10 @@ describe('app', function() {
   describe('GET /', function() {
     describe('when a receptor url is not provided as a query param', function() {
       it('redirects to /setup', async function(done) {
-        var res = await request(subject).get('/');
-        expect(res.status).toEqual(303);
-        expect(res.headers.location).toEqual('/setup');
+        var {headers: {location}} = await request(subject)
+          .get('/')
+          .expect(303);
+        expect(location).toEqual('/setup');
         done();
       });
     });
@@ -26,8 +27,8 @@ describe('app', function() {
         spyOn(Application.type.prototype, 'render').and.callThrough();
         res = await request(subject)
           .get(`/?receptor=${RECEPTOR_URL}`)
-          .expect('Content-Type', /html/);
-        expect(res.status).toEqual(200);
+          .expect('Content-Type', /html/)
+          .expect(200);
         done();
       });
 
@@ -55,8 +56,8 @@ describe('app', function() {
         res = await request(subject)
           .get(`/`)
           .set('cookie', `receptor_url=${RECEPTOR_URL}`)
-          .expect('Content-Type', /html/);
-        expect(res.status).toEqual(200);
+          .expect('Content-Type', /html/)
+          .expect(200);
         done();
       });
 
@@ -86,10 +87,10 @@ describe('app', function() {
     });
 
     it('renders the layout and setup', async function(done) {
-      var res = await request(subject)
+      await request(subject)
         .get('/setup')
-        .expect('Content-Type', /html/);
-      expect(res.status).toEqual(200);
+        .expect('Content-Type', /html/)
+        .expect(202);
       expect(Layout.type.prototype.render).toHaveBeenCalled();
       expect(Setup.type.prototype.render).toHaveBeenCalled();
       done();
@@ -105,8 +106,8 @@ describe('app', function() {
           res = await request(subject)
             .post('/setup')
             .type('form')
-            .send({receptor_url: RECEPTOR_URL});
-          expect(res.status).toEqual(303);
+            .send({receptor_url: RECEPTOR_URL})
+            .expect(303);
           done();
         });
 
@@ -125,8 +126,8 @@ describe('app', function() {
           var res = await request(subject)
             .post('/setup')
             .type('form')
-            .send({receptor_url: RECEPTOR_URL});
-          expect(res.status).toEqual(303);
+            .send({receptor_url: RECEPTOR_URL})
+            .expect(303);
           expect(res.headers['set-cookie'][1]).not.toContain('receptor_authorization');
           done();
         });
@@ -135,11 +136,11 @@ describe('app', function() {
 
     describe('when no receptor url is provided', function() {
       it('is not successful', async function(done) {
-        var res = await request(subject)
+        await request(subject)
           .post('/setup')
           .type('form')
-          .send({});
-        expect(res.status).toEqual(422);
+          .send({})
+          .expect(422);
         done();
       });
     });
