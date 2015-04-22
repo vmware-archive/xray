@@ -10,7 +10,7 @@ var jQuery = require('jquery');
 global.jQuery = jQuery;
 global.$ = jQuery;
 global.MockPromises = require('mock-promises');
-global.MockEventSource = require('../support/mock_event_source');
+global.MockEventSource = require('pui-event-source/mock-event-source');
 global.jasmineReact = require('jasmine-react-helpers');
 global.Deferred = require('../support/deferred');
 

@@ -1,4 +1,4 @@
-var StreamSource = require('../lib/stream_source');
+var EventSource = require('pui-event-source');
 var sortedIndex = require('lodash.sortedindex');
 var {actualLrpIndex, decorateDesiredLrp} = require('../helpers/lrp_helper');
 
@@ -122,7 +122,7 @@ var ReceptorStreamMixin = {
   },
 
   createSSE(receptorUrl) {
-    var sse = new StreamSource(`${receptorUrl}/v1/events`, {withCredentials: true});
+    var sse = new EventSource(`${receptorUrl}/v1/events`, {withCredentials: true});
     privates.set(this, {sse});
   },
 
