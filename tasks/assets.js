@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var del = require('del');
-var drFrankenstyle = require('dr-frankenstyle');
+var drFrankenstyle = require('gulp-dr-frankenstyle');
 var File = require('vinyl');
 var mergeStream = require('merge-stream');
 var path = require('path');
@@ -36,17 +36,6 @@ function sass() {
     .pipe(plugins.rename({dirname: ''}));
 }
 
-function puiStylesheets() {
-  var stream = through2.obj();
-  drFrankenstyle(css => (stream.write(new File({path: 'pui.css', contents: new Buffer(css)})), stream.end()));
-  return stream;
-}
-
-function fonts() {
-  return gulp.src(['vendor/pui-v1.4.0/fonts/*', 'node_modules/font-awesome/fonts/*'], {base: '.'})
-    .pipe(plugins.rename({dirname: 'fonts'}));
-}
-
 function images() {
   return gulp.src('app/images/**', {base: '.'})
     .pipe(plugins.rename({dirname: 'images'}));
@@ -66,27 +55,30 @@ gulp.task('assets-all', function() {
   var stream = mergeStream(
     javascript({watch: !isProduction()}),
     sass(),
-    fonts(),
-    puiStylesheets(),
+    drFrankenstyle(),
     images()
   );
 
-  if (process.env.NODE_ENV !== 'production') return stream.pipe(gulp.dest('public'));
-  var cloneSink = plugins.clone.sink();
-  return stream
-    .pipe(gulp.dest('public'))
-    .pipe(plugins.rev())
-    .pipe(cloneSink)
-    .pipe(gulp.dest('public'))
-    .pipe(plugins.rev.manifest())
-    .pipe(gulp.dest('public'))
-    .pipe(cloneSink.tap())
-    .pipe(plugins.gzip())
-    .pipe(gulp.dest('public'));
+  return process.env.NODE_ENV === 'production' ?
+    stream
+      .pipe(plugins.rev())
+      .pipe(gulp.dest('public'))
+      .pipe(plugins.rev.manifest())
+      .pipe(gulp.dest('public')) :
+    stream
+      .pipe(gulp.dest('public'));
+});
+
+gulp.task('assets-gzip', ['assets-all'], function() {
+  if (process.env.NODE_ENV === 'production') {
+    return gulp.src('public/**/*')
+      .pipe(plugins.gzip())
+      .pipe(gulp.dest('public'))
+  }
 });
 
 gulp.task('assets', function(callback) {
-  runSequence('clean-assets', 'assets-all', callback);
+  runSequence('clean-assets', 'assets-all', 'assets-gzip', callback);
 });
 
 module.exports = {sass};
