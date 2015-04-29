@@ -59,14 +59,14 @@ gulp.task('assets-all', function() {
     images()
   );
 
-  return process.env.NODE_ENV === 'production' ?
-    stream
+  if (process.env.NODE_ENV === 'production') {
+    stream = stream
       .pipe(plugins.rev())
       .pipe(gulp.dest('public'))
       .pipe(plugins.rev.manifest())
-      .pipe(gulp.dest('public')) :
-    stream
-      .pipe(gulp.dest('public'));
+  }
+  return stream
+    .pipe(gulp.dest('public'));
 });
 
 gulp.task('assets-gzip', ['assets-all'], function() {
