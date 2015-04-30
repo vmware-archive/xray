@@ -59,18 +59,22 @@ gulp.task('assets-all', function() {
     images()
   );
 
-  if (process.env.NODE_ENV === 'production') {
-    stream = stream
+  if (isProduction()) {
+    return stream
       .pipe(plugins.rev())
+      .pipe(drFrankenstyle.done())
       .pipe(gulp.dest('public'))
       .pipe(plugins.rev.manifest())
+      .pipe(gulp.dest('public'));
+  } else {
+    return stream
+      .pipe(drFrankenstyle.done())
+      .pipe(gulp.dest('public'));
   }
-  return stream
-    .pipe(gulp.dest('public'));
 });
 
 gulp.task('assets-gzip', ['assets-all'], function() {
-  if (process.env.NODE_ENV === 'production') {
+  if (isProduction()) {
     return gulp.src('public/**/*')
       .pipe(plugins.gzip())
       .pipe(gulp.dest('public'))
