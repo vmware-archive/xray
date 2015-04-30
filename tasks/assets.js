@@ -72,7 +72,7 @@ gulp.task('assets-all', function() {
   }
 });
 
-gulp.task('assets-gzip', ['assets-all'], function() {
+gulp.task('assets-gzip', function() {
   if (isProduction()) {
     return gulp.src('public/**/*')
       .pipe(plugins.gzip())
