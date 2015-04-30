@@ -6,7 +6,7 @@ var UrlHelper = {
     if(prefix && suffix) {
       url = prefix + suffix;
     }
-    return {user, password, url};
+    return {user: user && decodeURIComponent(user), password: password && decodeURIComponent(password), url};
   }
 };
 
