@@ -12,10 +12,7 @@ module.exports = function(env = null) {
     },
     module: {
       loaders: [
-        {test: /\.js$/, exclude: [/node_modules/, /app\/canvas\/[^\/]+\.js$/], loader: 'babel-loader?stage=1'}
-      ],
-      noParse: [
-        /app\/canvas\/[^\/]+\.js$/
+        {test: /\.js$/, exclude: [/node_modules/], loader: 'babel-loader?stage=1'}
       ]
     },
     output: {
