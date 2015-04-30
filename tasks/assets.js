@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var del = require('del');
 var drFrankenstyle = require('gulp-dr-frankenstyle');
-var File = require('vinyl');
 var mergeStream = require('merge-stream');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
@@ -77,7 +76,7 @@ gulp.task('assets-gzip', ['assets-all'], function() {
   if (isProduction()) {
     return gulp.src('public/**/*')
       .pipe(plugins.gzip())
-      .pipe(gulp.dest('public'))
+      .pipe(gulp.dest('public'));
   }
 });
 
