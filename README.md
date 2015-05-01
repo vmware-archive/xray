@@ -4,6 +4,7 @@ Peer into the Lattice
 [![Build Status](https://travis-ci.org/pivotal-cf-experimental/xray.svg?branch=master)](https://travis-ci.org/pivotal-cf-experimental/xray)
 
 ![X-ray](../master/lattice-xray.png?raw=true)
+![screenshot](../master/screenshot.png?raw=true)
 
 ##Installation
 To get started with xray:
