@@ -1,7 +1,7 @@
 #XRAY
 Peer into the Lattice 
 
-[![Build Status](https://travis-ci.com/pivotal-cf-experimental/xray.svg?token=MTuDpACVs2Ev6N6QMrex&branch=master)](https://travis-ci.com/pivotal-cf-experimental/xray)
+[![Build Status](https://travis-ci.org/pivotal-cf-experimental/xray.svg?branch=master)](https://travis-ci.org/pivotal-cf-experimental/xray)
 
 ![X-ray](../master/lattice-xray.png?raw=true)
 
