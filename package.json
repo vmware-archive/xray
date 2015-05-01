@@ -1,6 +1,6 @@
 {
   "name": "xray",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Peer into the Lattice",
   "main": "index.js",
   "repository": {
