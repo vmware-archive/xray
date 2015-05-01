@@ -17,7 +17,7 @@ There should now be a server listening on port 3000 that will visualize the stat
 
 If you would like basic auth, use
 ```sh
-XRAY_USER='user' XRAY_PASSWORD='password' NODE_ENV=production RECEPTOR_URL='http://receptor.example.com' node_module/.bin/gulp s
+XRAY_USER='user' XRAY_PASSWORD='password' RECEPTOR_URL='http://receptor.example.com' node_module/.bin/gulp s
 ```
 where you are free to choose user and password.
 
