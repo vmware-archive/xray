@@ -52,7 +52,7 @@ beforeEach(function() {
 
 afterEach(function() {
   require('../../app/api/base_api').baseUrl = null;
-  jasmine.Ajax.requests.reset();
+  jasmine.Ajax.uninstall();
   jasmine.clock().uninstall();
   MockPromises.contracts.reset();
   MockEventSource.uninstall();
