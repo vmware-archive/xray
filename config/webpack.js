@@ -12,7 +12,7 @@ module.exports = function(env = null) {
     },
     module: {
       loaders: [
-        {test: /\.js$/, exclude: [/node_modules/], loader: 'babel-loader?stage=1'}
+        {test: /\.js$/, exclude: [/node_modules/], loader: 'babel-loader'}
       ]
     },
     output: {
@@ -21,5 +21,5 @@ module.exports = function(env = null) {
       pathinfo: true
     },
     plugins: [commonsChunkPlugin]
-  }, env && require(`./${env}`));
+  }, env && require(`./webpack/${env}`));
 };

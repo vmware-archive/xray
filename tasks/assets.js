@@ -13,7 +13,7 @@ function isProduction() {
 }
 
 function javascript(options = {}) {
-  var webpackConfig = Object.assign({}, require('../config/webpack/config')(process.env.NODE_ENV), options);
+  var webpackConfig = Object.assign({}, require('../config/webpack')(process.env.NODE_ENV), options);
   return gulp.src(['app/components/application.js', 'app/components/setup.js'])
     .pipe(plugins.plumber())
     .pipe(plugins.webpack(webpackConfig))
