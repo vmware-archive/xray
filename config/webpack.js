@@ -10,6 +10,10 @@ module.exports = function(env = null) {
       application: './app/components/application.js',
       setup: './app/components/setup.js'
     },
+    externals: {
+      react: 'React',
+      'react/addons': 'React'
+    },
     module: {
       loaders: [
         {test: /\.js$/, exclude: [/node_modules/], loader: 'babel-loader'}

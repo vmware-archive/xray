@@ -5,8 +5,8 @@ const colors = require('../../config/colors.json');
 
 function show(entry, entryName) {
   function renderComponent(req, res) {
-    var scripts = [assetPath('common.js'), assetPath(`${entryName}.js`)];
-    var stylesheets = [assetPath('components.css'), assetPath('application.css')];
+    var scripts = [`react-${React.version}.js`, 'common.js', `${entryName}.js`].map(assetPath);
+    var stylesheets = ['components.css', 'application.css'].map(assetPath);
     var config = {receptorUrl: req.receptorUrl, colors};
     var props = {entry, config, scripts, stylesheets};
     var html = React.renderToStaticMarkup(<Layout {...props}/>);

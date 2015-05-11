@@ -4,12 +4,18 @@ var drFrankenstyle = require('gulp-dr-frankenstyle');
 var mergeStream = require('merge-stream');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
+var React = require('react');
 var runSequence = require('run-sequence');
 var through2 = require('through2');
 const COPYRIGHT = '/*(c) Copyright 2015 Pivotal Software, Inc. All Rights Reserved.*/\n';
 
 function isProduction() {
   return process.env.NODE_ENV === 'production';
+}
+
+function javascriptStatic() {
+  return gulp.src(require.resolve(`react/dist/react-with-addons${isProduction() ? '.min' : ''}`))
+    .pipe(plugins.rename({basename: `react-${React.version}`}));
 }
 
 function javascript(options = {}) {
@@ -52,6 +58,7 @@ gulp.task('clean-assets', callback => del(['public/*', '!public/.gitkeep'], call
 
 gulp.task('assets-all', function() {
   var stream = mergeStream(
+    javascriptStatic(),
     javascript({watch: !isProduction()}),
     sass(),
     drFrankenstyle(),
