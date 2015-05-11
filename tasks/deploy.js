@@ -8,10 +8,10 @@ const COMMANDS = {
             cf push`,
   pws: `cf api api.run.pivotal.io
         cf login -o pivotal -s pivotal-ui
-        cf push`,
+        cf zero-downtime-push xray -f manifest.yml`,
   staging: `cf api api.run.pivotal.io
             cf login -o pivotal -s pivotal-ui
-            cf push -f manifest-staging.yml`
+            cf zero-downtime-push xray-staging -f manifest-staging.yml`
 };
 
 gulp.task('cf-push', function(callback) {
