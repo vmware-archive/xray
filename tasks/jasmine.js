@@ -33,7 +33,8 @@ gulp.task('spec-app', function() {
 });
 
 gulp.task('jasmine', function() {
-  return testAssets()
+  var plugin = new (require('gulp-jasmine-browser/webpack/jasmine-plugin'))();
+  return testAssets({plugins: [plugin]})
     .pipe(plugins.jasmineBrowser.specRunner())
-    .pipe(plugins.jasmineBrowser.server());
+    .pipe(plugins.jasmineBrowser.server({whenReady: plugin.whenReady}));
 });
