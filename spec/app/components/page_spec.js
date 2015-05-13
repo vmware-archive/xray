@@ -4,6 +4,9 @@ describe('Page', function() {
   var subject, $receptor, $sidebar, $selection, Cursor, actualLrps, desiredLrps, callbackSpy;
 
   beforeEach(function() {
+    var AuthorizationApi = require('../../../app/api/authorization_api');
+    spyOn(AuthorizationApi, 'create').and.returnValue(Promise.resolve());
+
     Cursor = require('pui-cursor');
     var Page = require('../../../app/components/page');
     actualLrps = [
@@ -25,6 +28,7 @@ describe('Page', function() {
     React.withContext({scaling: 'containers', colors}, function() {
       subject = React.render(<Page {...{receptorUrl, $receptor, $scaling, $sidebar, $selection}}/>, root);
     });
+    MockPromises.executeForResolvedPromises();
   });
 
   afterEach(function() {

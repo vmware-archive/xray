@@ -1,13 +1,17 @@
 var request = require('superagent');
 var {getCredentials} = require('../helpers/url_helper');
 
+var baseApiUrl = null;
 var BaseApi = {
-  baseUrl: null,
+  get baseUrl() { return baseApiUrl; },
 
-  get(route) {
+  set baseUrl(u) { baseApiUrl = u; },
+
+  fetch(route, options = {}) {
+    var {method = 'get'} = options;
     var {user, password, url} = getCredentials(this.baseUrl);
     return new Promise(function(resolve, reject) {
-      request.get(`${url}/v1/${route}`)
+      request[method](`${url}/v1/${route}`)
         .auth(user, password)
         .withCredentials()
         .accept('json')

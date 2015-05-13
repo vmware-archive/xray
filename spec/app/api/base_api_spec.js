@@ -9,14 +9,11 @@ describe('BaseApi', function() {
     subject.baseUrl = 'http://www.example.com';
   });
 
-
-  describe('#get', function() {
+  describe('#fetch', function() {
     describe('without username or password', function() {
       it('sends a get response to the correct url', function() {
-        subject.get('foo');
-        var request = jasmine.Ajax.requests.mostRecent();
-        expect(request).toBeDefined();
-        expect(request.url).toEqual(`${subject.baseUrl}/v1/foo`);
+        subject.fetch('foo');
+        expect(`${subject.baseUrl}/v1/foo`).toHaveBeenRequestedWith({method: 'GET'});
       });
     });
 
@@ -24,23 +21,22 @@ describe('BaseApi', function() {
       var user = 'user', password = 'password';
       beforeEach(function() {
         subject.baseUrl = `http://${user}:${password}@www.example.com`;
-        subject.get('foo');
+        subject.fetch('foo');
       });
 
-      it('sends a get response to the correct url', function() {
-        var request = jasmine.Ajax.requests.mostRecent();
-        expect(request).toBeDefined();
-        expect(request.url).toContain('www.example.com/v1/foo');
+      it('sends a get response to the correct url without the credentials in the url', function() {
+        expect('www.example.com/v1/foo').toHaveBeenRequestedWith({method: 'GET'});
       });
 
       it('makes a request with credentials', function() {
         expect(Request.prototype.auth).toHaveBeenCalledWith(user, password);
       });
+    });
 
-      it('does not include the credentials in the url (Firefox...)', function() {
-        var request = jasmine.Ajax.requests.mostRecent();
-        expect(request.url).not.toContain('user:password');
-        expect(request.url).toEqual('http://www.example.com/v1/foo');
+    describe('with method specified', function() {
+      it('sends a response to the correct url with the specified method', function() {
+        subject.fetch('foo', {method: 'post'});
+        expect(`${subject.baseUrl}/v1/foo`).toHaveBeenRequestedWith({method: 'POST'});
       });
     });
   });

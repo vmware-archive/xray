@@ -1,3 +1,4 @@
+var AuthorizationApi = require('../api/authorization_api');
 var EventSource = require('pui-event-source');
 var sortedIndex = require('lodash.sortedindex');
 var {actualLrpIndex, decorateDesiredLrp} = require('../helpers/lrp_helper');
@@ -122,8 +123,12 @@ var ReceptorStreamMixin = {
   },
 
   createSSE(receptorUrl) {
-    var sse = new EventSource(`${receptorUrl}/v1/events`, {withCredentials: true});
-    privates.set(this, {sse});
+    var promise = AuthorizationApi.create();
+    promise.then(function() {
+      var sse = new EventSource(`${receptorUrl}/v1/events`, {withCredentials: true});
+      privates.set(this, {sse});
+    }.bind(this));
+    return promise;
   },
 
   destroySSE() {
@@ -165,9 +170,9 @@ var ReceptorStreamMixin = {
       .on('desired_lrp_removed', removeResource('desiredLrps', 'desired_lrp', options).bind(this));
   },
 
-  streamSSE(receptorUrl) {
+  async streamSSE(receptorUrl) {
     this.destroySSE();
-    this.createSSE(receptorUrl);
+    await this.createSSE(receptorUrl);
     this.streamActualLrps();
     this.streamDesiredLrps();
   }

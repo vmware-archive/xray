@@ -2,7 +2,7 @@ var BaseApi = require('./base_api');
 
 var ActualLrpsApi = {
   fetch() {
-    return BaseApi.get('actual_lrps').then(actualLrps => ({actualLrps}));
+    return BaseApi.fetch('actual_lrps').then(actualLrps => ({actualLrps}));
   }
 };
 

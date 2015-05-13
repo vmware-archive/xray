@@ -32,6 +32,7 @@ $.fn.simulate = function(eventName, ...args) {
 };
 
 require('jasmine-ajax');
+require('./support/matchers');
 
 beforeEach(function() {
   var mockLocation = jasmine.createSpyObj('location', ['assign', 'reload', 'replace']);

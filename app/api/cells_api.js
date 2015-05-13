@@ -2,7 +2,7 @@ var BaseApi = require('./base_api');
 
 var CellsApi = {
   fetch() {
-    return BaseApi.get('cells').then(cells => ({cells}));
+    return BaseApi.fetch('cells').then(cells => ({cells}));
   }
 };
 
