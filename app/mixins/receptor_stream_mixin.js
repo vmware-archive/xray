@@ -117,6 +117,16 @@ function changeResource(cursorName, resourceKey, options = {}) {
 }
 /*eslint-enable no-unused-vars*/
 
+async function connectSSE(receptorUrl, promise) {
+  try {
+    await promise;
+  } catch(e) {
+  } finally {
+    var sse = new EventSource(`${receptorUrl}/v1/events`, {withCredentials: true});
+    privates.set(this, {sse});
+  }
+}
+
 var ReceptorStreamMixin = {
   componentWillUnmount() {
     this.destroySSE();
@@ -124,10 +134,7 @@ var ReceptorStreamMixin = {
 
   createSSE(receptorUrl) {
     var promise = AuthorizationApi.create();
-    promise.then(function() {
-      var sse = new EventSource(`${receptorUrl}/v1/events`, {withCredentials: true});
-      privates.set(this, {sse});
-    }.bind(this));
+    connectSSE.call(this, receptorUrl, promise);
     return promise;
   },
 
@@ -172,9 +179,13 @@ var ReceptorStreamMixin = {
 
   async streamSSE(receptorUrl) {
     this.destroySSE();
-    await this.createSSE(receptorUrl);
-    this.streamActualLrps();
-    this.streamDesiredLrps();
+    try {
+      await this.createSSE(receptorUrl);
+    } catch(e) {
+    } finally {
+      this.streamActualLrps();
+      this.streamDesiredLrps();
+    }
   }
 };
 
