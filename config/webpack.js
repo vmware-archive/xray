@@ -8,7 +8,7 @@ module.exports = function(env = null) {
   return Object.assign({}, {
     entry: {
       application: './app/components/application.js',
-      setup: './app/components/setup.js'
+      setup: './app/components/setup_middleware.js'
     },
     externals: {
       react: 'React',

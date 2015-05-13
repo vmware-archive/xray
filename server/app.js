@@ -1,14 +1,12 @@
-var Application = require('../app/components/application');
+var application = require('./middleware/application_middleware');
 var basicAuth = require('node-basicauth');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var express = require('express');
 var favicon = require('serve-favicon');
 var gzipStatic = require('connect-gzip-static');
-var Setup = require('../app/components/setup');
 var receptorUrl = require('./middleware/receptor_url');
-var {show} = require('./middleware/component');
-
+var setup = require('./middleware/setup_middleware');
 var app = express();
 
 const XRAY_USER = process.env.XRAY_USER;
@@ -23,26 +21,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(favicon(`${__dirname}/../app/images/favicon.ico`));
 app.use(gzipStatic(`${__dirname}/../public`, {maxAge: process.env.NODE_ENV === 'production' && 604800000}));
 
-function redirectToSetup(req, res, next) {
-  var receptorUrl = req.query && req.query.receptor ||
-                    req.cookies && req.cookies.receptor_url ||
-                    process.env.RECEPTOR_URL;
-
-  if (receptorUrl) return next();
-  res.redirect(303, '/setup');
-}
-
-app.get('/', receptorUrl, redirectToSetup, show(Application, 'application'));
-app.get('/setup', receptorUrl, show(Setup, 'setup'));
-
-app.post('/setup', receptorUrl, function(req, res) {
-  var {receptor_url: receptorUrl} = req.body;
-  if (!receptorUrl) {
-    res.status(422).clearCookie('receptor_url').end();
-    return;
-  }
-  res.redirect(303, '/');
-});
+app.get('/', receptorUrl, ...application.show);
+app.get('/setup', receptorUrl, ...setup.show);
+app.post('/setup', receptorUrl, ...setup.create);
 
 var fakeApi = require('./middleware/fake_api');
 app.post('/demo/v1/auth_cookie', (req, res) => res.status(204).end());

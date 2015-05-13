@@ -20,7 +20,7 @@ function javascriptStatic() {
 
 function javascript(options = {}) {
   var webpackConfig = Object.assign({}, require('../config/webpack')(process.env.NODE_ENV), options);
-  return gulp.src(['app/components/application.js', 'app/components/setup.js'])
+  return gulp.src(['app/components/application.js', 'app/components/setup_middleware.js'])
     .pipe(plugins.plumber())
     .pipe(plugins.webpack(webpackConfig))
     .pipe(plugins.header(COPYRIGHT))

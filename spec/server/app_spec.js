@@ -27,8 +27,7 @@ describe('app', function() {
         spyOn(Application.type.prototype, 'render').and.callThrough();
         res = await request(subject)
           .get(`/?receptor=${RECEPTOR_URL}`)
-          .expect('Content-Type', /html/)
-          .expect(200);
+          .expect('Content-Type', /html/);
         done();
       });
 
@@ -36,10 +35,9 @@ describe('app', function() {
         expect(res.headers['set-cookie'][0]).toContain(`receptor_url=${encodeURIComponent(RECEPTOR_URL)}`);
       });
 
-      it('renders the application with the receptor url in the config', function() {
-        expect(Application.type.prototype.render).toHaveBeenCalled();
-        var application = Application.type.prototype.render.calls.mostRecent().object;
-        expect(application.props.config).toEqual(jasmine.objectContaining({receptorUrl: RECEPTOR_URL}));
+      it('redirect to /', function() {
+        expect(res.statusCode).toEqual(303);
+        expect(res.headers.location).toEqual('/');
       });
     });
 
