@@ -36,10 +36,6 @@ describe('app', function() {
         expect(res.headers['set-cookie'][0]).toContain(`receptor_url=${encodeURIComponent(RECEPTOR_URL)}`);
       });
 
-      it('renders the receptor authorization in the cookie', function() {
-        expect(res.headers['set-cookie'][1]).toContain('receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D');
-      });
-
       it('renders the application with the receptor url in the config', function() {
         expect(Application.type.prototype.render).toHaveBeenCalled();
         var application = Application.type.prototype.render.calls.mostRecent().object;
@@ -63,10 +59,6 @@ describe('app', function() {
 
       it('sets the receptor url in the cookie', function() {
         expect(res.headers['set-cookie'][0]).toContain(`receptor_url=${encodeURIComponent(RECEPTOR_URL)}`);
-      });
-
-      it('renders the receptor authorization in the cookie', function() {
-        expect(res.headers['set-cookie'][1]).toContain('receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D');
       });
 
       it('renders the application with the receptor url in the config', function() {
@@ -113,10 +105,6 @@ describe('app', function() {
 
         it('sets the receptor url in the cookie', function() {
           expect(res.headers['set-cookie'][0]).toContain(`receptor_url=${encodeURIComponent(RECEPTOR_URL)}`);
-        });
-
-        it('sets the receptor authorization in the cookie', function() {
-          expect(res.headers['set-cookie'][1]).toContain('receptor_authorization=dXNlcjpwYXNzd29yZA%3D%3D');
         });
       });
 

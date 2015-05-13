@@ -6,7 +6,7 @@ var express = require('express');
 var favicon = require('serve-favicon');
 var gzipStatic = require('connect-gzip-static');
 var Setup = require('../app/components/setup');
-var receptorAuthorization = require('./middleware/receptor_authorization');
+var receptorUrl = require('./middleware/receptor_url');
 var {show} = require('./middleware/component');
 
 var app = express();
@@ -32,27 +32,26 @@ function redirectToSetup(req, res, next) {
   res.redirect(303, '/setup');
 }
 
-app.get('/', receptorAuthorization, redirectToSetup, show(Application, 'application'));
-app.get('/setup', receptorAuthorization, show(Setup, 'setup'));
+app.get('/', receptorUrl, redirectToSetup, show(Application, 'application'));
+app.get('/setup', receptorUrl, show(Setup, 'setup'));
 
-app.post('/setup', receptorAuthorization, function(req, res) {
+app.post('/setup', receptorUrl, function(req, res) {
   var {receptor_url: receptorUrl} = req.body;
   if (!receptorUrl) {
-    res
-      .status(422)
-      .clearCookie('receptor_authorization')
-      .send('');
+    res.status(422).clearCookie('receptor_url').end();
     return;
   }
-  res.redirect(303, `/?receptor=${receptorUrl}`);
+  res.redirect(303, '/');
 });
 
 var fakeApi = require('./middleware/fake_api');
+app.post('/demo/v1/auth_cookie', (req, res) => res.status(204).end());
 app.get('/demo/v1/cells', fakeApi.demo.cells.index);
 app.get('/demo/v1/actual_lrps', fakeApi.demo.actualLrps.index);
 app.get('/demo/v1/desired_lrps', fakeApi.demo.desiredLrps.index);
 
 if(process.env.NODE_ENV === 'development') {
+  app.post('/perf/v1/auth_cookie', (req, res) => res.status(204).end());
   app.get('/perf/v1/cells', fakeApi.perf.cells.index);
   app.get('/perf/v1/actual_lrps', fakeApi.perf.actualLrps.index);
   app.get('/perf/v1/desired_lrps', fakeApi.perf.desiredLrps.index);

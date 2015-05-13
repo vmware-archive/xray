@@ -17,7 +17,7 @@ describe('AuthorizationApi', function() {
     });
 
     it('makes an ajax request', function() {
-      expect(`${RECEPTOR_URL}/v1/auth_cookie`).toHaveBeenRequestedWith({method: 'POST'})
+      expect(`${RECEPTOR_URL}/v1/auth_cookie`).toHaveBeenRequestedWith({method: 'POST'});
     });
 
     describe('when the ajax request is successful', function() {
