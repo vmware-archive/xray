@@ -35,7 +35,7 @@ var SidebarHeader = React.createClass({
     var filter = $sidebar.get('filter');
     return (
       <header className="sidebar-header mam">
-        <a className="form-control sidebar-toggle txt-c" role="button" onClick={this.toggleSidebar} title="toggle sidebar">
+        <a className="form-control form-control-inverse sidebar-toggle txt-c" role="button" onClick={this.toggleSidebar} title="toggle sidebar">
           <span className="sr-only">toggle sidebar</span>
           <Icon name="angle-double-right" />
         </a>

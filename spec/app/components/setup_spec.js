@@ -1,63 +1,42 @@
 require('../spec_helper');
 
 describe('Setup', function() {
-  var Setup, preventDefaultSpy;
+  var Setup, preventDefaultSpy, subject;
   const RECEPTOR_URL = 'receptor.example.com';
 
   beforeEach(function() {
     Setup = require('../../../app/components/setup');
-    React.render(<Setup config={{}}/>, root);
+    subject = React.render(<Setup config={{}}/>, root);
   });
 
   afterEach(function() {
     React.unmountComponentAtNode(root);
   });
 
-  it('renders a form', function() {
-    expect('form').toExist();
+  it('renders a launch x-ray button', function() {
+    expect('.main-header button').toHaveText('Launch X-Ray');
   });
 
-  describe('when there is a receptor url', function() {
+  describe('#openModal', function() {
+    var component;
     beforeEach(function() {
-      React.unmountComponentAtNode(root);
-      React.render(<Setup config={{receptorUrl: RECEPTOR_URL}}/>, root);
+      component = <div/>;
+      spyOn(subject.refs.modal, 'open');
+      subject.openModal(component);
     });
 
-    it('pre-fills the receptor input', function() {
-      expect('form :text').toHaveValue(RECEPTOR_URL);
+    it('calls modal open', function() {
+      expect(subject.refs.modal.open).toHaveBeenCalledWith(component);
     });
   });
 
-  it('posts the right data to setup when the form is submitted', function() {
-    expect('form').toHaveAttr('method', 'POST');
-    expect('form').toHaveAttr('action', '/setup');
-    expect(':text').toHaveAttr('name', 'receptor_url');
-  });
-
-  describe('when the form is submitted with valid data', function() {
+  describe('when clicking on the launch x-ray button', function() {
     beforeEach(function() {
-      preventDefaultSpy = jasmine.createSpy('preventDefault');
-      $(':text').val(RECEPTOR_URL).simulate('change');
-      $('form').simulate('submit', {preventDefault: preventDefaultSpy});
+      $('.main-header button').simulate('click');
     });
 
-    it('allows the form to post to the server', function() {
-      expect(preventDefaultSpy).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('when the form is submitted with no receptor url', function() {
-    beforeEach(function() {
-      preventDefaultSpy = jasmine.createSpy('preventDefault');
-      $('form').simulate('submit', {preventDefault: preventDefaultSpy});
-    });
-
-    it('displays an error', function() {
-      expect('.has-error').toExist();
-    });
-
-    it('does not submit the form', function() {
-      expect(preventDefaultSpy).toHaveBeenCalled();
+    it('renders the launch modal', function() {
+      expect('.launch-modal').toExist();
     });
   });
 });

@@ -58,10 +58,10 @@ var Page = React.createClass({
 
     return (
       <div className={classes}>
-        <Header className="main-header">
+        <Header className="main-header type-neutral-11">
           <ReceptorUrl receptorUrl={receptorUrl}/>
         </Header>
-        <section className="main-content">
+        <section className="main-content type-neutral-11">
           <article className="main-panel">
             <Zones {...{$receptor, $selection, $sidebar, scaling: $scaling.get()}}/>
             <Scaling {...{$receptor, $scaling}}/>

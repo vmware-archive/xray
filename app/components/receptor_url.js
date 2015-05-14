@@ -47,7 +47,7 @@ var ReceptorUrl = React.createClass({
           <label htmlFor="receptor_url" className="man pvxl">
             <span className="inactive-label type-gray-4">Receptor Url</span>
             <span className="active-label link-text"><Icon name="pencil" className="mrm"/>Edit Receptor Url</span>
-            <input id="receptor_url" className="form-control type-ellipsis-1-line" name="receptor_url" value={receptorUrl} onFocus={this.focus} onChange={this.change} onBlur={this.blur}/>
+            <input id="receptor_url" className="form-control form-control-inverse type-ellipsis-1-line" name="receptor_url" value={receptorUrl} onFocus={this.focus} onChange={this.change} onBlur={this.blur}/>
           </label>
         </FormGroup>
       </form>

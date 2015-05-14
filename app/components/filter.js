@@ -15,7 +15,7 @@ var Filter = React.createClass({
     var {className, id, onFilter, placeholder, style, value} = this.props;
     return (
       <div {...{id, className, style}}>
-        <input className="form-control" {...{type: 'text', onChange: onFilter, placeholder, value}}/>
+        <input className="form-control form-control-inverse" {...{type: 'text', onChange: onFilter, placeholder, value}}/>
       </div>
     );
   }
