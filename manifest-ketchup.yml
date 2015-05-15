@@ -1,0 +1,6 @@
+---
+applications:
+  - name: xray
+    buildpack: nodejs_buildpack
+    env:
+      NODE_ENV: production

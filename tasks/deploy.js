@@ -5,7 +5,7 @@ var {spawn} = require('child_process');
 const COMMANDS = {
   ketchup: `cf api --skip-ssl-validation api.ketchup.cf-app.com
             cf login -o xray -s xray -u $(awk -F= '/KETCHUP_USERNAME/ {print $2}' .env) -p $(awk -F= '/KETCHUP_PASSWORD/ {print $2}' .env)
-            cf push`,
+            cf push -f manifest-ketchup.yml`,
   pws: `cf api api.run.pivotal.io
         cf login -o pivotal -s pivotal-ui
         cf zero-downtime-push xray -f manifest.yml`,
