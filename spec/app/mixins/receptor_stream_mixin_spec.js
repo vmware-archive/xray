@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('ReceptorStreamMixin', function() {
-  const receptorUrl = 'http://example.com';
+  const receptorUrl = 'http://example.com/';
   var AuthorizationApi, Cursor, subject, callbackSpy, desiredLrp, actualLrp, actualLrp2, authorizationDeferred;
 
   beforeEach(function() {
@@ -373,7 +373,7 @@ describe('ReceptorStreamMixin', function() {
       });
 
       it('starts the stream', function() {
-        expect(MockEventSource.mostRecent().url).toEqual(`${receptorUrl}/v1/events`);
+        expect(MockEventSource.mostRecent().url).toEqual(`${receptorUrl}v1/events`);
         expect(subject.streamDesiredLrps).toHaveBeenCalled();
         expect(subject.streamActualLrps).toHaveBeenCalled();
       });
@@ -385,7 +385,7 @@ describe('ReceptorStreamMixin', function() {
       });
 
       it('starts the stream', function() {
-        expect(MockEventSource.mostRecent().url).toEqual(`${receptorUrl}/v1/events`);
+        expect(MockEventSource.mostRecent().url).toEqual(`${receptorUrl}v1/events`);
         expect(subject.streamDesiredLrps).toHaveBeenCalled();
         expect(subject.streamActualLrps).toHaveBeenCalled();
       });

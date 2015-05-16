@@ -122,7 +122,7 @@ async function connectSSE(receptorUrl, promise) {
     await promise;
   } catch(e) {
   } finally {
-    var sse = new EventSource(`${receptorUrl}/v1/events`, {withCredentials: true});
+    var sse = new EventSource(`${receptorUrl}v1/events`, {withCredentials: true});
     privates.set(this, {sse});
   }
 }

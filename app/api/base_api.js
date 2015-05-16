@@ -11,7 +11,7 @@ var BaseApi = {
     var {method = 'get'} = options;
     var {user, password, url} = getCredentials(this.baseUrl);
     return new Promise(function(resolve, reject) {
-      request[method](`${url}/v1/${route}`)
+      request[method](`${url}v1/${route}`)
         .auth(user, password)
         .withCredentials()
         .accept('json')

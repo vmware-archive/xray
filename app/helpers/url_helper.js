@@ -1,12 +1,9 @@
+var Url = require('url');
 var UrlHelper = {
   getCredentials(url) {
-    /*eslint-disable no-unused-vars*/
-    var [_, prefix, user, password, suffix] = url.match(/(^.+?\/\/)(.+?):(.+?)@(.+$)/) || [];
-    /*eslint-enable no-unused-vars*/
-    if(prefix && suffix) {
-      url = prefix + suffix;
-    }
-    return {user: user && decodeURIComponent(user), password: password && decodeURIComponent(password), url: url.replace(/\/+$/, '')};
+    var parsedUrl = Url.parse(url);
+    var [user, password] = parsedUrl.auth ? parsedUrl.auth.split(':').map(decodeURIComponent) : [];
+    return {user, password, url: Url.format(Object.assign(parsedUrl, {auth: null}))};
   }
 };
 

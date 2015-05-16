@@ -90,19 +90,19 @@ describe('app', function() {
   describe('POST /setup', function() {
     describe('when a receptor url is provided', function() {
       describe('when there are credentials', function() {
-        const RECEPTOR_URL = 'http://user:password@example.com';
+        const RECEPTOR_URL = 'http://example.com';
         var res;
         beforeEach(async function(done) {
           res = await request(subject)
             .post('/setup')
             .type('form')
-            .send({receptor_url: RECEPTOR_URL})
+            .send({receptor_url: RECEPTOR_URL, user: 'user', password: 'password'})
             .expect(303);
           done();
         });
 
         it('sets the receptor url in the cookie', function() {
-          expect(res.headers['set-cookie'][0]).toContain(`receptor_url=${encodeURIComponent(RECEPTOR_URL)}`);
+          expect(res.headers['set-cookie'][0]).toContain(`receptor_url=${encodeURIComponent('http://user:password@example.com')}`);
         });
       });
 
