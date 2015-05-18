@@ -1,5 +1,6 @@
 var AuthorizationApi = require('../api/authorization_api');
 var EventSource = require('pui-event-source');
+var join = require('url-join');
 var sortedIndex = require('lodash.sortedindex');
 var {actualLrpIndex, decorateDesiredLrp} = require('../helpers/lrp_helper');
 
@@ -122,7 +123,7 @@ async function connectSSE(receptorUrl, promise) {
     await promise;
   } catch(e) {
   } finally {
-    var sse = new EventSource(`${receptorUrl}v1/events`, {withCredentials: true});
+    var sse = new EventSource(join(receptorUrl, 'v1', 'events'), {withCredentials: true});
     privates.set(this, {sse});
   }
 }

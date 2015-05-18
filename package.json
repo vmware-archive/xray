@@ -103,6 +103,7 @@
     "run-sequence": "^1.0.2",
     "serve-favicon": "^2.2.0",
     "superagent": "^1.2.0",
-    "timeago": "git://github.com/rdy/node-timeago.git#75cb5efe9006217988b1c1809c74c71b2ba0d69d"
+    "timeago": "git://github.com/rdy/node-timeago.git#75cb5efe9006217988b1c1809c74c71b2ba0d69d",
+    "url-join": "0.0.1"
   }
 }

@@ -1,7 +1,9 @@
 var request = require('superagent');
 var {getCredentials} = require('../helpers/url_helper');
+var join = require('url-join');
 
 var baseApiUrl = null;
+
 var BaseApi = {
   get baseUrl() { return baseApiUrl; },
 
@@ -11,7 +13,7 @@ var BaseApi = {
     var {method = 'get'} = options;
     var {user, password, url} = getCredentials(this.baseUrl);
     return new Promise(function(resolve, reject) {
-      request[method](`${url}v1/${route}`)
+      request[method](join(url, 'v1', route))
         .auth(user, password)
         .withCredentials()
         .accept('json')
