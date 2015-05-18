@@ -26,15 +26,15 @@ app.get('/setup', receptorUrl, ...setup.show);
 app.post('/setup', receptorUrl, ...setup.create);
 
 var fakeApi = require('./middleware/fake_api');
-app.post('/demo/v1/auth_cookie', (req, res) => res.status(204).end());
-app.get('/demo/v1/cells', fakeApi.demo.cells.index);
-app.get('/demo/v1/actual_lrps', fakeApi.demo.actualLrps.index);
-app.get('/demo/v1/desired_lrps', fakeApi.demo.desiredLrps.index);
+app.post('/demo/v1/auth_cookie', ...fakeApi.demo.authCookie.show);
+app.get('/demo/v1/cells', ...fakeApi.demo.cells.index);
+app.get('/demo/v1/actual_lrps', ...fakeApi.demo.actualLrps.index);
+app.get('/demo/v1/desired_lrps', ...fakeApi.demo.desiredLrps.index);
 
 if(process.env.NODE_ENV === 'development') {
-  app.post('/perf/v1/auth_cookie', (req, res) => res.status(204).end());
-  app.get('/perf/v1/cells', fakeApi.perf.cells.index);
-  app.get('/perf/v1/actual_lrps', fakeApi.perf.actualLrps.index);
-  app.get('/perf/v1/desired_lrps', fakeApi.perf.desiredLrps.index);
+  app.post('/perf/v1/auth_cookie', ...fakeApi.perf.authCookie.show);
+  app.get('/perf/v1/cells', ...fakeApi.perf.cells.index);
+  app.get('/perf/v1/actual_lrps', ...fakeApi.perf.actualLrps.index);
+  app.get('/perf/v1/desired_lrps', ...fakeApi.perf.desiredLrps.index);
 }
 module.exports = app;

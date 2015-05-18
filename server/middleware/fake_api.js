@@ -64,9 +64,10 @@ function fakeApi({cellCount, desiredLrpsCount}) {
     res.status(200).type('json').send(desiredLrps);
   }
   return {
-    cells: {index: cellsIndex},
-    actualLrps: {index: actualLrpsIndex},
-    desiredLrps: {index: desiredLrpsIndex}
+    authCookie: {show: [(req, res) => res.status(204).end()]},
+    cells: {index: [cellsIndex]},
+    actualLrps: {index: [actualLrpsIndex]},
+    desiredLrps: {index: [desiredLrpsIndex]}
   };
 }
 
