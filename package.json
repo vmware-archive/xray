@@ -55,6 +55,7 @@
     "methods": "^1.1.1",
     "mock-promises": "^0.3.0",
     "supertest": "git://github.com/visionmedia/supertest.git#4707d9d277e5173dc35d7fd0d359600dd3d8c1a3",
+    "svg-loader": "0.0.2",
     "through2": "^0.6.5",
     "vinyl": "^0.4.6",
     "webpack": "^1.7.3"

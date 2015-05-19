@@ -40,8 +40,7 @@ beforeEach(function() {
 
   spyOn(require('../../app/vendor/google_analytics'), 'init');
   spyOn(React.addons.CSSTransitionGroup.type.prototype, 'render').and.callFake(function() { return (<div>{this.props.children}</div>); });
-  spyOn(require('../../app/svg/brand').type.prototype, 'render').and.returnValue(null);
-  spyOn(require('../../app/svg/logo').type.prototype, 'render').and.returnValue(null);
+  spyOn(require('../../app/components/svg').type.prototype, 'render').and.returnValue(null);
 
   var Layout = require('../../server/components/layout');
   spyOn(Layout, 'init');

@@ -1,14 +1,14 @@
-var React = require('react/addons');
-var Brand = require('../svg/brand');
-var {Flag} = require('pui-react-media');
 var {InlineList, ListItem} = require('pui-react-lists');
+var {Flag} = require('pui-react-media');
+var React = require('react/addons');
+var Svg = require('./svg');
 
 var Footer = React.createClass({
   render() {
     var {className} = this.props;
     return (
       <footer className={className}>
-        <Flag leftImage={<Brand className="brand" width={74} height={17}/>}>
+        <Flag leftImage={<Svg src="brand" className="brand" width={74} height={17}/>}>
           <InlineList className="type-xs">
             <ListItem>&copy; 2015 Pivotal Software Inc. All rights reserved.
               <div className="hidden-sm hidden-md hidden-lg"><br/></div>
