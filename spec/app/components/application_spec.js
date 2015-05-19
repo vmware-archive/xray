@@ -185,5 +185,15 @@ describe('Application', function() {
         expect(ReceptorApi.fetch).toHaveBeenCalled();
       });
     });
+
+    describe('when clicking on the edit receptor button', function() {
+      beforeEach(function() {
+        $('.main-header button').simulate('click');
+      });
+
+      it('renders the launch modal', function() {
+        expect('.launch-modal').toExist();
+      });
+    });
   });
 });

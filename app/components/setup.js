@@ -3,12 +3,10 @@ var {Col, Row} = require('pui-react-grids');
 var Footer = require('./footer');
 var googleAnalyticsMixin = require('../mixins/google_analytics_mixin');
 var Header = require('./header');
-var {HighlightButton} = require('pui-react-buttons');
-var Layout = require('../../server/components/layout');
 var LaunchModal = require('./launch_modal');
-var Modal = require('./modal');
+var Layout = require('../../server/components/layout');
 var React = require('react/addons');
-
+var {PortalOrange} = require('./portals');
 var types = React.PropTypes;
 
 var Setup = React.createClass({
@@ -18,21 +16,13 @@ var Setup = React.createClass({
     config: types.object.isRequired
   },
 
-  openModal(component) {
-    this.refs.modal.open(component);
-  },
-
-  openLaunchModal() {
-    var {config} = this.props;
-    this.openModal(<LaunchModal {...{config}}/>);
-  },
-
   render() {
+    var {config: {receptorUrl}} = this.props;
     return (
       <div className="xray">
         <div className="page">
           <Header className="main-header type-neutral-11">
-            <div className="mrxl"><HighlightButton onClick={this.openLaunchModal}>Launch X-Ray</HighlightButton></div>
+            <LaunchModal title="Launch X-Ray" receptorUrl={receptorUrl}>Launch X-Ray</LaunchModal>
           </Header>
           <section className="main-content setup bg-isometric type-neutral-11">
             <div className="container">
@@ -47,7 +37,7 @@ var Setup = React.createClass({
           </section>
           <Footer className="main-footer"/>
         </div>
-        <Modal ref="modal"/>
+        <PortalOrange name="modal"/>
       </div>
     );
   }

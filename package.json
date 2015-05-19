@@ -77,6 +77,7 @@
     "lodash.throttle": "^3.0.1",
     "lodash.times": "^3.0.0",
     "node-basicauth": "0.0.9",
+    "node-event-emitter": "0.0.1",
     "pretty-bytes": "^1.0.4",
     "pui-css-dividers": "0.0.3",
     "pui-css-ellipsis": "0.0.3",

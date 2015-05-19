@@ -1,12 +1,12 @@
 var BaseApi = require('../api/base_api');
 var Header = require('./header');
 var Footer = require('./footer');
+var LaunchModal = require('./launch_modal');
 var Scaling = require('./scaling');
 var React = require('react/addons');
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var ReceptorMixin = require('../mixins/receptor_mixin');
 var ReceptorStreamMixin = require('../mixins/receptor_stream_mixin');
-var ReceptorUrl = require('./receptor_url');
 var Zones = require('./zones');
 var Sidebar = require('./sidebar');
 var classnames = require('classnames');
@@ -59,7 +59,7 @@ var Page = React.createClass({
     return (
       <div className={classes}>
         <Header className="main-header type-neutral-11">
-          <ReceptorUrl receptorUrl={receptorUrl}/>
+          <LaunchModal title="Edit Receptor" receptorUrl={receptorUrl}>Edit Receptor</LaunchModal>
         </Header>
         <section className="main-content type-neutral-11">
           <article className="main-panel">

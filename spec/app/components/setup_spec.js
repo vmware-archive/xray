@@ -1,11 +1,11 @@
 require('../spec_helper');
 
 describe('Setup', function() {
-  var Setup, subject;
+  var Setup;
 
   beforeEach(function() {
     Setup = require('../../../app/components/setup');
-    subject = React.render(<Setup config={{}}/>, root);
+    React.render(<Setup config={{receptorUrl: 'http://example.com'}}/>, root);
   });
 
   afterEach(function() {
@@ -14,19 +14,6 @@ describe('Setup', function() {
 
   it('renders a launch x-ray button', function() {
     expect('.main-header button').toHaveText('Launch X-Ray');
-  });
-
-  describe('#openModal', function() {
-    var component;
-    beforeEach(function() {
-      component = <div/>;
-      spyOn(subject.refs.modal, 'open');
-      subject.openModal(component);
-    });
-
-    it('calls modal open', function() {
-      expect(subject.refs.modal.open).toHaveBeenCalledWith(component);
-    });
   });
 
   describe('when clicking on the launch x-ray button', function() {
