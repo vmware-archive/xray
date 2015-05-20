@@ -36,47 +36,58 @@ var LaunchModal = React.createClass({
     this.refs.modal.close();
   },
 
-  render() {
+  renderModal() {
+    var {title} = this.props;
     var {password, receptorUrl, user} = this.state;
-    var {title, children} = this.props;
     var disabled = !receptorUrl.length;
     return (
-      <div className="mrxl">
-        <HighlightButton onClick={this.openModal}>
-          {children}
-        </HighlightButton>
-        <PortalBlue name="modal">
-          <Modal title={title} ref="modal">
-            <form className="launch-modal" action="/setup" method="POST" role="form">
-              <ModalBody>
-                <p className="type-sm">If you are using Terraform to deploy Lattice, your username, password, and Receptor URL are printed when Lattice is successfully deployed.</p>
-                <p className="type-sm">If you are using Vagrant, your Receptor URL is: <span className="em-high">http://receptor.192.168.11.11.xip.io</span></p>
+      <Modal title={title} ref="modal">
+        <form className="launch-modal" action="/setup" method="POST" role="form">
+          <ModalBody>
+            <p className="type-sm">If you are using Terraform to deploy Lattice, your username, password, and Receptor
+              URL
+              are printed when Lattice is successfully deployed.</p>
 
-                <Divider/>
-                <Row className="form-group">
-                  <Col md={12}>
-                    <label htmlFor="user">Username</label>
-                    <input type="text" className="form-control" name="user" id="user" placeholder="Username" value={user} onChange={this.change}/>
-                  </Col>
-                  <Col md={12}>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" name="password" id="password" placeholder="Password" value={password} onChange={this.change}/>
-                  </Col>
-                </Row>
-                <Row className="form-group">
-                  <Col md={24}>
-                    <label htmlFor="receptor-url">Receptor Url</label>
-                    <input type="text" required={true} className="form-control" id="receptor-url" name="receptor_url" placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
-                  </Col>
-                </Row>
-                <Divider/>
-              </ModalBody>
-              <ModalFooter>
-                <LowlightButton type="button" onClick={this.closeModal}>Close</LowlightButton>
-                <HighlightButton type="submit" disabled={disabled}>Launch X-Ray</HighlightButton>
-              </ModalFooter>
-            </form>
-          </Modal>
+            <p className="type-sm">If you are using Vagrant, your Receptor URL is: <span className="em-high">http://receptor.192.168.11.11.xip.io</span>
+            </p>
+
+            <Divider/>
+            <Row className="form-group">
+              <Col md={12}>
+                <label htmlFor="user">Username</label>
+                <input type="text" className="form-control" name="user" id="user" placeholder="Username" value={user}
+                       onChange={this.change}/>
+              </Col>
+              <Col md={12}>
+                <label htmlFor="password">Password</label>
+                <input type="password" className="form-control" name="password" id="password" placeholder="Password"
+                       value={password} onChange={this.change}/>
+              </Col>
+            </Row>
+            <Row className="form-group">
+              <Col md={24}>
+                <label htmlFor="receptor-url">Receptor Url</label>
+                <input type="text" required={true} className="form-control" id="receptor-url" name="receptor_url"
+                       placeholder="http://receptor.example.com" value={receptorUrl} onChange={this.change}/>
+              </Col>
+            </Row>
+            <Divider/>
+          </ModalBody>
+          <ModalFooter>
+            <LowlightButton type="button" onClick={this.closeModal}>Close</LowlightButton>
+            <HighlightButton type="submit" disabled={disabled}>Launch X-Ray</HighlightButton>
+          </ModalFooter>
+        </form>
+      </Modal>
+    );
+  },
+
+  render() {
+    return (
+      <div className="mrxl">
+        <HighlightButton onClick={this.openModal}>{this.props.children}</HighlightButton>
+        <PortalBlue name="modal">
+          {this.renderModal()}
         </PortalBlue>
       </div>
     );
