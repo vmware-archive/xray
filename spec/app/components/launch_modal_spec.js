@@ -5,11 +5,11 @@ describe('LaunchModal', function() {
 
   function render(props) {
     var LaunchModal = require('../../../app/components/launch_modal');
-    var {PortalOrange} = require('../../../app/components/portals');
+    var {PortalDestination} = require('../../../app/components/portals');
     React.render((
       <div>
         <LaunchModal title="Launch X-Ray" {...props}>Launch X-ray</LaunchModal>
-        <PortalOrange name="modal"/>
+        <PortalDestination name="modal"/>
       </div>
     ), root);
   }

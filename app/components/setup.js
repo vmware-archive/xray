@@ -6,7 +6,7 @@ var Header = require('./header');
 var LaunchModal = require('./launch_modal');
 var Layout = require('../../server/components/layout');
 var React = require('react/addons');
-var {PortalOrange} = require('./portals');
+var {PortalDestination} = require('./portals');
 var types = React.PropTypes;
 
 var Setup = React.createClass({
@@ -37,7 +37,7 @@ var Setup = React.createClass({
           </section>
           <Footer className="main-footer"/>
         </div>
-        <PortalOrange name="modal"/>
+        <PortalDestination name="modal"/>
       </div>
     );
   }

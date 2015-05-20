@@ -1,10 +1,10 @@
 require('../spec_helper');
 
 describe('Portals', function() {
-  var PortalBlue, PortalOrange, Potato;
+  var PortalSource, PortalDestination, Potato;
   beforeEach(function() {
-    PortalBlue = require('../../../app/components/portals').PortalBlue;
-    PortalOrange = require('../../../app/components/portals').PortalOrange;
+    PortalSource = require('../../../app/components/portals').PortalSource;
+    PortalDestination = require('../../../app/components/portals').PortalDestination;
     Potato = React.createClass({
       getInitialState() { return {}; },
       render() {
@@ -18,7 +18,7 @@ describe('Portals', function() {
     React.unmountComponentAtNode(root);
   });
 
-  describe('when the portals are rendered blue first then orange', function() {
+  describe('when the portals are rendered source first then destination', function() {
     var potato;
     beforeEach(function() {
       var Context = React.createClass({
@@ -26,12 +26,12 @@ describe('Portals', function() {
           return (
             <div>
               <div className="blue">
-                <PortalBlue name="chell">
+                <PortalSource name="chell">
                   <Potato ref="potato"/>
-                </PortalBlue>
+                </PortalSource>
               </div>
               <div className="orange">
-                <PortalOrange name="chell"/>
+                <PortalDestination name="chell"/>
               </div>
             </div>
           );
@@ -41,11 +41,11 @@ describe('Portals', function() {
       potato = context.refs.potato;
     });
 
-    it('does not render the blue portal content', function() {
+    it('does not render the source portal content', function() {
       expect('.blue').not.toHaveText('Potato');
     });
 
-    it('renders the blue portal into the orange portal', function() {
+    it('renders the source portal into the destination portal', function() {
       expect('.orange').toHaveText('Potato');
     });
 
@@ -54,34 +54,34 @@ describe('Portals', function() {
         potato.setState({cake: true});
       });
 
-      it('updates in the orange portal', function() {
+      it('updates in the destination portal', function() {
         expect('.orange').not.toHaveText('Potato');
         expect('.orange').toHaveText('cake is a lie');
       });
     });
   });
 
-  describe('when the portals are render orange first then blue', function() {
+  describe('when the portals are rendered destination first then source', function() {
     beforeEach(function() {
       React.render(
         <div>
           <div className="orange">
-            <PortalOrange name="chell"/>
+            <PortalDestination name="chell"/>
           </div>
           <div className="blue">
-            <PortalBlue name="chell">
+            <PortalSource name="chell">
               <Potato/>
-            </PortalBlue>
+            </PortalSource>
           </div>
         </div>,
         root);
     });
 
-    it('does not render the blue portal content', function() {
+    it('does not render the source portal content', function() {
       expect('.blue').not.toHaveText('Potato');
     });
 
-    it('renders the blue portal into the orange portal', function() {
+    it('renders the source portal into the destination portal', function() {
       expect('.orange').toHaveText('Potato');
     });
   });
@@ -91,27 +91,27 @@ describe('Portals', function() {
       React.render(
         <div>
           <div className="orange-chell">
-            <PortalOrange name="chell"/>
+            <PortalDestination name="chell"/>
           </div>
           <div className="blue-chell">
-            <PortalBlue name="chell">
+            <PortalSource name="chell">
               <Potato/>
-            </PortalBlue>
+            </PortalSource>
           </div>
           <div className="orange-wheatley">
-            <PortalOrange name="wheatley"/>
+            <PortalDestination name="wheatley"/>
           </div>
           <div className="blue-wheatley">
-            <PortalBlue name="wheatley">
+            <PortalSource name="wheatley">
               <div>Okay don't panic! Alright? Stop panicking! I can still stop this. Ahh. Oh there's a password. It's fine. I'll just hack it. Not a problem... umm...</div>
-            </PortalBlue>
+            </PortalSource>
           </div>
         </div>,
         root);
     });
 
 
-    it('renders the blue portal contents in the correct orange portals', function() {
+    it('renders the source portal contents in the correct destination portals', function() {
       expect('.orange-chell').toHaveText('Potato');
       expect('.orange-wheatley').toContainText('Stop panicking!');
     });

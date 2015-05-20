@@ -4,7 +4,7 @@ var {Divider} = require('pui-react-dividers');
 var {getCredentials} = require('../helpers/url_helper');
 var {LowlightButton, HighlightButton} = require('pui-react-buttons');
 var {Modal, ModalBody, ModalFooter} = require('pui-react-modals');
-var {PortalBlue} = require('./portals');
+var {PortalSource} = require('./portals');
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var React = require('react/addons');
 
@@ -86,9 +86,9 @@ var LaunchModal = React.createClass({
     return (
       <div className="mrxl">
         <HighlightButton onClick={this.openModal}>{this.props.children}</HighlightButton>
-        <PortalBlue name="modal">
+        <PortalSource name="modal">
           {this.renderModal()}
-        </PortalBlue>
+        </PortalSource>
       </div>
     );
   }

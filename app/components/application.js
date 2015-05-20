@@ -4,7 +4,7 @@ var googleAnalyticsMixin = require('../mixins/google_analytics_mixin');
 var Layout = require('../../server/components/layout');
 var Page = require('./page');
 var React = require('react/addons');
-var {PortalOrange} = require('./portals');
+var {PortalDestination} = require('./portals');
 
 var types = React.PropTypes;
 
@@ -63,7 +63,7 @@ var Application = React.createClass({
     return (
       <div className="xray">
         <Page {...{$receptor, $sidebar, $selection, $scaling, receptorUrl}} ref="page"/>
-        <PortalOrange name="modal"/>
+        <PortalDestination name="modal"/>
       </div>
     );
   }

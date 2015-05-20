@@ -6,7 +6,7 @@ var portals = {};
 var EventEmitter = require('node-event-emitter');
 var emitter = new EventEmitter();
 
-var PortalBlue = React.createClass({
+var PortalSource = React.createClass({
   propTypes: {
     name: types.string.isRequired
   },
@@ -14,27 +14,27 @@ var PortalBlue = React.createClass({
   getInitialState() {
     var {name} = this.props;
     return {
-      orange: portals[name]
+      destination: portals[name]
     };
   },
 
   componentWillMount() {
-    emitter.on('orange', this.setOrange);
+    emitter.on('destination', this.setDestination);
     this.componentDidUpdate();
   },
 
   componentWillUnmount() {
-    emitter.removeListener('orange', this.setOrange);
+    emitter.removeListener('destination', this.setDestination);
   },
 
-  setOrange() {
+  setDestination() {
     var {name} = this.props;
-    this.isMounted() && this.setState({orange: portals[name]});
+    this.isMounted() && this.setState({destination: portals[name]});
   },
 
   componentDidUpdate() {
-    var {orange} = this.state;
-    if (orange) React.render(<div>{this.props.children}</div>, orange.getDOMNode());
+    var {destination} = this.state;
+    if (destination) React.render(<div>{this.props.children}</div>, destination.getDOMNode());
   },
 
   render() {
@@ -42,7 +42,7 @@ var PortalBlue = React.createClass({
   }
 });
 
-var PortalOrange = React.createClass({
+var PortalDestination = React.createClass({
   propTypes: {
     name: types.string.isRequired
   },
@@ -50,13 +50,13 @@ var PortalOrange = React.createClass({
   componentDidMount() {
     var {name} = this.props;
     portals[name] = this;
-    emitter.emit('orange', this);
+    emitter.emit('destination', this);
   },
 
   componentWillUnmount() {
     var {name} = this.props;
     delete portals[name];
-    emitter.emit('orange', this);
+    emitter.emit('destination', this);
   },
 
   render() {
@@ -65,8 +65,8 @@ var PortalOrange = React.createClass({
 });
 
 module.exports = {
-  PortalBlue,
-  PortalOrange,
+  PortalSource,
+  PortalDestination,
   reset() {
     emitter.removeAllListeners();
     portals = {};
