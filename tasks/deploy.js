@@ -5,7 +5,7 @@ const DEPLOY_ENVIRONMENTS = require('../config/deploy.json');
 
 gulp.task('blue-green-deploy', function(callback) {
   if (!(process.env.ENV in DEPLOY_ENVIRONMENTS)) {
-    return callback('Please set ENV to pws or staging');
+    return callback(`Please set ENV to ${Object.keys(DEPLOY_ENVIRONMENTS).join(' or ')}`);
   }
   var deployEnv = DEPLOY_ENVIRONMENTS[process.env.ENV];
   var uppercaseDeployEnv = Object.keys(deployEnv).reduce((memo, key) => (memo[key.toUpperCase()] = deployEnv[key], memo), {});
