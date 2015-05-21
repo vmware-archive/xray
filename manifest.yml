@@ -2,9 +2,7 @@
 applications:
   - name: xray
     buildpack: nodejs_buildpack
-    domain: xray.cf
     env:
       NODE_ENV: production
     instances: 2
     memory: 256M
-    no-hostname: true

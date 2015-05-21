@@ -1,0 +1,18 @@
+{
+  "staging": {
+    "api": "api.run.pivotal.io",
+    "domains": ["cfapps.io -n xray-staging"],
+    "name": "xray-staging",
+    "manifest": "manifest-staging.yml",
+    "org": "pivotal",
+    "space": "pivotal-ui"
+  },
+  "pws": {
+    "api": "api.run.pivotal.io",
+    "domains": ["cfapps.io -n xray","xray.cf"],
+    "name": "xray",
+    "manifest": "manifest.yml",
+    "org": "pivotal",
+    "space": "pivotal-ui"
+  }
+}
