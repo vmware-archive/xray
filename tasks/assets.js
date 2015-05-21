@@ -15,7 +15,11 @@ function isProduction() {
 
 function javascriptStatic() {
   return gulp.src(require.resolve(`react/dist/react-with-addons${isProduction() ? '.min' : ''}`))
-    .pipe(plugins.rename({basename: `react-${React.version}`}));
+    .pipe(through2.obj(function(file, encoding, callback) {
+      file.base = process.cwd();
+      file.path = `react-${React.version}.js`;
+      callback(null, file);
+    }));
 }
 
 function javascript(options = {}) {
@@ -68,13 +72,12 @@ gulp.task('assets-all', function() {
   if (isProduction()) {
     return stream
       .pipe(plugins.rev())
-      .pipe(drFrankenstyle.done())
+      .pipe(plugins.revCssUrl())
       .pipe(gulp.dest('public'))
       .pipe(plugins.rev.manifest())
       .pipe(gulp.dest('public'));
   } else {
     return stream
-      .pipe(drFrankenstyle.done())
       .pipe(gulp.dest('public'));
   }
 });
