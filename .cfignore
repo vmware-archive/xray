@@ -1,4 +1,10 @@
-.idea/*
-node_modules
 .env
-tmp
+.idea/*
+/log/*
+/node_modules
+/spec/app/*
+/spec/server/*
+/spec/support/*
+/tmp/*
+/tasks/*
+/vendor/*

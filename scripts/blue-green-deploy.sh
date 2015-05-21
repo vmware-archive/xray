@@ -1,27 +1,27 @@
 #!/bin/bash
+set -e
 
 cf api $API
 cf app $NAME || cf login -o $ORG -s $SPACE
+BLUENAME=$NAME-blue
 
-COLDNAME=$NAME-cold
+cf push $BLUENAME -f $MANIFEST
 
-cf push $COLDNAME -f $MANIFEST
-
-DOMAINS=("${DOMAINS[@]}")
+ROUTES=("${ROUTES[@]}")
 
 OIFS=$IFS
 IFS=','
-for DOMAIN in ${DOMAINS[@]}; do
-  eval "cf map-route $COLDNAME $DOMAIN"
-  eval "cf unmap-route $NAME $DOMAIN"
+for ROUTE in ${ROUTES[@]}; do
+  eval "cf map-route $BLUENAME $ROUTE"
+  eval "cf unmap-route $NAME $ROUTE"
 done
 
 cf push $NAME -f $MANIFEST
 
-for DOMAIN in ${DOMAINS[@]}; do
-  eval "cf map-route $NAME $DOMAIN"
-  eval "cf unmap-route $COLDNAME $DOMAIN"
+for ROUTE in ${ROUTES[@]}; do
+  eval "cf map-route $NAME $ROUTE"
+  eval "cf unmap-route $BLUENAME $ROUTE"
 done
 IFS=$OIFS
 
-cf stop $COLDNAME
+cf stop $BLUENAME
