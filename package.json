@@ -18,7 +18,7 @@
     "babel-eslint": "^2.0.2",
     "babel-loader": "^5.0.0",
     "del": "^1.1.1",
-    "dr-frankenstyle": "^0.1.0",
+    "dr-frankenstyle": "^0.1.1",
     "es6-promise": "^2.0.1",
     "eslint-plugin-react": "^2.1.1",
     "font-awesome": "^4.3.0",
