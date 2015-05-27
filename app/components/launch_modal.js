@@ -14,7 +14,7 @@ var LaunchModal = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    receptorUrl: types.string.isRequired,
+    receptorUrl: types.string,
     title: types.string
   },
 
