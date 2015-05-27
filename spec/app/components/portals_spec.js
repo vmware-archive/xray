@@ -18,6 +18,35 @@ describe('Portals', function() {
     React.unmountComponentAtNode(root);
   });
 
+  describe('when there is more than one source portal', function() {
+    beforeEach(function() {
+      React.render(
+        <div>
+          <div className="orange">
+            <PortalDestination name="chell"/>
+          </div>
+          <div className="blue">
+            <PortalSource name="chell" key="potato">
+              <div className="potato"/>
+            </PortalSource>
+          </div>
+          <div className="blue">
+            <PortalSource name="chell" key="chell">
+              <div className="lemon"/>
+            </PortalSource>
+          </div>
+        </div>,
+        root);
+    });
+
+    it('renders the content for both source portals in the destination portal', function() {
+      expect('.blue .potato').not.toExist();
+      expect('.blue .lemon').not.toExist();
+      expect('.orange .potato').toExist();
+      expect('.orange .lemon').toExist();
+    });
+  });
+
   describe('when the portals are rendered source first then destination', function() {
     var potato;
     beforeEach(function() {

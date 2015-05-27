@@ -6,6 +6,12 @@ var portals = {};
 var EventEmitter = require('node-event-emitter');
 var emitter = new EventEmitter();
 
+function createRoot(reactElement) {
+  var destination = document.createElement('div');
+  reactElement.getDOMNode().appendChild(destination);
+  return destination;
+}
+
 var PortalSource = React.createClass({
   propTypes: {
     name: types.string.isRequired
@@ -14,7 +20,7 @@ var PortalSource = React.createClass({
   getInitialState() {
     var {name} = this.props;
     return {
-      destination: portals[name]
+      destination: portals[name] && {portal: portals[name], root: createRoot(portals[name])}
     };
   },
 
@@ -28,13 +34,15 @@ var PortalSource = React.createClass({
   },
 
   setDestination() {
+    var {destination} = this.state;
     var {name} = this.props;
-    this.isMounted() && this.setState({destination: portals[name]});
+    if (!this.isMounted() || (destination && destination.portal === portals[name])) return;
+    this.setState({destination: portals[name] && {portal: portals[name], root: createRoot(portals[name])}});
   },
 
   componentDidUpdate() {
-    var {destination} = this.state;
-    if (destination) React.render(<div>{this.props.children}</div>, destination.getDOMNode());
+    var {root} = this.state.destination || {};
+    if (root) React.render(<div>{this.props.children}</div>, root);
   },
 
   render() {
