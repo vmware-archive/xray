@@ -1,4 +1,5 @@
 var React = require('react/addons');
+var warning = require('react/lib/warning');
 
 var types = React.PropTypes;
 
@@ -57,7 +58,12 @@ var PortalDestination = React.createClass({
   },
 
   componentDidMount() {
-    destinationPortals[this.props.name] = this;
+    var {name} = this.props;
+    if (name in destinationPortals) {
+     warning(false, `Multiple destination portals with the same name "${name}" detected.`);
+    }
+
+    destinationPortals[name] = this;
     emitter.emit('destination', this);
   },
 

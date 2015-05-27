@@ -18,7 +18,32 @@ describe('Portals', function() {
     React.unmountComponentAtNode(root);
   });
 
-  describe('when there is more than one source portal', function() {
+  describe('when there is more than one destination portal with the same name', function() {
+    beforeEach(function() {
+      spyOn(console, 'warn');
+      React.render(
+        <div>
+          <div className="orange">
+            <PortalDestination name="chell"/>
+          </div>
+          <div className="orange">
+            <PortalDestination name="chell"/>
+          </div>
+          <div className="blue">
+            <PortalSource name="chell" key="chell">
+              <div className="lemon"/>
+            </PortalSource>
+          </div>
+        </div>,
+        root);
+    });
+
+    it('warns', function() {
+      expect(console.warn).toHaveBeenCalledWith('Warning: Multiple destination portals with the same name "chell" detected.');
+    });
+  });
+
+  describe('when there is more than one source portal with the same name', function() {
     beforeEach(function() {
       React.render(
         <div>
@@ -26,12 +51,12 @@ describe('Portals', function() {
             <PortalDestination name="chell"/>
           </div>
           <div className="blue">
-            <PortalSource name="chell" key="potato">
+            <PortalSource name="chell">
               <div className="potato"/>
             </PortalSource>
           </div>
           <div className="blue">
-            <PortalSource name="chell" key="chell">
+            <PortalSource name="chell">
               <div className="lemon"/>
             </PortalSource>
           </div>
