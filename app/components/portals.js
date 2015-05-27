@@ -2,9 +2,15 @@ var React = require('react/addons');
 
 var types = React.PropTypes;
 
-var portals = {};
+var destinationPortals = {};
 var EventEmitter = require('node-event-emitter');
 var emitter = new EventEmitter();
+
+function createRoot(reactElement) {
+  var destination = document.createElement('div');
+  reactElement.getDOMNode().appendChild(destination);
+  return destination;
+}
 
 var PortalSource = React.createClass({
   propTypes: {
@@ -12,10 +18,7 @@ var PortalSource = React.createClass({
   },
 
   getInitialState() {
-    var {name} = this.props;
-    return {
-      destination: portals[name]
-    };
+    return {destination: null};
   },
 
   componentWillMount() {
@@ -25,16 +28,22 @@ var PortalSource = React.createClass({
 
   componentWillUnmount() {
     emitter.removeListener('destination', this.setDestination);
+    var {root} = this.state.destination || {};
+    if(root) {
+      root.parentNode.removeChild(root);
+    }
   },
 
   setDestination() {
-    var {name} = this.props;
-    this.isMounted() && this.setState({destination: portals[name]});
+    var {destination} = this.state;
+    var destinationPortal = destinationPortals[this.props.name];
+    if (!this.isMounted() || (destination && destination.portal === destinationPortal)) return;
+    this.setState({destination: destinationPortal && {portal: destinationPortal, root: createRoot(destinationPortal)}});
   },
 
   componentDidUpdate() {
-    var {destination} = this.state;
-    if (destination) React.render(<div>{this.props.children}</div>, destination.getDOMNode());
+    var {root} = this.state.destination || {};
+    if (root) React.render(<div>{this.props.children}</div>, root);
   },
 
   render() {
@@ -48,14 +57,12 @@ var PortalDestination = React.createClass({
   },
 
   componentDidMount() {
-    var {name} = this.props;
-    portals[name] = this;
+    destinationPortals[this.props.name] = this;
     emitter.emit('destination', this);
   },
 
   componentWillUnmount() {
-    var {name} = this.props;
-    delete portals[name];
+    delete destinationPortals[this.props.name];
     emitter.emit('destination', this);
   },
 
@@ -69,6 +76,6 @@ module.exports = {
   PortalDestination,
   reset() {
     emitter.removeAllListeners();
-    portals = {};
+    destinationPortals = {};
   }
 };

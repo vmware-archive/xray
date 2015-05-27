@@ -18,17 +18,48 @@ describe('Portals', function() {
     React.unmountComponentAtNode(root);
   });
 
+  describe('when there is more than one source portal', function() {
+    beforeEach(function() {
+      React.render(
+        <div>
+          <div className="orange">
+            <PortalDestination name="chell"/>
+          </div>
+          <div className="blue">
+            <PortalSource name="chell" key="potato">
+              <div className="potato"/>
+            </PortalSource>
+          </div>
+          <div className="blue">
+            <PortalSource name="chell" key="chell">
+              <div className="lemon"/>
+            </PortalSource>
+          </div>
+        </div>,
+        root);
+    });
+
+    it('renders the content for both source portals in the destination portal', function() {
+      expect('.blue .potato').not.toExist();
+      expect('.blue .lemon').not.toExist();
+      expect('.orange .potato').toExist();
+      expect('.orange .lemon').toExist();
+    });
+  });
+
   describe('when the portals are rendered source first then destination', function() {
-    var potato;
+    var potato, context;
     beforeEach(function() {
       var Context = React.createClass({
+        propTypes: {visible: React.PropTypes.bool},
+        getDefaultProps() { return {visible: true}; },
         render() {
           return (
             <div>
               <div className="blue">
-                <PortalSource name="chell">
+                {this.props.visible && <PortalSource name="chell">
                   <Potato ref="potato"/>
-                </PortalSource>
+                </PortalSource>}
               </div>
               <div className="orange">
                 <PortalDestination name="chell"/>
@@ -37,7 +68,7 @@ describe('Portals', function() {
           );
         }
       });
-      var context = React.render(<Context/>, root);
+      context = React.render(<Context/>, root);
       potato = context.refs.potato;
     });
 
@@ -57,6 +88,16 @@ describe('Portals', function() {
       it('updates in the destination portal', function() {
         expect('.orange').not.toHaveText('Potato');
         expect('.orange').toHaveText('cake is a lie');
+      });
+    });
+
+    describe('when the blue contents unmount', function() {
+      beforeEach(function() {
+        context.setProps({visible: false});
+      });
+
+      it('cleans up the div in the destination portal', function() {
+        expect('.orange div').toHaveLength(1);
       });
     });
   });
