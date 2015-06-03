@@ -4,7 +4,7 @@ var {Divider} = require('pui-react-dividers');
 var {getCredentials} = require('../helpers/url_helper');
 var {LowlightButton, HighlightButton} = require('pui-react-buttons');
 var {Modal, ModalBody, ModalFooter} = require('pui-react-modals');
-var {PortalSource} = require('./portals');
+var {PortalSource} = require('pui-react-portals');
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var React = require('react');
 

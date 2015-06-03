@@ -6,7 +6,7 @@ var Header = require('./header');
 var LaunchModal = require('./launch_modal');
 var Layout = require('../../server/components/layout');
 var React = require('react');
-var {PortalDestination} = require('./portals');
+var {PortalDestination} = require('pui-react-portals');
 var types = React.PropTypes;
 
 var Setup = React.createClass({

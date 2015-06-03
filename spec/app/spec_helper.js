@@ -53,5 +53,5 @@ afterEach(function() {
   jasmine.clock().uninstall();
   MockPromises.contracts.reset();
   MockEventSource.uninstall();
-  require('../../app/components/portals').reset();
+  require('pui-react-portals').reset();
 });

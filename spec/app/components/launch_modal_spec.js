@@ -5,7 +5,7 @@ describe('LaunchModal', function() {
 
   function render(props) {
     var LaunchModal = require('../../../app/components/launch_modal');
-    var {PortalDestination} = require('../../../app/components/portals');
+    var {PortalDestination} = require('pui-react-portals');
     React.render((
       <div>
         <LaunchModal title="Launch X-Ray" {...props}>Launch X-ray</LaunchModal>

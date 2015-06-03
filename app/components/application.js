@@ -4,7 +4,7 @@ var googleAnalyticsMixin = require('../mixins/google_analytics_mixin');
 var Layout = require('../../server/components/layout');
 var Page = require('./page');
 var React = require('react');
-var {PortalDestination} = require('./portals');
+var {PortalDestination} = require('pui-react-portals');
 
 var types = React.PropTypes;
 
