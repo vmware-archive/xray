@@ -1,5 +1,5 @@
 var {Flag} = require('pui-react-media');
-var React = require('react/addons');
+var React = require('react');
 var Svg = require('./svg');
 
 var Header = React.createClass({

@@ -1,5 +1,5 @@
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
-var React = require('react/addons');
+var React = require('react');
 var timeago = require('timeago');
 
 timeago.settings.strings = {

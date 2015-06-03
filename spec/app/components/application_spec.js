@@ -5,7 +5,7 @@ describe('Application', function() {
   var Application, Cells, subject;
   beforeEach(function() {
     Cells = require('../../../app/components/cells');
-    spyOn(Cells.type.prototype, 'render').and.callThrough();
+    spyOn(Cells.prototype, 'render').and.callThrough();
     Application = require('../../../app/components/application');
   });
 
@@ -35,7 +35,7 @@ describe('Application', function() {
     });
 
     it('renders cells', function() {
-      expect(Cells.type.prototype.render).toHaveBeenCalled();
+      expect(Cells.prototype.render).toHaveBeenCalled();
     });
 
     it('sets the cells', function() {

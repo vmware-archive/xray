@@ -4,9 +4,9 @@ describe('DesiredLrpDetail', function() {
   var ActualLrpList, DesiredLrp, Cursor, subject, actualLrps, desiredLrps, $receptor, $selection;
   beforeEach(function() {
     ActualLrpList = require('../../../app/components/actual_lrp_list');
-    spyOn(ActualLrpList.type.prototype, 'render').and.callThrough();
+    spyOn(ActualLrpList.prototype, 'render').and.callThrough();
     DesiredLrp = require('../../../app/components/desired_lrp');
-    spyOn(DesiredLrp.type.prototype, 'render').and.callThrough();
+    spyOn(DesiredLrp.prototype, 'render').and.callThrough();
     var DesiredLrpDetail = require('../../../app/components/desired_lrp_detail');
     actualLrps = [
       Factory.build('actualLrp', {process_guid: 'Amazon'}),
@@ -30,9 +30,15 @@ describe('DesiredLrpDetail', function() {
     var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     var colors = ['#fff', '#000'];
 
-    React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrpDetail {...{$receptor, $selection, $sidebar}}/>, root);
-    });
+    var props = {$receptor, $selection, $sidebar};
+    subject = withContext(
+      {colors},
+      props,
+      function() {
+        return (<DesiredLrpDetail {...this.props}/>);
+      },
+      root
+    );
   });
 
   afterEach(function() {
@@ -41,7 +47,7 @@ describe('DesiredLrpDetail', function() {
 
   it('renders a desired lrp', function() {
     expect('.desired-lrp-detail').toExist();
-    expect(DesiredLrp.type.prototype.render).toHaveBeenCalled();
+    expect(DesiredLrp.prototype.render).toHaveBeenCalled();
   });
 
   it('renders the expected lrps count', function() {
@@ -49,7 +55,7 @@ describe('DesiredLrpDetail', function() {
   });
 
   it('renders actual lrp list', function() {
-    expect(ActualLrpList.type.prototype.render).toHaveBeenCalled();
+    expect(ActualLrpList.prototype.render).toHaveBeenCalled();
   });
 
   describe('when the desiredLrp has been deleted', function() {

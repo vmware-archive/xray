@@ -15,9 +15,15 @@ describe('Container', function() {
     var $selection = new Cursor({hoverDesiredLrp: null}, selectionCallbackSpy);
     var $sidebar = new Cursor({sidebarCollapsed: false}, jasmine.createSpy('callback'));
     var scaling = 'containers';
-    React.withContext({colors: ['#fff', '#000']}, function() {
-      subject = React.render(<Container {...{actualLrp, denominator, desiredLrp, scaling, className: '', $selection, $sidebar}}/>, root);
-    });
+    var props = {actualLrp, denominator, desiredLrp, scaling, className: '', $selection, $sidebar};
+    subject = withContext(
+      {colors: ['#fff', '#000']},
+      props,
+      function() {
+        return (<Container {...Object.assign({ref: 'container'}, this.props)}/>);
+      },
+      root
+    );
   });
 
   afterEach(function() {
@@ -98,6 +104,6 @@ describe('Container', function() {
   });
 
   it('ignores the expected cursors for rendering', function() {
-    expect(subject.ignorePureRenderProps).toEqual(['$selection', '$sidebar']);
+    expect(subject.refs.container.ignorePureRenderProps).toEqual(['$selection', '$sidebar']);
   });
 });

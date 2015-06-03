@@ -4,7 +4,7 @@ describe('Svg', function() {
   var subject;
   beforeEach(function() {
     var Svg = require('../../../app/components/svg');
-    Svg.type.prototype.render.and.callThrough();
+    Svg.prototype.render.and.callThrough();
     subject = React.render(<Svg src="brand"/>, root);
   });
 

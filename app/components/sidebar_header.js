@@ -1,7 +1,7 @@
 var Filter = require('./filter');
 var Icon = require('pui-react-iconography').Icon;
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
-var React = require('react/addons');
+var React = require('react');
 var helper = require('../helpers/lrp_helper');
 
 var types = React.PropTypes;

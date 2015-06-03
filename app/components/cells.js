@@ -1,4 +1,4 @@
-var React = require('react/addons');
+var React = require('react');
 var Cell = require('./cell');
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 

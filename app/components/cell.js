@@ -1,6 +1,6 @@
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var Container = require('./container');
-var React = require('react/addons');
+var React = require('react');
 var classnames = require('classnames');
 
 var types = React.PropTypes;

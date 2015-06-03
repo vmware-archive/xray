@@ -1,6 +1,6 @@
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var HoverActualLrpMixin = require('../mixins/hover_actual_lrp_mixin');
-var React = require('react/addons');
+var React = require('react');
 var Timeago = require('./timeago');
 var classnames = require('classnames');
 

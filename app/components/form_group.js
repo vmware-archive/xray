@@ -1,5 +1,5 @@
 var classnames = require('classnames');
-var React = require('react/addons');
+var React = require('react');
 var types = React.PropTypes;
 
 var FormGroup = React.createClass({

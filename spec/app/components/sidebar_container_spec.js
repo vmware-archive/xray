@@ -6,9 +6,15 @@ describe('SidebarContainer', function() {
   beforeEach(function() {
     var SidebarContainer = require('../../../app/components/sidebar_container');
     var desiredLrp = Factory.build('desiredLrp');
-    React.withContext({colors: ['#fff']}, function() {
-      subject = React.render(<SidebarContainer {...{desiredLrp, instancesError: false}}/>, root);
-    });
+    var props = {desiredLrp, instancesError: false};
+    subject = withContext(
+      {colors: ['#fff']},
+      props,
+      function() {
+        return (<SidebarContainer {...this.props}/>);
+      },
+      root
+    );
   });
 
   afterEach(function() {

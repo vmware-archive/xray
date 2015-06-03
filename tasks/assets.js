@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var del = require('del');
-var drFrankenstyle = require('gulp-dr-frankenstyle');
+var drFrankenstyle = require('dr-frankenstyle');
 var mergeStream = require('merge-stream');
 var path = require('path');
 var plugins = require('gulp-load-plugins')();

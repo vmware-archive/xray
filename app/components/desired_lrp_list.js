@@ -1,6 +1,6 @@
 var DesiredLrp = require('./desired_lrp');
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
-var React = require('react/addons');
+var React = require('react');
 var SidebarHeader = require('./sidebar_header');
 var classnames = require('classnames');
 

@@ -1,4 +1,4 @@
-var React = require('react/addons');
+var React = require('react');
 var prettyBytes = require('pretty-bytes');
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var types = React.PropTypes;

@@ -5,7 +5,7 @@ describe('Zones', function() {
   beforeEach(function() {
     var Zones = require('../../../app/components/zones');
     Cells = require('../../../app/components/cells');
-    spyOn(Cells.type.prototype, 'render').and.callThrough();
+    spyOn(Cells.prototype, 'render').and.callThrough();
     var desiredLrps = Factory.buildList('desiredLrp', 3);
     cells = Factory.buildList('cell', 3);
     Object.assign(cells[0], {zone: 'B', actual_lrps: Factory.buildList('actualLrp', 1, {process_guid: desiredLrps[0].process_guid})});
@@ -18,9 +18,9 @@ describe('Zones', function() {
     var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
     var $receptor = new Cursor({cells, desiredLrps, actualLrpsByCellId: {}}, jasmine.createSpy('callback'));
     var scaling = 'containers';
-    React.withContext({colors}, function() {
-      React.render(<Zones {...{$receptor, $selection, scaling, $sidebar}}/>, root);
-    });
+    withContext({colors}, function() {
+      return (<Zones {...{$receptor, $selection, scaling, $sidebar}}/>);
+    }, root);
   });
 
   afterEach(function() {

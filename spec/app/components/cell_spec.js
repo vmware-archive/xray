@@ -4,12 +4,16 @@ describe('Cell', function() {
   var Cursor, Cell, subject, cell, actualLrps, desiredLrps, update, $receptor, $sidebar, $selection, callbackSpy, desiredLrpsByProcessGuid;
   function render(cellProps = {}, options = {}) {
     var style = {width: '100px'};
-    var subject;
     var colors = ['#fff', '#000'];
-    React.withContext(Object.assign({colors}, options), function() {
-      var props = Object.assign({cell, style, actualLrps, $receptor, $sidebar, $selection}, cellProps);
-      subject = React.render(<Cell {...props}/>, root);
-    });
+    var props = Object.assign({cell, style, actualLrps, $receptor, $sidebar, $selection}, cellProps);
+    var subject = withContext(
+      Object.assign({colors}, options),
+      props,
+      function() {
+        return (<Cell {...this.props}/>);
+      },
+      root
+    );
     return subject;
   }
   beforeEach(function() {

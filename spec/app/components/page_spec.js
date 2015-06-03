@@ -26,9 +26,15 @@ describe('Page', function() {
     $receptor = new Cursor({actualLrps, desiredLrps, desiredLrpsByProcessGuid: {}, actualLrpsByProcessGuid, actualLrpsByCellId}, callbackSpy);
     var $modal = new Cursor(null, jasmine.createSpy('modalCallback'));
     var receptorUrl = 'http://examples.com';
-    React.withContext({scaling: 'containers', colors}, function() {
-      subject = React.render(<Page {...{receptorUrl, $modal, $receptor, $scaling, $sidebar, $selection}}/>, root);
-    });
+    var props = {receptorUrl, $modal, $receptor, $scaling, $sidebar, $selection};
+    subject = withContext(
+      {scaling: 'containers', colors},
+      props,
+      function() {
+        return (<Page {...this.props}/>);
+      },
+      root
+    );
     MockPromises.executeForResolvedPromises();
   });
 

@@ -2,7 +2,7 @@ var classnames = require('classnames');
 var HoverDesiredLrpMixin = require('../mixins/hover_desired_lrp_mixin');
 var Media = require('pui-react-media').Media;
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
-var React = require('react/addons');
+var React = require('react');
 var SidebarContainer = require('./sidebar_container');
 var DesiredLrpInfo = require('./desired_lrp_info');
 

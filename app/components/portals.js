@@ -1,4 +1,4 @@
-var React = require('react/addons');
+var React = require('react');
 var warning = require('react/lib/warning');
 
 var types = React.PropTypes;

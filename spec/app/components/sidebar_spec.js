@@ -25,9 +25,15 @@ describe('Sidebar', function() {
     $selection = new Cursor({selectedDesiredLrp: null}, jasmine.createSpy('callback'));
     $sidebar = new Cursor({filter: '', sidebarCollapsed: false}, jasmine.createSpy('callback'));
     var colors = ['#fff', '#000'];
-    React.withContext({colors}, function() {
-      subject = React.render(<Sidebar {...{$receptor, $selection, $sidebar}}/>, root);
-    });
+    var props = {$receptor, $selection, $sidebar};
+    subject = withContext(
+      {colors},
+      props,
+      function() {
+        return (<Sidebar {...this.props}/>);
+      },
+      root
+    );
   });
 
   afterEach(function() {

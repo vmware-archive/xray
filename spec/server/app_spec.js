@@ -24,7 +24,7 @@ describe('app', function() {
       var Application, res;
       beforeEach(async function(done) {
         Application = require('../../app/components/application');
-        spyOn(Application.type.prototype, 'render').and.callThrough();
+        spyOn(Application.prototype, 'render').and.callThrough();
         res = await request(subject)
           .get(`/?receptor=${RECEPTOR_URL}`)
           .expect('Content-Type', /html/);
@@ -46,7 +46,7 @@ describe('app', function() {
       var Application, res;
       beforeEach(async function(done) {
         Application = require('../../app/components/application');
-        spyOn(Application.type.prototype, 'render').and.callThrough();
+        spyOn(Application.prototype, 'render').and.callThrough();
         res = await request(subject)
           .get(`/`)
           .set('cookie', `receptor_url=${RECEPTOR_URL}`)
@@ -60,8 +60,8 @@ describe('app', function() {
       });
 
       it('renders the application with the receptor url in the config', function() {
-        expect(Application.type.prototype.render).toHaveBeenCalled();
-        var application = Application.type.prototype.render.calls.mostRecent().object;
+        expect(Application.prototype.render).toHaveBeenCalled();
+        var application = Application.prototype.render.calls.mostRecent().object;
         expect(application.props.config).toEqual(jasmine.objectContaining({receptorUrl: RECEPTOR_URL}));
       });
     });
@@ -72,8 +72,8 @@ describe('app', function() {
     beforeEach(function() {
       Layout = require('../../server/components/layout');
       Setup = require('../../app/components/setup');
-      spyOn(Layout.type.prototype, 'render').and.callThrough();
-      spyOn(Setup.type.prototype, 'render').and.callThrough();
+      spyOn(Layout.prototype, 'render').and.callThrough();
+      spyOn(Setup.prototype, 'render').and.callThrough();
     });
 
     it('renders the layout and setup', async function(done) {
@@ -81,8 +81,8 @@ describe('app', function() {
         .get('/setup')
         .expect('Content-Type', /html/)
         .expect(202);
-      expect(Layout.type.prototype.render).toHaveBeenCalled();
-      expect(Setup.type.prototype.render).toHaveBeenCalled();
+      expect(Layout.prototype.render).toHaveBeenCalled();
+      expect(Setup.prototype.render).toHaveBeenCalled();
       done();
     });
   });

@@ -1,6 +1,6 @@
 var classnames = require('classnames');
 var Icon = require('pui-react-iconography').Icon;
-var React = require('react/addons');
+var React = require('react');
 var OverlayTrigger = require('pui-react-overlay-trigger').OverlayTrigger;
 var Tooltip = require('pui-react-tooltip').Tooltip;
 var {getHostname} = require('../helpers/lrp_helper');

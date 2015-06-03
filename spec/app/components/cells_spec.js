@@ -6,15 +6,16 @@ describe('Cells', function() {
     Cursor = require('pui-cursor');
     var Cells = require('../../../app/components/cells');
     Cell = require('../../../app/components/cell');
-    spyOn(Cell.type.prototype, 'render').and.callThrough();
+    spyOn(Cell.prototype, 'render').and.callThrough();
     cells = Factory.buildList('cell', 2);
     var colors = ['#fff', '#000'];
     $receptor = new Cursor({actualLrpsByCellId: {}}, jasmine.createSpy('callback'));
     var $selection = new Cursor({}, jasmine.createSpy('callback'));
     var $sidebar = new Cursor({}, jasmine.createSpy('callback'));
-    React.withContext({colors}, function() {
-      subject = React.render(<Cells {...{cells, $receptor, scaling: 'containers', $selection, $sidebar}}/>, root);
-    });
+    var props = {cells, $receptor, scaling: 'containers', $selection, $sidebar};
+    subject = withContext({colors}, props, function() {
+      return (<Cells {...this.props}/>);
+    }, root);
   });
 
   afterEach(function() {
@@ -23,7 +24,7 @@ describe('Cells', function() {
 
   it('renders cells', function() {
     expect($('.cell')).toHaveLength(cells.length);
-    expect(Cell.type.prototype.render).toHaveBeenCalled();
+    expect(Cell.prototype.render).toHaveBeenCalled();
   });
 
   describe('when actual lrps are provided', function() {

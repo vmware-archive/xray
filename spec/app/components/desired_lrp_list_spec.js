@@ -10,9 +10,15 @@ describe('DesiredLrpList', function() {
     var $sidebar = new Cursor({sidebarCollapsed: false}, jasmine.createSpy('callback'));
     var $selection = new Cursor({}, jasmine.createSpy('callback'));
     var colors = ['#fff', '#000'];
-    React.withContext({colors}, function() {
-      subject = React.render(<DesiredLrpList {...{$receptor, $selection, $sidebar}}/>, root);
-    });
+    var props = {$receptor, $selection, $sidebar};
+    subject = withContext(
+      {colors},
+      props,
+      function() {
+        return (<DesiredLrpList {...this.props}/>);
+      },
+      root
+    );
   });
 
   afterEach(function() {

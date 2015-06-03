@@ -4,32 +4,26 @@ factories.keys().forEach(factories);
 require('jasmine_dom_matchers');
 
 require('../spec_helper');
-
-global.React = require('react/addons');
+var React = require('react/addons');
 var jQuery = require('jquery');
-global.jQuery = jQuery;
-global.$ = jQuery;
-global.MockPromises = require('mock-promises');
-global.MockEventSource = require('pui-event-source/mock-event-source');
-global.jasmineReact = require('jasmine-react-helpers');
-global.Deferred = require('../support/deferred');
+var {withContext} = require('./support/react_helper');
+var MockPromises = require('mock-promises');
+var MockEventSource = require('pui-event-source/mock-event-source');
+var Deferred = require('../support/deferred');
+var OldPromise = global.Promise;
+var Promise = require('es6-promise').Promise;
 
-global.OldPromise = global.Promise;
-global.Promise = require('es6-promise').Promise;
-
-$.fn.simulate = function(eventName, ...args) {
-  if (!this.length) {
-    throw new Error(`jQuery Simulate has an empty selection for '${this.selector}'`);
-  }
-  $.each(this, function() {
-    if (['click', 'mouseOver', 'mouseOut'].includes(eventName)) {
-      React.addons.TestUtils.SimulateNative[eventName](this, ...args);
-    } else {
-      React.addons.TestUtils.Simulate[eventName](this, ...args);
-    }
-  });
-  return this;
-};
+Object.assign(global, {
+  React,
+  jQuery,
+  $: jQuery,
+  withContext,
+  MockPromises,
+  MockEventSource,
+  Deferred,
+  OldPromise,
+  Promise
+});
 
 require('jasmine-ajax');
 require('./support/matchers');
@@ -39,8 +33,8 @@ beforeEach(function() {
   global.xray = {location: mockLocation};
 
   spyOn(require('../../app/vendor/google_analytics'), 'init');
-  spyOn(React.addons.CSSTransitionGroup.type.prototype, 'render').and.callFake(function() { return (<div>{this.props.children}</div>); });
-  spyOn(require('../../app/components/svg').type.prototype, 'render').and.returnValue(null);
+  spyOn(React.addons.CSSTransitionGroup.prototype, 'render').and.callFake(function() { return (<div>{this.props.children}</div>); });
+  spyOn(require('../../app/components/svg').prototype, 'render').and.returnValue(null);
 
   var Layout = require('../../server/components/layout');
   spyOn(Layout, 'init');
@@ -49,6 +43,7 @@ beforeEach(function() {
   jasmine.clock().install();
   MockPromises.install(Promise);
   MockEventSource.install();
+  $('.tooltip').parent().remove();
   $('body').find('#root').remove().end().append('<main id="root"/>');
 });
 
