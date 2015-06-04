@@ -6,7 +6,7 @@ module.exports = {
   plugins: null,
   resolve: {
     alias: {
-      'lodash.thottle': `${__dirname}/../../spec/support/mock_throttle.js`
+      'lodash.throttle': `${__dirname}/../../spec/support/mock_throttle.js`
     }
   },
   quiet: true,

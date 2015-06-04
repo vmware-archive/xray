@@ -1,5 +1,5 @@
 module.exports = function(func) {
-  return function() {
-    func();
+  return function(...args) {
+    func(...args);
   };
 };
