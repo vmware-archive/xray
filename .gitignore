@@ -5,3 +5,4 @@ node_modules
 tmp
 npm-debug.log
 *.iml
+.ruby-version
