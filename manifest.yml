@@ -4,5 +4,5 @@ applications:
     buildpack: nodejs_buildpack
     env:
       NODE_ENV: production
-    instances: 2
+    instances: 4
     memory: 256M
