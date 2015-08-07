@@ -3,6 +3,7 @@ var mergeStream = require('merge-stream');
 var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
 var {sass} = require('./assets');
+var webpack = require('webpack-stream');
 
 gulp.task('spec', function(callback) {
   runSequence('lint', 'spec-server', 'spec-app', callback);
@@ -17,7 +18,7 @@ gulp.task('spec-server', function() {
 function testAssets(options = {}) {
   var config = Object.assign(require('../config/webpack')('test'), options);
   var javascript = gulp.src('spec/app/**/*_spec.js')
-    .pipe(plugins.webpack(config));
+    .pipe(webpack(config));
   return mergeStream(
     gulp.src(require.resolve('react/dist/react-with-addons')),
     javascript,

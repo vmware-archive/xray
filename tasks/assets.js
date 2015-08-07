@@ -7,6 +7,8 @@ var plugins = require('gulp-load-plugins')();
 var React = require('react');
 var runSequence = require('run-sequence');
 var through2 = require('through2');
+var webpack = require('webpack-stream');
+
 const COPYRIGHT = '/*(c) Copyright 2015 Pivotal Software, Inc. All Rights Reserved.*/\n';
 
 function isProduction() {
@@ -26,7 +28,7 @@ function javascript(options = {}) {
   var webpackConfig = Object.assign({}, require('../config/webpack')(process.env.NODE_ENV), options);
   return gulp.src(['app/components/application.js', 'app/components/setup.js'])
     .pipe(plugins.plumber())
-    .pipe(plugins.webpack(webpackConfig))
+    .pipe(webpack(webpackConfig))
     .pipe(plugins.header(COPYRIGHT))
     .pipe(through2.obj(function(file, encoding, callback) {
       callback(null, Object.assign(file, {path: path.basename(file.path)}));

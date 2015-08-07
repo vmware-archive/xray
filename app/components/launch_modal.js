@@ -1,4 +1,4 @@
-var camelize = require('camelize');
+var camelCase = require('lodash.camelcase');
 var {Col, Row} = require('pui-react-grids');
 var {Divider} = require('pui-react-dividers');
 var {getCredentials} = require('../helpers/url_helper');
@@ -25,7 +25,7 @@ var LaunchModal = React.createClass({
   },
 
   change({target: {value: value, name}}) {
-    this.setState({[camelize(name)]: value});
+    this.setState({[camelCase(name)]: value});
   },
 
   openModal() {

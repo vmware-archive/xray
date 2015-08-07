@@ -29,6 +29,9 @@ require('jasmine-ajax');
 require('./support/matchers');
 
 beforeEach(function() {
+  var Cursor = require('pui-cursor');
+  Cursor.async = false;
+  
   var mockLocation = jasmine.createSpyObj('location', ['assign', 'reload', 'replace']);
   global.xray = {location: mockLocation};
 
