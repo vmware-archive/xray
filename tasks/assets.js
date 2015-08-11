@@ -19,13 +19,16 @@ function isDevelopment() {
   return process.env.NODE_ENV === 'development';
 }
 
+function rename(options = {}) {
+  return through2.obj(function(file, encoding, callback) {
+    var {base = process.cwd(), path: p = path.basename(file.path)} = options;
+    callback(null, Object.assign(file, {base, path: p}));
+  });
+}
+
 function javascriptStatic() {
   return gulp.src(require.resolve(`react/dist/react-with-addons${isProduction() ? '.min' : ''}`))
-    .pipe(through2.obj(function(file, encoding, callback) {
-      file.base = process.cwd();
-      file.path = `react-${React.version}.js`;
-      callback(null, file);
-    }));
+    .pipe(rename({path: `react-${React.version}.js`}));
 }
 
 function javascript(options = {}) {
@@ -34,9 +37,7 @@ function javascript(options = {}) {
     .pipe(plugins.plumber())
     .pipe(webpack(webpackConfig))
     .pipe(plugins.header(COPYRIGHT))
-    .pipe(through2.obj(function(file, encoding, callback) {
-      callback(null, Object.assign(file, {path: path.basename(file.path)}));
-    }));
+    .pipe(rename());
 }
 
 function sass({watch = false} = {}) {
@@ -52,7 +53,8 @@ function sass({watch = false} = {}) {
     .pipe(plugins.autoprefixer())
     .pipe(plugins.if(!isProduction(), plugins.sourcemaps.write()))
     .pipe(plugins.if(isProduction(), plugins.minifyCss()))
-    .pipe(plugins.header(COPYRIGHT));
+    .pipe(plugins.header(COPYRIGHT))
+    .pipe(rename());
 }
 
 function images() {
