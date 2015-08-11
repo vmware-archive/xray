@@ -23,10 +23,18 @@ describe('Page', function() {
     callbackSpy = jasmine.createSpy('callback');
     var actualLrpsByProcessGuid = {one: [actualLrps[0]], two: [actualLrps[1]]};
     var actualLrpsByCellId = {android16: [actualLrps[0]], android17: [actualLrps[1]]};
-    $receptor = new Cursor({actualLrps, desiredLrps, desiredLrpsByProcessGuid: {}, actualLrpsByProcessGuid, actualLrpsByCellId}, callbackSpy);
+    var selectedReceptor = {
+      actualLrps,
+      desiredLrps,
+      desiredLrpsByProcessGuid: {},
+      actualLrpsByProcessGuid,
+      actualLrpsByCellId
+    };
+    $receptor = new Cursor(selectedReceptor, callbackSpy);
+    var $currentTime = new Cursor('now', jasmine.createSpy('callback'));
     var $modal = new Cursor(null, jasmine.createSpy('modalCallback'));
     var receptorUrl = 'http://examples.com';
-    var props = {receptorUrl, $modal, $receptor, $scaling, $sidebar, $selection};
+    var props = {selectedReceptor, receptorUrl, $modal, $receptor, $scaling, $sidebar, $selection, $currentTime};
     subject = withContext(
       {scaling: 'containers', colors},
       props,

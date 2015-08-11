@@ -17,7 +17,9 @@ var Page = React.createClass({
   mixins: [PureRenderMixin, ReceptorMixin, ReceptorStreamMixin],
 
   propTypes: {
+    selectedReceptor: types.object.isRequired,
     receptorUrl: types.string.isRequired,
+    $currentTime: types.object.isRequired,
     $receptor: types.object.isRequired,
     $scaling: types.object.isRequired,
     $selection: types.object.isRequired,

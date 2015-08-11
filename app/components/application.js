@@ -24,15 +24,17 @@ var Application = React.createClass({
   },
 
   getInitialState() {
+    var receptor = {
+      cells: [],
+      desiredLrps: [],
+      actualLrps: [],
+      actualLrpsByProcessGuid: {},
+      actualLrpsByCellId: {},
+      desiredLrpsByProcessGuid: {}
+    };
+
     return {
-      receptor: {
-        cells: [],
-        desiredLrps: [],
-        actualLrps: [],
-        actualLrpsByProcessGuid: {},
-        actualLrpsByCellId: {},
-        desiredLrpsByProcessGuid: {}
-      },
+      receptor,
       scaling: 'memory_mb',
       selection: {
         hoverDesiredLrp: null,
@@ -45,24 +47,34 @@ var Application = React.createClass({
         sidebarCollapsed: false,
         hoverActualLrp: null
       },
-      receptorUrl: this.props.config.receptorUrl
+      receptorUrl: this.props.config.receptorUrl,
+      receptorHistory: {},
+      currentTime: 'now'
     };
   },
 
   componentDidUpdate() {
-    var {receptor, selection, sidebar} = this.state;
-    Object.assign(xray, {receptor, selection, sidebar});
+    var {receptor, selection, sidebar, receptorHistory} = this.state;
+    Object.assign(xray, {receptor, selection, sidebar, receptorHistory});
+  },
+
+  updateReceptor(receptor) {
+    var {receptorHistory} = this.state;
+    receptorHistory = {[Date.now()]: receptor, ...receptorHistory};
+    this.setState({receptor, receptorHistory});
   },
 
   render() {
-    var {receptorUrl, receptor, sidebar, selection, scaling} = this.state;
-    var $receptor = new Cursor(receptor, receptor => this.setState({receptor}));
+    var {receptorUrl, receptor, sidebar, selection, scaling, receptorHistory, currentTime} = this.state;
+    var selectedReceptor = currentTime in receptorHistory ? receptorHistory[currentTime] : receptor;
+    var $currentTime = new Cursor(currentTime, currentTime => this.setState({currentTime}));
+    var $receptor = new Cursor(receptor, this.updateReceptor);
     var $sidebar = new Cursor(sidebar, sidebar => this.setState({sidebar}));
     var $selection = new Cursor(selection, selection => this.setState({selection}));
     var $scaling = new Cursor(scaling, scaling => this.setState({scaling}));
     return (
       <div className="xray">
-        <Page {...{$receptor, $sidebar, $selection, $scaling, receptorUrl}} ref="page"/>
+        <Page {...{$receptor, $sidebar, $selection, $scaling, receptorUrl, selectedReceptor, $currentTime}} ref="page"/>
         <PortalDestination name="modal"/>
       </div>
     );

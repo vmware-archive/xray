@@ -2,8 +2,10 @@ require('../spec_helper');
 
 describe('Application', function() {
   const RECEPTOR_URL = 'http://example.com';
-  var Application, Cells, subject;
+  var Application, Cells, Page, subject;
   beforeEach(function() {
+    Page = require('../../../app/components/page');
+    spyOn(Page.prototype, 'render').and.callThrough();
     Cells = require('../../../app/components/cells');
     spyOn(Cells.prototype, 'render').and.callThrough();
     Application = require('../../../app/components/application');
@@ -15,8 +17,10 @@ describe('Application', function() {
 
   describe('when a receptor url is provided in configuration', function() {
     var CellsApi, ReceptorApi, actualLrps, cells, desiredLrps;
+    var now = 10000000000;
 
     beforeEach(function() {
+      spyOn(Date, 'now').and.returnValue(now);
       var props = {config: {receptorUrl: RECEPTOR_URL, colors: ['#fff', '#000']}};
       cells = Factory.buildList('cell', 2);
       desiredLrps = Factory.buildList('desiredLrp', 3);
@@ -40,6 +44,39 @@ describe('Application', function() {
 
     it('sets the cells', function() {
       expect(subject.state.receptor.cells).toEqual(cells);
+    });
+
+    it('has receptor history with 1 entry', function() {
+      expect(Object.keys(subject.state.receptorHistory)).toHaveLength(1);
+      expect(subject.state.receptorHistory[now]).toEqual(subject.state.receptor);
+    });
+
+    describe('when the current time changes', function() {
+      describe('when the current time is not "now"', function() {
+        var selectedReceptor;
+        beforeEach(function() {
+          subject.setState({currentTime: now});
+          expect(Page.prototype.render).toHaveBeenCalled();
+          selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
+        });
+
+        it('passes the selected receptor to the page', function() {
+          expect(selectedReceptor).toEqual(subject.state.receptorHistory[now]);
+        });
+      });
+
+      describe('when the current time is "now"', function() {
+        var selectedReceptor;
+        beforeEach(function() {
+          subject.setState({currentTime: "now"});
+          expect(Page.prototype.render).toHaveBeenCalled();
+          selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
+        });
+
+        it('passes the selected receptor to the page', function() {
+          expect(selectedReceptor).toEqual(subject.state.receptor);
+        });
+      });
     });
 
     describe('#pollReceptor', function() {
@@ -98,6 +135,8 @@ describe('Application', function() {
       describe('when cells change', function() {
         var newCells;
         beforeEach(function() {
+          now += 1000;
+          Date.now.and.returnValue(now);
           newCells = [
             Object.assign({}, oldCells[0]),
             Object.assign({}, oldCells[1], {foo: 'bar'}),
@@ -114,6 +153,11 @@ describe('Application', function() {
 
         it('keeps unchanged cells the same in memory', function() {
           expect(subject.state.receptor.cells[0]).toBe(oldState.receptor.cells[0]);
+        });
+
+        it('has receptor history with 2 entries', function() {
+          expect(Object.keys(subject.state.receptorHistory)).toHaveLength(2);
+          expect(subject.state.receptorHistory[now]).toEqual(subject.state.receptor);
         });
       });
 

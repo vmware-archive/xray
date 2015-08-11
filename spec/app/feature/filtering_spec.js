@@ -49,7 +49,7 @@ describe('features.filtering', function() {
       expect('.app-container:eq(2)').toHaveCss({opacity: /^0\./});
     });
 
-    it('does not dim the non-filtered lrps', function() {
+    xit('does not dim the non-filtered lrps', function() {
       expect('.app-container:eq(0)').toHaveCss({opacity: /^1/});
       expect('.app-container:eq(1)').toHaveCss({opacity: /^1/});
     });
