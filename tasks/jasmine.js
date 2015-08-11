@@ -30,7 +30,7 @@ function testAssets(options = {}) {
 gulp.task('spec-app', function() {
   return testAssets({watch: false})
     .pipe(plugins.jasmineBrowser.specRunner({console: true}))
-    .pipe(plugins.jasmineBrowser.phantomjs());
+    .pipe(plugins.jasmineBrowser.headless({driver: 'slimerjs'}));
 });
 
 gulp.task('jasmine', function() {

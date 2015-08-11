@@ -1,4 +1,5 @@
 var BaseApi = require('../api/base_api');
+var classnames = require('classnames');
 var Header = require('./header');
 var Footer = require('./footer');
 var LaunchModal = require('./launch_modal');
@@ -7,9 +8,9 @@ var React = require('react');
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var ReceptorMixin = require('../mixins/receptor_mixin');
 var ReceptorStreamMixin = require('../mixins/receptor_stream_mixin');
-var Zones = require('./zones');
 var Sidebar = require('./sidebar');
-var classnames = require('classnames');
+var Slider = require('./slider');
+var Zones = require('./zones');
 
 var types = React.PropTypes;
 
@@ -44,7 +45,7 @@ var Page = React.createClass({
   },
 
   render() {
-    var {receptorUrl, $receptor, $scaling, $sidebar, $selection} = this.props;
+    var {receptorUrl, $receptor, $scaling, $sidebar, $selection, $currentTime} = this.props;
     var selection = !!($selection.get('hoverDesiredLrp') || $selection.get('selectedDesiredLrp')) || $sidebar.get('filter');
     var sidebarCollapsed = $sidebar.get('sidebarCollapsed');
 
@@ -66,6 +67,7 @@ var Page = React.createClass({
         <section className="main-content type-neutral-11">
           <article className="main-panel">
             <Zones {...{$receptor, $selection, $sidebar, scaling: $scaling.get()}}/>
+            <Slider {...{$currentTime}}/>
             <Scaling {...{$receptor, $scaling}}/>
             {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
           </article>
