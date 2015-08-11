@@ -45,10 +45,17 @@
   position: absolute;
   $width: 360px;
   $height: $width/2;
-  bottom: 90px;
+  bottom: 92px;
   width: $width;
   height: $height;
   margin-left: -$width / 2;
+  .hover-time {
+    position: absolute;
+    top: -22px;
+    left: 0px;
+    width: 100px;
+    height: 20px;
+  }
   .zones-wrapper {
     overflow: hidden;
     $scalar: 4;

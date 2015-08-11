@@ -5,6 +5,7 @@ var Header = require('./header');
 var {isString} = require('../../helpers/application_helper');
 var Footer = require('./footer');
 var LaunchModal = require('./launch_modal');
+var moment = require('moment');
 var Scaling = require('./scaling');
 var React = require('react');
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
@@ -65,11 +66,16 @@ var Page = React.createClass({
       }
     );
 
-    var {currentTime, beginningOfTime, hoverPercentage} = $slider.get();
-    var hoverPercentage = (typeof hoverPercentage === 'number') && `${100*hoverPercentage}%`;
+    var {currentTime, beginningOfTime, hoverPercentage, hoverTime} = $slider.get();
+    var hoverPercentage;
+    if (typeof hoverPercentage === 'number') {
+      hoverPercentage =`${100*hoverPercentage}%`;
+      var formattedHoverTime = moment(new Date(hoverTime)).format('LTS');
+    }
     var style;
     if (!isString(currentTime)) {
       var sepia = 1 - (currentTime - beginningOfTime) / (Date.now() - beginningOfTime);
+
       style = {'WebkitFilter': `sepia(${sepia.toPrecision(4) * 100}%)`};
     }
 
@@ -82,6 +88,7 @@ var Page = React.createClass({
           <article className="main-panel">
             <Zones {...{$receptor: $selectedReceptor, $selection, $sidebar, scaling: $scaling.get(), key: 'the real one'}}/>
             {hoverPercentage && <div className="preview-tooltip" style={{left: hoverPercentage}}>
+              <div className="hover-time">{formattedHoverTime}</div>
               <div className="zones-wrapper">
                 <Zones {...{className: 'preview', $receptor: $previewReceptor, $selection, $sidebar, scaling: $scaling.get(), key: 'preview'}}/>
               </div>
