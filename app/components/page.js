@@ -2,6 +2,7 @@ var BaseApi = require('../api/base_api');
 var classnames = require('classnames');
 var Cursor = require('pui-cursor');
 var Header = require('./header');
+var {isString} = require('../../helpers/application_helper');
 var Footer = require('./footer');
 var LaunchModal = require('./launch_modal');
 var Scaling = require('./scaling');
@@ -63,11 +64,16 @@ var Page = React.createClass({
       }
     );
 
-    var {hoverPercentage} = $slider.get();
+    var {currentTime, beginningOfTime, hoverPercentage} = $slider.get();
     var hoverPercentage = (typeof hoverPercentage === 'number') && `${100*hoverPercentage - 50}%`;
+    var style;
+    if (!isString(currentTime)) {
+      var sepia = 1 - (currentTime - beginningOfTime) / (Date.now() - beginningOfTime);
+      style = {'WebkitFilter': `sepia(${sepia.toPrecision(4) * 100}%)`};
+    }
 
     return (
-      <div className={classes}>
+      <div className={classes} style={style}>
         <Header className="main-header type-neutral-11" {...{$slider}}>
           <LaunchModal title="Edit Receptor" receptorUrl={receptorUrl}>Edit Receptor</LaunchModal>
         </Header>
