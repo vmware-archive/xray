@@ -17,7 +17,7 @@ describe('Application', function() {
 
   describe('when a receptor url is provided in configuration', function() {
     var CellsApi, ReceptorApi, actualLrps, cells, desiredLrps;
-    var now = 10000000000;
+    const now = 10000000000;
 
     beforeEach(function() {
       spyOn(Date, 'now').and.returnValue(now);
@@ -49,34 +49,6 @@ describe('Application', function() {
     it('has receptor history with 1 entry', function() {
       expect(Object.keys(subject.state.receptorHistory)).toHaveLength(1);
       expect(subject.state.receptorHistory[now]).toEqual(subject.state.receptor);
-    });
-
-    describe('when the current time changes', function() {
-      describe('when the current time is not "now"', function() {
-        var selectedReceptor;
-        beforeEach(function() {
-          subject.setState({currentTime: now});
-          expect(Page.prototype.render).toHaveBeenCalled();
-          selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
-        });
-
-        it('passes the selected receptor to the page', function() {
-          expect(selectedReceptor).toEqual(subject.state.receptorHistory[now]);
-        });
-      });
-
-      describe('when the current time is "now"', function() {
-        var selectedReceptor;
-        beforeEach(function() {
-          subject.setState({currentTime: 'now'});
-          expect(Page.prototype.render).toHaveBeenCalled();
-          selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
-        });
-
-        it('passes the selected receptor to the page', function() {
-          expect(selectedReceptor).toEqual(subject.state.receptor);
-        });
-      });
     });
 
     describe('#pollReceptor', function() {
@@ -134,8 +106,8 @@ describe('Application', function() {
 
       describe('when cells change', function() {
         var newCells;
+        const now = 10000001000;
         beforeEach(function() {
-          now += 1000;
           Date.now.and.returnValue(now);
           newCells = [
             Object.assign({}, oldCells[0]),
@@ -158,6 +130,49 @@ describe('Application', function() {
         it('has receptor history with 2 entries', function() {
           expect(Object.keys(subject.state.receptorHistory)).toHaveLength(2);
           expect(subject.state.receptorHistory[now]).toEqual(subject.state.receptor);
+        });
+
+        describe('when the current time changes', function() {
+          describe('when the current time is not "now"', function() {
+            describe('when the time is in the history', function() {
+              var selectedReceptor;
+              beforeEach(function() {
+                subject.setState({currentTime: now});
+                expect(Page.prototype.render).toHaveBeenCalled();
+                selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
+              });
+
+              it('passes to the page the selected receptor', function() {
+                expect(selectedReceptor).toEqual(subject.state.receptorHistory[now]);
+              });
+            });
+
+            describe('when the time is not in the history', function() {
+              var selectedReceptor;
+              beforeEach(function() {
+                subject.setState({currentTime: 10000000000 + 100});
+                expect(Page.prototype.render).toHaveBeenCalled();
+                selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
+              });
+
+              it('passes to the page the receptor nearest to that time in the past', function() {
+                expect(selectedReceptor).toEqual(subject.state.receptorHistory[10000000000]);
+              });
+            });
+          });
+
+          describe('when the current time is "now"', function() {
+            var selectedReceptor;
+            beforeEach(function() {
+              subject.setState({currentTime: 'now'});
+              expect(Page.prototype.render).toHaveBeenCalled();
+              selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
+            });
+
+            it('passes the selected receptor to the page', function() {
+              expect(selectedReceptor).toEqual(subject.state.receptor);
+            });
+          });
         });
       });
 
