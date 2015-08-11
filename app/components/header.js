@@ -16,7 +16,7 @@ var Header = React.createClass({
     if (!$slider) return null;
     var {currentTime} = $slider.get();
     var time = isString(currentTime) ? 'live' : moment(new Date(currentTime)).format('LTS');
-    return (<h1 className="time mlxl">{time}</h1>);
+    return (<h1 className="time mlxl">current view {time}</h1>);
   },
 
   render() {
