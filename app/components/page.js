@@ -1,7 +1,6 @@
 var BaseApi = require('../api/base_api');
 var classnames = require('classnames');
 var Cursor = require('pui-cursor');
-var BaseApi = require('../api/base_api');
 var Header = require('./header');
 var Footer = require('./footer');
 var LaunchModal = require('./launch_modal');
@@ -20,6 +19,7 @@ var Page = React.createClass({
   mixins: [PureRenderMixin, ReceptorMixin, ReceptorStreamMixin],
 
   propTypes: {
+    previewReceptor: types.object,
     selectedReceptor: types.object.isRequired,
     receptorUrl: types.string.isRequired,
     $slider: types.object.isRequired,
@@ -47,8 +47,9 @@ var Page = React.createClass({
   },
 
   render() {
-    var {receptorUrl, selectedReceptor, $scaling, $sidebar, $selection, $slider} = this.props;
+    var {receptorUrl, previewReceptor, selectedReceptor, $scaling, $sidebar, $selection, $slider} = this.props;
     var $selectedReceptor = new Cursor(selectedReceptor, () => {});
+    var $previewReceptor = new Cursor(previewReceptor, () => {});
     var selection = !!($selection.get('hoverDesiredLrp') || $selection.get('selectedDesiredLrp')) || $sidebar.get('filter');
     var sidebarCollapsed = $sidebar.get('sidebarCollapsed');
 
@@ -62,6 +63,9 @@ var Page = React.createClass({
       }
     );
 
+    var {hoverPercentage} = $slider.get();
+    var hoverPercentage = (typeof hoverPercentage === 'number') && `${100*hoverPercentage - 50}%`;
+
     return (
       <div className={classes}>
         <Header className="main-header type-neutral-11" {...{$slider}}>
@@ -69,7 +73,11 @@ var Page = React.createClass({
         </Header>
         <section className="main-content type-neutral-11">
           <article className="main-panel">
-            <Zones {...{$receptor: $selectedReceptor, $selection, $sidebar, scaling: $scaling.get()}}/>
+            <Zones {...{$receptor: $selectedReceptor, $selection, $sidebar, scaling: $scaling.get(), key: 'the real one'}}/>
+            {hoverPercentage && <div className="preview-tooltip" style={{left: hoverPercentage}}>
+              <Zones {...{className: 'preview', $receptor: $previewReceptor, $selection, $sidebar, scaling: $scaling.get(), key: 'preview'}}/>
+              <div className="arrow-down"/>
+            </div>}
             <Slider {...{$slider}}/>
             <Scaling {...{$receptor: $selectedReceptor, $scaling}}/>
             {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}

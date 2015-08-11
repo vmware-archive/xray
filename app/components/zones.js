@@ -1,4 +1,5 @@
 var Cells = require('./cells');
+var classnames = require('classnames');
 var PureRenderMixin = require('pui-cursor/mixins/pure-render-mixin');
 var React = require('react');
 var groupBy = require('lodash.groupby');
@@ -33,8 +34,10 @@ var Zones = React.createClass({
   },
 
   render() {
+    var {className} = this.props;
+    className = classnames(className, 'zones');
     return (
-      <div className="zones">
+      <div {...{className}}>
         {this.renderZones()}
       </div>
     );

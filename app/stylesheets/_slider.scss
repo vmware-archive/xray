@@ -14,3 +14,21 @@
     }
   }
 }
+
+.preview-tooltip {
+  border: 5px solid white;
+  position: absolute;
+  bottom: -8%;
+  width: 100%;
+  transform: scale(0.16, .36);
+
+  .arrow-down {
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: calc(50% - 100px);
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-top: 50px solid white;
+  }
+}
