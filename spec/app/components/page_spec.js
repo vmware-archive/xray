@@ -1,9 +1,17 @@
 require('../spec_helper');
 
 describe('Page', function() {
-  var subject, $receptor, $sidebar, $selection, Cursor, actualLrps, desiredLrps, callbackSpy;
+  var Zones, Scaling, Sidebar, subject, $receptor, $sidebar, $selection, Cursor, actualLrps, desiredLrps, callbackSpy;
 
   beforeEach(function() {
+    Zones = require('../../../app/components/zones');
+    Scaling = require('../../../app/components/scaling');
+    Sidebar = require('../../../app/components/sidebar');
+
+    spyOn(Zones.prototype, 'render').and.callThrough();
+    spyOn(Scaling.prototype, 'render').and.callThrough();
+    spyOn(Sidebar.prototype, 'render').and.callThrough();
+
     var AuthorizationApi = require('../../../app/api/authorization_api');
     spyOn(AuthorizationApi, 'create').and.returnValue(Promise.resolve());
 
@@ -30,6 +38,7 @@ describe('Page', function() {
       actualLrpsByProcessGuid,
       actualLrpsByCellId
     };
+
     $receptor = new Cursor(selectedReceptor, callbackSpy);
     var $currentTime = new Cursor('now', jasmine.createSpy('callback'));
     var $modal = new Cursor(null, jasmine.createSpy('modalCallback'));
@@ -48,6 +57,39 @@ describe('Page', function() {
 
   afterEach(function() {
     React.unmountComponentAtNode(root);
+  });
+
+  describe('when the selected receptor is not the same as the receptor cursor', function() {
+    var selectedReceptor;
+    beforeEach(function() {
+      var actualLrps = [
+        Factory.build('actualLrp', {cell_id: 'android16', process_guid: 'one'}),
+        Factory.build('actualLrp', {cell_id: 'android17', instance_guid: null, process_guid: 'two', modification_tag: {epoch: 2, index: 1}})
+      ];
+      var desiredLrps = Factory.buildList('desiredLrp', 2);
+
+      var actualLrpsByProcessGuid = {one: [actualLrps[0]], two: [actualLrps[1]]};
+      var actualLrpsByCellId = {android16: [actualLrps[0]], android17: [actualLrps[1]]};
+      selectedReceptor = {
+        actualLrps,
+        desiredLrps,
+        desiredLrpsByProcessGuid: {},
+        actualLrpsByProcessGuid,
+        actualLrpsByCellId
+      };
+
+      subject.setProps({selectedReceptor});
+    });
+
+    it('renders a different receptor cursor', function() {
+      var cursors = [Zones, Scaling, Sidebar].map(klass => {
+        return klass.prototype.render.calls.mostRecent().object.props.$receptor;
+      });
+      cursors.forEach(cursor => {
+        expect(cursor.isEqual($receptor)).toBe(false);
+        expect(cursor.get()).toEqual(selectedReceptor);
+      });
+    });
   });
 
   describe('when there is a selected lrp', function() {

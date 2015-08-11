@@ -68,7 +68,7 @@ describe('Application', function() {
       describe('when the current time is "now"', function() {
         var selectedReceptor;
         beforeEach(function() {
-          subject.setState({currentTime: "now"});
+          subject.setState({currentTime: 'now'});
           expect(Page.prototype.render).toHaveBeenCalled();
           selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
         });
