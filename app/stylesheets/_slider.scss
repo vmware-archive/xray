@@ -16,19 +16,31 @@
 }
 
 .preview-tooltip {
-  border: 5px solid white;
+  border: 2px solid white;
   position: absolute;
-  bottom: -8%;
-  width: 100%;
-  transform: scale(0.16, .36);
-
+  $width: 360px;
+  $height: $width/2;
+  bottom: 90px;
+  width: $width;
+  height: $height;
+  margin-left: -$width / 2;
+  .zones-wrapper {
+    overflow: hidden;
+    $scalar: 4;
+    width: $width * $scalar;
+    height: $height * $scalar;
+    transform: translate3d(-($width / 2) * $scalar, -($height / 2) * $scalar, 0) scale(1 / $scalar, 1 / $scalar) translate3d(($width / 2) * $scalar, ($height / 2) * $scalar, 0);
+  }
   .arrow-down {
+    $arrow-width: 15px;
     position: absolute;
     width: 0;
     height: 0;
-    left: calc(50% - 100px);
-    border-left: 100px solid transparent;
-    border-right: 100px solid transparent;
-    border-top: 50px solid white;
+    left: 50%;
+    margin-left: -$arrow-width;
+    top: 100%;
+    border-left: $arrow-width solid transparent;
+    border-right: $arrow-width solid transparent;
+    border-top: $arrow-width / 1.2 solid white;
   }
 }

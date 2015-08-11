@@ -65,7 +65,7 @@ var Page = React.createClass({
     );
 
     var {currentTime, beginningOfTime, hoverPercentage} = $slider.get();
-    var hoverPercentage = (typeof hoverPercentage === 'number') && `${100*hoverPercentage - 50}%`;
+    var hoverPercentage = (typeof hoverPercentage === 'number') && `${100*hoverPercentage}%`;
     var style;
     if (!isString(currentTime)) {
       var sepia = 1 - (currentTime - beginningOfTime) / (Date.now() - beginningOfTime);
@@ -81,7 +81,9 @@ var Page = React.createClass({
           <article className="main-panel">
             <Zones {...{$receptor: $selectedReceptor, $selection, $sidebar, scaling: $scaling.get(), key: 'the real one'}}/>
             {hoverPercentage && <div className="preview-tooltip" style={{left: hoverPercentage}}>
-              <Zones {...{className: 'preview', $receptor: $previewReceptor, $selection, $sidebar, scaling: $scaling.get(), key: 'preview'}}/>
+              <div className="zones-wrapper">
+                <Zones {...{className: 'preview', $receptor: $previewReceptor, $selection, $sidebar, scaling: $scaling.get(), key: 'preview'}}/>
+              </div>
               <div className="arrow-down"/>
             </div>}
             <Slider {...{$slider}}/>
