@@ -150,7 +150,7 @@ describe('Application', function() {
             describe('when the time is not in the history', function() {
               var selectedReceptor;
               beforeEach(function() {
-                subject.setState({currentTime: 10000000000 + 100});
+                subject.setState({slider: {currentTime: 10000000000 + 100}});
                 expect(Page.prototype.render).toHaveBeenCalled();
                 selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
               });
@@ -164,7 +164,7 @@ describe('Application', function() {
           describe('when the current time is "now"', function() {
             var selectedReceptor;
             beforeEach(function() {
-              subject.setState({currentTime: 'now'});
+              subject.setState({slider: {currentTime: 'now'}});
               expect(Page.prototype.render).toHaveBeenCalled();
               selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
             });

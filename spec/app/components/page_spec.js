@@ -40,10 +40,10 @@ describe('Page', function() {
     };
 
     $receptor = new Cursor(selectedReceptor, callbackSpy);
-    var $currentTime = new Cursor('now', jasmine.createSpy('callback'));
+    var $slider = new Cursor({currentTime: 'now'}, jasmine.createSpy('callback'));
     var $modal = new Cursor(null, jasmine.createSpy('modalCallback'));
     var receptorUrl = 'http://examples.com';
-    var props = {selectedReceptor, receptorUrl, $modal, $receptor, $scaling, $sidebar, $selection, $currentTime};
+    var props = {selectedReceptor, receptorUrl, $modal, $receptor, $scaling, $sidebar, $selection, $slider};
     subject = withContext(
       {scaling: 'containers', colors},
       props,

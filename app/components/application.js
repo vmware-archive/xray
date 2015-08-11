@@ -59,13 +59,16 @@ var Application = React.createClass({
       },
       receptorUrl: this.props.config.receptorUrl,
       receptorHistory: {},
-      currentTime: 'now'
+      slider: {
+        currentTime: 'now',
+        beginningOfTime: Date.now()
+      }
     };
   },
 
   componentDidUpdate() {
-    var {receptor, selection, sidebar, receptorHistory} = this.state;
-    Object.assign(xray, {receptor, selection, sidebar, receptorHistory});
+    var {receptor, selection, sidebar, receptorHistory, slider} = this.state;
+    Object.assign(xray, {receptor, selection, sidebar, receptorHistory, slider});
   },
 
   updateReceptor(receptor) {
@@ -75,16 +78,16 @@ var Application = React.createClass({
   },
 
   render() {
-    var {receptorUrl, receptor, sidebar, selection, scaling, receptorHistory, currentTime} = this.state;
-    var selectedReceptor = findClosestTime(receptorHistory, currentTime, receptor);
-    var $currentTime = new Cursor(currentTime, currentTime => this.setState({currentTime}));
+    var {receptorUrl, receptor, sidebar, selection, scaling, receptorHistory, slider} = this.state;
+    var selectedReceptor = findClosestTime(receptorHistory, slider.currentTime, receptor);
+    var $slider = new Cursor(slider, slider => this.setState({slider}));
     var $receptor = new Cursor(receptor, this.updateReceptor);
     var $sidebar = new Cursor(sidebar, sidebar => this.setState({sidebar}));
     var $selection = new Cursor(selection, selection => this.setState({selection}));
     var $scaling = new Cursor(scaling, scaling => this.setState({scaling}));
     return (
       <div className="xray">
-        <Page {...{$receptor, $sidebar, $selection, $scaling, receptorUrl, selectedReceptor, $currentTime}} ref="page"/>
+        <Page {...{$receptor, $sidebar, $selection, $scaling, receptorUrl, selectedReceptor, $slider}} ref="page"/>
         <PortalDestination name="modal"/>
       </div>
     );

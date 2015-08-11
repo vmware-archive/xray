@@ -9,36 +9,32 @@ var privates = new WeakMap();
 var Slider = React.createClass({
 
   propTypes: {
-    $currentTime: types.object.isRequired
+    $slider: types.object.isRequired
   },
 
   change(value) {
-    var {$currentTime} = this.props;
+    var {$slider} = this.props;
     var {now} = privates.get(this);
     if(value === now) {
       value = 'now';
     }
-    $currentTime.set(value);
+    $slider.refine('currentTime').set(value);
   },
 
-  getInitialState() {
+  componentWillMount() {
     privates.set(this, {now: Date.now()});
-    return {
-      min: Date.now()
-    }
   },
 
   render() {
-    var {$currentTime} = this.props;
-    var value = $currentTime.get();
-    var {min} = this.state;
+    var {$slider} = this.props;
+    var {currentTime, beginningOfTime} = $slider.get();
     var now = Date.now();
-    min = Math.min(min, now - 5 * 60 * 1000);
+    beginningOfTime = Math.min(beginningOfTime, now - 5 * 60 * 1000);
 
     var rafHandle;
 
-    if(value === 'now') {
-      value = now;
+    if(currentTime === 'now') {
+      currentTime = now;
     } else {
       var {rafHandle} = privates.get(this);
       raf.cancel(rafHandle);
@@ -48,7 +44,7 @@ var Slider = React.createClass({
     privates.set(this, {now, rafHandle});
 
     return (
-      <ReactSlider max={now} min={min} onChange={this.change} value={value}/>
+      <ReactSlider max={now} min={beginningOfTime} onChange={this.change} value={currentTime}/>
     );
   }
 });

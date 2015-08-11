@@ -103,7 +103,7 @@ var Page = React.createClass({
   propTypes: {
     selectedReceptor: types.object.isRequired,
     receptorUrl: types.string.isRequired,
-    $currentTime: types.object.isRequired,
+    $slider: types.object.isRequired,
     $receptor: types.object.isRequired,
     $scaling: types.object.isRequired,
     $selection: types.object.isRequired,
@@ -128,7 +128,7 @@ var Page = React.createClass({
   },
 
   render() {
-    var {receptorUrl, selectedReceptor, $scaling, $sidebar, $selection, $currentTime} = this.props;
+    var {receptorUrl, selectedReceptor, $scaling, $sidebar, $selection, $slider} = this.props;
     var $selectedReceptor = new Cursor(selectedReceptor, () => {});
     var selection = !!($selection.get('hoverDesiredLrp') || $selection.get('selectedDesiredLrp')) || $sidebar.get('filter');
     var sidebarCollapsed = $sidebar.get('sidebarCollapsed');
@@ -151,7 +151,7 @@ var Page = React.createClass({
         <section className="main-content type-neutral-11">
           <article className="main-panel">
             <Zones {...{$receptor: $selectedReceptor, $selection, $sidebar, scaling: $scaling.get()}}/>
-            <Slider {...{$currentTime}}/>
+            <Slider {...{$slider}}/>
             <Scaling {...{$receptor: $selectedReceptor, $scaling}}/>
             {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
           </article>
