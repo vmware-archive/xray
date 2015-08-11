@@ -1,6 +1,6 @@
 require('../spec_helper');
 
-fdescribe('receptorUrl Middleware', function() {
+describe('receptorUrl Middleware', function() {
   var subject, cookieSpy;
 
   beforeEach(function() {
