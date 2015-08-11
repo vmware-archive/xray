@@ -101,6 +101,7 @@
     "pui-react-radio": "^1.10.0",
     "pui-react-radio-group": "^1.10.0",
     "pui-react-tooltip": "^1.10.0",
+    "raf": "^3.1.0",
     "react": "^0.13.3",
     "react-bootstrap": "^0.23.1",
     "react-slider": "^0.5.1",
