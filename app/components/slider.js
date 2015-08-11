@@ -28,6 +28,14 @@ var Slider = React.createClass({
     privates.set(this, {now: Date.now()});
   },
 
+  getInitialState() {
+    return {frozen: false}
+  },
+
+  shouldComponentUpdate() {
+    return !this.state.frozen
+  },
+
   mouseMove(e) {
     var {left, right} = React.findDOMNode(this).getBoundingClientRect();
     var hoverPercentage = (e.clientX - left) / (right - left);
@@ -38,15 +46,21 @@ var Slider = React.createClass({
     $slider.merge({hoverTime, hoverPercentage});
   },
 
-  mouseLeave(e){
+  mouseLeave() {
     var {$slider} = this.props;
     $slider.merge({hoverTime: null, hoverPercentage: null});
+    this.setState({frozen: false});
+  },
+
+  mouseEnter() {
+    this.setState({frozen: true});
   },
 
   render() {
     if (!raf) return null;
 
     var {eventTimes, $slider} = this.props;
+    var {frozen} = this.state;
     var {currentTime, beginningOfTime} = $slider.get();
     var now = Date.now();
 
@@ -54,15 +68,18 @@ var Slider = React.createClass({
       currentTime = now;
     }
 
-    var {rafHandle} = privates.get(this);
-    raf.cancel(rafHandle);
-    rafHandle = raf(() => {this.isMounted() && this.forceUpdate()});
+    var rafHandle;
+    if(!frozen) {
+      var {rafHandle} = privates.get(this);
+      raf.cancel(rafHandle);
+      rafHandle = raf(() => {this.isMounted() && this.forceUpdate()});
+    }
 
     privates.set(this, {now, rafHandle});
 
     return (
       <div className="slider-wrapper">
-        <div onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeave}>
+        <div onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeave} onMouseEnter={this.mouseEnter}>
           <SliderEventMarkers beginningOfTime={beginningOfTime} now={now} eventTimes={eventTimes}/>
           <ReactSlider max={now} min={beginningOfTime} onChange={this.change} value={currentTime}/>
         </div>
