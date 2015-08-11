@@ -20,6 +20,7 @@ var Page = React.createClass({
   mixins: [PureRenderMixin, ReceptorMixin, ReceptorStreamMixin],
 
   propTypes: {
+    eventTimes: types.array,
     previewReceptor: types.object,
     selectedReceptor: types.object.isRequired,
     receptorUrl: types.string.isRequired,
@@ -48,7 +49,7 @@ var Page = React.createClass({
   },
 
   render() {
-    var {receptorUrl, previewReceptor, selectedReceptor, $scaling, $sidebar, $selection, $slider} = this.props;
+    var {eventTimes, receptorUrl, previewReceptor, selectedReceptor, $scaling, $sidebar, $selection, $slider} = this.props;
     var $selectedReceptor = new Cursor(selectedReceptor, () => {});
     var $previewReceptor = new Cursor(previewReceptor, () => {});
     var selection = !!($selection.get('hoverDesiredLrp') || $selection.get('selectedDesiredLrp')) || $sidebar.get('filter');
@@ -86,7 +87,7 @@ var Page = React.createClass({
               </div>
               <div className="arrow-down"/>
             </div>}
-            <Slider {...{$slider}}/>
+            <Slider {...{$slider, eventTimes}}/>
             <Scaling {...{$receptor: $selectedReceptor, $scaling}}/>
             {$selection.get('selectedDesiredLrp') && <div className="scrim" onClick={this.onScrimClick}/>}
           </article>

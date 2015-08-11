@@ -6,7 +6,7 @@ describe('Slider', function() {
     var Cursor = require('pui-cursor');
     var sliderSpy = jasmine.createSpy('slider');
     var $slider = new Cursor({currentTime: Date.now(), beginningOfTime: Date.now()}, sliderSpy);
-    React.render(<Slider {...{$slider}}/>, root);
+    React.render(<Slider {...{$slider, eventTimes: []}}/>, root);
   });
 
   afterEach(function() {

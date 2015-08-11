@@ -83,6 +83,7 @@ var Application = React.createClass({
     var {receptorUrl, receptor, sidebar, selection, scaling, receptorHistory, slider} = this.state;
     var selectedReceptor = findClosestTime(receptorHistory, slider.currentTime, receptor);
     var previewReceptor = findClosestTime(receptorHistory, slider.hoverTime, receptor);
+    var eventTimes = Object.keys(receptorHistory);
     var $slider = new Cursor(slider, slider => this.setState({slider}));
     var $receptor = new Cursor(receptor, this.updateReceptor);
     var $sidebar = new Cursor(sidebar, sidebar => this.setState({sidebar}));
@@ -90,7 +91,7 @@ var Application = React.createClass({
     var $scaling = new Cursor(scaling, scaling => this.setState({scaling}));
     return (
       <div className="xray">
-        <Page {...{$receptor, $sidebar, $selection, $scaling, receptorUrl, selectedReceptor, previewReceptor, $slider}} ref="page"/>
+        <Page {...{$receptor, $sidebar, $selection, $scaling, receptorUrl, selectedReceptor, previewReceptor, $slider, eventTimes}} ref="page"/>
         <PortalDestination name="modal"/>
       </div>
     );

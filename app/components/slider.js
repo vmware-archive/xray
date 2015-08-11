@@ -1,6 +1,7 @@
 var raf = (typeof document !== 'undefined') ? require('raf') : null;
 var React = require('react');
 var ReactSlider = require('react-slider');
+var SliderEventMarkers = require('./slider_event_markers');
 
 var types = React.PropTypes;
 
@@ -9,6 +10,7 @@ var privates = new WeakMap();
 var Slider = React.createClass({
 
   propTypes: {
+    eventTimes: types.array,
     $slider: types.object.isRequired
   },
 
@@ -41,25 +43,25 @@ var Slider = React.createClass({
   },
 
   render() {
-    var {$slider} = this.props;
+    if (!raf) return null;
+
+    var {eventTimes, $slider} = this.props;
     var {currentTime, beginningOfTime} = $slider.get();
     var now = Date.now();
-    //beginningOfTime = Math.min(beginningOfTime, now - 5 * 60 * 1000);
-
-    var rafHandle;
 
     if(currentTime === 'now') {
       currentTime = now;
-    } else {
-      var {rafHandle} = privates.get(this);
-      raf.cancel(rafHandle);
-      rafHandle = raf(() => {this.isMounted() && this.forceUpdate()});
     }
+
+    var {rafHandle} = privates.get(this);
+    raf.cancel(rafHandle);
+    rafHandle = raf(() => {this.isMounted() && this.forceUpdate()});
 
     privates.set(this, {now, rafHandle});
 
     return (
-      <div onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeave}>
+      <div className="slider-container" onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeave}>
+        <SliderEventMarkers beginningOfTime={beginningOfTime} now={now} eventTimes={eventTimes}/>
         <ReactSlider max={now} min={beginningOfTime} onChange={this.change} value={currentTime}/>
       </div>
     );

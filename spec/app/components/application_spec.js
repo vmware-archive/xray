@@ -150,13 +150,13 @@ describe('Application', function() {
             describe('when the time is not in the history', function() {
               var selectedReceptor;
               beforeEach(function() {
-                subject.setState({slider: {currentTime: 10000000000 + 100}});
+                subject.setState({slider: {currentTime: now + 100, beginningOfTime: now - 100}});
                 expect(Page.prototype.render).toHaveBeenCalled();
                 selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
               });
 
               it('passes to the page the receptor nearest to that time in the past', function() {
-                expect(selectedReceptor).toEqual(subject.state.receptorHistory[10000000000]);
+                expect(selectedReceptor).toEqual(subject.state.receptorHistory[now]);
               });
             });
           });
@@ -164,7 +164,7 @@ describe('Application', function() {
           describe('when the current time is "now"', function() {
             var selectedReceptor;
             beforeEach(function() {
-              subject.setState({slider: {currentTime: 'now'}});
+              subject.setState({slider: {currentTime: 'now', beginningOfTime: now - 100}});
               expect(Page.prototype.render).toHaveBeenCalled();
               selectedReceptor = Page.prototype.render.calls.mostRecent().object.props.selectedReceptor;
             });
