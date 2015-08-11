@@ -2,6 +2,7 @@ var raf = (typeof document !== 'undefined') ? require('raf') : null;
 var React = require('react');
 var ReactSlider = require('react-slider');
 var SliderEventMarkers = require('./slider_event_markers');
+var moment = require('moment');
 
 var types = React.PropTypes;
 
@@ -60,9 +61,13 @@ var Slider = React.createClass({
     privates.set(this, {now, rafHandle});
 
     return (
-      <div className="slider-container" onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeave}>
-        <SliderEventMarkers beginningOfTime={beginningOfTime} now={now} eventTimes={eventTimes}/>
-        <ReactSlider max={now} min={beginningOfTime} onChange={this.change} value={currentTime}/>
+      <div className="slider-wrapper">
+        <div onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeave}>
+          <SliderEventMarkers beginningOfTime={beginningOfTime} now={now} eventTimes={eventTimes}/>
+          <ReactSlider max={now} min={beginningOfTime} onChange={this.change} value={currentTime}/>
+        </div>
+        <div className="now">{moment(new Date(now)).format('LTS')}</div>
+        <div className="beginning-of-time">{moment(new Date(beginningOfTime)).format('LTS')}</div>
       </div>
     );
   }
