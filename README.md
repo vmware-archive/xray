@@ -22,6 +22,19 @@ XRAY_USER='user' XRAY_PASSWORD='password' RECEPTOR_URL='http://receptor.example.
 ```
 where you are free to choose user and password.
 
+##Deployment
+
+To deploy to your own CF, follow the steps in `Installation`, make sure your cf cli is logged in, then:
+```
+NODE_ENV=production gulp assets
+cf push
+```
+
+For a blue-green deployment, you can add an entry to `config/deploy.json` and use
+```
+ENV=KEY_IN_DEPLOY.JSON node_modules/.bin/gulp deploy
+```
+
 ##Development
 
 To run server:
