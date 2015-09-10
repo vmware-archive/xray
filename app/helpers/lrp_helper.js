@@ -30,7 +30,7 @@ module.exports = {
   getHostname(desiredLrp) {
     var routes = getRoutes(desiredLrp);
     if (!routes.length) return null;
-    return routes[0].hostnames[0];
+    return routes[0].hostnames && routes[0].hostnames[0];
   },
 
   filterDesiredLrps(desiredLrps, filter) {

@@ -59,8 +59,17 @@ describe('LrpHelper', function() {
       expect(subject.getHostname(desiredLrp)).toEqual('foo.com');
     });
 
-    it('return null if there is no hostname', function() {
-      expect(subject.getHostname(Factory.build('desiredLrp', {routes: {}}))).toBeNull();
+    it('return null if there is no routes', function() {
+      expect(subject.getHostname(Factory.build('desiredLrp', {routes: {}}))).toBe(null);
+    });
+
+    it('return null if there is no hostnames', function() {
+      var desiredLrp = Factory.build('desiredLrp', {
+        routes: {
+          'cf-router': Factory.buildList('route', 1, {'hostnames': null})
+        }
+      });
+      expect(subject.getHostname(desiredLrp)).toBe(null);
     });
   });
 

@@ -9,7 +9,7 @@ function stopPropagation(e) {
 }
 
 function links(array) {
-  return array.map((hostname, i) => <a className="link-inverse type-ellipsis-1-line link-text" href={`//${hostname}`} key={i} title={hostname} target="_blank" onClick={stopPropagation}>{hostname}</a>);
+  return array && array.map((hostname, i) => <a className="link-inverse type-ellipsis-1-line link-text" href={`//${hostname}`} key={i} title={hostname} target="_blank" onClick={stopPropagation}>{hostname}</a>);
 }
 
 var Routes = React.createClass({
@@ -21,7 +21,6 @@ var Routes = React.createClass({
 
   render() {
     var {routes} = this.props;
-
     if (routes.length === 1) {
       routes = (<div className="type-ellipsis-1-line">{links(routes[0].hostnames)}</div>);
     } else {
