@@ -1,6 +1,6 @@
 var application = require('./middleware/application_middleware');
-var basicAuth = require('node-basicauth');
 var bodyParser = require('body-parser');
+const {authenticate} = require('./middleware/auth_middleware');
 var cookieParser = require('cookie-parser');
 var express = require('express');
 var favicon = require('serve-favicon');
@@ -9,21 +9,15 @@ var receptorUrl = require('./middleware/receptor_url');
 var setup = require('./middleware/setup_middleware');
 var app = express();
 
-const XRAY_USER = process.env.XRAY_USER;
-const XRAY_PASSWORD = process.env.XRAY_PASSWORD;
-if (XRAY_USER && XRAY_PASSWORD) {
-  app.use(basicAuth({[XRAY_USER]: XRAY_PASSWORD}));
-}
-
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(favicon(`${__dirname}/../app/images/favicon.ico`));
 app.use(gzipStatic(`${__dirname}/../public`, {maxAge: process.env.NODE_ENV === 'production' && 604800000}));
 
-app.get('/', receptorUrl, ...application.show);
-app.get('/setup', receptorUrl, ...setup.show);
-app.post('/setup', receptorUrl, ...setup.create);
+app.get('/', authenticate, receptorUrl, ...application.show);
+app.get('/setup', authenticate, receptorUrl, ...setup.show);
+app.post('/setup', authenticate, receptorUrl, ...setup.create);
 
 var fakeApi = require('./middleware/fake_api');
 app.post('/demo/v1/auth_cookie', ...fakeApi.demo.authCookie.show);
